@@ -1,0 +1,27 @@
+.card{
+    background-color:#FFF2F2;
+        
+         padding: 20px;
+         border-radius: 10px;
+         margin-bottom: 20px;
+         transition: box-shadow 0.5s ease-in-out;
+         cursor: pointer;
+         text-align: center;
+         position: relative;
+         overflow: hidden;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+
+         &:hover {
+             box-shadow: 0px 0px 5px 5px rgba(222, 57, 57, 0.2);
+             
+         }
+         
+}
+.card-body p {
+color: #8a7373;
+}
+.card-body h5 {
+    color: #343b7a;
+}

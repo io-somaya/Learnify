@@ -9,7 +9,7 @@
   border-radius: 10px;
 
   overflow-y:hidden;
-  background: #A9B5DF;
+  background: #FFF2F2;
   opacity:0.9;
 	transition:all .5s;
 	display:flex;
@@ -62,11 +62,11 @@
 .sidebar-nav li a {
   display:block;
   text-decoration:none;
-  color:#2D336B;
+  color:#000000;
 }
 
 .sidebar-nav li:hover{
-  background:#FFF2F2;
+  background:#fdfdfd;
   cursor:pointer;
 
 }

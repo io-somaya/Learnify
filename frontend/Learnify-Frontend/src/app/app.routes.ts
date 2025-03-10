@@ -6,7 +6,7 @@ export const routes: Routes = [
     {path: "dashboard", component: LayoutComponent,title: "Dashboard", 
         children: [{
             path: "",
-            component:DashboardComponent
-            
+            component:DashboardComponent,
+            title: "Dashboard"
         }]}
 ];
