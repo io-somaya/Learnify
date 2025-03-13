@@ -1,15 +1,15 @@
 import { Routes } from '@angular/router';
-import { LayoutComponent } from './admin/layout/layout.component';
+import { LayoutComponent } from './layout/layout.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
-import { AppComponent } from './app.component';
+import { RegisterComponent } from './formes/register/register.component';
 
 export const routes: Routes = [
-//Admin routes 
-    // {
-    //     path:"admin/login",
-    //     component: LoginComponent,
-    //     title: "Login Admin"
-    // },
+    //Admin routes 
+    {
+        path:"",
+        component: RegisterComponent,
+        title: "Register",
+    },
 
     {path: "admin/dashboard", component: LayoutComponent,title: "Dashboard", 
         children: [{
@@ -28,5 +28,4 @@ export const routes: Routes = [
 
 //Other routes
 
-    
 ];
