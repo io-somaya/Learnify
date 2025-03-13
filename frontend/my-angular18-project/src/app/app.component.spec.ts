@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'Learnify-Frontend' title`, () => {
+  it(`should have the 'my-angular18-project' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('Learnify-Frontend');
+    expect(app.title).toEqual('my-angular18-project');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, Learnify-Frontend');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, my-angular18-project');
   });
 });
