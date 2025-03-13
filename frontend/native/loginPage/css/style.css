@@ -18,11 +18,12 @@ body {
 
 .login-container {
     background-color: white;
-    border-radius: 20px;
+    border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 15px 40px rgba(45, 51, 107, 0.15);
     max-width: 1000px;
     width: 100%;
+    margin: 0 auto  ;
 }
 
 .row {
@@ -334,7 +335,7 @@ h2 {
     color: white;
     font-weight: 600;
     padding: 10px 24px;
-    border-radius: 50px;
+    border-radius: 10px;
     border: none;
     transition: all 0.3s;
     box-shadow: 0 4px 12px rgba(120, 134, 199, 0.3);
