@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
-        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        'guard' => 'web',
+        'passwords' => 'users',
     ],
 
     /*
@@ -70,7 +70,10 @@ return [
         //     'table' => 'users',
         // ],
     ],
-
+    'api' => [
+        'driver' => 'sanctum',
+        'provider' => 'users',
+    ],
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords
@@ -93,12 +96,15 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
-            'expire' => 60,
-            'throttle' => 60,
+            'table' => 'password_resets',
+            'expire' => 1440, // Password reset link expiration time in minutes
+            'throttle' => 1440, // Throttle password reset requests
         ],
     ],
 
+    'verification' => [
+        'expire' => 1440, // Email verification link expiration time in minutes
+    ],
     /*
     |--------------------------------------------------------------------------
     | Password Confirmation Timeout
