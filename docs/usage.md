@@ -11,5 +11,4 @@
 - Take exams and view results.
 
 ## For Parents
-- Log in to the platform.
-- Monitor your child's progress through detailed reports.
+- Monitor your child's progress through detailed reports via WhatsApp.
