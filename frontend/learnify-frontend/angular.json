@@ -26,19 +26,16 @@
                 "input": "public"
               }
             ],
-              "styles": [
+            "styles": [
               "./node_modules/mdb-angular-ui-kit/assets/scss/mdb.scss",
-                "src/styles.css",
-
-                "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-                "node_modules/bootstrap/dist/css/bootstrap.min.css",
-                "node_modules/bootstrap-icons/font/bootstrap-icons.css"
-  
-              ]
-              ,
+              "src/styles.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css"
+            ],
             "scripts": [
-            "node_modules/bootstrap/dist/js/bootstrap.min.js"
-          ],
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -99,7 +96,9 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
             "scripts": []
           }
