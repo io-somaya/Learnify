@@ -68,6 +68,10 @@ class AuthVerificationController extends Controller
      */
     public function resend(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
@@ -78,24 +82,9 @@ class AuthVerificationController extends Controller
             return response()->json(['message' => 'Email already verified'], 400);
         }
 
-        // Generate verification URL manually
-        $verificationUrl = URL::temporarySignedRoute(
-            'verification.verify',
-            now()->addMinutes(60),
-            [
-                'id' => $user->getKey(),
-                'hash' => sha1($user->getEmailForVerification()),
-            ]
-        );
+        // Resend the email verification notification
+        $user->sendEmailVerificationNotification();
 
-        // Log the URL for debugging (remove in production)
-        Log::info('Verification URL: ' . $verificationUrl); // Use Log facade
-
-        // Here you would send the email manually using Mail facade
-        // For now, let's just return success
-        return response()->json([
-            'message' => 'Verification link generated',
-            'url' => $verificationUrl // Remove this in production
-        ]);
+        return response()->json(['message' => 'Verification link sent successfully.']);
     }
 }

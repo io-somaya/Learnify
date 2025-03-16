@@ -97,8 +97,8 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',
-            'expire' => 1440, // Password reset link expiration time in minutes
-            'throttle' => 1440, // Throttle password reset requests
+            'expire' => 1440, // Expiration time in minutes
+            'throttle' => 0, // Allow requests every 10 seconds
         ],
     ],
 

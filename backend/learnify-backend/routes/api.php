@@ -25,3 +25,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     // Add other protected routes here
 });
+
+// Admin routes
+Route::post('/admin/login', [AuthController::class, 'adminLogin'])
+    ->middleware('role:teacher');
+
+Route::middleware(['auth:sanctum', 'role:teacher'])->group(function () {
+    Route::post('/admin/change-password', [AuthController::class, 'changePassword']);
+});
+
+Route::middleware(['auth:sanctum', 'role:student,assistant'])->group(function () {
+    Route::put('/user/update', [AuthController::class, 'updateUser']);
+});

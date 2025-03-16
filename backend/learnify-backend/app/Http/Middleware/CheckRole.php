@@ -31,7 +31,3 @@ class CheckRole
         ], 403);
     }
 }
-
-// Register the middleware in app/Http/Kernel.php:
-// Add this to the $routeMiddleware array in the Kernel class:
-// 'role' => \App\Http\Middleware\CheckRole::class,
