@@ -1,0 +1,658 @@
+:root {
+    --light-pink: #FFF2F2;
+    --light-purple: #A9B5DF;
+    --medium-purple: #7886C7;
+    --dark-purple: #2D336B;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.login-container {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(45, 51, 107, 0.15);
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.row {
+    margin: 0;
+}
+
+.left-side {
+    background-color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 600px;
+    position: relative;
+}
+
+.right-side {
+    background: linear-gradient(135deg, var(--medium-purple), var(--dark-purple));
+    padding: 0;
+    position: relative;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    z-index: 1;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.logo-icon {
+    width: 45px;
+    height: 45px;
+    background-color: var(--light-pink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.logo-text {
+    color: var(--dark-purple);
+    font-weight: bold;
+    font-size: 26px;
+}
+
+h2 {
+    color: var(--dark-purple);
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 28px;
+}
+
+.subheading {
+    color: #6c757d;
+    margin-bottom: 30px;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* Animated input styles */
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 15px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    z-index: 1;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--medium-purple);
+    box-shadow: 0 2px 8px rgba(120, 134, 199, 0.15);
+}
+
+.input-label {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    color: #999;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.input-field:focus + .input-label,
+.input-field:not(:placeholder-shown) + .input-label {
+    transform: translateY(-24px) translateX(-5px);
+    font-size: 14px;
+    color: var(--medium-purple);
+    background-color: white;
+    padding: 0 8px;
+    z-index: 2;
+    font-weight: 500;
+}
+
+/* Password field */
+.password-field {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #8a8a8a;
+    z-index: 10;
+    transition: color 0.3s;
+}
+
+.password-toggle:hover {
+    color: var(--medium-purple);
+}
+
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.form-check-input {
+    border-color: var(--medium-purple);
+    width: 18px;
+    height: 18px;
+}
+
+.form-check-input:checked {
+    background-color: var(--medium-purple);
+    border-color: var(--medium-purple);
+}
+
+.form-check-label {
+    color: #6c757d;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.forgot-link {
+    color: var(--medium-purple);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.forgot-link:hover {
+    color: var(--dark-purple);
+    text-decoration: underline;
+}
+
+.signin-btn {
+    background: linear-gradient(to right, var(--medium-purple), var(--dark-purple));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    width: 100%;
+    font-weight: 600;
+    margin-bottom: 25px;
+    transition: all 0.3s;
+    height: 55px;
+    font-size: 16px;
+    box-shadow: 0 4px 10px rgba(45, 51, 107, 0.2);
+}
+
+.signin-btn:hover {
+    background: linear-gradient(to right, var(--dark-purple), var(--medium-purple));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(45, 51, 107, 0.25);
+}
+
+.signin-btn:active {
+    transform: translateY(0);
+}
+
+.divider {
+    text-align: center;
+    margin: 25px 0;
+    color: #8a8a8a;
+    position: relative;
+    font-size: 14px;
+}
+
+.divider::before, .divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background-color: #e0e0e0;
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.social-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-btn {
+    flex: 1;
+    padding: 12px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+    color: #555;
+}
+
+.social-btn:hover {
+    background-color: #f8f8f8;
+    border-color: #ccc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.social-icon {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.google-icon {
+    color: #DB4437;
+}
+
+.facebook-icon {
+    color: #4267B2;
+}
+
+.story-image {
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+    transition: transform 0.5s ease;
+    transform: scale(1);
+}
+
+.story-image:hover {
+    transform: scale(1.03);
+}
+
+.right-side::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    top: -100px;
+    right: -100px;
+    z-index: 1;
+}
+
+.right-side::after {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    bottom: -50px;
+    left: -50px;
+    z-index: 1;
+}
+
+/* Comment out or remove these styles if they exist */
+/*
+.signup-link {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+}
+*/
+
+.signup-link {
+    position: relative;
+    z-index: 10;
+    margin: 0;
+}
+
+.signup-link .btn {
+    background: linear-gradient(to right, var(--light-purple), var(--medium-purple));
+    color: white;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 10px;
+    border: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(120, 134, 199, 0.3);
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.signup-link .btn i {
+    font-size: 14px;
+    transition: transform 0.3s;
+}
+
+.signup-link .btn:hover {
+    background: linear-gradient(to right, var(--medium-purple), var(--dark-purple));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(45, 51, 107, 0.25);
+}
+
+.signup-link .btn:hover i {
+    transform: scale(1.1);
+}
+
+.signup-link .btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba(45, 51, 107, 0.2);
+}
+
+.validation-message {
+    font-size: 12px;
+    color: #dc3545;
+    margin-top: 5px;
+    display: none;
+}
+
+.input-field.ng-invalid.ng-touched {
+    border-color: #dc3545;
+}
+
+.input-field.ng-invalid.ng-touched + .input-label {
+    color: #dc3545;
+}
+
+.input-field.ng-valid.ng-touched {
+    border-color: #28a745;
+}
+
+.validation-message {
+    display: block;
+}
+
+@media (max-width: 991px) {
+    .login-container {
+        max-width: 800px;
+    }
+    
+    .story-image {
+        width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .right-side {
+        display: none;
+    }
+    
+    .left-side {
+        min-height: auto;
+        padding: 30px;
+    }
+    
+    .login-container {
+        max-width: 500px;
+    }
+    
+    .header-row {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 40px;
+    }
+    
+    .signup-link {
+        position: relative;
+        text-align: right;
+        margin-bottom: 0;
+    }
+    
+    .signup-link .btn {
+        width: auto;
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .left-side {
+        padding: 20px;
+    }
+    
+    .signup-link {
+        position: static;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .signup-link .btn {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    h2 {
+        font-size: 24px;
+    }
+    
+    .social-buttons {
+        flex-direction: column;
+    }
+    
+    .logo-text {
+        font-size: 22px;
+    }
+    
+    .logo-icon {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .signup-link .btn {
+        padding: 5px 10px;
+        font-size: 13px;
+    }
+    
+    .header-row {
+        margin-bottom: 35px;
+    }
+}
+
+/* Add these styles to your existing CSS */
+
+.image-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-inner {
+  width: 100%;
+  height: 80%;
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-item.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.story-image {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+.carousel-controls {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.carousel-control {
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 0 10px;
+  color: white;
+  transition: background 0.3s;
+}
+
+.carousel-control:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-indicators span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.carousel-indicators span.active {
+  background: white;
+  width: 12px;
+  height: 12px;
+}
+
+.single-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.story-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  z-index: 3;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+  transition: transform 0.5s ease;
+}
+
+.story-image:hover {
+  transform: scale(1.03);
+}
+
+/* Improved header row styling */
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px; /* Increased from 30px to 50px */
+  position: relative;
+  width: 100%;
+}
+
+/* Update Google button styles */
+.google-btn {
+    background-color: white !important;
+    color: #757575 !important;
+    border: 1px solid #ddd !important;
+}
+
+.google-btn:hover {
+    background-color: #f8f8f8 !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+}
+
+.google-icon {
+    margin-right: 8px;
+}
+
+/* Consistent button styling */
+.btn {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* Consistent form styling */
+form {
+    width: 100%;
+}
+
+/* Consistent alert styling */
+.alert-danger {
+    background-color: #ffe6e6;
+    color: #d9534f;
+    border: 1px solid #ffcccc;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    font-size: 14px;
+} 

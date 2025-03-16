@@ -1,5 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --light-pink: #FFF2F2;
+  --light-purple: #A9B5DF;
+  --medium-purple: #7886C7;
+  --dark-purple: #2D336B;
+}
+
 * {
-    font-family: 'Outfit', sans-serif;
-  }
-  
+  font-family: 'Outfit', sans-serif;
+}
+
+body{
+  background-color: var(--light-pink);
+}
