@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 // Import necessary MDB modules
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
@@ -15,8 +17,10 @@ import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
 })
 export class RegisterComponent { 
   registerForm: FormGroup;
+  isLoading: boolean = false;
+  errorMessage: string = '';
 
-  constructor() {
+  constructor(private router: Router, private authService: AuthService) {
     this.registerForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required, Validators.minLength(2)]),
       lastName: new FormControl(null, [Validators.required, Validators.minLength(2)]),
@@ -45,7 +49,33 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      console.log('Form Submitted', this.registerForm.value);
+      this.isLoading = true;
+      this.errorMessage = '';
+      
+      const userData = {
+        first_name: this.firstName?.value,
+        last_name: this.lastName?.value,
+        email: this.email?.value,
+        phone: this.phone?.value,
+        parent_phone: this.parentPhone?.value,
+        grade: this.grade?.value,
+        password: this.password?.value,
+        password_confirmation: this.confirmPassword?.value
+      };
+      
+      this.authService.register(userData).subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          console.log('Registration successful', response);
+          alert('Registration successful! Please check your email to verify your account.');
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          this.isLoading = false;
+          this.errorMessage = error.message || 'Registration failed. Please try again.';
+          console.error('Registration error', error);
+        }
+      });
     }
   }
 }
