@@ -1,9 +1,4 @@
-:root {
-    --light-pink: #FFF2F2;
-    --light-purple: #A9B5DF;
-    --medium-purple: #7886C7;
-    --dark-purple: #2D336B;
-}
+
 
 .container {
     display: flex;
@@ -272,7 +267,7 @@ h2 {
     filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
     transition: transform 0.5s ease;
     transform: scale(1);
-}
+    }
 
 .story-image:hover {
     transform: scale(1.03);
@@ -347,7 +342,7 @@ form {
     background-color: #ffe6e6;
     color: #d9534f;
     border: 1px solid #ffcccc;
-}
+    }
 
 .text-center {
     text-align: center;
@@ -513,4 +508,4 @@ form {
     .col-md-6 {
         padding: 0 5px;
     }
-}
+    }

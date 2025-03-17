@@ -1,9 +1,5 @@
 :root {
-    --light-pink: #FFF2F2;
-    --light-purple: #A9B5DF;
-    --medium-purple: #7886C7;
-    --dark-purple: #2D336B;
-}
+
 
 .container {
     display: flex;
