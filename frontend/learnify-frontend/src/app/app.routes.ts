@@ -3,6 +3,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { RegisterComponent } from './formes/register/register.component';
 import { LoginComponent } from './formes/login/login.component';
+import { ForgotPasswordComponent } from './formes/forgot-password/forgot-password.component';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -16,6 +17,11 @@ export const routes: Routes = [
         path: "register",
         component: RegisterComponent,
         title: "Register",
+    },
+    {
+        path: "forgot-password",
+        component: ForgotPasswordComponent,
+        title: "Forgot Password",
     },
 
     // Admin routes (protected)
