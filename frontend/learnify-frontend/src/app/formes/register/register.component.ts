@@ -1,17 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-
-// Import necessary MDB modules
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
+import { HttpClientModule } from '@angular/common/http';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MdbFormsModule, MdbRippleModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    ReactiveFormsModule, 
+    RouterModule, 
+    MdbFormsModule, 
+    MdbRippleModule, 
+    HttpClientModule
+  ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -19,8 +27,16 @@ export class RegisterComponent {
   registerForm: FormGroup;
   isLoading: boolean = false;
   errorMessage: string = '';
+  showPassword: boolean = false;
+  isBrowser: boolean;
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(
+    private router: Router, 
+    private authService: AuthService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    
     this.registerForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required, Validators.minLength(2)]),
       lastName: new FormControl(null, [Validators.required, Validators.minLength(2)]),
@@ -45,6 +61,14 @@ export class RegisterComponent {
   passwordMatchValidator(form: FormGroup) {
     return form.get('password')?.value === form.get('confirmPassword')?.value
       ? null : { mismatch: true };
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+  
+  handleImageError(event: any, fallbackSrc: string) {
+    event.target.src = fallbackSrc;
   }
 
   onSubmit() {
