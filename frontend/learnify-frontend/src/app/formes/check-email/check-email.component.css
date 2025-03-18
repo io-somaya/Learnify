@@ -1,0 +1,16 @@
+.check-email-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .alert {
+    margin-top: 1rem;
+  }
+  
+  .btn {
+    margin: 0.5rem;
+  }

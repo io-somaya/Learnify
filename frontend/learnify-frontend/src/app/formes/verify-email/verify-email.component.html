@@ -1,0 +1,23 @@
+<div class="verify-email-container">
+    <!-- Loading spinner -->
+    @if (isLoading) {
+      <div class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Verifying your email...</p>
+      </div>
+    }
+  
+    <!-- Success or error message -->
+    @if (!isLoading) {
+      <div class="message" [ngClass]="{ 'success': !isError, 'error': isError }">
+        <p>{{ message }}</p>
+      </div>
+    }
+  
+    <!-- Redirect message -->
+    @if (!isError && !isLoading) {
+      <div class="redirect-message">
+        <p>You will be redirected to the dashboard shortly...</p>
+      </div>
+    }
+  </div>
