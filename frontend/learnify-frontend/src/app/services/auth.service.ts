@@ -15,6 +15,7 @@ export class AuthService {
   public currentUser: Observable<any>;
   private tokenExpirationTimer: any;
   private isBrowser: boolean;
+  public registerEmail: string ;
 
   constructor(
     private http: HttpClient,
@@ -64,6 +65,10 @@ export class AuthService {
   register(userData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/register`, userData)
       .pipe(
+        tap(response => {
+          this.registerEmail = userData.email;
+          return response;
+        }),
         catchError(error => {
           console.error('Registration error:', error);
           return throwError(() => new Error(error.error?.message || 'Registration failed. Please try again.'));

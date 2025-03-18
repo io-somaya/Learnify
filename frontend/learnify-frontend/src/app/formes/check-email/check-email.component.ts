@@ -18,7 +18,7 @@ export class CheckEmailComponent {
 
   constructor(private authService: AuthService, private router: Router) {
     
-    this.email = this.authService.currentUserValue?.email || '';
+    this.email = this.authService.currentUserValue?.email || '' ||this.authService.registerEmail;
   }
 
   
