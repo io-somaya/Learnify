@@ -39,7 +39,7 @@ export class VerifyEmailComponent implements OnInit {
             this.message = response.message; // Set the success message
             this.isLoading = false;
             // setTimeout(() => {
-            //   this.router.navigate(['/dashboard']); // Redirect to dashboard after 3 seconds
+            //   this.router.navigate(['/login']); // Redirect to login after 3 seconds
             // }, 3000);
           },
           error: (error) => {

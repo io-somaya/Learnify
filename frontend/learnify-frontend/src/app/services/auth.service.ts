@@ -152,7 +152,7 @@ export class AuthService {
         })
       );
   }
-
+//not like backend
   resendVerificationEmail(email?: string): Observable<any> {
     const emailToSend = email || this.currentUserValue?.email;
 
@@ -160,7 +160,7 @@ export class AuthService {
       return throwError(() => new Error('Email is required'));
     }
 
-    return this.http.post<any>(`${this.apiUrl}/email/resend`, { email: emailToSend })
+    return this.http.post<any>(`${this.apiUrl}/resend-verification`, { email: emailToSend })
       .pipe(
         catchError(error => {
           console.error('Resend verification error:', error);
