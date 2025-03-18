@@ -1,23 +1,62 @@
+<!-- <div class="verify-email-container"> -->
+<!-- Loading spinner -->
+<!-- @if (isLoading) {
+<div class="loading-spinner">
+  <div class="spinner"></div>
+  <p>Verifying your email...</p>
+</div>
+} -->
+
+<!-- Success or error message -->
+<!-- @if (!isLoading) {
+<div class="message" [ngClass]="{ 'success': !isError, 'error': isError }">
+  <p>{{ message }}</p>
+</div>
+} -->
+
+<!-- Redirect message -->
+<!-- @if (!isError && !isLoading) {
+<div class="redirect-message">
+  <p>You will be redirected to the dashboard shortly...</p>
+</div>
+} -->
+
+<!-- </div> -->
 <div class="verify-email-container">
-    <!-- Loading spinner -->
-    @if (isLoading) {
+  <!-- Success or error message remove it or keep it Morazz -->
+  <div class="message" [ngClass]="{ 'success': !isError, 'error': isError }">
+    <p>{{ message }}</p>
+  </div>
+
+  <!-- Login button remove it or keep it Morazz -->
+  @if (!isError) {
+  <div class="redirect-message">
+    <button (click)="goToLogin()" class="btn btn-primary">Login Now</button>
+  </div>
+  }
+</div>
+
+<!-- feh conflict here i just commented them -->
+<!--     <!-- Loading spinner -->
+<!--     @if (isLoading) {
       <div class="loading-spinner">
         <div class="spinner"></div>
         <p>Verifying your email...</p>
       </div>
-    }
+    } -->
   
     <!-- Success or error message -->
-    @if (!isLoading) {
+<!--     @if (!isLoading) {
       <div class="message" [ngClass]="{ 'success': !isError, 'error': isError }">
         <p>{{ message }}</p>
       </div>
-    }
+    } -->
   
     <!-- Redirect message -->
-    @if (!isError && !isLoading) {
+<!--     @if (!isError && !isLoading) {
       <div class="redirect-message">
         <p>You will be redirected to the login shortly...</p>
       </div>
-    }
-  </div>
+    } -->
+<!--   </div>  -->
+

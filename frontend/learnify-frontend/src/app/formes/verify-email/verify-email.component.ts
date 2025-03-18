@@ -20,7 +20,7 @@ export class VerifyEmailComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Extract path parameters
@@ -55,5 +55,8 @@ export class VerifyEmailComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+  goToLogin(): void {
+    this.router.navigate(['/login']);
   }
 }
