@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { Subscription } from 'rxjs';
 
 // Import necessary MDB modules
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
@@ -15,17 +16,18 @@ import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent { 
+export class RegisterComponent implements OnDestroy { 
   registerForm: FormGroup;
   isLoading: boolean = false;
   errorMessage: string = '';
+  private subscriptions: Subscription = new Subscription();
 
   constructor(private router: Router, private authService: AuthService) {
     this.registerForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required, Validators.minLength(2)]),
       lastName: new FormControl(null, [Validators.required, Validators.minLength(2)]),
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^\d{10}$/)]),
-      parentPhone: new FormControl(null, [Validators.required, Validators.pattern(/^\d{10}$/)]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(/^\d{11}$/)]),
+      parentPhone: new FormControl(null, [Validators.required, Validators.pattern(/^\d{11}$/)]),
       email: new FormControl(null, [Validators.required, Validators.email]),
       grade: new FormControl(null, [Validators.required]),
       password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
@@ -51,31 +53,35 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.isLoading = true;
       this.errorMessage = '';
-      
+  
       const userData = {
         first_name: this.firstName?.value,
         last_name: this.lastName?.value,
         email: this.email?.value,
-        phone: this.phone?.value,
+        phone_number: this.phone?.value,
         parent_phone: this.parentPhone?.value,
         grade: this.grade?.value,
         password: this.password?.value,
         password_confirmation: this.confirmPassword?.value
       };
-      
-      this.authService.register(userData).subscribe({
+  
+      const registerSub = this.authService.register(userData).subscribe({
         next: (response) => {
           this.isLoading = false;
           console.log('Registration successful', response);
-          alert('Registration successful! Please check your email to verify your account.');
-          this.router.navigate(['/']);
+          this.router.navigate(['/check-email']); // إعادة التوجيه إلى صفحة التحقق من البريد الإلكتروني
         },
         error: (error) => {
           this.isLoading = false;
-          this.errorMessage = error.message || 'Registration failed. Please try again.';
+          this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
           console.error('Registration error', error);
         }
       });
+  
+      this.subscriptions.add(registerSub);
     }
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe(); // إلغاء جميع الاشتراكات
   }
 }

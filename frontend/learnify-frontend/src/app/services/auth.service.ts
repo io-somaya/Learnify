@@ -1,5 +1,5 @@
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -10,26 +10,29 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl || 'http://localhost:8000/api'; 
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
   private tokenExpirationTimer: any;
   private isBrowser: boolean;
+  public registerEmail: string ;
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
-    let storedUser = null;
-    
-    if (this.isBrowser) {
-      storedUser = localStorage.getItem('currentUser');
-    }
-    
-    this.currentUserSubject = new BehaviorSubject<any>(storedUser ? JSON.parse(storedUser) : null);
+    this.currentUserSubject = new BehaviorSubject<any>(this.getStoredUser());
     this.currentUser = this.currentUserSubject.asObservable();
+  }
+
+  private getStoredUser(): any {
+    if (this.isBrowser) {
+      const storedUser = localStorage.getItem('currentUser');
+      return storedUser ? JSON.parse(storedUser) : null;
+    }
+    return null;
   }
 
   public get currentUserValue() {
@@ -40,18 +43,14 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password })
       .pipe(
         tap(response => {
-          // Store user details and token in local storage
           if (response && response.token && this.isBrowser) {
             const user = {
               email: email,
               token: response.token,
-              expiresIn: response.expires_in || 3600 // Default to 1 hour if not provided
+              expiresIn: response.expires_in || 3600 // Default: 1 hour
             };
-            
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.currentUserSubject.next(user);
-            
-            // Set auto logout timer
             this.autoLogout(user.expiresIn * 1000);
           }
           return response;
@@ -66,6 +65,10 @@ export class AuthService {
   register(userData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/register`, userData)
       .pipe(
+        tap(response => {
+          this.registerEmail = userData.email;
+          return response;
+        }),
         catchError(error => {
           console.error('Registration error:', error);
           return throwError(() => new Error(error.error?.message || 'Registration failed. Please try again.'));
@@ -74,7 +77,6 @@ export class AuthService {
   }
 
   logout() {
-    // Call the logout API if needed
     if (this.currentUserValue) {
       this.http.post(`${this.apiUrl}/logout`, {}, {
         headers: new HttpHeaders({
@@ -90,20 +92,14 @@ export class AuthService {
   }
 
   private handleLogout() {
-    // Clear user from local storage
     if (this.isBrowser) {
       localStorage.removeItem('currentUser');
     }
-    
     this.currentUserSubject.next(null);
-    
-    // Clear the auto logout timer
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
     this.tokenExpirationTimer = null;
-    
-    // Redirect to login page
     this.router.navigate(['/']);
   }
 
@@ -143,20 +139,61 @@ export class AuthService {
     return !!this.currentUserValue;
   }
 
-  resendVerificationEmail(): Observable<any> {
-    if (!this.currentUserValue) {
-      return of({ success: false, message: 'User not authenticated' });
-    }
-    
-    return this.http.post<any>(`${this.apiUrl}/email/resend-verification`, {}, {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${this.currentUserValue?.token}`
-      })
-    }).pipe(
-      catchError(error => {
-        console.error('Resend verification error:', error);
-        return throwError(() => new Error(error.error?.message || 'Failed to resend verification email. Please try again.'));
-      })
-    );
+  verifyEmail(userId: string, token: string, expires: string, signature: string): Observable<any> {
+    const params = new HttpParams()
+      .set('expires', expires)
+      .set('signature', signature);
+
+    return this.http.get(`${this.apiUrl}/email/verify/${userId}/${token}`, { params })
+      .pipe(
+        catchError(error => {
+          console.error('Verify email error:', error);
+          return throwError(() => new Error(error.error?.message || 'Failed to verify email. Please try again.'));
+        })
+      );
   }
-} 
+//not like backend
+  resendVerificationEmail(email?: string): Observable<any> {
+    const emailToSend = email || this.currentUserValue?.email;
+
+    if (!emailToSend) {
+      return throwError(() => new Error('Email is required'));
+    }
+
+    return this.http.post<any>(`${this.apiUrl}/resend-verification`, { email: emailToSend })
+      .pipe(
+        catchError(error => {
+          console.error('Resend verification error:', error);
+          return throwError(() => new Error(error.error?.message || 'Failed to resend verification email. Please try again.'));
+        })
+      );
+  }
+
+  refreshToken(): Observable<any> {
+    const refreshToken = this.currentUserValue?.refreshToken;
+
+    if (!refreshToken) {
+      return throwError(() => new Error('No refresh token available'));
+    }
+
+    return this.http.post<any>(`${this.apiUrl}/refresh-token`, { refreshToken })
+      .pipe(
+        tap(response => {
+          if (response && response.token && this.isBrowser) {
+            const user = {
+              ...this.currentUserValue,
+              token: response.token,
+              expiresIn: response.expires_in || 3600
+            };
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.currentUserSubject.next(user);
+            this.autoLogout(user.expiresIn * 1000);
+          }
+        }),
+        catchError(error => {
+          console.error('Refresh token error:', error);
+          return throwError(() => new Error(error.error?.message || 'Failed to refresh token. Please log in again.'));
+        })
+      );
+  }
+}

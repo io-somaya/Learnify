@@ -1,0 +1,29 @@
+<div class="check-email-container">
+  <h2>Check Your Email</h2>
+  @if (!email) {
+    <p>Please enter your email address.</p>
+  }
+  @else if (email) {
+    <p>We've sent a verification link to <strong>{{ email }}</strong>. Please check your email to activate your account.</p>
+    @if (resendSuccess) {
+      <div class="alert alert-success">
+        Verification email sent successfully!
+      </div>
+    }
+  
+    @if (resendError) {
+      <div class="alert alert-danger">
+        {{ resendError }}
+      </div>
+    }
+  
+    <button (click)="resendVerificationEmail()" [disabled]="resendLoading" class="btn btn-primary">
+      @if (!resendLoading) {
+        <span>Resend Verification Email</span>
+      }
+      @if (resendLoading) {
+        <span>Sending...</span>
+      }
+    </button>
+  }
+</div>
