@@ -49,7 +49,7 @@
                 <input type="tel" class="input-field" id="phone" placeholder=" " formControlName="phone">
                 <label for="phone" class="input-label">Phone Number</label>
                 <div class="validation-message" *ngIf="phone?.invalid && phone?.touched">
-                  Please enter a valid 10-digit phone number
+                  Must start with 010/011/012/015 and be 11 digits
                 </div>
               </div>
             </div>
@@ -58,7 +58,7 @@
                 <input type="tel" class="input-field" id="parentPhone" placeholder=" " formControlName="parentPhone">
                 <label for="parentPhone" class="input-label">Parent's Phone</label>
                 <div class="validation-message" *ngIf="parentPhone?.invalid && parentPhone?.touched">
-                  Please enter a valid 10-digit phone number
+                  Must start with 010/011/012/015 and be 11 digits
                 </div>
               </div>
             </div>

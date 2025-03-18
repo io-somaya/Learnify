@@ -32,6 +32,9 @@ export class RegisterComponent implements OnDestroy {
   showPassword: boolean = false;
   isBrowser: boolean;
 
+  // Egyptian phone number regex pattern (starts with 010, 011, 012, or 015 and is 11 digits)
+  private phoneRegex = /^(010|011|012|015)[0-9]{8}$/;
+
   constructor(
     private router: Router, 
     private authService: AuthService,
@@ -42,8 +45,8 @@ export class RegisterComponent implements OnDestroy {
     this.registerForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required, Validators.minLength(2)]),
       lastName: new FormControl(null, [Validators.required, Validators.minLength(2)]),
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^\d{11}$/)]),
-      parentPhone: new FormControl(null, [Validators.required, Validators.pattern(/^\d{11}$/)]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(this.phoneRegex)]),
+      parentPhone: new FormControl(null, [Validators.required, Validators.pattern(this.phoneRegex)]),
       email: new FormControl(null, [Validators.required, Validators.email]),
       grade: new FormControl(null, [Validators.required]),
       password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
@@ -88,7 +91,7 @@ export class RegisterComponent implements OnDestroy {
         password: this.password?.value,
         password_confirmation: this.confirmPassword?.value
       };
-  
+      // console.log("USERDATA",JSON.stringify(userData,null,2));
       const registerSub = this.authService.register(userData).subscribe({
         next: (response) => {
           this.isLoading = false;
@@ -97,14 +100,21 @@ export class RegisterComponent implements OnDestroy {
         },
         error: (error) => {
           this.isLoading = false;
-          this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
-          console.error('Registration error', error);
+          // Display detailed validation errors if available
+          if (error.error && error.error.errors) {
+            const errorMessages = Object.values(error.error.errors).flat();
+            this.errorMessage = errorMessages.join('. ');
+          } else {
+            this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
+          }
+          console.error('Registration error:', error);
         }
       });
   
       this.subscriptions.add(registerSub);
     }
   }
+  
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe(); // إلغاء جميع الاشتراكات
   }
