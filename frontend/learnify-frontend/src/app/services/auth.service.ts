@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment';
+import { environment } from '../../.environments/environment';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
@@ -160,7 +160,7 @@ export class AuthService {
       return throwError(() => new Error('Email is required'));
     }
 
-    return this.http.post<any>(`${this.apiUrl}/resend-verification`, { email: emailToSend })
+    return this.http.post<any>(`${this.apiUrl}/email/resend-verification`, { email: emailToSend })
       .pipe(
         catchError(error => {
           console.error('Resend verification error:', error);

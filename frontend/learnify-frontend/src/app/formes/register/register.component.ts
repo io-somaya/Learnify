@@ -1,18 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
-
-// Import necessary MDB modules
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
+import { HttpClientModule } from '@angular/common/http';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MdbFormsModule, MdbRippleModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    ReactiveFormsModule, 
+    RouterModule, 
+    MdbFormsModule, 
+    MdbRippleModule, 
+    HttpClientModule
+  ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -21,13 +29,24 @@ export class RegisterComponent implements OnDestroy {
   isLoading: boolean = false;
   errorMessage: string = '';
   private subscriptions: Subscription = new Subscription();
+  showPassword: boolean = false;
+  isBrowser: boolean;
 
-  constructor(private router: Router, private authService: AuthService) {
+  // Egyptian phone number regex pattern (starts with 010, 011, 012, or 015 and is 11 digits)
+  private phoneRegex = /^(010|011|012|015)[0-9]{8}$/;
+
+  constructor(
+    private router: Router, 
+    private authService: AuthService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    
     this.registerForm = new FormGroup({
       firstName: new FormControl(null, [Validators.required, Validators.minLength(2)]),
       lastName: new FormControl(null, [Validators.required, Validators.minLength(2)]),
-      phone: new FormControl(null, [Validators.required, Validators.pattern(/^\d{11}$/)]),
-      parentPhone: new FormControl(null, [Validators.required, Validators.pattern(/^\d{11}$/)]),
+      phone: new FormControl(null, [Validators.required, Validators.pattern(this.phoneRegex)]),
+      parentPhone: new FormControl(null, [Validators.required, Validators.pattern(this.phoneRegex)]),
       email: new FormControl(null, [Validators.required, Validators.email]),
       grade: new FormControl(null, [Validators.required]),
       password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
@@ -49,6 +68,14 @@ export class RegisterComponent implements OnDestroy {
       ? null : { mismatch: true };
   }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+  
+  handleImageError(event: any, fallbackSrc: string) {
+    event.target.src = fallbackSrc;
+  }
+
   onSubmit() {
     if (this.registerForm.valid) {
       this.isLoading = true;
@@ -64,7 +91,7 @@ export class RegisterComponent implements OnDestroy {
         password: this.password?.value,
         password_confirmation: this.confirmPassword?.value
       };
-  
+      // console.log("USERDATA",JSON.stringify(userData,null,2));
       const registerSub = this.authService.register(userData).subscribe({
         next: (response) => {
           this.isLoading = false;
@@ -73,14 +100,21 @@ export class RegisterComponent implements OnDestroy {
         },
         error: (error) => {
           this.isLoading = false;
-          this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
-          console.error('Registration error', error);
+          // Display detailed validation errors if available
+          if (error.error && error.error.errors) {
+            const errorMessages = Object.values(error.error.errors).flat();
+            this.errorMessage = errorMessages.join('. ');
+          } else {
+            this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
+          }
+          console.error('Registration error:', error);
         }
       });
   
       this.subscriptions.add(registerSub);
     }
   }
+  
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe(); // إلغاء جميع الاشتراكات
   }

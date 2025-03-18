@@ -46,7 +46,7 @@
                 Remember me
               </label>
             </div>
-            <a href="javascript:void(0)" class="forgot-link" (click)="forgotPassword()">Forgot Password?</a>
+            <a routerLink="/forgot-password" class="forgot-link">Forgot Password?</a>
           </div>
           
           <button type="submit" class="btn signin-btn" [disabled]="loginForm.invalid || isLoading">
