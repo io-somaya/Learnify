@@ -44,7 +44,7 @@ class AuthVerificationController extends Controller
 
         if ($user->hasVerifiedEmail()) {
             // Redirect to frontend with a message indicating email is already verified
-            return redirect('http://localhost:4200/email/verify?status=already_verified&userId=' . $userId);
+            return redirect(env('FRONTEND_URL', 'http://localhost:4200') . '/email/verify?status=already_verified&userId=' . $userId);
         }
 
         if ($user->markEmailAsVerified()) {
@@ -60,7 +60,7 @@ class AuthVerificationController extends Controller
         }
 
         // Redirect to frontend with a success message
-        return redirect('http://localhost:4200/email/verify?status=success&userId=' . $userId);
+        return redirect(env('FRONTEND_URL', 'http://localhost:4200') . '/email/verify?status=success&userId=' . $userId);
     }
 
     /**
