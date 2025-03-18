@@ -110,23 +110,7 @@ export class LoginComponent implements OnInit {
   forgotPassword() {
     if (!this.isBrowser) return;
     
-    const email = this.loginForm.get('email')?.value;
-    if (email) {
-      this.isLoading = true;
-      this.authService.forgotPassword(email).subscribe({
-        next: () => {
-          this.isLoading = false;
-          alert('Password reset link has been sent to your email.');
-        },
-        error: (error) => {
-          this.isLoading = false;
-          alert(error.message || 'Failed to send reset link. Please try again.');
-        }
-      });
-    } else {
-      alert('Please enter your email address first.');
-      // Focus on email field
-      document.getElementById('email')?.focus();
-    }
+    // Navigate to forgot password page
+    this.router.navigate(['/forgot-password']);
   }
 } 
