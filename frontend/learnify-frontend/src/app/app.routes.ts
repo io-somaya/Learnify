@@ -4,6 +4,7 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { RegisterComponent } from './formes/register/register.component';
 import { LoginComponent } from './formes/login/login.component';
 import { ForgotPasswordComponent } from './formes/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './formes/reset-password/reset-password.component';
 import { authGuard } from './guards/auth.guard';
 import { VerifyEmailComponent } from './formes/verify-email/verify-email.component';
 import { CheckEmailComponent } from './formes/check-email/check-email.component';
@@ -34,6 +35,11 @@ export const routes: Routes = [
         path: "forgot-password",
         component: ForgotPasswordComponent,
         title: "Forgot Password",
+    },
+    {
+        path: "reset-password",
+        component: ResetPasswordComponent,
+        title: "Reset Password",
     },
 
     // Admin routes (protected)
