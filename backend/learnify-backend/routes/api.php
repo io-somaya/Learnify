@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\AuthVerificationController;
+use App\Http\Controllers\Subscription\PackageController;
 
 // Authentication routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -37,3 +38,8 @@ Route::middleware(['auth:sanctum', 'role:teacher'])->group(function () {
 Route::middleware(['auth:sanctum', 'role:student,assistant'])->group(function () {
     Route::put('/user/update', [AuthController::class, 'updateUser']);
 });
+
+
+//landing page routes(public)
+//packges
+Route::get('/packages', [PackageController::class, 'index']);
