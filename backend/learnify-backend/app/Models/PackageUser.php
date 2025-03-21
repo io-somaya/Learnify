@@ -12,7 +12,13 @@ class PackageUser extends Model
         'user_id', 'package_id', 'start_date', 'end_date'
     ];
 
-    // Relationship: PackageUser has many Payments
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime'
+    ];
+
+
+    // Relationship: PackageUser has many Payments(BEC STUDENT CAN DIVIDE PAYMENT)
     public function payments()
     {
         return $this->hasMany(Payment::class);
