@@ -7,8 +7,9 @@
     top: 15px;
     left: 10px;
     border-radius: 10px;
-    box-shadow: 0 15px 40px rgba(45, 51, 107, 0.15);
-
+    box-shadow: 0 8px 32px rgba(45, 51, 107, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     overflow-y:hidden;
     background: #ffffff;
     opacity:0.9;
@@ -28,8 +29,12 @@
   #menu-toggle{
       position: fixed;
       top:12px;
-      transition:all .3s;
-      font-size:2em;
+      transition: all 0.3s ease-in-out;
+      font-size: 1.8em;
+      /* background: white; */
+      padding: 8px;
+      border-radius: 8px;
+      /* box-shadow: 0 2px 10px rgba(45, 51, 107, 0.1); */
   }
   #menu-toggle:hover{
     color:#2D336B;
@@ -57,8 +62,9 @@
   .sidebar-nav li{
     line-height:40px;  
       width:100%;
-      transition:all .3s;
-      padding:10px;
+      transition: all 0.3s ease-in-out;
+      padding: 5px 15px;
+      margin: 5px 0;
   }
   
   .sidebar-nav li a {
@@ -70,24 +76,16 @@
     padding: 10px 10px;
 
   }
-  
-  .sidebar-nav li:hover{
-    background:#fdfdfd;
-    cursor:pointer;
-  
-  }
 
   .active-link {
-    background: linear-gradient(to right, var(--medium-purple), var(--dark-purple));
+    background: linear-gradient(135deg, var(--medium-purple), var(--dark-purple));
     color: rgb(255, 255, 255);
-    border: none;
-    border-radius: 11px;
-    padding: 10px 10px;
+    border-radius: 12px;
+    padding: 12px 15px;
     font-size: 18px;
-    font-weight: 400;
-    /* margin-right: 10px; */
-  
-
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(45, 51, 107, 0.15);
+    transform: translateY(-1px);
   }
   
 
@@ -99,7 +97,9 @@
 
   .link-name {
     font-size: 16px;
-    margin-left: 10px;
+    margin-left: 12px;
+    font-weight: 400;
+    transition: all 0.3s ease;
   
   }
   .link-name i{
@@ -108,18 +108,17 @@
   }
   a { 
     text-decoration: none;
-    color: #999999;
+    color: #666;
     font-size: 16px;
-    font-weight: 300;
-    transition: all.3s;
+    font-weight: 400;
+    transition: all 0.3s ease;
   }
 
   a:hover{
-   color: #040169;
-   border: none;
-   border-radius: 11px;
-   padding: 10px 10px;
-   font-size: 20px;
-   font-weight: 400;
+    /* color: var(--dark-purple); */
+   transform: translateX(5px);
+   padding: 10px 15px;
+   font-size: 16px;
+   font-weight: 500;
 
  }
