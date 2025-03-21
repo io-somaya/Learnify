@@ -3,13 +3,14 @@
     z-index:1;
     position: fixed;
     width:0;
-    height:95%;
+    height:100%;
     top: 15px;
     left: 10px;
     border-radius: 10px;
-  
+    box-shadow: 0 15px 40px rgba(45, 51, 107, 0.15);
+
     overflow-y:hidden;
-    background: #FFF2F2;
+    background: #ffffff;
     opacity:0.9;
       transition:all .5s;
       display:flex;
@@ -50,6 +51,7 @@
       transition:all .5s;
       width:100%;
       text-align:center;
+      
   }
   
   .sidebar-nav li{
@@ -62,7 +64,11 @@
   .sidebar-nav li a {
     display:block;
     text-decoration:none;
-    color:#000000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+
   }
   
   .sidebar-nav li:hover{
@@ -70,7 +76,50 @@
     cursor:pointer;
   
   }
-  .active-link{
-    border:1px solid  rgb(0, 0, 0);
-    border-radius: 10px;
+
+  .active-link {
+    background: linear-gradient(to right, var(--medium-purple), var(--dark-purple));
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 11px;
+    padding: 10px 10px;
+    font-size: 18px;
+    font-weight: 400;
+    /* margin-right: 10px; */
+  
+
   }
+  
+
+  .fa-chevron-right{
+    font-size: 10px;
+
+  }
+
+
+  .link-name {
+    font-size: 16px;
+    margin-left: 10px;
+  
+  }
+  .link-name i{
+    margin-right: 15px;
+    font-size: 20px;
+  }
+  a { 
+    text-decoration: none;
+    color: #999999;
+    font-size: 16px;
+    font-weight: 300;
+    transition: all.3s;
+  }
+
+  a:hover{
+   color: #040169;
+   border: none;
+   border-radius: 11px;
+   padding: 10px 10px;
+   font-size: 20px;
+   font-weight: 400;
+
+ }
