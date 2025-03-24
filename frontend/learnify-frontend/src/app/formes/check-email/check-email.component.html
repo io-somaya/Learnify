@@ -1,29 +1,63 @@
-<div class="check-email-container">
-  <h2>Check Your Email</h2>
-  <p>We've sent a verification link to <strong>{{ email }}</strong>. Please check your email to activate your account.</p>
-
-  @if (resendSuccess) {
-    <div class="alert alert-success">
-      Verification email sent successfully!
+<div class="container">
+  <div class="login-container">
+    <div class="row">
+      <div class="col-md-6 left-side">
+        <div class="header-row">
+          <div class="logo">
+            <div class="logo-icon">
+              <span style="color: var(--dark-purple); font-weight: bold; font-size: 22px;">L</span>
+            </div>
+            <div class="logo-text">Learnify</div>
+          </div>
+          <div class="nav-link">
+            <a routerLink="/" class="btn"><i class="fas fa-sign-in-alt"></i> Back to Login</a>
+          </div>
+        </div>
+        
+        <h2>Check Your Email</h2>
+        
+        @if (!email) {
+          <p class="subheading">Please enter your email address to complete the verification process.</p>
+        }
+        @else if (email) {
+          <p class="subheading">We've sent a verification link to <strong>{{ email }}</strong>. Please check your email inbox to activate your account.</p>
+          
+          @if (resendSuccess) {
+            <div class="alert alert-success">
+              Verification email sent successfully!
+            </div>
+          }
+        
+          @if (resendError) {
+            <div class="alert alert-danger">
+              {{ resendError }}
+            </div>
+          }
+        
+          <button (click)="resendVerificationEmail()" [disabled]="resendLoading" class="btn signin-btn">
+            @if (!resendLoading) {
+              <span>Resend Verification Email</span>
+            }
+            @if (resendLoading) {
+              <span><i class="fas fa-spinner fa-spin"></i> Sending...</span>
+            }
+          </button>
+          
+          <div class="text-center mt-4">
+            <p>Return to <a routerLink="/" class="forgot-link">Sign In</a></p>
+          </div>
+        }
+      </div>
+      
+      <div class="col-md-6 right-side">
+        <!-- Animated background with geometric shapes -->
+        <div class="animated-background">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+          <div class="shape shape-4"></div>
+        </div>
+      </div>
     </div>
-  }
-
-  @if (resendError) {
-    <div class="alert alert-danger">
-      {{ resendError }}
-    </div>
-  }
-
-  <button (click)="resendVerificationEmail()" [disabled]="resendLoading" class="btn btn-primary">
-    @if (!resendLoading) {
-      <span>Resend Verification Email</span>
-    }
-    @if (resendLoading) {
-      <span>Sending...</span>
-    }
-  </button>
-<!-- 
-  <button (click)="goToHome()" class="btn btn-secondary mt-3">
-    Back to Home
-  </button> -->
+  </div>
 </div>

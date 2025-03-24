@@ -2,28 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
-        'user_id',
-        'amount',
-        'transaction_reference',
+        'package_user_id',
+        'amount_paid',
         'payment_status',
-        'package_id'  // For linking to subscription packages
+        'transaction_reference'
     ];
 
-    public function user()
+    // Relationship: A Payment belongs to a PackageUser
+    public function packageUser()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function package()
-    {
-        return $this->belongsTo(SubscriptionPackage::class, 'package_id');
+        return $this->belongsTo(PackageUser::class);
     }
 }

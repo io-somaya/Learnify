@@ -30,7 +30,9 @@ class AuthServiceProvider extends ServiceProvider
 
         // Customize the password reset email
         ResetPassword::toMailUsing(function ($notifiable, $token) {
-            $resetUrl = url(config('app.url') . '/reset-password?token=' . $token . '&email=' . $notifiable->getEmailForPasswordReset());
+            // Use the frontend URL for the reset password link
+            $frontendUrl = env('FRONTEND_URL', 'http://localhost:4200');
+            $resetUrl = $frontendUrl . '/reset-password?token=' . $token . '&email=' . $notifiable->getEmailForPasswordReset();
 
             return (new MailMessage)
                 ->subject(Lang::get('Reset Password Notification'))

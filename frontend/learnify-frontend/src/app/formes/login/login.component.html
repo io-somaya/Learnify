@@ -46,7 +46,7 @@
                 Remember me
               </label>
             </div>
-            <a href="javascript:void(0)" class="forgot-link" (click)="forgotPassword()">Forgot Password?</a>
+            <a routerLink="/forgot-password" class="forgot-link">Forgot Password?</a>
           </div>
           
           <button type="submit" class="btn signin-btn" [disabled]="loginForm.invalid || isLoading">
@@ -77,11 +77,12 @@
       </div>
       
       <div class="col-md-6 right-side">
-        <div class="single-image-container">
-          <img src="assets/pics/login.png" 
-               alt="Login" 
-               class="story-image"
-               (error)="handleImageError($event, 'https://via.placeholder.com/500x500.png?text=Login')" />
+        <!-- Animated background with geometric shapes -->
+        <div class="animated-background">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+          <div class="shape shape-4"></div>
         </div>
       </div>
     </div>

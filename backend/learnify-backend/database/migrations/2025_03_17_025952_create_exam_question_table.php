@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subscription_packages', function (Blueprint $table) {
+        Schema::create('exam_question', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->decimal('price', 10, 2);
-            $table->integer('duration_days');
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->foreignId('exam_id')->constrained()->onDelete('cascade');
+            $table->foreignId('question_id')->constrained()->onDelete('cascade');
+            $table->integer('points')->default(1);
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subscription_packages');
+        Schema::dropIfExists('exam_question');
     }
 };

@@ -1,118 +1,137 @@
-<section class="h-auto ">
-  <div class="container py-0 h-auto">
-    <div class="row d-flex align-items-center h-auto">
-      <div class="col">
-        <div class="card card-registration my-4">
-          <div class="row g-0">
-            <form class="col-xl-8" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-              <div class="card-body p-md-5 text-black">
-                <h3 class="mb-5 text-uppercase">Student Registration Form</h3>
-
-                <div class="row">
-                  <div class="col-md-6 mb-4">
-                    <mdb-form-control>
-                      <input mdbInput type="text" id="f-name" class="form-control" formControlName="firstName" />
-                      <label mdbLabel class="form-label" for="f-name">First Name</label>
-                    </mdb-form-control>
-                    @if (registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched) {
-                      <mdb-error>Required (min 2 chars)</mdb-error>
-                    } 
-                    @if (registerForm.get('firstName')?.valid && registerForm.get('firstName')?.touched) {
-                      <mdb-success>Frist Name valid</mdb-success>
-                    }
-                  </div>
-
-                  <div class="col-md-6 mb-4">
-                    <mdb-form-control>
-                      <input mdbInput type="text" id="l-name" class="form-control" formControlName="lastName" />
-                      <label mdbLabel class="form-label" for="l-name">Last Name</label>
-                    </mdb-form-control>
-                    @if (registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched) {
-                      <mdb-error>Required (min 2 chars)</mdb-error>
-                    }
-                     @if (registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched) {
-                      <mdb-success>Last Name valid</mdb-success>
-                    }
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6 mb-4">
-                    <mdb-form-control>
-                      <input mdbInput type="text" id="phone" class="form-control" formControlName="phone" />
-                      <label mdbLabel class="form-label" for="phone">Phone Number</label>
-                    </mdb-form-control>
-                    @if (registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched) {
-                      <mdb-error>Must be 11 digits And Starting with one of this (010 , 011, 012, 015)</mdb-error>
-                    }
-                  </div>
-
-                  <div class="col-md-6 mb-4">
-                    <mdb-form-control>
-                      <input mdbInput type="text" id="parent" class="form-control" formControlName="parentPhone" />
-                      <label mdbLabel class="form-label" for="parent">Parent Phone</label>
-                    </mdb-form-control>
-                    @if (registerForm.get('parentPhone')?.invalid && registerForm.get('parentPhone')?.touched) {
-                      <mdb-error>Must be 11 digits And Starting with one of this (010 , 011, 012, 015)</mdb-error>
-                    }
-                  </div>
-                </div>
-
-                <div class="input-group mb-3">
-                  <span class="input-group-text">&#64;</span>
-                  <input type="email" class="form-control" placeholder="Email" formControlName="email" />
-                </div>
-                @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
-                  <mdb-error>Invalid email</mdb-error>
-                }
-
-                <div class="d-md-flex justify-content-start align-items-center mb-4 py-2">
-                  <h6 class="mb-0 me-4">Grade: </h6>
-                  <div class="form-check form-check-inline mx-5">
-                    <input class="form-check-input" type="radio" id="grade-a" value="1" formControlName="grade" />
-                    <label class="form-check-label" for="grade-a">A</label>
-                  </div>
-                  <div class="form-check form-check-inline mx-5">
-                    <input class="form-check-input" type="radio" id="grade-b" value="2" formControlName="grade" />
-                    <label class="form-check-label" for="grade-b">B</label>
-                  </div>
-                  <div class="form-check form-check-inline ms-5">
-                    <input class="form-check-input" type="radio" id="grade-c" value="3" formControlName="grade" />
-                    <label class="form-check-label" for="grade-c">C</label>
-                  </div>
-                </div>
-                @if (registerForm.get('grade')?.invalid && registerForm.get('grade')?.touched) {
-                  <mdb-error>Select a grade</mdb-error>
-                }
-                <div class="mb-4">
-                <mdb-form-control>
-                  <input mdbInput type="password" id="password" class="form-control" formControlName="password" />
-                  <label mdbLabel class="form-label" for="password">Password</label>
-                </mdb-form-control>
-                @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
-                  <mdb-error>Min 6 chars</mdb-error>
-                }
-              </div>
-                <mdb-form-control>
-                  <input mdbInput type="password" id="confirm-password" class="form-control" formControlName="confirmPassword" />
-                  <label mdbLabel class="form-label" for="confirm-password">Confirm Password</label>
-                </mdb-form-control>
-                @if (registerForm.errors?.mismatch && registerForm.get('confirmPassword')?.touched) {
-                  <mdb-error>Passwords do not match</mdb-error>
-                }
-
-                <div class="d-flex justify-content-end pt-3">
-                  <button type="reset" class="btn btn-light btn-lg" (click)="registerForm.reset()">Reset</button>
-                  <button type="submit" class="btn btn-warning btn-lg ms-2" [disabled]="registerForm.invalid">Submit</button>
+<div class="container">
+  <div class="login-container">
+    <div class="row">
+      <div class="col-md-6 left-side">
+        <div class="header-row">
+          <div class="logo">
+            <div class="logo-icon">
+              <span style="color: var(--dark-purple); font-weight: bold; font-size: 22px;">L</span>
+            </div>
+            <div class="logo-text">Learnify</div>
+          </div>
+          <div class="signup-link">
+            <a routerLink="/" class="btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+          </div>
+        </div>
+        
+        <h2>Create Account</h2>
+        <p class="subheading">Join the Learnify community and start your learning journey today</p>
+        
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
+        </div>
+        
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input-group">
+                <input type="text" class="input-field" id="firstName" placeholder=" " formControlName="firstName">
+                <label for="firstName" class="input-label">First Name</label>
+                <div class="validation-message" *ngIf="firstName?.invalid && firstName?.touched">
+                  First name must be at least 2 characters
                 </div>
               </div>
-            </form>
-            <div class="col-xl-4 d-none d-xl-block">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp" alt="Sample photo" class="img-fluid" style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem; width: 600px;" />
+            </div>
+            <div class="col-md-6">
+              <div class="input-group">
+                <input type="text" class="input-field" id="lastName" placeholder=" " formControlName="lastName">
+                <label for="lastName" class="input-label">Last Name</label>
+                <div class="validation-message" *ngIf="lastName?.invalid && lastName?.touched">
+                  Last name must be at least 2 characters
+                </div>
+              </div>
             </div>
           </div>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input-group">
+                <input type="tel" class="input-field" id="phone" placeholder=" " formControlName="phone">
+                <label for="phone" class="input-label">Phone Number</label>
+                <div class="validation-message" *ngIf="phone?.invalid && phone?.touched">
+                  Must start with 010/011/012/015 and be 11 digits
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group">
+                <input type="tel" class="input-field" id="parentPhone" placeholder=" " formControlName="parentPhone">
+                <label for="parentPhone" class="input-label">Parent's Phone</label>
+                <div class="validation-message" *ngIf="parentPhone?.invalid && parentPhone?.touched">
+                  Must start with 010/011/012/015 and be 11 digits
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <input type="email" class="input-field" id="email" placeholder=" " formControlName="email">
+            <label for="email" class="input-label">Email address</label>
+            <div class="validation-message" *ngIf="email?.invalid && email?.touched">
+              Please enter a valid email address
+            </div>
+          </div>
+          
+          <div class="grade-group mb-4">
+            <label class="grade-label">Select Grade:</label>
+            <div class="grade-options">
+              <div class="grade-option">
+                <input type="radio" id="grade-a" formControlName="grade" value="1">
+                <label for="grade-a">Grade A</label>
+              </div>
+              <div class="grade-option">
+                <input type="radio" id="grade-b" formControlName="grade" value="2">
+                <label for="grade-b">Grade B</label>
+              </div>
+              <div class="grade-option">
+                <input type="radio" id="grade-c" formControlName="grade" value="3">
+                <label for="grade-c">Grade C</label>
+              </div>
+            </div>
+            <div class="validation-message" *ngIf="grade?.invalid && grade?.touched">
+              Please select a grade
+            </div>
+          </div>
+          
+          <div class="input-group password-field">
+            <input [type]="showPassword ? 'text' : 'password'" class="input-field" id="password" placeholder=" " formControlName="password">
+            <label for="password" class="input-label">Password</label>
+            <i class="password-toggle fas" [class.fa-eye]="showPassword" [class.fa-eye-slash]="!showPassword" (click)="togglePasswordVisibility()"></i>
+            <div class="validation-message" *ngIf="password?.invalid && password?.touched">
+              Password must be at least 6 characters
+            </div>
+          </div>
+          
+          <div class="input-group password-field">
+            <input [type]="showPassword ? 'text' : 'password'" class="input-field" id="confirmPassword" placeholder=" " formControlName="confirmPassword">
+            <label for="confirmPassword" class="input-label">Confirm Password</label>
+            <div class="validation-message" *ngIf="registerForm.errors?.['mismatch'] && confirmPassword?.touched">
+              Passwords do not match
+            </div>
+          </div>
+          
+          <button type="submit" class="btn signin-btn" [disabled]="registerForm.invalid || isLoading">
+            <span *ngIf="!isLoading">Sign Up</span>
+            <span *ngIf="isLoading">
+              <i class="fas fa-spinner fa-spin"></i> Creating Account...
+            </span>
+          </button>
+          
+          <div class="text-center mt-4">
+            <p>Already have an account? <a routerLink="/" class="forgot-link">Sign In</a></p>
+          </div>
+        </form>
+      </div>
+      
+      <div class="col-md-6 right-side">
+        <!-- Animated background with geometric shapes -->
+        <div class="animated-background">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+          <div class="shape shape-4"></div>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>

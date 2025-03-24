@@ -6,7 +6,7 @@ import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-check-email',
   standalone: true,
-  imports:[NgIf],
+  imports: [NgIf],
   templateUrl: './check-email.component.html',
   styleUrls: ['./check-email.component.css']
 })
@@ -14,14 +14,12 @@ export class CheckEmailComponent {
   email: string = '';
   resendLoading: boolean = false;
   resendSuccess: boolean = false;
-  resendError: string = ''; 
+  resendError: string = '';
 
   constructor(private authService: AuthService, private router: Router) {
-    
-    this.email = this.authService.currentUserValue?.email || '' ||this.authService.registerEmail;
+    this.email = this.authService.currentUserValue?.email || this.authService.registerEmail ||"";
   }
 
-  
   resendVerificationEmail(): void {
     if (!this.email) {
       this.resendError = 'Email is required.';
@@ -40,12 +38,8 @@ export class CheckEmailComponent {
       error: (error) => {
         this.resendError = error.error?.message || 'Failed to resend verification email. Please try again.';
         this.resendLoading = false;
+        console.error('Error:', error);
       }
     });
   }
-
-  
-  // goToHome(): void {
-  //   this.router.navigate(['/']);
-  // }
 }
