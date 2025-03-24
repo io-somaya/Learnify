@@ -10,6 +10,7 @@
         "laravel/framework": "^11.31",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "nafezly/payments": "^2.7",
         "sendgrid/sendgrid": "^8.1"
     },
     "require-dev": {
