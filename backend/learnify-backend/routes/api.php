@@ -8,6 +8,7 @@ use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\AuthVerificationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Subscription\PackageController;
+use App\Http\Controllers\Subscription\SubscriptionController;
 
 // Authentication routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -38,7 +39,20 @@ Route::middleware(['auth:sanctum', 'role:student,assistant'])->group(function ()
 // Public callback routes
 Route::post('/payments/verify', [PaymentController::class, 'verify']);
 Route::post('/payments/callback', [PaymentController::class, 'callback']);
+Route::get('/packages', [PackageController::class, 'index']);
 
+
+// Protected routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    //subscription
+    Route::prefix('subscriptions')->group(function () {
+        Route::post('purchase', [SubscriptionController::class, 'purchase']);
+    });
+
+
+});
 // Authenticated routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/payments/initiate', [PaymentController::class, 'initiate']);
