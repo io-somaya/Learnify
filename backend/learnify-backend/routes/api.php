@@ -37,7 +37,7 @@ Route::middleware(['auth:sanctum', 'role:student,assistant'])->group(function ()
 });
 
 // Public callback routes
-Route::post('/payments/verify', [PaymentController::class, 'verify']);
+Route::post('/payments/verifyTransaction', [PaymentController::class, 'verify']);
 Route::post('/payments/callback', [PaymentController::class, 'callback']);
 Route::get('/packages', [PackageController::class, 'index']);
 
@@ -51,10 +51,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('purchase', [SubscriptionController::class, 'purchase']);
     });
 
-
-});
-// Authenticated routes
-Route::middleware('auth:sanctum')->group(function () {
     Route::post('/payments/initiate', [PaymentController::class, 'initiate']);
     Route::get('/payments/history', [PaymentController::class, 'history']);
 });
