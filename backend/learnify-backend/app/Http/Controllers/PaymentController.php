@@ -290,6 +290,29 @@ class PaymentController extends Controller
     }
 
     /**
+     * Handle browser redirect after payment (GET request)
+     */
+    public function callbackRedirect(Request $request)
+    {
+        Log::info('Paymob Redirect Callback (GET)', $request->all());
+
+        // Check for transaction response code or other query params
+        $txnResponseCode = $request->query('txn_response_code');
+        $transactionId = $request->query('id'); // Example, adjust based on Paymob's redirect params
+
+        if ($txnResponseCode === 'APPROVED') {
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment completed successfully. Transaction ID: ' . $transactionId
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Payment failed or was declined.'
+            ], 400);
+        }
+    }
+    /**
      * Payment Callback Handler
      */
     public function callback(Request $request)
@@ -297,6 +320,5 @@ class PaymentController extends Controller
         Log::info('Paymob Callback', $request->all());
         return response()->json(['success' => true]);
     }
-
 
 }

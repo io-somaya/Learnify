@@ -38,7 +38,13 @@ Route::middleware(['auth:sanctum', 'role:student,assistant'])->group(function ()
 
 // Public callback routes
 Route::post('/payments/verifyTransaction', [PaymentController::class, 'verify']);
+// Existing POST callback
 Route::post('/payments/callback', [PaymentController::class, 'callback']);
+
+// Add GET route for browser redirect
+Route::get('/payments/callback', [PaymentController::class, 'callbackRedirect']);
+
+// Subscription routes
 Route::get('/packages', [PackageController::class, 'index']);
 
 
