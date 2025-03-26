@@ -48,4 +48,65 @@ class SubscriptionController extends Controller
             'payment' => $payment
         ]);
     }
+
+
+        // Get current subscription status
+        public function currentSubscription(Request $request)
+        {
+            // Get authenticated user 
+            $user = auth()->user();
+            
+            // Get active subscription with relationships
+            $subscription = PackageUser::with(['package', 'payments'])
+                ->where('user_id', $user->id)
+                ->where('end_date', '>', now())
+                ->first();
+    
+            // If no active subscription found
+            if (!$subscription) {
+                return $this->apiResponse(404, 'No active subscription found');
+            }
+    
+          
+          // Calculate remaining days and round to nearest whole number
+          $daysRemaining = round(now()->floatDiffInDays($subscription->end_date));
+        
+          // Format response data
+          $data = [
+              'id' => $subscription->id,
+              'package_name' => $subscription->package->name,
+              'package_type' => $subscription->package->type,
+              'start_date' => $subscription->start_date->format('Y-m-d'),
+              'end_date' => $subscription->end_date->format('Y-m-d'),
+              'days_remaining' => $daysRemaining,
+              'payment_status' => $subscription->payments->first()->payment_status ?? 'unknown',
+              'renewal_options' => $this->getRenewalOptions()
+          ];
+    
+            return $this->apiResponse(200, 'Subscription found', null, $data);
+        }
+    
+         /**
+     * Get available renewal options for the user
+     * 
+     * @return array
+     */
+    private function getRenewalOptions()
+    {
+        // Get all active packages for renewal
+        $packages = Package::all()->map(function($package) {
+            return [
+                'id' => $package->id,
+                'name' => $package->name,
+                'type' => $package->type,
+                'price' => $package->price,
+                'duration_days' => $package->duration_days,
+                'discount' => $package->discount,
+                'final_price' => $package->price - ($package->price * ($package->discount / 100))
+            ];
+        });
+        
+        return $packages;
+    }
+
 }
