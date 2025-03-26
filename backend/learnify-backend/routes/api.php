@@ -49,7 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('subscriptions')->group(function () {
         Route::post('purchase', [SubscriptionController::class, 'purchase']);
         Route::get('current', [SubscriptionController::class, 'currentSubscription']);
-
+        Route::post('renew', [SubscriptionController::class, 'renewSubscription']);
     });
 
 
