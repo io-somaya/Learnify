@@ -121,15 +121,6 @@ class SubscriptionController extends Controller
         
         // Calculate the new subscription period
         $startDate = Carbon::now();
-        // If user has active subscription, start from the end of current subscription
-        $activeSubscription = PackageUser::where('user_id', $user->id)
-            ->where('end_date', '>', now())
-            ->latest()
-            ->first();
-            
-        if ($activeSubscription) {
-            $startDate = $activeSubscription->end_date;
-        }
         
         // Create the new subscription
         $subscription = PackageUser::create([
