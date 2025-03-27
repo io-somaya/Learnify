@@ -4,6 +4,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router, 
+    private toastService: ToastService,
     private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
@@ -95,6 +97,9 @@ export class LoginComponent implements OnInit {
         next: (response) => {
           this.isLoading = false;
           console.log('Login successful', response);
+          // show toast message
+          this.toastService.success('Login completed successfully!');          
+          
           // Navigate to dashboard
           this.router.navigate(['/admin/dashboard']);
         },
@@ -102,6 +107,8 @@ export class LoginComponent implements OnInit {
           this.isLoading = false;
           this.errorMessage = error.message || 'Login failed. Please check your credentials and try again.';
           console.error('Login error', error);
+          // show toast message
+          this.toastService.error(this.errorMessage);
         }
       });
     }

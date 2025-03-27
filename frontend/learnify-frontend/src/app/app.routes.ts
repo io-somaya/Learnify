@@ -8,6 +8,7 @@ import { ResetPasswordComponent } from './formes/reset-password/reset-password.c
 import { authGuard } from './guards/auth.guard';
 import { VerifyEmailComponent } from './formes/verify-email/verify-email.component';
 import { CheckEmailComponent } from './formes/check-email/check-email.component';
+import { ToastComponent } from './toast/toast.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -15,6 +16,11 @@ export const routes: Routes = [
         path: "",
         component: LoginComponent,
         title: "Login",
+    },
+    {
+        path:"toast",
+        component: ToastComponent,
+        title: 'Toast'
     },
     {
         path: "register",
