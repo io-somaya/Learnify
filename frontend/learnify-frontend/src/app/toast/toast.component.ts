@@ -1,4 +1,3 @@
-// src/app/components/toast/toast.component.ts
 import { Component } from '@angular/core';
 import {  ToastService } from '../services/toast.service';
 import { CommonModule,  } from '@angular/common';
@@ -12,13 +11,13 @@ import {IToast} from '../Interfaces/IToast'
   styleUrls: ['./toast.component.scss']
 })
 export class ToastComponent {
-  constructor(public toastService: ToastService) {}
+  constructor(public _toastService: ToastService) {}
 
   getToastClass(toast: IToast): string {
     return `toast-${toast.type}`;
   }
 
   removeToast(toast: IToast): void {
-    this.toastService.removeToast(toast);
+    this._toastService.removeToast(toast);
   }
 }
