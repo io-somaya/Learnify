@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -7,12 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     protected $fillable = [
-        'package_user_id', 'amount_paid', 'payment_status', 'transaction_reference'
+        'user_id',
+        'package_id',
+        'amount',
+        'transaction_reference',
+        'status'
     ];
 
-    // Relationship: A Payment belongs to a PackageUser
-    public function packageUser()
+    public function user()
     {
-        return $this->belongsTo(PackageUser::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function package()
+    {
+        return $this->belongsTo(Package::class);
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\AuthVerificationController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Subscription\PackageController;
 use App\Http\Controllers\Subscription\SubscriptionController;
 
@@ -35,20 +36,27 @@ Route::middleware(['auth:sanctum', 'role:student,assistant'])->group(function ()
     Route::put('/user/update', [AuthController::class, 'updateUser']);
 });
 
+// Public callback routes
+Route::post('/payments/verifyTransaction', [PaymentController::class, 'verify']);
+// Existing POST callback
+Route::post('/payments/callback', [PaymentController::class, 'callback']);
 
-//landing page routes(public)
-//packges
+// Add GET route for browser redirect
+Route::get('/payments/callback', [PaymentController::class, 'callbackRedirect']);
+
+// Subscription routes
 Route::get('/packages', [PackageController::class, 'index']);
 
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    
+
     //subscription
     Route::prefix('subscriptions')->group(function () {
         Route::post('purchase', [SubscriptionController::class, 'purchase']);
     });
 
-
+    Route::post('/payments/initiate', [PaymentController::class, 'initiate']);
+    Route::get('/payments/history', [PaymentController::class, 'history']);
 });
