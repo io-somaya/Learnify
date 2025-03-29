@@ -9,6 +9,8 @@ use App\Http\Controllers\AuthVerificationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Subscription\PackageController;
 use App\Http\Controllers\Subscription\SubscriptionController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 
 // Authentication routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -59,4 +61,41 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/payments/initiate', [PaymentController::class, 'initiate']);
     Route::get('/payments/history', [PaymentController::class, 'history']);
+});
+
+// Protected routes (require authentication)
+Route::middleware('auth:sanctum')->group(function () {
+
+    // Profile routes
+    Route::get('/profile', [ProfileController::class, 'show']);
+    Route::put('/profile', [ProfileController::class, 'update']);
+    Route::post('/profile/password', [ProfileController::class, 'updatePassword']);
+    Route::post('/profile/photo', [ProfileController::class, 'updatePhoto']);
+
+    // Dashboard routes
+    Route::prefix('dashboard')->group(function () {
+        // Student dashboard
+        Route::middleware('role:student')->group(function () {
+            Route::get('/student', [DashboardController::class, 'studentDashboard']);
+            Route::get('/student/packages', [DashboardController::class, 'enrolledPackages']);
+            Route::get('/student/lectures', [DashboardController::class, 'upcomingLectures']);
+            Route::get('/student/exams', [DashboardController::class, 'upcomingExams']);
+            Route::get('/student/activities', [DashboardController::class, 'recentActivities']);
+        });
+
+        // Teacher dashboard
+        Route::middleware('role:teacher')->group(function () {
+            Route::get('/teacher', [DashboardController::class, 'teacherDashboard']);
+            Route::get('/teacher/lectures', [DashboardController::class, 'scheduledLectures']);
+            Route::get('/teacher/exams', [DashboardController::class, 'createdExams']);
+            Route::get('/teacher/performance', [DashboardController::class, 'studentsPerformance']);
+        });
+
+        // Assistant dashboard
+        Route::middleware('role:assistant')->group(function () {
+            Route::get('/assistant', [DashboardController::class, 'assistantDashboard']);
+            Route::get('/assistant/tasks', [DashboardController::class, 'assignedTasks']);
+            Route::get('/assistant/inquiries', [DashboardController::class, 'studentInquiries']);
+        });
+    });
 });
