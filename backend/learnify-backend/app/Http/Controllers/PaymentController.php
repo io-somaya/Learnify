@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use App\Models\{Payment, Package, User};
+use App\Models\{Payment, Package, PackageUser, User};
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
@@ -235,8 +235,8 @@ class PaymentController extends Controller
      */
     public function verify(Request $request)
     {
-        Log::info('Paymob Verification Callback', $request->all());
-
+        Log::info('Payment Verification Request', $request->all());
+    
         try {
             // Extensive validation
             $hmac = $request->input('hmac');
@@ -256,17 +256,21 @@ class PaymentController extends Controller
 
             // Update payment status
             if ($success) {
+                //  Updated payment status to completed
                 $payment->update(['status' => 'completed']);
-
-                // Create subscription
-                $payment->user->packages()->attach($payment->package_id, [
+    
+                // Added subscription creation after successful payment
+                PackageUser::create([
+                    'user_id' => $payment->user_id,
+                    'package_id' => $payment->package_id,
                     'start_date' => now(),
-                    'end_date' => now()->addDays($payment->package->duration_days)
+                    'end_date' => now()->addDays($payment->package->duration_days),
                 ]);
-
+    
+                
                 return response()->json([
                     'success' => true,
-                    'message' => 'Payment verified successfully'
+                    'message' => 'Payment verified and subscription created successfully'
                 ]);
             } else {
                 $payment->update(['status' => 'failed']);
@@ -275,16 +279,13 @@ class PaymentController extends Controller
                     'message' => 'Payment failed'
                 ], 400);
             }
-
         } catch (\Exception $e) {
             Log::error('Payment Verification Error', [
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'message' => $e->getMessage()
             ]);
-
             return response()->json([
                 'success' => false,
-                'message' => 'Payment verification failed: ' . $e->getMessage()
+                'message' => 'Payment verification failed'
             ], 500);
         }
     }
