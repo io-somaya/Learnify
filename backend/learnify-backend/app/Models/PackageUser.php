@@ -17,6 +17,17 @@ class PackageUser extends Model
         'end_date' => 'datetime'
     ];
 
+    // Relationship: PackageUser belongs to a User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // Relationship: PackageUser belongs to a Package
+    public function package()
+    {
+        return $this->belongsTo(Package::class);
+    }
 
     // Relationship: PackageUser has many Payments(BEC STUDENT CAN DIVIDE PAYMENT)
     public function payments()

@@ -57,6 +57,8 @@ Route::middleware('auth:sanctum')->group(function () {
     //subscription
     Route::prefix('subscriptions')->group(function () {
         Route::post('purchase', [SubscriptionController::class, 'purchase']);
+        Route::get('current', [SubscriptionController::class, 'currentSubscription']);
+        Route::post('renew', [SubscriptionController::class, 'renewSubscription']);
     });
 
     Route::post('/payments/initiate', [PaymentController::class, 'initiate']);
