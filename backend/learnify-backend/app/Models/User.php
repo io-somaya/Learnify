@@ -82,7 +82,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Get the package subscriptions for the user
      */
-    public function packageSubscriptions(): HasMany
+    public function subscriptions()
     {
         return $this->hasMany(PackageUser::class);
     }

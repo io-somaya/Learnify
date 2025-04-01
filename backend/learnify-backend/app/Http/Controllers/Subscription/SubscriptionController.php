@@ -16,107 +16,102 @@ class SubscriptionController extends Controller
 {
     use ApiTrait;
 
+    protected $paymentController;
+
+    public function __construct(PaymentController $paymentController)
+    {
+        $this->paymentController = $paymentController;
+    }
+
     public function purchase(SubscriptionRequest $request)
     {
-        // Check for existing active subscription
-        $activeSubscription = auth()->user()->packages()
-            ->where('end_date', '>', now())
-            ->exists();
+        try {
+            // Check for existing active subscription
+            $activeSubscription = PackageUser::where('user_id', auth()->id())
+                ->where('status', 'active')
+                ->where('end_date', '>', now())
+                ->first();
 
-        if ($activeSubscription) {
-            return $this->apiResponse(400, 'You already have an active subscription');
+            if ($activeSubscription) {
+                return $this->apiResponse(400, 'You already have an active subscription');
+            }
+
+            // Initiate payment process
+            return $this->paymentController->initiate($request);
+
+        } catch (\Exception $e) {
+            return $this->apiResponse(500, 'Failed to process subscription purchase: ' . $e->getMessage());
         }
-
-        // Get the package
-        $package = Package::findOrFail($request->package_id);
-
-        // Initiate payment process and make subscription and purchasing
-        $paymentController = new PaymentController();
-        return $paymentController->initiate($request);
     }
 
-    // Get current subscription status
     public function currentSubscription()
     {
-        // Get authenticated user 
-        $user = auth()->user();
+        try {
+            $subscription = PackageUser::with(['package', 'payment'])
+                ->where('user_id', auth()->id())
+                ->where('end_date', '>', now())
+                ->first();
 
-        // Get active subscription with relationships
-        $subscription = PackageUser::with(['package', 'payment'])
-            ->where('user_id', $user->id)
-            ->where('end_date', '>', now())
-            ->first();
+            if (!$subscription) {
+                return $this->apiResponse(404, 'No active subscription found');
+            }
 
-        // If no active subscription found
-        if (!$subscription) {
-            return $this->apiResponse(404, 'No active subscription found');
-        }
-
-
-        // Calculate remaining days and round to nearest whole number
-        $daysRemaining = round(now()->floatDiffInDays($subscription->end_date));
-
-        // Format response data
-        $data = [
-            'id' => $subscription->id,
-            'package_name' => $subscription->package->name,
-            'package_type' => $subscription->package->type,
-            'start_date' => $subscription->start_date->format('Y-m-d'),
-            'end_date' => $subscription->end_date->format('Y-m-d'),
-            'days_remaining' => $daysRemaining,
-            'payment_status' => $subscription->payment->first()->payment_status ?? 'unknown',
-            'renewal_options' => $this->getRenewalOptions()
-        ];
-
-        return $this->apiResponse(200, 'Subscription found', null, $data);
-    }
-
-    /**
-     * Get available renewal options for the user
-     * 
-     * @return array
-     */
-    private function getRenewalOptions()
-    {
-        // Get all active packages for renewal
-        $packages = Package::all()->map(function ($package) {
-            return [
-                'id' => $package->id,
-                'name' => $package->name,
-                'type' => $package->type,
-                'price' => $package->price,
-                'duration_days' => $package->duration_days,
-                'discount' => $package->discount,
-                'final_price' => $package->price - ($package->price * ($package->discount / 100))
+            $data = [
+                'subscription_id' => $subscription->id,
+                'package' => [
+                    'id' => $subscription->package->id,
+                    'name' => $subscription->package->name,
+                    'type' => $subscription->package->type,
+                ],
+                'status' => $subscription->status,
+                'start_date' => $subscription->start_date->format('Y-m-d'),
+                'end_date' => $subscription->end_date->format('Y-m-d'),
+                'days_remaining' => now()->diffInDays($subscription->end_date),
+                'payment_status' => $subscription->payment->status ?? 'unknown',
+                'renewal_options' => $this->getRenewalOptions()
             ];
-        });
 
-        return $packages;
+            return $this->apiResponse(200, 'Subscription details retrieved', null, $data);
+
+        } catch (\Exception $e) {
+            return $this->apiResponse(500, 'Failed to retrieve subscription details: ' . $e->getMessage());
+        }
     }
 
-    // Handle subscription renewal
     public function renewSubscription(RenewalRequest $request)
     {
-        // Get the authenticated user
-        $user = auth()->user();
+        // Check for existing active subscription
+        try {
+            $currentSubscription = PackageUser::where('user_id', auth()->id())
+                ->first();
 
-        // Get the package to renew with
-        $package = Package::find($request->package_id);
+            if ($currentSubscription && $currentSubscription->end_date->gt(now())) {
+                return $this->apiResponse(400, 'Cannot renew: current subscription is still active');
+            }
 
-        // Calculate the new subscription period
-        $startDate = Carbon::now();
-        // If user has active subscription, start from the end of current subscription
-        $activeSubscription = PackageUser::where('user_id', $user->id)
-            ->where('end_date', '>', now())
-            ->latest()
-            ->first();
+            return $this->paymentController->initiate($request);
 
-        if ($activeSubscription) {
-            $startDate = $activeSubscription->end_date;
+        } catch (\Exception $e) {
+            return $this->apiResponse(500, 'Failed to process renewal: ' . $e->getMessage());
         }
+    }
 
-        // Initiate payment process and make subscription and purchasing
-        $paymentController = new PaymentController();
-        return $paymentController->initiate($request);
+    private function getRenewalOptions()
+    {
+        return Package::select('id', 'name', 'type', 'price', 'duration_days', 'discount')
+            ->where('status', 'active')
+            ->get()
+            ->map(function ($package) {
+                $discountedPrice = $package->price - ($package->price * ($package->discount / 100));
+                return [
+                    'id' => $package->id,
+                    'name' => $package->name,
+                    'type' => $package->type,
+                    'original_price' => $package->price,
+                    'discount_percentage' => $package->discount,
+                    'final_price' => $discountedPrice,
+                    'duration_days' => $package->duration_days
+                ];
+            });
     }
 }

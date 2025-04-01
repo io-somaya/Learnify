@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -7,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\{Payment, Package, PackageUser, User};
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -80,10 +82,17 @@ class PaymentController extends Controller
                 throw new \Exception('Failed to generate payment key');
             }
 
-            // Create pending payment record
-            $payment = Payment::create([
+            // Step 4: Create Payment Record
+            $packageUser = PackageUser::create([
                 'user_id' => $user->id,
                 'package_id' => $package->id,
+                'start_date' => now(),
+                'end_date' => now()->addDays($package->duration_days),
+                'status' => 'pending'
+            ]);
+
+            $payment = Payment::create([
+                'package_user_id' => $packageUser->id,
                 'amount' => $package->price,
                 'transaction_reference' => $order['id'],
                 'status' => 'pending'
@@ -102,7 +111,6 @@ class PaymentController extends Controller
             Log::info('Payment Initiation Success', $responseData);
 
             return response()->json($responseData);
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Validation Error', [
                 'errors' => $e->errors(),
@@ -114,7 +122,6 @@ class PaymentController extends Controller
                 'message' => 'Validation failed',
                 'errors' => $e->errors()
             ], 422);
-
         } catch (\Exception $e) {
             Log::error('Payment Initiation Error', [
                 'message' => $e->getMessage(),
@@ -236,7 +243,7 @@ class PaymentController extends Controller
     public function verify(Request $request)
     {
         Log::info('Payment Verification Request', $request->all());
-    
+
         try {
             // Extensive validation
             $hmac = $request->input('hmac');
@@ -256,21 +263,21 @@ class PaymentController extends Controller
 
             // Update payment status
             if ($success) {
-                //  Updated payment status to completed
-                $payment->update(['status' => 'completed']);
-    
-                // Added subscription creation after successful payment
-                PackageUser::create([
-                    'user_id' => $payment->user_id,
-                    'package_id' => $payment->package_id,
-                    'start_date' => now(),
-                    'end_date' => now()->addDays($payment->package->duration_days),
-                ]);
-    
-                
+                DB::transaction(function () use ($payment) {
+                    // Update payment status
+                    $payment->update(['status' => 'completed']);
+
+                    // Activate the subscription
+                    $payment->packageUser->update([
+                        'status' => 'active',
+                        'start_date' => now(),
+                        'end_date' => now()->addDays($payment->packageUser->package->duration_days)
+                    ]);
+                });
+
                 return response()->json([
                     'success' => true,
-                    'message' => 'Payment verified and subscription created successfully'
+                    'message' => 'Payment verified and subscription activated successfully'
                 ]);
             } else {
                 $payment->update(['status' => 'failed']);
@@ -321,5 +328,4 @@ class PaymentController extends Controller
         Log::info('Paymob Callback', $request->all());
         return response()->json(['success' => true]);
     }
-
 }

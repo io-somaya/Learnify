@@ -12,7 +12,8 @@ class PackageUser extends Model
         'user_id',
         'package_id',
         'start_date',
-        'end_date'
+        'end_date',
+        'status',
     ];
 
     protected $casts = [
@@ -32,7 +33,7 @@ class PackageUser extends Model
         return $this->belongsTo(Package::class);
     }
 
-    // A PackageUser record  have one Payment record
+    // A PackageUser record  have one Payment record(1:1)
     public function payment()
     {
         return $this->hasOne(Payment::class);
