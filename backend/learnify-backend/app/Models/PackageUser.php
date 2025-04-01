@@ -9,7 +9,10 @@ class PackageUser extends Model
     protected $table = 'package_user';
 
     protected $fillable = [
-        'user_id', 'package_id', 'start_date', 'end_date'
+        'user_id',
+        'package_id',
+        'start_date',
+        'end_date'
     ];
 
     protected $casts = [
@@ -29,9 +32,9 @@ class PackageUser extends Model
         return $this->belongsTo(Package::class);
     }
 
-    // Relationship: PackageUser has many Payments(BEC STUDENT CAN DIVIDE PAYMENT)
-    public function payments()
+    // A PackageUser record  have one Payment record
+    public function payment()
     {
-        return $this->hasMany(Payment::class);
+        return $this->hasOne(Payment::class);
     }
 }
