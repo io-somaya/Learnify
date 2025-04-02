@@ -1,0 +1,30 @@
+<!-- src/app/components/payment/payment.component.html -->
+<div class="payment-container">
+  <h2>Choose a Subscription Package</h2>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div class="packages-grid">
+    <!-- Replace with your actual packages data -->
+    <div class="package-card" *ngFor="let pkg of [
+      {id: 1, name: 'Basic', price: 99, duration_days: 30, description: 'Basic package with essential features'},
+      {id: 2, name: 'Standard', price: 199, duration_days: 60, description: 'Standard package with more features'},
+      {id: 3, name: 'Premium', price: 299, duration_days: 90, description: 'Premium package with all features'}
+    ]" [class.selected]="selectedPackageId === pkg.id" (click)="selectPackage(pkg.id)">
+      <h3>{{ pkg.name }}</h3>
+      <p>{{ pkg.description }}</p>
+      <div class="package-details">
+        <span class="price">{{ pkg.price | currency:'EGP':'symbol':'1.0-0' }}</span>
+        <span class="duration">{{ pkg.duration_days }} days</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-container">
+    <button class="payment-button" [disabled]="!selectedPackageId || loading" (click)="initiatePayment()">
+      {{ loading ? 'Processing...' : 'Proceed to Payment' }}
+    </button>
+  </div>
+</div>
