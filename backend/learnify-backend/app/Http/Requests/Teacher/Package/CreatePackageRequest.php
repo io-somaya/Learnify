@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Teacher;
+namespace App\Http\Requests\Teacher\Package;
 
 use App\Http\Requests\FormRequest;
 

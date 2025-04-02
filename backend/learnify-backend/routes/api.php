@@ -53,7 +53,7 @@ Route::post('/admin/login', [AuthController::class, 'adminLogin'])
 Route::middleware('auth:sanctum')->group(function () {
     // Common routes for all authenticated users
     Route::post('/logout', [AuthController::class, 'logout']);
-    
+
     // Profile management
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'show']);
@@ -61,28 +61,28 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/password', [ProfileController::class, 'updatePassword']);
         Route::post('/photo', [ProfileController::class, 'updatePhoto']);
     });
-    
+
     // Payments
     Route::post('/payments/initiate', [PaymentController::class, 'initiate']);
     Route::get('/payments/history', [PaymentController::class, 'history']);
-    
+
     // Subscriptions
     Route::prefix('subscriptions')->group(function () {
         Route::post('/purchase', [SubscriptionController::class, 'purchase']);
         Route::get('/current', [SubscriptionController::class, 'currentSubscription']);
         Route::post('/renew', [SubscriptionController::class, 'renewSubscription']);
     });
-    
+
     /*
     |--------------------------------------------------------------------------
     | Teacher Routes (Admin)
     |--------------------------------------------------------------------------
     */
-    
+
     // Route::middleware("role:teacher")->prefix('admin')->group(function () {
     Route::middleware(\App\Http\Middleware\CheckRole::class . ':teacher')->prefix('admin')->group(function () {
         Route::post('/change-password', [AuthController::class, 'changePassword']);
-        
+
         // Dashboard
         Route::prefix('dashboard')->group(function () {
             Route::get('/teacher', [DashboardController::class, 'teacherDashboard']);
@@ -91,10 +91,12 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/teacher/performance', [DashboardController::class, 'studentsPerformance']);
         });
 
-        Route::post('packages', [TeacherController::class, 'storePackage']);
+
+        //package
+        Route::apiResource('packages', PackageController::class);
 
     });
-    
+
     /*
     |--------------------------------------------------------------------------
     | Student Routes
@@ -107,7 +109,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/student/exams', [DashboardController::class, 'upcomingExams']);
         Route::get('/student/activities', [DashboardController::class, 'recentActivities']);
     });
-    
+
     /*
     |--------------------------------------------------------------------------
     | Assistant Routes
@@ -118,7 +120,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/assistant/tasks', [DashboardController::class, 'assignedTasks']);
         Route::get('/assistant/inquiries', [DashboardController::class, 'studentInquiries']);
     });
-    
+
     // Shared routes between student and assistant
     Route::middleware('role:student,assistant')->group(function () {
         Route::put('/user/update', [AuthController::class, 'updateUser']);
