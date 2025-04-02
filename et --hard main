@@ -1,0 +1,20 @@
+[33mcommit 85277cf498da2b37db33f59fa31620f901e43ead[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mbackend-payment-fix[m[33m, [m[1;32mmahmoud-E[m[33m)[m
+Author: Mado007 <mahmodeid2019@gmail.com>
+Date:   Wed Apr 2 18:52:44 2025 +0200
+
+    Fix payment callrediction + refactor payment controller
+
+backend/learnify-backend/app/Http/Controllers/PaymentController.php
+backend/learnify-backend/app/Http/Controllers/Subscription/SubscriptionController.php
+backend/learnify-backend/app/Http/Middleware/SubscriptionPackage.php
+backend/learnify-backend/app/Models/Package.php
+backend/learnify-backend/app/Models/PackageUser.php
+backend/learnify-backend/app/Models/Payment.php
+backend/learnify-backend/app/Models/User.php
+backend/learnify-backend/config/app.php
+backend/learnify-backend/config/auth.php
+backend/learnify-backend/config/nafezly-payments.php
+backend/learnify-backend/database/migrations/2025_03_17_025820_create_package_user_table.php
+backend/learnify-backend/database/migrations/2025_03_19_001640_create_payments_table.php
+backend/learnify-backend/routes/api.php
+backend/learnify-backend/routes/web.php

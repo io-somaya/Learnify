@@ -1,4 +1,5 @@
 <?php
+//backend\learnify-backend\app\Models\Package.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -16,5 +17,11 @@ class Package extends Model
     {
         return $this->belongsToMany(User::class)
             ->withPivot('start_date', 'end_date');
+    }
+
+    // A Package has many PackageUser records
+    public function subscriptions()
+    {
+        return $this->hasMany(PackageUser::class);
     }
 }

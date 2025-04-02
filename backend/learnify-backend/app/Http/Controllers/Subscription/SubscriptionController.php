@@ -14,7 +14,7 @@ class SubscriptionController extends Controller
 {
     use ApiTrait;
 
-    // Purchase subscription 
+    // Purchase subscription
     public function purchase(SubscriptionRequest $request)
     {
         // Check for existing active subscription
@@ -28,7 +28,7 @@ class SubscriptionController extends Controller
 
         // Create subscription
         $package = Package::find($request->package_id);
-       
+
 
         $subscription = PackageUser::create([
             'user_id' => auth()->id(),
