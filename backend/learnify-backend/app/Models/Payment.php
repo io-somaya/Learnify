@@ -6,20 +6,34 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     protected $fillable = [
-        'user_id',
-        'package_id',
-        'amount',
-        'transaction_reference',
-        'status'
+        'package_user_id',
+        'amount_paid',
+        'payment_status',
+        'transaction_reference'
     ];
 
-    public function user()
+    // Cast attributes for proper typing
+    protected $casts = [
+        'amount_paid' => 'decimal:2',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
+    ];
+
+    // Relationship to PackageUser
+    public function packageUser()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(PackageUser::class);
     }
 
-    public function package()
+    // Accessor for payment status
+    public function getStatusAttribute()
     {
-        return $this->belongsTo(Package::class);
+        return $this->payment_status;
+    }
+
+    // Mutator for payment status
+    public function setStatusAttribute($value)
+    {
+        $this->attributes['payment_status'] = $value;
     }
 }

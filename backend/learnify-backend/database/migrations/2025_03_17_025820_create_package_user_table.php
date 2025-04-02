@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignId('package_id')->constrained()->onDelete('cascade');
             $table->date('start_date');
             $table->date('end_date');
+            $table->enum('status', ['pending', 'active', 'expired'])->default('pending');
             $table->timestamps();
         });
     }
