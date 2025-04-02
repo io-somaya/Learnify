@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PackageUser extends Model
 {
-    protected $table = 'package_user';
+
+   protected $table = 'package_user';
 
     protected $fillable = [
         'user_id',
@@ -21,10 +22,13 @@ class PackageUser extends Model
         'end_date' => 'datetime'
     ];
 
+    // Relationship: PackageUser belongs to a User
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
 
     public function package()
     {

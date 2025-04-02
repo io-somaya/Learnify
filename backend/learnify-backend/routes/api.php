@@ -16,7 +16,6 @@ use App\Http\Controllers\Teacher\TeacherSubscription\TeacherController;
 use Illuminate\Http\Request;
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Public Routes (No Authentication Required)
@@ -51,7 +50,6 @@ Route::middleware(['auth:sanctum', 'role:teacher'])->group(function () {
 Route::middleware(['auth:sanctum', 'role:student,assistant'])->group(function () {
     Route::put('/user/update', [AuthController::class, 'updateUser']);
 });
-
 
 
 // Admin login
