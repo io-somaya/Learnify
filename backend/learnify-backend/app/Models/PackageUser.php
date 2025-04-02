@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PackageUser extends Model
 {
-    protected $table = 'package_user';
+
+   protected $table = 'package_user';
 
     protected $fillable = [
         'user_id',
@@ -21,18 +22,22 @@ class PackageUser extends Model
         'end_date' => 'datetime'
     ];
 
+    // Relationship: PackageUser belongs to a User
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+
     public function package()
     {
         return $this->belongsTo(Package::class);
     }
-    // Relationship: PackageUser has many Payments(BEC STUDENT CAN DIVIDE PAYMENT)
-    public function payments()
+
+    // A PackageUser record  have one Payment record(1:1)
+    public function payment()
     {
-        return $this->hasMany(Payment::class);
+        return $this->hasOne(Payment::class);
     }
 }

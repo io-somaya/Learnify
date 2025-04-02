@@ -1,5 +1,4 @@
 <?php
-//backend\learnify-backend\app\Models\Package.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
