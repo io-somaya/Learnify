@@ -6,11 +6,10 @@ import { AuthService } from '../../services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
-  selector: 'app-forgot-password',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule],
-  templateUrl: './forgot-password.component.html',
-  styleUrl: './forgot-password.component.css'
+    selector: 'app-forgot-password',
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule],
+    templateUrl: './forgot-password.component.html',
+    styleUrl: './forgot-password.component.css'
 })
 export class ForgotPasswordComponent {
   forgotPasswordForm: FormGroup;

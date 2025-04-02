@@ -4,11 +4,10 @@ import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-check-email',
-  standalone: true,
-  imports: [NgIf],
-  templateUrl: './check-email.component.html',
-  styleUrls: ['./check-email.component.css']
+    selector: 'app-check-email',
+    imports: [NgIf],
+    templateUrl: './check-email.component.html',
+    styleUrls: ['./check-email.component.css']
 })
 export class CheckEmailComponent {
   email: string = '';

@@ -7,11 +7,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastService } from '../../services/toast.service';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule],
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;

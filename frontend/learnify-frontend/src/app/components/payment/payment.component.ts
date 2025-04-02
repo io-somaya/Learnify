@@ -3,9 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentService } from '../../services/payment.service';
 
 @Component({
-  selector: 'app-payment',
-  templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.scss']
+    selector: 'app-payment',
+    templateUrl: './payment.component.html',
+    styleUrls: ['./payment.component.scss'],
+    standalone: false
 })
 export class PaymentComponent implements OnInit {
   packages: any[] = [];

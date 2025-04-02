@@ -12,17 +12,16 @@ import { HttpClientModule } from '@angular/common/http';
  * Accessible through a link sent via email that contains a token and email parameters.
  */
 @Component({
-  selector: 'app-reset-password',
-  standalone: true,
-  imports: [
-    CommonModule, 
-    FormsModule, 
-    ReactiveFormsModule, 
-    RouterModule, 
-    HttpClientModule
-  ],
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.css']
+    selector: 'app-reset-password',
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        HttpClientModule
+    ],
+    templateUrl: './reset-password.component.html',
+    styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
   // Form for password reset

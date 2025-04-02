@@ -10,19 +10,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [
-    CommonModule, 
-    FormsModule, 
-    ReactiveFormsModule, 
-    RouterModule, 
-    MdbFormsModule, 
-    MdbRippleModule, 
-    HttpClientModule
-  ],
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+    selector: 'app-register',
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        MdbFormsModule,
+        MdbRippleModule,
+        HttpClientModule
+    ],
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnDestroy { 
   registerForm: FormGroup;

@@ -5,9 +5,10 @@ import { ToastService } from '../services/toast.service'; // Import ToastService
 import { ToastComponent } from './toast.component';
 
 @Component({
-  selector: 'app-test-toast',
-  templateUrl: './toast.component.html',
-  styleUrls: ['./toast.component.scss']
+    selector: 'app-test-toast',
+    templateUrl: './toast.component.html',
+    styleUrls: ['./toast.component.scss'],
+    standalone: false
 })
 export class TestToastComponent {
   constructor(public toastService: ToastService) { }

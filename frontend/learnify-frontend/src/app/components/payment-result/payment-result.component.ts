@@ -3,11 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-payment-result',
-  standalone: true, // Add this if using standalone components
-  imports: [CommonModule], // Add this line
-  templateUrl: './payment-result.component.html',
-  styleUrls: ['./payment-result.component.scss']
+    selector: 'app-payment-result', // Add this if using standalone components
+    imports: [CommonModule], // Add this line
+    templateUrl: './payment-result.component.html',
+    styleUrls: ['./payment-result.component.scss']
 })
 export class PaymentResultComponent implements OnInit {
   status: string = 'unknown';
