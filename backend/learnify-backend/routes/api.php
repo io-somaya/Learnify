@@ -127,6 +127,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix("subscription")->controller(TeacherSubscriptionController::class)
         ->group(function (){
             Route::get("/","index");
+            Route::get("/export","export");
         });
 
     });

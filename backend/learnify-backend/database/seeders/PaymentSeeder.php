@@ -10,9 +10,9 @@ class PaymentSeeder extends Seeder
     {
         Payment::create([
             'package_user_id' => 1,
-            'amount' => 29.99,
+            'amount_paid' => 29.99,
             'transaction_reference' => 'PAY-' . time(),
-            'status' => 'completed'
+            'payment_status' => 'completed'
         ]);
     }
 }
