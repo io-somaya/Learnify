@@ -12,7 +12,7 @@ use App\Http\Controllers\Subscription\SubscriptionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Teacher\TeacherSubscription\TeacherController;
-
+use App\Http\Controllers\Teacher\TeacherSubscription\TeacherSubscriptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,7 +79,6 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    // Route::middleware("role:teacher")->prefix('admin')->group(function () {
     Route::middleware(\App\Http\Middleware\CheckRole::class . ':teacher')->prefix('admin')->group(function () {
         Route::post('/change-password', [AuthController::class, 'changePassword']);
 
@@ -91,9 +90,14 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/teacher/performance', [DashboardController::class, 'studentsPerformance']);
         });
 
-
         //package
         Route::apiResource('packages', PackageController::class);
+
+        //Subscription 
+        Route::prefix("subscription")->controller(TeacherSubscriptionController::class)
+        ->group(function (){
+            Route::get("/","index");
+        });
 
     });
 
