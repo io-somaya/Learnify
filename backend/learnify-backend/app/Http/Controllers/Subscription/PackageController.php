@@ -42,6 +42,12 @@ class PackageController extends Controller
         return $this->apiResponse(201, 'Package created successfully.', null, $package);
     }
 
+    // Show a specific package
+    public function show(Package $package) 
+    {
+        return $this->apiResponse(200, 'Package retrieved successfully.', null, $package);
+    }
+
     // Update existing package
     public function update(UpdatePackageRequest $request, Package $package)
     {
