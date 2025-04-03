@@ -13,9 +13,9 @@ return new class extends Migration {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('package_user_id')->constrained('package_user')->onDelete('cascade');
-            $table->decimal('amount', 10, 2);
+            $table->decimal('amount_paid', 10, 2); // Fixed column name
             $table->string('transaction_reference');
-            $table->enum('status', ['pending', 'completed', 'failed'])->default('pending');
+            $table->enum('payment_status', ['pending', 'completed', 'failed', 'refunded'])->default('pending');
             $table->timestamps();
         });
     }

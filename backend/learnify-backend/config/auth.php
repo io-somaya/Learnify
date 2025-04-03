@@ -89,7 +89,7 @@ return [
     |
     | The throttle setting is the number of seconds a user must wait before
     | generating more password reset tokens. This prevents the user from
-    | quickly generating a very large amount of password reset tokens.
+    | quickly generating a very large amount_paid of password reset tokens.
     |
     */
 
@@ -110,7 +110,7 @@ return [
     | Password Confirmation Timeout
     |--------------------------------------------------------------------------
     |
-    | Here you may define the amount of seconds before a password confirmation
+    | Here you may define the amount_paid of seconds before a password confirmation
     | window expires and users are asked to re-enter their password via the
     | confirmation screen. By default, the timeout lasts for three hours.
     |

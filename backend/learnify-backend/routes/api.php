@@ -20,6 +20,7 @@ use App\Http\Controllers\Teacher\TeacherSubscription\TeacherSubscriptionControll
 |--------------------------------------------------------------------------
 */
 
+
 // Authentication routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -35,10 +36,19 @@ Route::post('/email/resend-verification', [AuthVerificationController::class, 'r
 // Public packages listing
 Route::get('/packages', [PackageController::class, 'index']);
 
-// Payment callback routes
-Route::post('/payments/verifyTransaction', [PaymentController::class, 'verify']);
-Route::post('/payments/callback', [PaymentController::class, 'callback']);
-Route::get('/payments/callback', [PaymentController::class, 'callbackRedirect']);
+
+// Admin routes
+Route::post('/admin/login', [AuthController::class, 'adminLogin'])
+    ->middleware('role:teacher');
+
+Route::middleware(['auth:sanctum', 'role:teacher'])->group(function () {
+    Route::post('/admin/change-password', [AuthController::class, 'changePassword']);
+});
+
+Route::middleware(['auth:sanctum', 'role:student,assistant'])->group(function () {
+    Route::put('/user/update', [AuthController::class, 'updateUser']);
+});
+
 
 // Admin login
 Route::post('/admin/login', [AuthController::class, 'adminLogin'])
@@ -61,17 +71,37 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/password', [ProfileController::class, 'updatePassword']);
         Route::post('/photo', [ProfileController::class, 'updatePhoto']);
     });
+});
 
-    // Payments
-    Route::post('/payments/initiate', [PaymentController::class, 'initiate']);
-    Route::get('/payments/history', [PaymentController::class, 'history']);
 
+// payment routes
+Route::prefix('payments')->group(function () {
+    // Protected routes (require authentication)
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/initiate', [PaymentController::class, 'initiate']);
+        Route::get('/history', [PaymentController::class, 'history']);
+    });
+
+    // Public callback routes
+    Route::post('/verify', [PaymentController::class, 'verify']);
+    Route::post('/callback', [PaymentController::class, 'callback']);
+    Route::get('/callback-redirect', [PaymentController::class, 'callbackRedirect']);
+
+    // Payment info
+    Route::get('/{id}', [PaymentController::class, 'getPayment']);
+});
+
+
+// Protected routes (require authentication)
+Route::middleware('auth:sanctum')->group(function () {
+  
     // Subscriptions
     Route::prefix('subscriptions')->group(function () {
         Route::post('/purchase', [SubscriptionController::class, 'purchase']);
         Route::get('/current', [SubscriptionController::class, 'currentSubscription']);
         Route::post('/renew', [SubscriptionController::class, 'renewSubscription']);
     });
+
 
     /*
     |--------------------------------------------------------------------------
