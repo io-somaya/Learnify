@@ -9,6 +9,7 @@ import { authGuard } from './guards/auth.guard';
 import { VerifyEmailComponent } from './formes/verify-email/verify-email.component';
 import { CheckEmailComponent } from './formes/check-email/check-email.component';
 import { ToastComponent } from './toast/toast.component';
+import { PackagesComponent } from './packages&payments/packages/packages/packages.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -46,6 +47,11 @@ export const routes: Routes = [
         path: "reset-password",
         component: ResetPasswordComponent,
         title: "Reset Password",
+    },
+    {
+        path:"packages",
+        component: PackagesComponent,
+        title: "Packages",
     },
 
     // Admin routes (protected)
