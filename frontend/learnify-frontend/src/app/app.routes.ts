@@ -10,6 +10,8 @@ import { VerifyEmailComponent } from './formes/verify-email/verify-email.compone
 import { CheckEmailComponent } from './formes/check-email/check-email.component';
 import { ToastComponent } from './toast/toast.component';
 import { PackagesComponent } from './packages&payments/packages/packages/packages.component';
+import { ProfileComponent } from './student/profile/profile.component';
+import { EditProfileComponent } from './student/edit-profile/edit-profile.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -67,7 +69,25 @@ export const routes: Routes = [
         }]
     },
 
-    // User routes
+    //User routes
+    {
+      path:"profile",
+      component: LayoutComponent,
+      title: "Profile",
+      children: [{
+        path: "",
+        component: ProfileComponent,
+        title: "Profile"
+      },
+      {
+        path: "edit",
+        component:EditProfileComponent,
+        title: "Edit Profile"
+      }
+    ]
+
+
+    },
 
     // Other routes
     {
