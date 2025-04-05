@@ -61,7 +61,6 @@ class SubscriptionController extends Controller
                 'package' => [
                     'id' => $subscription->package->id,
                     'name' => $subscription->package->name,
-                    'type' => $subscription->package->type,
                 ],
                 'status' => $subscription->status,
                 'start_date' => $subscription->start_date->format('Y-m-d'),
@@ -98,18 +97,13 @@ class SubscriptionController extends Controller
 
     private function getRenewalOptions()
     {
-        return Package::select('id', 'name', 'type', 'price', 'duration_days', 'discount')
-            ->where('status', 'active')
+        return Package::select('id', 'name', 'price', 'duration_days')
             ->get()
             ->map(function ($package) {
-                $discountedPrice = $package->price - ($package->price * ($package->discount / 100));
                 return [
                     'id' => $package->id,
                     'name' => $package->name,
-                    'type' => $package->type,
-                    'original_price' => $package->price,
-                    'discount_percentage' => $package->discount,
-                    'final_price' => $discountedPrice,
+                    'price' => $package->price,
                     'duration_days' => $package->duration_days
                 ];
             });

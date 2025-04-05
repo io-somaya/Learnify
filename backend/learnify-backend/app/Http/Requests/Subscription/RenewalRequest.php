@@ -20,7 +20,7 @@ class RenewalRequest extends FormRequest
             'package_id' => [
                 'required',
                 'exists:packages,id',
-                //Custom validation to prevent duplicate subscriptions
+                // Custom validation to prevent duplicate subscriptions
                 function ($attribute, $value, $fail)
                 {
                     if (PackageUser::where('user_id', auth()->id())
