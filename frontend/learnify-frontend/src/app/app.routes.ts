@@ -15,6 +15,8 @@ import { EditProfileComponent } from './student/edit-profile/edit-profile.compon
 import { AdminLoginComponent } from './formes/admin-login/admin-login.component';
 import { PaymentResultComponent } from './packages&payments/payments/payment-result/payment-result.component';
 import { MakePackagesComponent } from './packages&payments/packages/make-packages/make-packages.component';
+import { PackageUpdateComponent } from './packages&payments/packages/package-update/package-update.component';
+import { PackageListComponent } from './packages&payments/packages/package-list/package-list.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -24,7 +26,7 @@ export const routes: Routes = [
         title: "Login",
     },
     {
-        path:"toast",
+        path: "toast",
         component: ToastComponent,
         title: 'Toast'
     },
@@ -54,7 +56,7 @@ export const routes: Routes = [
         title: "Reset Password",
     },
     {
-        path:"packages",
+        path: "packages",
         component: PackagesComponent,
         title: "Packages",
     },
@@ -75,12 +77,21 @@ export const routes: Routes = [
             component: DashboardComponent,
             title: "Dashboard"
         },
-    {
-        path: "create-package",
-        component: MakePackagesComponent,
-        title: "Create Package"
-    }]
-    },{
+        {
+            path: "create-package",
+            component: MakePackagesComponent,
+            title: "Create Package"
+        }, {
+            path: "edit-package/:id",
+            component: PackageUpdateComponent,
+            title: "Edit Package"
+        },
+        {
+            path: "packages-list",
+            component: PackageListComponent,
+            title: "Packages List"
+        }]
+    }, {
         path: "admin/login",
         component: AdminLoginComponent,
         title: "Admin Login"
@@ -88,20 +99,20 @@ export const routes: Routes = [
 
     //User routes
     {
-      path:"profile",
-      component: LayoutComponent,
-      title: "Profile",
-      children: [{
-        path: "",
-        component: ProfileComponent,
-        title: "Profile"
-      },
-      {
-        path: "edit",
-        component:EditProfileComponent,
-        title: "Edit Profile"
-      }
-    ]
+        path: "profile",
+        component: LayoutComponent,
+        title: "Profile",
+        children: [{
+            path: "",
+            component: ProfileComponent,
+            title: "Profile"
+        },
+        {
+            path: "edit",
+            component: EditProfileComponent,
+            title: "Edit Profile"
+        }
+        ]
 
 
     },

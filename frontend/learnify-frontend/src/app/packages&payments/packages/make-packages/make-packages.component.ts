@@ -46,7 +46,7 @@ export class MakePackagesComponent implements OnInit {
       next: (createdPackage) => {
         console.log('Package created:', createdPackage);
         this.isSubmitting = false;
-        this.router.navigate(['/packages']); // Navigate to packages list
+        this.router.navigate(['/admin/dashboard/packages-list']); // Navigate to packages list
         this.toaster.success('Package created successfully!');
       },
       error: (error) => {
