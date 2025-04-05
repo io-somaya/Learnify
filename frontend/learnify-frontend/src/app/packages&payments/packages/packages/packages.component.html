@@ -1,0 +1,29 @@
+@if (isLoading) {
+  <div class="loading">Loading packages...</div>
+} @else {
+  @if (error) {
+    <div class="alert alert-danger">
+      {{ error }}
+      <!-- <button class="btn btn-link" (click)="retryLoadPackages()">Try Again</button> -->
+    </div>
+  } @else {
+    @if (packages.length === 0) {
+      <div class="no-packages">No packages available.</div>
+    } @else {
+      <ul class="package-list">
+        @for (package of packages; track package.id) {
+          <li>
+            <span class="package-name">{{ package.name }}</span>
+            <span class="package-description">{{ package.description }}</span>
+            <span class="package-price">{{ package.price | currency }}</span>
+            <span class="package-duration">{{ package.duration }} days</span>
+            <span class="package-id">{{ package.id }}</span>
+
+            <button type="button" class="btn btn-sm btn-primary">Purchase</button>
+            <button type="button" class="btn btn-sm btn-outline-primary">View Details</button>
+          </li>
+        }
+      </ul>
+    }
+  }
+}

@@ -9,8 +9,9 @@ import { authGuard } from './guards/auth.guard';
 import { VerifyEmailComponent } from './formes/verify-email/verify-email.component';
 import { CheckEmailComponent } from './formes/check-email/check-email.component';
 import { ToastComponent } from './toast/toast.component';
-import { PaymentComponent } from './components/payment/payment.component';
-import { PaymentResultComponent } from './components/payment-result/payment-result.component';
+import { PackagesComponent } from './packages&payments/packages/packages/packages.component';
+import { ProfileComponent } from './student/profile/profile.component';
+import { EditProfileComponent } from './student/edit-profile/edit-profile.component';
 
 export const routes: Routes = [
   // Auth routes
@@ -49,6 +50,11 @@ export const routes: Routes = [
     component: ResetPasswordComponent,
     title: "Reset Password",
   },
+  {
+    path: "packages",
+    component: PackagesComponent,
+    title: "Packages",
+  },
 
   // Admin routes (protected)
   {
@@ -62,9 +68,26 @@ export const routes: Routes = [
       title: "Dashboard"
     }]
   },
-  { path: 'payment', component: PaymentComponent },
-  { path: 'payment/result', component: PaymentResultComponent },
-  // User routes
+
+  //User routes
+  {
+    path: "profile",
+    component: LayoutComponent,
+    title: "Profile",
+    children: [{
+      path: "",
+      component: ProfileComponent,
+      title: "Profile"
+    },
+    {
+      path: "edit",
+      component: EditProfileComponent,
+      title: "Edit Profile"
+    }
+    ]
+
+
+  },
 
   // Other routes
   {

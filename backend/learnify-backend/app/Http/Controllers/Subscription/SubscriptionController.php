@@ -14,16 +14,12 @@ class SubscriptionController extends Controller
 {
     use ApiTrait;
 
-
-    // Purchase subscription
-
     protected $paymentController;
 
     public function __construct(PaymentController $paymentController)
     {
         $this->paymentController = $paymentController;
     }
-
 
     public function purchase(SubscriptionRequest $request)
     {
@@ -96,29 +92,6 @@ class SubscriptionController extends Controller
         }
     }
 
-
-        // Create subscription
-        $package = Package::find($request->package_id);
-
-
-        $subscription = PackageUser::create([
-            'user_id' => auth()->id(),
-            'package_id' => $package->id,
-            'start_date' => now(),
-            'end_date' => now()->addDays($package->duration_days),
-        ]);
-
-        // Create Dummy payment
-        // Attach payment to subscription
-        $payment = $subscription->payments()->create([
-            'amount_paid' => $package->price - ($package->price * ($package->discount / 100)),
-        ]);
-
-        return $this->apiResponse(201, 'Subscription created successfully', null, [
-            'subscription' => $subscription,
-            'payment' => $payment
-        ]);
-
     private function getRenewalOptions()
     {
         return Package::select('id', 'name', 'type', 'price', 'duration_days', 'discount')
@@ -136,6 +109,5 @@ class SubscriptionController extends Controller
                     'duration_days' => $package->duration_days
                 ];
             });
-
     }
 }

@@ -134,13 +134,22 @@ class AuthController extends Controller
 
         $user = $request->user();
 
+        // Check if user is a teacher
         if ($user->role !== 'teacher') {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            Auth::logout(); // Logout the non-teacher user
+            return response()->json([
+                'message' => 'Unauthorized - Only teachers can access this route'
+            ], 403);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // Create token with 'admin' abilities
+        $token = $user->createToken('admin_token', ['admin'])->plainTextToken;
 
-        return response()->json(['token' => $token, 'user' => $user]);
+        return response()->json([
+            'token' => $token,
+            'user' => $user,
+            'redirect' => '/admin/dashboard' // Add redirect path for frontend
+        ]);
     }
     public function changePassword(Request $request)
     {

@@ -1,0 +1,32 @@
+<div class="profile-container">
+    <div *ngIf="isLoading" class="loading">Loading profile...</div>
+    
+    <div *ngIf="error" class="error-alert">
+      {{ error }}
+      <button (click)="fetchProfile()">Retry</button>
+    </div>
+  
+    <div *ngIf="user && !isLoading" class="profile-details">
+      <div class="profile-header">
+        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+        <span class="badge" [class.verified]="user.email_verified_at">
+          {{ user.email_verified_at ? 'Verified' : 'Not Verified' }}
+        </span>
+      </div>
+  
+      <div class="profile-info">
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Phone:</strong> {{ user.phone_number }}</p>
+        <p><strong>Parent Phone:</strong> {{ user.parent_phone }}</p>
+        <p><strong>Grade:</strong> {{ user.grade }}</p>
+        <p><strong>Status:</strong> {{ user.status | titlecase }}</p>
+      </div>
+  
+      <div class="profile-meta">
+        <small>Member since: {{ user.created_at | date }}</small>
+        <small>Last updated: {{ user.updated_at | date }}</small>
+        <br>
+        <button (click)="editProfile()">Edit Profile</button>
+      </div>
+    </div>
+  </div>

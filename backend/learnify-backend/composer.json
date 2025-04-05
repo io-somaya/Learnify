@@ -11,6 +11,7 @@
         "laravel/framework": "^11.31",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "maatwebsite/excel": "^3.1",
         "nafezly/payments": "^2.7",
         "sendgrid/sendgrid": "^8.1"
     },

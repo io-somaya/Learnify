@@ -12,9 +12,7 @@ use App\Http\Controllers\Subscription\SubscriptionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Teacher\TeacherSubscription\TeacherController;
-
-use Illuminate\Http\Request;
-
+use App\Http\Controllers\Teacher\TeacherSubscription\TeacherSubscriptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,8 +51,14 @@ Route::middleware(['auth:sanctum', 'role:student,assistant'])->group(function ()
 
 
 // Admin login
-Route::post('/admin/login', [AuthController::class, 'adminLogin'])
-    ->middleware('role:teacher');
+Route::prefix('admin')->group(function () {
+    Route::post('/login', [AuthController::class, 'adminLogin']);
+
+    // Other admin routes protected by teacher role
+    Route::middleware(['auth:sanctum', 'role:teacher'])->group(function () {
+        // Add your admin routes here
+    });
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -111,7 +115,6 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    // Route::middleware("role:teacher")->prefix('admin')->group(function () {
     Route::middleware(\App\Http\Middleware\CheckRole::class . ':teacher')->prefix('admin')->group(function () {
         Route::post('/change-password', [AuthController::class, 'changePassword']);
 
@@ -123,9 +126,15 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/teacher/performance', [DashboardController::class, 'studentsPerformance']);
         });
 
-
         //package
         Route::apiResource('packages', PackageController::class);
+
+        //Subscription
+        Route::prefix("subscription")->controller(TeacherSubscriptionController::class)
+            ->group(function () {
+                Route::get("/", "index");
+                Route::get("/export", "export");
+            });
 
     });
 
