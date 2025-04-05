@@ -51,8 +51,14 @@ Route::middleware(['auth:sanctum', 'role:student,assistant'])->group(function ()
 
 
 // Admin login
-Route::post('/admin/login', [AuthController::class, 'adminLogin'])
-    ->middleware('role:teacher');
+Route::prefix('admin')->group(function () {
+    Route::post('/login', [AuthController::class, 'adminLogin']);
+
+    // Other admin routes protected by teacher role
+    Route::middleware(['auth:sanctum', 'role:teacher'])->group(function () {
+        // Add your admin routes here
+    });
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -94,7 +100,7 @@ Route::prefix('payments')->group(function () {
 
 // Protected routes (require authentication)
 Route::middleware('auth:sanctum')->group(function () {
-  
+
     // Subscriptions
     Route::prefix('subscriptions')->group(function () {
         Route::post('/purchase', [SubscriptionController::class, 'purchase']);
@@ -123,12 +129,12 @@ Route::middleware('auth:sanctum')->group(function () {
         //package
         Route::apiResource('packages', PackageController::class);
 
-        //Subscription 
+        //Subscription
         Route::prefix("subscription")->controller(TeacherSubscriptionController::class)
-        ->group(function (){
-            Route::get("/","index");
-            Route::get("/export","export");
-        });
+            ->group(function () {
+                Route::get("/", "index");
+                Route::get("/export", "export");
+            });
 
     });
 
