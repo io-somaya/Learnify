@@ -14,6 +14,15 @@ export class PackageService {
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders() {
+    const currentUser = localStorage.getItem('currentUser');
+    const token = currentUser ? JSON.parse(currentUser).token : null;
+    
+    return token ? { 
+      'Authorization': `Bearer ${token}` 
+    } : {};
+  }
+
   getPackages(): Observable<IPackage[]> {
     return this.http.get<{ data: IPackage[] }>(`${this.apiUrl}/packages`).pipe(
       tap((res) => {
@@ -24,7 +33,45 @@ export class PackageService {
     );
   }
   
-  
+createPackage(packageData: Partial<IPackage>): Observable<IPackage> {
+  return this.http.post<{ data: IPackage }>(
+    `${this.apiUrl}/admin/packages`,
+    packageData,
+    { headers: this.getAuthHeaders() }
+  ).pipe(
+    tap((res) => {
+      console.log('Created package:', res.data);
+    }),
+    map((res) => res.data),
+    catchError(this.handleError)
+  );
+}
+
+  updatePackage(id: number, packageData: Partial<IPackage>): Observable<IPackage> {
+    return this.http.put<{ data: IPackage }>(
+      `${this.apiUrl}/packages/${id}`, 
+      packageData,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap((res) => {
+        console.log('Updated package:', res.data);
+      }),
+      map((res) => res.data),
+      catchError(this.handleError)
+    );
+  }
+
+  deletePackage(id: number): Observable<any> {
+    return this.http.delete(
+      `${this.apiUrl}/packages/${id}`,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap((res) => {
+        console.log('Delete response:', res);
+      }),
+      catchError(this.handleError)
+    );
+  }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred!';

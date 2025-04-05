@@ -14,6 +14,7 @@ import { ProfileComponent } from './student/profile/profile.component';
 import { EditProfileComponent } from './student/edit-profile/edit-profile.component';
 import { AdminLoginComponent } from './formes/admin-login/admin-login.component';
 import { PaymentResultComponent } from './packages&payments/payments/payment-result/payment-result.component';
+import { MakePackagesComponent } from './packages&payments/packages/make-packages/make-packages.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -73,7 +74,12 @@ export const routes: Routes = [
             path: "",
             component: DashboardComponent,
             title: "Dashboard"
-        }]
+        },
+    {
+        path: "create-package",
+        component: MakePackagesComponent,
+        title: "Create Package"
+    }]
     },{
         path: "admin/login",
         component: AdminLoginComponent,
