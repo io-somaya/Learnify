@@ -1,0 +1,78 @@
+<div class="container">
+    <h2>Update Package</h2>
+    
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p>Loading package data...</p>
+    </div>
+  
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+      <button *ngIf="errorMessage" type="button" class="btn-close float-end" (click)="errorMessage = ''"></button>
+    </div>
+  
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+  
+    <form *ngIf="!isLoading && currentPackage" [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="name" class="form-label">Package Name *</label>
+        <input type="text" class="form-control" id="name" formControlName="name"
+               [class.is-invalid]="name?.invalid && (name?.dirty || name?.touched)">
+        <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="invalid-feedback">
+          <div *ngIf="name?.errors?.['required']">Name is required</div>
+          <div *ngIf="name?.errors?.['maxlength']">Name must be ≤100 characters</div>
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="description" class="form-label">Description *</label>
+        <textarea class="form-control" id="description" formControlName="description" rows="4"
+                  [class.is-invalid]="description?.invalid && (description?.dirty || description?.touched)"></textarea>
+        <div *ngIf="description?.invalid && (description?.dirty || description?.touched)" class="invalid-feedback">
+          <div *ngIf="description?.errors?.['required']">Description is required</div>
+          <div *ngIf="description?.errors?.['maxlength']">Description must be ≤500 characters</div>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="price" class="form-label">Price *</label>
+          <div class="input-group">
+            <span class="input-group-text">$</span>
+            <input type="number" class="form-control" id="price" formControlName="price" step="0.01"
+                   [class.is-invalid]="price?.invalid && (price?.dirty || price?.touched)">
+          </div>
+          <div *ngIf="price?.invalid && (price?.dirty || price?.touched)" class="invalid-feedback">
+            <div *ngIf="price?.errors?.['required']">Price is required</div>
+            <div *ngIf="price?.errors?.['min']">Price must be ≥0</div>
+          </div>
+        </div>
+  
+        <div class="col-md-6 mb-3">
+          <label for="duration_days" class="form-label">Duration (days) *</label>
+          <input type="number" class="form-control" id="duration_days" formControlName="duration_days"
+                 [class.is-invalid]="duration_days?.invalid && (duration_days?.dirty || duration_days?.touched)">
+          <div *ngIf="duration_days?.invalid && (duration_days?.dirty || duration_days?.touched)" class="invalid-feedback">
+            <div *ngIf="duration_days?.errors?.['required']">Duration is required</div>
+            <div *ngIf="duration_days?.errors?.['min']">Duration must be ≥1 day</div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="d-flex justify-content-between mt-4">
+        <button type="button" class="btn btn-outline-secondary" (click)="router.navigate(['/admin/dashboard/packages-list'])">
+          <i class="bi bi-arrow-left"></i> Back to List
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="updateForm.invalid || isLoading">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1" role="status"></span>
+          <i *ngIf="!isLoading" class="bi bi-check-circle me-1"></i>
+          {{ isLoading ? 'Updating...' : 'Update Package' }}
+        </button>
+      </div>
+    </form>
+    
+  </div>

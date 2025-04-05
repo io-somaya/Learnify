@@ -10,81 +10,88 @@ import { catchError, tap, map } from 'rxjs/operators';
 })
 export class PackageService {
   private apiUrl = environment.apiUrl || 'http://localhost:8000/api';
-  // public packages: IPackage[] = [];
 
   constructor(private http: HttpClient) {}
 
   private getAuthHeaders() {
+    const token = this.getToken();
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
+  }
+
+  private getToken(): string | null {
     const currentUser = localStorage.getItem('currentUser');
-    const token = currentUser ? JSON.parse(currentUser).token : null;
-    
-    return token ? { 
-      'Authorization': `Bearer ${token}` 
-    } : {};
+    return currentUser ? JSON.parse(currentUser).token : null;
   }
 
   getPackages(): Observable<IPackage[]> {
-    return this.http.get<{ data: IPackage[] }>(`${this.apiUrl}/packages`).pipe(
-      tap((res) => {
-        console.log('Fetched packages:', res.data);
-      }),
-      map((res) => res.data),
+    return this.http.get<{ data: IPackage[] }>(
+      `${this.apiUrl}/admin/packages`,  // Changed to admin endpoint
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(res => console.log('GET Packages Response:', res)),
+      map(res => res.data),
       catchError(this.handleError)
     );
   }
   
-createPackage(packageData: Partial<IPackage>): Observable<IPackage> {
-  return this.http.post<{ data: IPackage }>(
-    `${this.apiUrl}/admin/packages`,
-    packageData,
-    { headers: this.getAuthHeaders() }
-  ).pipe(
-    tap((res) => {
-      console.log('Created package:', res.data);
-    }),
-    map((res) => res.data),
-    catchError(this.handleError)
-  );
-}
+  getPackageById(id: number): Observable<IPackage> {
+    return this.http.get<{ data: IPackage }>(
+      `${this.apiUrl}/admin/packages/${id}`,  // Changed to admin endpoint
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(res => console.log('GET Package Response:', res)),
+      map(res => res.data),
+      catchError(this.handleError)
+    );
+  }
 
-  updatePackage(id: number, packageData: Partial<IPackage>): Observable<IPackage> {
-    return this.http.put<{ data: IPackage }>(
-      `${this.apiUrl}/packages/${id}`, 
+  createPackage(packageData: Partial<IPackage>): Observable<IPackage> {
+    return this.http.post<{ data: IPackage }>(
+      `${this.apiUrl}/admin/packages`,
       packageData,
       { headers: this.getAuthHeaders() }
     ).pipe(
-      tap((res) => {
-        console.log('Updated package:', res.data);
-      }),
-      map((res) => res.data),
+      tap(res => console.log('CREATE Package Response:', res)),
+      map(res => res.data),
+      catchError(this.handleError)
+    );
+  }
+
+  updatePackage(id: number, packageData: Partial<IPackage>): Observable<IPackage> {
+    return this.http.put<{ data: IPackage }>(
+      `${this.apiUrl}/admin/packages/${id}`,
+      packageData,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(res => console.log('UPDATE Package Response:', res)),
+      map(res => res.data),
       catchError(this.handleError)
     );
   }
 
   deletePackage(id: number): Observable<any> {
     return this.http.delete(
-      `${this.apiUrl}/packages/${id}`,
+      `${this.apiUrl}/admin/packages/${id}`,  // Changed to admin endpoint
       { headers: this.getAuthHeaders() }
     ).pipe(
-      tap((res) => {
-        console.log('Delete response:', res);
-      }),
+      tap(res => console.log('DELETE Response:', res)),
       catchError(this.handleError)
     );
   }
 
   private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred!';
+    console.error('API Error:', error);
     
+    let errorMessage = 'An unknown error occurred';
     if (error.error instanceof ErrorEvent) {
-      // Client-side error
-      errorMessage = `Error: ${error.error.message}`;
+      errorMessage = `Client error: ${error.error.message}`;
     } else {
-      // Server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = `Server Error (${error.status}): ${error.error?.message || error.message}`;
+      if (error.status === 401) {
+        errorMessage = 'Session expired. Please login again.';
+      }
     }
     
-    console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }
