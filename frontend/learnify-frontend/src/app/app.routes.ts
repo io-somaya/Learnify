@@ -12,6 +12,7 @@ import { ToastComponent } from './toast/toast.component';
 import { PackagesComponent } from './packages&payments/packages/packages/packages.component';
 import { ProfileComponent } from './student/profile/profile.component';
 import { EditProfileComponent } from './student/edit-profile/edit-profile.component';
+import { AdminLoginComponent } from './formes/admin-login/admin-login.component';
 
 export const routes: Routes = [
   // Auth routes
@@ -67,6 +68,10 @@ export const routes: Routes = [
       component: DashboardComponent,
       title: "Dashboard"
     }]
+  }, {
+    path: "admin/login",
+    component: AdminLoginComponent,
+    title: "Admin Login"
   },
 
   //User routes
