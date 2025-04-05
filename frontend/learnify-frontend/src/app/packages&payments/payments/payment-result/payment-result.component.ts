@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-    selector: 'app-payment-result', // Add this if using standalone components
-    imports: [CommonModule], // Add this line
+    selector: 'app-payment-result', 
+    imports: [CommonModule], 
     standalone: true,
 
     templateUrl: './payment-result.component.html',
