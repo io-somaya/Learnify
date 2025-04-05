@@ -13,6 +13,7 @@ import { PackagesComponent } from './packages&payments/packages/packages/package
 import { ProfileComponent } from './student/profile/profile.component';
 import { EditProfileComponent } from './student/edit-profile/edit-profile.component';
 import { AdminLoginComponent } from './formes/admin-login/admin-login.component';
+import { PaymentResultComponent } from './packages&payments/payments/payment-result/payment-result.component';
 
 export const routes: Routes = [
   // Auth routes
@@ -55,6 +56,11 @@ export const routes: Routes = [
     path: "packages",
     component: PackagesComponent,
     title: "Packages",
+  },
+  {
+    path: "payment-result",
+    component: PaymentResultComponent,
+    title: "Payment Result",
   },
 
   // Admin routes (protected)

@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PackageService } from '../../../services/package.service';
+import { PaymentService } from '../../../services/payment.service';
+import { AuthService } from '../../../services/auth.service';
 import { IPackage } from '../../../Interfaces/IPackage';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-packages',
@@ -15,7 +18,12 @@ export class PackagesComponent implements OnInit {
   isLoading = true;
   error: string | null = null;
 
-  constructor(private packageService: PackageService) {}
+  constructor(
+    private packageService: PackageService,
+    private paymentService: PaymentService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.loadPackages();
@@ -39,10 +47,37 @@ export class PackagesComponent implements OnInit {
     });
   }
 
-  // // Optional: Method to retry loading packages
-  // retryLoadPackages(): void {
-  //   this.isLoading = true;
-  //   this.error = null;
-  //   this.loadPackages();
-  // }
+  purchasePackage(packageId: number): void {
+    if (!this.authService.isAuthenticated()) {
+      // Store the package ID in session storage for after login
+      sessionStorage.setItem('pendingPackageId', packageId.toString());
+      this.router.navigate(['/login'], { 
+        queryParams: { returnUrl: `/packages` }
+      });
+      return;
+    }
+
+    this.paymentService.initiatePayment(packageId).subscribe({
+      next: (response) => {
+        if (response.success && response.payment_url) {
+          window.location.href = response.payment_url;
+        } else {
+          this.error = 'Payment initiation failed. Please try again.';
+        }
+      },
+      error: (err) => {
+        console.error('Error during payment initiation:', err);
+        if (err.status === 401) {
+          this.router.navigate(['/login']);
+        } else {
+          this.error = 'An error occurred during payment initiation. Please try again.';
+        }
+      }
+    });
+  }
+
+  viewDetails(packageId: number): void {
+    // Navigate to package details page
+    this.router.navigate(['/packages', packageId]);
+  }
 }
