@@ -12,19 +12,17 @@
     } @else {
       <ul class="package-list">
         @for (package of packages; track package.id) {
-          <li>
+          <li (click)="purchasePackage(package.id) ">
             <span class="package-name">{{ package.name }}</span>
             <span class="package-description">{{ package.description }}</span>
             <span class="package-price">{{ package.price | currency }}</span>
             <span class="package-duration">{{ package.duration }} days</span>
             
             <div class="action-buttons">
-              <button type="button" class="btn btn-sm btn-primary" (click)="purchasePackage(package.id)">
+              <!-- <button type="button" class="btn btn-sm btn-primary" (click)="purchasePackage(package.id)">
                 Purchase
-              </button>
-              <button type="button" class="btn btn-sm btn-outline-primary" (click)="viewDetails(package.id)">
-                View Details
-              </button>
+              </button> -->
+
             </div>
           </li>
         }

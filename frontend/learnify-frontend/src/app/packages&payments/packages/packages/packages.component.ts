@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PackageService } from '../../../services/package.service';
 import { PaymentService } from '../../../services/payment.service';
+import { AuthService } from '../../../services/auth.service';
 import { IPackage } from '../../../Interfaces/IPackage';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -20,12 +21,12 @@ export class PackagesComponent implements OnInit {
   constructor(
     private packageService: PackageService,
     private paymentService: PaymentService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.loadPackages();
-    // Removed the incorrect line: this.purchasePackage(package.id)
   }
 
   private loadPackages(): void {
@@ -47,25 +48,30 @@ export class PackagesComponent implements OnInit {
   }
 
   purchasePackage(packageId: number): void {
+    if (!this.authService.isAuthenticated()) {
+      // Store the package ID in session storage for after login
+      sessionStorage.setItem('pendingPackageId', packageId.toString());
+      this.router.navigate(['/login'], { 
+        queryParams: { returnUrl: `/packages` }
+      });
+      return;
+    }
+
     this.paymentService.initiatePayment(packageId).subscribe({
       next: (response) => {
         if (response.success && response.payment_url) {
-          // Redirect to payment URL if available
           window.location.href = response.payment_url;
-        } else if (response.success) {
-          // Handle successful payment without redirect URL
-          console.log('Payment initiated successfully:', response);
-          // You might want to show a success message or navigate to a confirmation page
-          // this.router.navigate(['/payment-success'], { queryParams: { paymentId: response.payment?.id } });
         } else {
-          // Handle unsuccessful payment initiation
-          console.error('Payment initiation failed:', response.message);
-          this.error = response.message || 'Failed to initiate payment. Please try again.';
+          this.error = 'Payment initiation failed. Please try again.';
         }
       },
       error: (err) => {
         console.error('Error during payment initiation:', err);
-        this.error = err.message || 'An error occurred during payment initiation. Please try again.';
+        if (err.status === 401) {
+          this.router.navigate(['/login']);
+        } else {
+          this.error = 'An error occurred during payment initiation. Please try again.';
+        }
       }
     });
   }
