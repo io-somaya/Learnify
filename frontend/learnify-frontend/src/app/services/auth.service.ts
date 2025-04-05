@@ -16,6 +16,7 @@ export class AuthService {
   private tokenExpirationTimer: any;
   private isBrowser: boolean;
   public registerEmail: string ;
+  public userRole: string ;
 
   constructor(
     private http: HttpClient,
@@ -52,7 +53,8 @@ export class AuthService {
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.currentUserSubject.next(user);
             this.autoLogout(user.expiresIn * 1000);
-            
+            this.userRole = response.user.role;
+            console.log('eluserrr',this.userRole); 
           }
           return response;
         }),
@@ -62,6 +64,36 @@ export class AuthService {
         })
       );
   }
+
+  adminLogin(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/admin/login`, { email, password })
+      .pipe(
+        tap(response => {
+          if (response && response.token && this.isBrowser) {
+            const user = {
+              email: email,
+              token: response.token,
+              expiresIn: response.expires_in || 3600 // Default: 1 hour
+            };
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.currentUserSubject.next(user);
+            this.autoLogout(user.expiresIn * 1000);
+            console.log(user);
+            this.userRole = response.user.role;
+            console.log('eluserrr',this.userRole); 
+          }
+          return response;
+        }),
+        catchError(error => {
+          console.error('Login error:', error);
+          return throwError(() => new Error(error.error?.message || 'Login failed. Please try again.'));
+        })
+      );
+  }
+
+
+
+
 
   register(userData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/register`, userData)
