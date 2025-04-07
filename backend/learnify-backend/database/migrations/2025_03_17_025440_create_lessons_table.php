@@ -11,17 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exams', function (Blueprint $table) {
+        Schema::create('lessons', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
             $table->text('description')->nullable();
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
-            $table->integer('passing_score')->nullable();
-            $table->enum('exam_type', ['assignment', 'monthly_exam'])->default('assignment');
             $table->enum('grade', ['1', '2', '3'])->nullable();
-            $table->enum('status', ['draft', 'published', 'closed'])->default('draft');
-            $table->foreignId("lesson_id")->constrained()->cascadeOnDelete();
+            $table->text('youtube_embed_code')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exams');
+        Schema::dropIfExists('lessons');
     }
 };

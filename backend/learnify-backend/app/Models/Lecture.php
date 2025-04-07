@@ -7,12 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Lecture extends Model
 {
     protected $fillable = [
-        'title', 'description', 'grade', 'zoom_link', 'schedule_time', 'recorded_video_path', 'status'
+        'title', 'description', 'grade', 'zoom_link', 'start_time',"end_time","day_of_week", 
     ];
 
-    // One-to-Many relationship with Material (1:M)
-    public function materials()
-    {
-        return $this->hasMany(Material::class);
-    }
+ 
 }

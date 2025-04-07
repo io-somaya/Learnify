@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
+        
         Schema::create('lectures', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
-            $table->text('description')->nullable();
-            $table->enum('grade', ['1', '2', '3'])->nullable();
-            $table->string('zoom_link', 255)->nullable();
-            $table->dateTime('schedule_time');
-            $table->string('recorded_video_path', 255)->nullable();
-            $table->enum('status', ['scheduled', 'live', 'completed', 'cancelled'])->default('scheduled');
+            $table->string('title'); 
+            $table->enum('day_of_week', ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']);
+            $table->time('start_time');
+            $table->time('end_time'); 
+            $table->text('description')->nullable(); 
+            $table->enum('grade', ['1', '2', '3']);
+            $table->string('zoom_link')->nullable(); 
+            $table->boolean('is_active')->default(true); 
             $table->timestamps();
         });
     }
