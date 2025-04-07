@@ -3,13 +3,15 @@
     z-index:1;
     position: fixed;
     width:0;
-    height:95%;
+    height:100%;
     top: 15px;
     left: 10px;
     border-radius: 10px;
-  
+    box-shadow: 0 8px 32px rgba(45, 51, 107, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     overflow-y:hidden;
-    background: #FFF2F2;
+    background: #ffffff;
     opacity:0.9;
       transition:all .5s;
       display:flex;
@@ -27,8 +29,12 @@
   #menu-toggle{
       position: fixed;
       top:12px;
-      transition:all .3s;
-      font-size:2em;
+      transition: all 0.3s ease-in-out;
+      font-size: 1.8em;
+      /* background: white; */
+      padding: 8px;
+      border-radius: 8px;
+      /* box-shadow: 0 2px 10px rgba(45, 51, 107, 0.1); */
   }
   #menu-toggle:hover{
     color:#2D336B;
@@ -50,27 +56,69 @@
       transition:all .5s;
       width:100%;
       text-align:center;
+      
   }
   
   .sidebar-nav li{
     line-height:40px;  
       width:100%;
-      transition:all .3s;
-      padding:10px;
+      transition: all 0.3s ease-in-out;
+      padding: 5px 15px;
+      margin: 5px 0;
   }
   
   .sidebar-nav li a {
     display:block;
     text-decoration:none;
-    color:#000000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+
+  }
+
+  .active-link {
+    background: linear-gradient(135deg, var(--medium-purple), var(--dark-purple));
+    color: rgb(255, 255, 255);
+    border-radius: 12px;
+    padding: 12px 15px;
+    font-size: 18px;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(45, 51, 107, 0.15);
+    transform: translateY(-1px);
   }
   
-  .sidebar-nav li:hover{
-    background:#fdfdfd;
-    cursor:pointer;
+
+  .fa-chevron-right{
+    font-size: 10px;
+
+  }
+
+
+  .link-name {
+    font-size: 16px;
+    margin-left: 12px;
+    font-weight: 400;
+    transition: all 0.3s ease;
   
   }
-  .active-link{
-    border:1px solid  rgb(0, 0, 0);
-    border-radius: 10px;
+  .link-name i{
+    margin-right: 15px;
+    font-size: 20px;
   }
+  a { 
+    text-decoration: none;
+    color: #666;
+    font-size: 16px;
+    font-weight: 400;
+    transition: all 0.3s ease;
+  }
+
+  a:hover{
+    /* color: var(--dark-purple); */
+   transform: translateX(5px);
+   padding: 10px 15px;
+   font-size: 16px;
+   font-weight: 500;
+
+ }

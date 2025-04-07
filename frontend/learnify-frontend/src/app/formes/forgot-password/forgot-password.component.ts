@@ -43,14 +43,15 @@ export class ForgotPasswordComponent {
       
       const email = this.forgotPasswordForm.get('email')?.value;
       
+      // console.log(`Password reset link has been sent to your ${email}`);
       this.authService.forgotPassword(email).subscribe({
         next: () => {
           this.isLoading = false;
           this.successMessage = 'Password reset link has been sent to your email.';
           // Optionally, after a delay, redirect to login page
-          setTimeout(() => {
-            this.router.navigate(['/']);
-          }, 5000);
+          // setTimeout(() => {
+          //   this.router.navigate(['/']);
+          // }, 5000);
         },
         error: (error) => {
           this.isLoading = false;

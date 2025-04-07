@@ -1,8 +1,5 @@
 <?php
 
-// Step 2: Create a middleware for role-based authorization
-// Path: app/Http/Middleware/CheckRole.php
-
 namespace App\Http\Middleware;
 
 use Closure;

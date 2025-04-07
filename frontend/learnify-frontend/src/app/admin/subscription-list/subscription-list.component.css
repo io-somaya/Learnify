@@ -1,0 +1,96 @@
+.container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .spinner {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #666;
+  }
+  
+  .table-container {
+    margin-top: 20px;
+    overflow-x: auto;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  thead th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .status-badge.completed {
+    background-color: #e6f7e6;
+    color: #2e7d32;
+  }
+  
+  .status-badge.pending {
+    background-color: #fff8e1;
+    color: #ff8f00;
+  }
+  
+  .status-badge.unknown {
+    background-color: #eeeeee;
+    color: #757575;
+  }
+  
+  .status-cell {
+    width: 100px;
+  }
+  
+  .error-message {
+    color: #d32f2f;
+    background-color: #fde0e0;
+    padding: 15px;
+    border-radius: 4px;
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .error-message button {
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .error-message button:hover {
+    background-color: #b71c1c;
+  }
+  

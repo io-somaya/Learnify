@@ -66,7 +66,7 @@ class Payment extends Model
     protected $fillable = [
         'student_package_subscription_id',
         'amount_paid',
-        'payment_status',
+        'status',
         'transaction_reference',
     ];
 

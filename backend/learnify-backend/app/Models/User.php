@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\ExamUser;
+use App\Models\PackageUser;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -35,4 +38,52 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    // Many-to-Many relationship with Package (M:M)
+    public function packages()
+    {
+        return $this->belongsToMany(Package::class, 'package_user')
+            ->withPivot('start_date', 'end_date');
+    }
+
+    // Many-to-Many relationship with Exam (M:M)
+    public function exams()
+    {
+        return $this->belongsToMany(Exam::class, 'exam_user')
+            ->withPivot('start_time', 'submit_time', 'score', 'status');
+    }
+
+    // One-to-Many relationship with Feedback (1:M)
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
+
+    // One-to-Many relationship with Chat (1:M)
+    public function chats()
+    {
+        return $this->hasMany(Chat::class, 'sender_id');
+    }
+
+    // One-to-Many relationship with Notification (1:M)
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+  /**
+     * Get the exam attempts for the user
+     */
+    public function examAttempts(): HasMany
+    {
+        return $this->hasMany(ExamUser::class);
+    }
+
+    /**
+     * Get the package subscriptions for the user
+     */
+    public function subscriptions()
+    {
+        return $this->hasMany(PackageUser::class);
+    }
 }

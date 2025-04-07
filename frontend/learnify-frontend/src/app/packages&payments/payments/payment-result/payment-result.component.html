@@ -1,0 +1,29 @@
+<!-- src/app/components/payment-result/payment-result.component.html -->
+<div class="payment-result-container">
+    <div class="result-card" [ngClass]="status === 'success' ? 'success' : 'error'">
+      <div class="icon">
+        <i class="fas" [ngClass]="status === 'success' ? 'fa-check-circle' : 'fa-times-circle'"></i>
+      </div>
+  
+      <h2>{{ status === 'success' ? 'Payment Successful' : 'Payment Failed' }}</h2>
+  
+      <div class="details" *ngIf="status === 'success'">
+        <p>Your transaction has been completed successfully.</p>
+        <div class="transaction-details">
+          <p><strong>Transaction ID:</strong> {{ transactionId }}</p>
+          <p *ngIf="amount"><strong>Amount:</strong> {{ amount | currency:'EGP':'symbol':'1.2-2' }}</p>
+        </div>
+      </div>
+  
+      <div class="details" *ngIf="status !== 'success'">
+        <p>{{ message || 'There was a problem processing your payment.' }}</p>
+        <p>Please try again or contact support if the problem persists.</p>
+      </div>
+  
+      <div class="actions">
+        <button class="primary-button" (click)="navigateToDashboard()">
+          {{ status === 'success' ? 'Go to Dashboard' : 'Try Again' }}
+        </button>
+      </div>
+    </div>
+  </div>

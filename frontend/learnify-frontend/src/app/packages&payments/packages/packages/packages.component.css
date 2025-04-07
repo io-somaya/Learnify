@@ -1,0 +1,76 @@
+/* General styles for the component */
+:host {
+  display: block;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Loading message styles */
+.loading {
+  font-size: 18px;
+  font-weight: bold;
+  color: #007bff; /* Bootstrap primary color */
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* No packages message styles */
+.no-packages {
+  font-size: 16px;
+  color: #6c757d; /* Bootstrap secondary color */
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Package list styles */
+.package-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.package-list li {
+  background-color: #f8f9fa; /* Light gray background */
+  border: 1px solid #dee2e6; /* Light border */
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.package-list li:hover {
+  background-color: #e9ecef; /* Slightly darker gray on hover */
+}
+
+.package-name {
+  font-weight: bold;
+  color: #343a40; /* Dark text */
+  font-size: 16px;
+}
+
+.package-description {
+  font-size: 14px;
+  color: #6c757d; /* Secondary text color */
+}
+
+.package-price {
+  font-size: 14px;
+  color: #28a745; /* Bootstrap success color */
+}
+
+.package-duration {
+  font-size: 14px;
+  color: #17a2b8; /* Bootstrap info color */
+}
+
+.package-id {
+  font-size: 12px;
+  color: #6c757d; /* Secondary text color */
+}
+
+button {
+  margin-right: 5px;
+}
