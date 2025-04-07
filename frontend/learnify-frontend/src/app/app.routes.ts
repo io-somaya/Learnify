@@ -18,6 +18,7 @@ import { MakePackagesComponent } from './packages&payments/packages/make-package
 import { PackageUpdateComponent } from './packages&payments/packages/package-update/package-update.component';
 import { PackageListComponent } from './packages&payments/packages/package-list/package-list.component';
 import { SubscriptionListComponent } from './admin/subscription-list/subscription-list.component';
+import { LectureListComponent } from './admin/lecture-list/lecture-list.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -96,6 +97,11 @@ export const routes: Routes = [
             path: "subscriptions-list",
             component: SubscriptionListComponent,
             title: "Subscriptions List"
+        },
+        {
+            path: "lectures-list",
+            component: LectureListComponent,
+            title: "Lessons List"
         }
     ]
     }, {
