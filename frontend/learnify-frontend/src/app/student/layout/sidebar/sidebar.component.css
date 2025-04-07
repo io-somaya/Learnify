@@ -1,0 +1,75 @@
+:root {
+  --color-light-pink: #FEEEEF;
+  --color-light-blue: #ABB7DD;
+  --color-medium-blue: #7781B6;
+  --color-dark-blue: #252E5F;
+}
+
+.sidebar {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-menu li {
+  padding: 12px 15px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-menu li:hover {
+  background-color: #f8f9fa;
+}
+
+.sidebar-menu li.active {
+  background-color: var(--color-medium-blue);
+  color: white;
+}
+
+.sidebar-menu li.active a {
+  color: white;
+}
+
+.sidebar-menu a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  display: block;
+  width: 100%;
+}
+
+.sidebar-menu i {
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
+.promo-card {
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: var(--color-light-pink);
+  margin-top: 20px;
+}
+
+.promo-card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.promo-content {
+  padding: 15px;
+}
+
+.promo-title {
+  font-weight: 600;
+  margin-bottom: 5px;
+}

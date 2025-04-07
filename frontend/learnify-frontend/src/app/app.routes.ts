@@ -37,7 +37,13 @@ export const routes: Routes = [
         }]
     },
     
-    // User routes
+    // Student routes (protected)
+    {
+        path: "student",
+        canActivate: [authGuard],
+        loadChildren: () => import('./student/student.module').then(m => m.StudentModule),
+        title: "Student Portal"
+    },
 
     // Other routes
     {

@@ -1,0 +1,27 @@
+:root {
+  --color-light-pink: #FEEEEF;
+  --color-light-blue: #ABB7DD;
+  --color-medium-blue: #7781B6;
+  --color-dark-blue: #252E5F;
+}
+
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-medium-blue);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.8;
+  z-index: 100;
+}
+
+.back-to-top:hover {
+  opacity: 1;
+}

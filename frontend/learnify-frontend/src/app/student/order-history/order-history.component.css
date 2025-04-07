@@ -1,0 +1,67 @@
+:root {
+  --color-light-pink: #FEEEEF;
+  --color-light-blue: #ABB7DD;
+  --color-medium-blue: #7781B6;
+  --color-dark-blue: #252E5F;
+}
+
+.main-content {
+  background-color: white;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.table {
+  font-size: 0.95rem;
+}
+
+.table thead {
+  background-color: #f8f9fa;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.status-badge {
+  padding: 5px 15px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-success { 
+  background-color: rgba(119, 129, 182, 0.1);
+  color: var(--color-medium-blue);
+}
+
+.status-warning {
+  background-color: rgba(254, 238, 239, 0.3);
+  color: #d4a5a7;
+}
+
+.status-danger {
+  background-color: rgba(254, 238, 239, 0.5);
+  color: #c17a7d;
+}
+
+.status-info {
+  background-color: rgba(171, 183, 221, 0.2);
+  color: var(--color-light-blue);
+}
+
+.pagination .page-item.active .page-link {
+  background-color: var(--color-medium-blue);
+  border-color: var(--color-medium-blue);
+}
+
+.pagination .page-link {
+  color: var(--color-medium-blue);
+}

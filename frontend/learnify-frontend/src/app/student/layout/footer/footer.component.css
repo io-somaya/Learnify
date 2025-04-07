@@ -1,0 +1,81 @@
+:root {
+  --color-light-pink: #FEEEEF;
+  --color-light-blue: #ABB7DD;
+  --color-medium-blue: #7781B6;
+  --color-dark-blue: #252E5F;
+}
+
+footer {
+  background-color: var(--color-dark-blue);
+  color: white;
+  padding: 50px 0 20px;
+}
+
+footer h5 {
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+footer ul li {
+  margin-bottom: 10px;
+}
+
+footer a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: white;
+}
+
+.social-icons a {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  text-align: center;
+  line-height: 35px;
+  margin-right: 10px;
+}
+
+.social-icons a:hover {
+  background-color: var(--color-medium-blue);
+}
+
+.newsletter-form {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  padding: 5px;
+  display: flex;
+}
+
+.newsletter-form input {
+  background: transparent;
+  border: none;
+  padding: 10px 15px;
+  color: white;
+  flex: 1;
+}
+
+.newsletter-form input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.newsletter-form input:focus {
+  outline: none;
+}
+
+.newsletter-form button {
+  background-color: var(--color-medium-blue);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  padding: 8px 25px;
+}
