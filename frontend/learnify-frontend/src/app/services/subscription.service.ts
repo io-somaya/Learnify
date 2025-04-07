@@ -3,23 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from '../../.environments/environment';
+import { ISubscription } from '../Interfaces/ISubscription';
 
-export interface ISubscription {
-  id: number;
-  amount_paid: string;
-  transaction_reference: string;
-  payment_status: string;
-  created_at: string;
-  package_user: {
-    user: {
-      email: string;
-      grade: string;
-    };
-    package: {
-      name: string;
-    };
-  };
-}
 
 @Injectable({
   providedIn: 'root'
