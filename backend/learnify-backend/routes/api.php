@@ -11,6 +11,7 @@ use App\Http\Controllers\Subscription\PackageController;
 use App\Http\Controllers\Subscription\SubscriptionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Teacher\TeacherLecture\TeacherLectureController;
 use App\Http\Controllers\Teacher\TeacherSubscription\TeacherController;
 use App\Http\Controllers\Teacher\TeacherSubscription\TeacherSubscriptionController;
 
@@ -135,6 +136,10 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::get("/", "index");
                 Route::get("/export", "export");
             });
+
+        //lectures
+        Route::apiResource('lectures', TeacherLectureController::class)
+        ->except(['show']);
 
     });
 

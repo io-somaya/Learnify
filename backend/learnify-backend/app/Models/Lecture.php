@@ -6,9 +6,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lecture extends Model
 {
-    protected $fillable = [
-        'title', 'description', 'grade', 'zoom_link', 'start_time',"end_time","day_of_week", 
+    const DAYS = [
+        'Sunday', 'Monday', 'Tuesday', 'Wednesday',
+        'Thursday', 'Friday', 'Saturday'
     ];
 
+    const GRADES = ['1', '2', '3'];
+
+    protected $fillable = [
+        'day_of_week',
+        'start_time',
+        'end_time',
+        'title',
+        'description',
+        'grade',
+        'zoom_link',
+        'is_active'
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'start_time' => 'datetime:H:i',
+        'end_time' => 'datetime:H:i'
+    ];
  
 }
