@@ -7,7 +7,7 @@ use App\Models\Lecture;
 use Illuminate\Validation\Rule;
 
 
-class StoreLectureRequest extends FormRequest
+class UpdateLectureRequest extends FormRequest
 {
 
 
