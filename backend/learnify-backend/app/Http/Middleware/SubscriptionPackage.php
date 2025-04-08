@@ -7,7 +7,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Carbon\Carbon;
 class SubscriptionPackage extends Model
 {
     use HasFactory;
@@ -43,6 +46,33 @@ class SubscriptionPackage extends Model
     public function subscriptions()
     {
         return $this->hasMany(StudentPackageSubscription::class, 'package_id');
+    }
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
+        $user = $request->user();
+
+        // If the user is not a student, he can pass
+        if (!$user || $user->role !== 'student') {
+            return $next($request);
+        }
+
+        // check if there is active Subscription
+        $activeSubscription = $user->activeSubscriptions()->first();
+
+        if (!$activeSubscription) {
+            return response()->json([
+                'status' => false,
+                'message' => 'يجب أن يكون لديك اشتراك نشط للوصول إلى هذه الخدمة',
+                'data' => null
+            ], 403);
+        }
+
+        return $next($request);
     }
 }
 
