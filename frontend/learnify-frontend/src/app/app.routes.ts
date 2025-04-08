@@ -17,6 +17,8 @@ import { PaymentResultComponent } from './packages&payments/payments/payment-res
 import { MakePackagesComponent } from './packages&payments/packages/make-packages/make-packages.component';
 import { PackageUpdateComponent } from './packages&payments/packages/package-update/package-update.component';
 import { PackageListComponent } from './packages&payments/packages/package-list/package-list.component';
+import { SubscriptionListComponent } from './admin/subscription-list/subscription-list.component';
+import { LectureListComponent } from './admin/lecture-list/lecture-list.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -28,7 +30,7 @@ export const routes: Routes = [
     {
         path: "toast",
         component: ToastComponent,
-        title: 'Toast'
+        title: 'Toaster'
     },
     {
         path: "register",
@@ -90,7 +92,18 @@ export const routes: Routes = [
             path: "packages-list",
             component: PackageListComponent,
             title: "Packages List"
-        }]
+        },
+        {
+            path: "subscriptions-list",
+            component: SubscriptionListComponent,
+            title: "Subscriptions List"
+        },
+        {
+            path: "lectures-list",
+            component: LectureListComponent,
+            title: "Lessons List"
+        }
+    ]
     }, {
         path: "admin/login",
         component: AdminLoginComponent,

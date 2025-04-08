@@ -1,0 +1,40 @@
+.container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .spinner {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+  }
+  
+  .table-container {
+    margin-top: 20px;
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #f0f0f0;
+    font-weight: 600;
+  }
+  
+  tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
