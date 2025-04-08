@@ -1,0 +1,43 @@
+<div class="container">
+    <h2>Subscription List</h2>
+  
+    @if (isLoading) {
+      <div class="spinner">Loading...</div>
+    } @else if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+        <button (click)="loadSubscriptions()">Retry</button>
+      </div>
+    } @else {
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              @for (column of columns; track column.name) {
+                <th>{{ column.label }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (subscription of subscriptions; track subscription.id) {
+              <tr>
+                @for (column of columns; track column.name) {
+                  <td [class.status-cell]="column.name === 'paymentStatus'">
+                    @if (column.name === 'paymentStatus') {
+                      <span 
+                        [class]="'status-badge ' + getValue(subscription, column.name)">
+                        {{ getValue(subscription, column.name) | titlecase }}
+                      </span>
+                    } @else {
+                      {{ getValue(subscription, column.name) || '—' }}
+                    }
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+  

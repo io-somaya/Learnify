@@ -3,34 +3,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../.environments/environment';
-export interface Package {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  duration_days: number;
-}
-
-export interface PaymentResponse {
-  success: boolean;
-  payment_url?: string;
-  package?: Package;
-  payment?: any;
-  message?: string;
-  errors?: any;
-}
-
-export interface PaymentHistory {
-  id: number;
-  package: string;
-  amount_paid: number;
-  status: string;
-  date: string;
-  subscription_status: string;
-  start_date: string;
-  end_date: string;
-  transaction_reference: string;
-}
+import { IPaymentResponse } from '../Interfaces/IPaymentResponse';
+import { IPaymentHistory } from '../Interfaces/IPaymentHistory';
 
 @Injectable({
   providedIn: 'root'
@@ -49,30 +23,27 @@ export class PaymentService {
   }
 
   // Initiate payment for a package
-  initiatePayment(packageId: number): Observable<PaymentResponse> {
+  initiatePayment(packageId: number): Observable<IPaymentResponse> {
     const options = {
       headers: this.getAuthHeaders()
     };
-    return this.http.post<PaymentResponse>(`${this.apiUrl}/initiate`, { package_id: packageId }, options);
+    return this.http.post<IPaymentResponse>(`${this.apiUrl}/initiate`, { package_id: packageId }, options);
   }
 
   // Get payment history for current user
-  getPaymentHistory(): Observable<{ success: boolean; data: PaymentHistory[] }> {
+  getPaymentHistory(): Observable<{ success: boolean; data: IPaymentHistory[] }> {
     const options = {
       headers: this.getAuthHeaders()
     };
-    return this.http.get<{ success: boolean; data: PaymentHistory[] }>(`${this.apiUrl}/history`, options);
+    return this.http.get<{ success: boolean; data: IPaymentHistory[] }>(`${this.apiUrl}/history`, options);
   }
 
-  // Get payment details by ID
-  getPayment(id: number): Observable<{ success: boolean; data: PaymentHistory }> {
-    return this.http.get<{ success: boolean; data: PaymentHistory }>(`${this.apiUrl}/${id}`);
-  }
+  // // Get payment details by ID
+  // getPayment(id: number): Observable<{ success: boolean; data: PaymentHistory }> {
+  //   return this.http.get<{ success: boolean; data: PaymentHistory }>(`${this.apiUrl}/${id}`);
+  // }
 
   // Handle redirect after payment completion
-  handlePaymentResult(params: any): void {
-    console.log('Payment result:', params);
-    // You can implement further handling logic here
-    // For example, displaying success/error messages or redirecting to appropriate pages
-  }
+  // handlePaymentResult(params: any): void {
+  // }
 }

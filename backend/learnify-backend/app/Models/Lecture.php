@@ -6,13 +6,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lecture extends Model
 {
-    protected $fillable = [
-        'title', 'description', 'grade', 'zoom_link', 'schedule_time', 'recorded_video_path', 'status'
+    const DAYS = [
+        'Sunday', 'Monday', 'Tuesday', 'Wednesday',
+        'Thursday', 'Friday', 'Saturday'
     ];
 
-    // One-to-Many relationship with Material (1:M)
-    public function materials()
-    {
-        return $this->hasMany(Material::class);
-    }
+    const GRADES = ['1', '2', '3'];
+
+    protected $fillable = [
+        'day_of_week',
+        'start_time',
+        'end_time',
+        'title',
+        'description',
+        'grade',
+        'zoom_link',
+        'is_active'
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'start_time' => 'datetime:H:i',
+        'end_time' => 'datetime:H:i'
+    ];
+ 
 }

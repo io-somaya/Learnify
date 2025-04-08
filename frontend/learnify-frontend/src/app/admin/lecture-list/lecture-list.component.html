@@ -1,0 +1,40 @@
+<div class="container">
+    <h2>Lecture Schedule</h2>
+  
+    @if (isLoading) {
+      <div class="spinner">Loading...</div>
+    } @else if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+        <button (click)="loadLectures()">Retry</button>
+      </div>
+    } @else {
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Day</th>
+              <th>Time</th>
+              <th>Description</th>
+              <th>Grade</th>
+              <th>Zoom</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (lecture of lectures; track lecture.id) {
+              <tr>
+                <td>{{ lecture.title }}</td>
+                <td>{{ lecture.day_of_week }}</td>
+                <td>{{ lecture.start_time }} - {{ lecture.end_time }}</td>
+                <td>{{ lecture.description }}</td>
+                <td>{{ lecture.grade }}</td>
+                <td><a [href]="lecture.zoom_link" target="_blank">Join</a></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+  

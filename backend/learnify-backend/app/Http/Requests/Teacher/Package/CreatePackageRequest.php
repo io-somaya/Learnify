@@ -18,10 +18,8 @@ class CreatePackageRequest extends FormRequest
         return [
             'name' => 'required|string|max:100',
             'description' => 'nullable|string',
-            'type' => 'required|in:monthly,yearly',
             'price' => 'required|numeric|min:0',
             'duration_days' => 'required|integer|min:1',
-            'discount' => 'nullable|numeric|min:0',
         ];
     }
 

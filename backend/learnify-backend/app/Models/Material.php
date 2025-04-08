@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Material extends Model
 {
     protected $fillable = [
-        'lecture_id', 'file_name', 'file_url'
+        'lesson_id', 'file_name', 'file_url'
     ];
 
-    // One-to-One relationship with Lecture (M:1)
-    public function lecture()
+    // Many-to-One relationship with Lesson
+    public function lesson()
     {
-        return $this->belongsTo(Lecture::class);
+        return $this->belongsTo(Lesson::class);
     }
 }

@@ -23,4 +23,10 @@ class Exam extends Model
         return $this->belongsToMany(Question::class, 'exam_question')
                     ->withPivot('points');
     }
+
+    // Many-to-One relationship with Lesson (M:1)   
+    public function lesson()
+    {
+        return $this->belongsTo(Lesson::class);
+    }
 }
