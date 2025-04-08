@@ -1,27 +1,37 @@
-:root {
-  --color-light-pink: #FEEEEF;
-  --color-light-blue: #ABB7DD;
-  --color-medium-blue: #7781B6;
-  --color-dark-blue: #252E5F;
-}
-
 .back-to-top {
   position: fixed;
   bottom: 20px;
   right: 20px;
   width: 40px;
   height: 40px;
-  background-color: var(--color-medium-blue);
+  background-color: var(--medium-purple);
   color: white;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
+  line-height: 40px;
+  font-size: 20px;
   cursor: pointer;
-  opacity: 0.8;
-  z-index: 100;
+  z-index: 1000;
+  transition: all 0.3s ease;
 }
 
 .back-to-top:hover {
-  opacity: 1;
+  background-color: var(--dark-purple);
+  transform: scale(1.05);
+}
+
+/* Add spacing and consistent background */
+.main-container {
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 56px); /* Adjust to account for navbar height */
+  padding-top: 80px; /* Add padding to account for fixed navbar */
+  padding-bottom: 2rem;
+}
+
+/* Add a soft gradient background for better visual effect */
+.hero-background {
+  background: linear-gradient(180deg, rgba(120, 134, 199, 0.1) 0%, rgba(248, 249, 250, 0) 100%);
+  padding-top: 40px;
+  padding-bottom: 40px;
+  margin-bottom: 30px;
 }

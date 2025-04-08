@@ -1,12 +1,5 @@
-:root {
-  --color-light-pink: #FEEEEF;
-  --color-light-blue: #ABB7DD;
-  --color-medium-blue: #7781B6;
-  --color-dark-blue: #252E5F;
-}
-
 .sidebar {
-  background-color: white;
+  background-color: var(--component-background);
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -30,7 +23,7 @@
 }
 
 .sidebar-menu li.active {
-  background-color: var(--color-medium-blue);
+  background-color: var(--medium-purple);
   color: white;
 }
 
@@ -55,7 +48,7 @@
 .promo-card {
   border-radius: 10px;
   overflow: hidden;
-  background-color: var(--color-light-pink);
+  background-color: var(--light-pink);
   margin-top: 20px;
 }
 

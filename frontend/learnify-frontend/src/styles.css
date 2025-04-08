@@ -1,14 +1,50 @@
 :root {
+  /* Main color variables */
   --light-pink: #FFF2F2;
   --light-purple: #A9B5DF;
   --medium-purple: #7886C7;
   --dark-purple: #2D336B;
+  
+  /* Mapped color variables for components */
+  --color-light-pink: var(--light-pink);
+  --color-light-blue: var(--light-purple);
+  --color-medium-blue: var(--medium-purple);
+  --color-dark-blue: var(--dark-purple);
+  
+  /* Background colors */
+  --page-background: #f8f9fa;
+  --component-background: #ffffff;
 }
 
 * {
   font-family: 'Outfit', sans-serif;
 }
 
-body{
-  background-color: var(--light-pink);
+html, body {
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
 }
+
+.btn-primary {
+  background-color: var(--medium-purple);
+  border-color: var(--medium-purple);
+  padding: 8px 25px;
+  border-radius: 5px;
+}
+
+.btn-primary:hover {
+  background-color: var(--dark-purple);
+  border-color: var(--dark-purple);
+}
+
+/* Common card styling */
+.card-container {
+  background-color: var(--component-background);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
