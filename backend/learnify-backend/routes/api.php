@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Teacher\TeacherLecture\TeacherLectureController;
 use App\Http\Controllers\Teacher\TeacherSubscription\TeacherController;
 use App\Http\Controllers\Teacher\TeacherSubscription\TeacherSubscriptionController;
+use App\Http\Controllers\LectureController;
 
 /*
 |--------------------------------------------------------------------------
@@ -139,7 +140,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         //lectures
         Route::apiResource('lectures', TeacherLectureController::class)
-        ->except(['show']);
+            ->except(['show']);
 
     });
 
@@ -171,4 +172,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:student,assistant')->group(function () {
         Route::put('/user/update', [AuthController::class, 'updateUser']);
     });
+});
+// Lecture methods - Protected by authentication and subscription verification if it is a student
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/lectures', [LectureController::class, 'index']);
+    Route::get('/lectures/{id}', [LectureController::class, 'show']);
 });

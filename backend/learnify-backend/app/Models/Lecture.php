@@ -29,5 +29,11 @@ class Lecture extends Model
         'start_time' => 'datetime:H:i',
         'end_time' => 'datetime:H:i'
     ];
- 
+ /**
+     * Get the materials for the lecture.
+     */
+    public function materials()
+    {
+        return $this->hasMany(Material::class);
+    }
 }

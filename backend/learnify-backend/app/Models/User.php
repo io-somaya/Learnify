@@ -12,6 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\ExamUser;
 use App\Models\PackageUser;
+use Carbon\Carbon;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -85,5 +86,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function subscriptions()
     {
         return $this->hasMany(PackageUser::class);
+    }
+
+
+    /**
+     * Get active subscriptions for the user.
+     */
+    public function activeSubscriptions()
+    {
+        $today = Carbon::now();
+        return $this->hasMany(PackageUser::class)
+                    ->where('end_date', '>=', $today);
     }
 }
