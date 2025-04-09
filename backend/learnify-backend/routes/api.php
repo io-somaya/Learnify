@@ -2,6 +2,7 @@
 // routes/api.php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
@@ -14,6 +15,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Teacher\TeacherLecture\TeacherLectureController;
 use App\Http\Controllers\Teacher\TeacherSubscription\TeacherController;
 use App\Http\Controllers\Teacher\TeacherSubscription\TeacherSubscriptionController;
+use App\Http\Controllers\LessonsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -139,7 +142,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         //lectures
         Route::apiResource('lectures', TeacherLectureController::class)
-        ->except(['show']);
+            ->except(['show']);
 
     });
 
@@ -171,4 +174,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:student,assistant')->group(function () {
         Route::put('/user/update', [AuthController::class, 'updateUser']);
     });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Lesson Routes
+|--------------------------------------------------------------------------
+*/
+// Protected routes
+Route::prefix('lessons')->group(function () {
+    Route::get('/', [LessonsController::class, 'index'])->middleware('auth:sanctum');
+    ;
+    Route::get('/{id}', [LessonsController::class, 'show'])->middleware('auth:sanctum');
+    ;
 });
