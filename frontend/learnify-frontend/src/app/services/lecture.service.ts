@@ -23,6 +23,7 @@ export class LectureService {
     return token ? { Authorization: `Bearer ${token}` } : {};
   }
 
+  // GET all lectures
   getLectures(): Observable<ILecture[]> {
     return this.http.get<{ data: ILecture[] }>(
       `${this.apiUrl}/admin/lectures`,
@@ -30,6 +31,55 @@ export class LectureService {
     ).pipe(
       tap(res => console.log('GET Lectures Response:', res)),
       map(res => res.data),
+      catchError(this.handleError)
+    );
+  }
+
+  // GET single lecture by ID
+  getLectureById(id: number): Observable<ILecture> {
+    return this.http.get<{ data: ILecture }>(
+      `${this.apiUrl}/admin/lectures/${id}`,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(res => console.log('GET Lecture Response:', res)),
+      map(res => res.data),
+      catchError(this.handleError)
+    );
+  }
+
+  // POST create new lecture
+  createLecture(lecture: ILecture): Observable<ILecture> {
+    return this.http.post<{ data: ILecture }>(
+      `${this.apiUrl}/admin/lectures`,
+      lecture,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(res => console.log('CREATE Lecture Response:', res)),
+      map(res => res.data),
+      catchError(this.handleError)
+    );
+  }
+
+  // PUT update existing lecture
+  updateLecture(id: number, lecture: ILecture): Observable<ILecture> {
+    return this.http.put<{ data: ILecture }>(
+      `${this.apiUrl}/admin/lectures/${id}`,
+      lecture,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(res => console.log('UPDATE Lecture Response:', res)),
+      map(res => res.data),
+      catchError(this.handleError)
+    );
+  }
+
+  // DELETE lecture by ID
+  deleteLecture(id: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(
+      `${this.apiUrl}/admin/lectures/${id}`,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(res => console.log('DELETE Lecture Response:', res)),
       catchError(this.handleError)
     );
   }

@@ -1,0 +1,65 @@
+<div class="container mt-4">
+    <h2>Lecture Management</h2>
+    
+    <div class="d-flex justify-content-between mb-3">
+      <h4>All Lectures</h4>
+      <a routerLink="/admin/dashboard/lectures/add" class="btn btn-primary">Add New Lecture</a>
+    </div>
+  
+    @if (isLoading) {
+      <div class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    } @else if (errorMessage) {
+      <div class="alert alert-danger">
+        {{ errorMessage }}
+        <button class="btn btn-sm btn-outline-danger ms-2" (click)="loadLectures()">Retry</button>
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Title</th>
+              <th>Day</th>
+              <th>Time</th>
+              <th>Description</th>
+              <th>Grade</th>
+              <th>Status</th>
+              <th>Zoom</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (lecture of lectures; track lecture.id) {
+              <tr>
+                <td>{{ lecture.title }}</td>
+                <td>{{ lecture.day_of_week }}</td>
+                <td>{{ lecture.start_time }} - {{ lecture.end_time }}</td>
+                <td>{{ lecture.description | truncate:50 }}</td>
+                <td>{{ lecture.grade }}</td>
+                <td>
+                  <span class="badge" [ngClass]="lecture.is_active ? 'bg-success' : 'bg-secondary'">
+                    {{ lecture.is_active ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+                <td>
+                  @if (lecture.zoom_link) {
+                    <a [href]="lecture.zoom_link" target="_blank" class="btn btn-sm btn-outline-primary">Join</a>
+                  }
+                </td>
+                <td>
+                  <div class="btn-group" role="group">
+                    <a [routerLink]="['/admin/dashboard/lectures/edit', lecture.id]" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <button (click)="deleteLecture(lecture.id)" class="btn btn-sm btn-outline-danger">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
