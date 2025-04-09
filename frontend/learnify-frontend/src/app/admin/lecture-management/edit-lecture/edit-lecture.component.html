@@ -1,0 +1,114 @@
+<div class="lecture-form-container">
+    <h2>Edit Lecture</h2>
+    
+    <form [formGroup]="lectureForm" (ngSubmit)="onSubmit()" class="lecture-form">
+      <!-- Title Field -->
+      <div class="form-group">
+        <label for="title">Title*</label>
+        <input 
+          type="text" 
+          id="title" 
+          formControlName="title" 
+          [class.invalid]="title.invalid && (title.dirty || title.touched)"
+          placeholder="Enter lecture title">
+        <div *ngIf="title.invalid && (title.dirty || title.touched)" class="errorx-message">
+          <span *ngIf="title.errors?.['required']">Title is required</span>
+          <span *ngIf="title.errors?.['minlength']">Title must be at least 3 characters</span>
+        </div>
+      </div>
+
+      <!-- Description Field -->
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea 
+          id="description" 
+          formControlName="description" 
+          rows="3"
+          placeholder="Enter lecture description"></textarea>
+          <div *ngIf="description.invalid && (description.dirty || description.touched)" class="errorx-message">
+            <span *ngIf="description.errors?.['required']">Title is required</span>
+            <span *ngIf="description.errors?.['minlength']">Title must be at least 10 characters</span>
+          </div>
+      </div>
+
+      <!-- Day of Week Field -->
+      <div class="form-group">
+        <label for="day_of_week">Day of Week*</label>
+        <select id="day_of_week" formControlName="day_of_week">
+          <option *ngFor="let day of daysOfWeek" [value]="day">{{ day }}</option>
+        </select>
+      </div>
+
+      <!-- Time Fields -->
+      <div class="time-fields">
+        <div class="form-group">
+          <label for="start_time">Start Time*</label>
+          <input 
+            type="time" 
+            id="start_time" 
+            formControlName="start_time"
+            [class.invalid]="start_time.invalid && (start_time.dirty || start_time.touched)">
+          <div *ngIf="start_time.invalid && (start_time.dirty || start_time.touched)" class="errorx-message">
+            Start time is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="end_time">End Time*</label>
+          <input 
+            type="time" 
+            id="end_time" 
+            formControlName="end_time"
+            [class.invalid]="end_time.invalid && (end_time.dirty || end_time.touched)">
+          <div *ngIf="end_time.invalid && (end_time.dirty || end_time.touched)" class="errorx-message">
+            End time is required
+          </div>
+        </div>
+      </div>
+
+      <!-- Grade Field -->
+      <div class="form-group">
+        <label for="grade">Grade Level</label>
+        <select id="grade" formControlName="grade">
+          <option value="">Select grade</option>
+          <option *ngFor="let grade of gradeLevels" [value]="grade">Grade {{ grade }}</option>
+        </select>
+      </div>
+
+      <!-- Zoom Link Field -->
+      <div class="form-group">
+        <label for="zoom_link">Zoom Link</label>
+        <input 
+          type="url" 
+          id="zoom_link" 
+          formControlName="zoom_link" 
+          placeholder="https://zoom.us/..."
+          [class.invalid]="zoom_link.invalid && (zoom_link.dirty || zoom_link.touched)">
+        <div *ngIf="zoom_link.invalid && (zoom_link.dirty || zoom_link.touched)" class="errorx-message">
+          Please enter a valid URL (starting with http:// or https://)
+        </div>
+      </div>
+
+      <!-- Active Checkbox -->
+      <div class="form-group checkbox-group">
+        <input type="checkbox" id="is_active" formControlName="is_active">
+        <label for="is_active">Active Lecture</label>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="form-error">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="submit-btn"
+          [disabled]="lectureForm.invalid || isSubmitting">
+          {{ isSubmitting ? 'Updating...' : 'Update Lecture' }}
+        </button>
+        <a routerLink="/admin/dashboard/lectures-management" class="cancel-btn">Cancel</a>
+      </div>
+    </form>
+</div>

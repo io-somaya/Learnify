@@ -1,0 +1,198 @@
+/* lecture-management.component.css */
+
+/* Container Styles */
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Header Styles */
+  .container h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+  
+  /* Action Bar Styles */
+  .d-flex.justify-content-between {
+    margin-bottom: 1.5rem;
+    align-items: center;
+  }
+  
+  .btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .btn-primary:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+  }
+  
+  /* Loading Spinner */
+  .text-center {
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: #3498db;
+  }
+  
+  /* Error Message */
+  .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .btn-outline-danger {
+    color: #721c24;
+    border-color: #721c24;
+  }
+  
+  .btn-outline-danger:hover {
+    background-color: #721c24;
+    color: white;
+  }
+  
+  /* Table Styles */
+  .table-responsive {
+    overflow-x: auto;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+  }
+  
+  .table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+  }
+  
+  .table th,
+  .table td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+  }
+  
+  .table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+  }
+  
+  .table tbody tr:hover {
+    background-color: rgba(52, 152, 219, 0.05);
+  }
+  
+  /* Badge Styles */
+  .badge {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+  }
+  
+  .bg-success {
+    background-color: #28a745 !important;
+  }
+  
+  .bg-secondary {
+    background-color: #6c757d !important;
+    color: white;
+  }
+  
+  /* Button Group Styles */
+  .btn-group {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+  }
+  
+  .btn-outline-primary {
+    color: #3498db;
+    border-color: #3498db;
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .btn-outline-danger {
+    color: #e74c3c;
+    border-color: #e74c3c;
+  }
+  
+  .btn-outline-danger:hover {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .container {
+      padding: 1rem;
+    }
+    
+    .table th,
+    .table td {
+      padding: 0.75rem;
+      font-size: 0.9rem;
+    }
+    
+    .d-flex.justify-content-between {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .btn-group {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+  }
+  
+  /* Animation for hover effects */
+  .btn, .badge, .table tbody tr {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  /* Zoom link button */
+  .btn-outline-primary.zoom-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  /* Truncated text style */
+  td {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }

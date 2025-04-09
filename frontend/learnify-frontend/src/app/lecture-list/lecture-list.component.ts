@@ -1,7 +1,6 @@
-// src/app/components/lecture-list/lecture-list.component.ts
 import { Component, OnInit, inject } from '@angular/core';
-import { LectureService } from '../../services/lecture.service';
-import { ILecture } from '../../Interfaces/ILecture';
+import { LectureService } from '../services/lecture.service';
+import { ILecture } from '../Interfaces/ILecture';
 import { CommonModule } from '@angular/common';
 
 @Component({

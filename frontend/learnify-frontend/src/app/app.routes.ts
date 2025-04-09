@@ -18,10 +18,13 @@ import { MakePackagesComponent } from './packages&payments/packages/make-package
 import { PackageUpdateComponent } from './packages&payments/packages/package-update/package-update.component';
 import { PackageListComponent } from './packages&payments/packages/package-list/package-list.component';
 import { SubscriptionListComponent } from './admin/subscription-list/subscription-list.component';
-import { LectureListComponent } from './admin/lecture-list/lecture-list.component';
 import { LessonListComponent } from './lessons/lesson-list/lesson-list.component';
 import { LessonDetailComponent } from './lessons/lesson-detail/lesson-detail.component';
 import { LessonManagementComponent } from './admin/lesson-management/lesson-management.component';
+import { LectureListComponent } from './lecture-list/lecture-list.component';
+import { LectureManagementComponent } from './admin/lecture-management/lecture-management.component';
+import { AddLectureComponent } from './admin/lecture-management/add-lecture/add-lecture.component';
+import { EditLectureComponent } from './admin/lecture-management/edit-lecture/edit-lecture.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -69,12 +72,20 @@ export const routes: Routes = [
         path: "payment-result",
         component: PaymentResultComponent,
         title: "Payment Result",
-    },{
-        path:"lessons-list",
-        component:LessonListComponent,
-        title:"Lessons List"
+    }, {
+        path: "lessons-list",
+        component: LessonListComponent,
+        title: "Lessons List"
 
-    },{ path: 'lessons/:id', component: LessonDetailComponent },
+    }, 
+    { path: 'lessons/:id',
+    component: LessonDetailComponent
+    , title: 'Lesson Detail' },
+    {
+        path: "lectures-list",
+        component: LectureListComponent,
+        title: "Lessons List"
+    },
 
     // Admin routes (protected)
     {
@@ -107,22 +118,39 @@ export const routes: Routes = [
             title: "Subscriptions List"
         },
         {
-            path: "lectures-list",
-            component: LectureListComponent,
-            title: "Lessons List"
+            path: "lectures-management",
+            component: LectureManagementComponent,
+            title: "lectures Management"
+        }
+            ,
+        {
+            path: "lessons-management",
+            component: LessonManagementComponent,
+            title: "Lessons Management"
         },
         {
-            path:"lessons-management",
-            component:LessonManagementComponent,
-            title:"Lessons Management"
-        }
-    ]
+            path: 'lectures-management',
+            component: LectureManagementComponent,
+            title: 'Lecture Management'
+        },
+        {
+            path: 'lectures/add',
+            component: AddLectureComponent,
+            title: 'Add Lecture'
+        },
+        {
+            path: 'lectures/edit/:id',
+            component: EditLectureComponent,
+            title: 'Edit Lecture'
+        },
+
+
+        ]
     }, {
         path: "admin/login",
         component: AdminLoginComponent,
         title: "Admin Login"
     },
-
     //User routes
     {
         path: "profile",
