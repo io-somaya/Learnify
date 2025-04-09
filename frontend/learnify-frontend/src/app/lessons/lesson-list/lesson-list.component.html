@@ -1,0 +1,66 @@
+<div class="lesson-container">
+  <h2>Lessons</h2>
+  
+  <!-- Search and Filter Form -->
+  <form [formGroup]="searchForm" class="search-form">
+  
+    
+    <div class="form-group">
+      <label for="search">Search:</label>
+      <input 
+        id="search" 
+        type="text" 
+        formControlName="search" 
+        placeholder="Search lessons..." 
+        class="form-control"
+      >
+    </div>
+  </form>
+
+  <!-- Loading and Error States -->
+  <div *ngIf="isLoading" class="loading">Loading lessons...</div>
+  <div *ngIf="errorMessage" class="error">{{errorMessage}}</div>
+
+  <!-- Lessons List -->
+  <div *ngIf="!isLoading && !errorMessage">
+    <div *ngIf="lessons.length === 0" class="no-lessons">
+      No lessons found matching your criteria.
+    </div>
+    
+    <div class="lesson-list">
+      <div *ngFor="let lesson of lessons" class="lesson-card" (click)="viewLesson(lesson.id)">
+        <h3>{{lesson.title}}</h3>
+        <p>Grade: {{lesson.grade}}</p>
+        <p>{{lesson.description}}</p>
+      </div>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button (click)="goToPage(1)" [disabled]="currentPage === 1">
+        &laquo; First
+      </button>
+      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+        &lsaquo; Previous
+      </button>
+      
+      <button 
+        *ngFor="let page of getPageNumbers()" 
+        (click)="goToPage(page)"
+        [class.active]="page === currentPage">
+        {{ page }}
+      </button>
+      
+      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">
+        Next &rsaquo;
+      </button>
+      <button (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages">
+        Last &raquo;
+      </button>
+    </div>
+
+    <div class="pagination-info">
+      Page {{currentPage}} of {{totalPages}} | Showing {{lessons.length}} of {{totalItems}} lessons
+    </div>
+  </div>
+</div>

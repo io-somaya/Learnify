@@ -1,0 +1,101 @@
+.lesson-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .search-form {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    
+    .form-group {
+      flex: 1;
+      
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+    }
+  }
+  
+  .loading, .no-lessons, .error {
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  .error {
+    color: #dc3545;
+  }
+  
+  .lesson-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .lesson-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    h3 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+    
+    p {
+      color: #7f8c8d;
+      margin-bottom: 5px;
+    }
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    
+    button {
+      padding: 5px 10px;
+      border: 1px solid #ddd;
+      background: white;
+      cursor: pointer;
+      border-radius: 4px;
+      min-width: 36px;
+      
+      &:hover:not(:disabled) {
+        background: #f0f0f0;
+      }
+      
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      
+      &.active {
+        background: #3498db;
+        color: white;
+        border-color: #3498db;
+        font-weight: bold;
+      }
+    }
+  }
+  
+  .pagination-info {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }

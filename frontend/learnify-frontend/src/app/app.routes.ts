@@ -19,6 +19,9 @@ import { PackageUpdateComponent } from './packages&payments/packages/package-upd
 import { PackageListComponent } from './packages&payments/packages/package-list/package-list.component';
 import { SubscriptionListComponent } from './admin/subscription-list/subscription-list.component';
 import { LectureListComponent } from './admin/lecture-list/lecture-list.component';
+import { LessonListComponent } from './lessons/lesson-list/lesson-list.component';
+import { LessonDetailComponent } from './lessons/lesson-detail/lesson-detail.component';
+import { LessonManagementComponent } from './admin/lesson-management/lesson-management.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -66,7 +69,12 @@ export const routes: Routes = [
         path: "payment-result",
         component: PaymentResultComponent,
         title: "Payment Result",
-    },
+    },{
+        path:"lessons-list",
+        component:LessonListComponent,
+        title:"Lessons List"
+
+    },{ path: 'lessons/:id', component: LessonDetailComponent },
 
     // Admin routes (protected)
     {
@@ -102,6 +110,11 @@ export const routes: Routes = [
             path: "lectures-list",
             component: LectureListComponent,
             title: "Lessons List"
+        },
+        {
+            path:"lessons-management",
+            component:LessonManagementComponent,
+            title:"Lessons Management"
         }
     ]
     }, {

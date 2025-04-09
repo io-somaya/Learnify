@@ -1,0 +1,132 @@
+<div class="management-container">
+    <div class="management-header">
+      <h2>Lesson Management</h2>
+      <a routerLink="#" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add New Lesson
+      </a>
+    </div>
+  
+    <!-- Search and Filter Form -->
+    <form [formGroup]="searchForm" class="management-search-form">
+      <div class="form-group">
+        <label for="grade">Grade Level:</label>
+        <select id="grade" formControlName="grade" class="form-control">
+          <option value="">All Grades</option>
+          <option *ngFor="let grade of grades" [value]="grade">Grade {{grade}}</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="search">Search:</label>
+        <input 
+          id="search" 
+          type="text" 
+          formControlName="search" 
+          placeholder="Search lessons..." 
+          class="form-control"
+        >
+      </div>
+    </form>
+  
+    <!-- Status Messages -->
+    <div *ngIf="isLoading" class="management-loading">
+      <i class="fas fa-spinner fa-spin"></i> Loading lessons...
+    </div>
+    
+    <div *ngIf="errorMessage" class="management-error">
+      <i class="fas fa-exclamation-circle"></i> {{errorMessage}}
+    </div>
+  
+    <!-- Lessons Table -->
+    <div *ngIf="!isLoading && !errorMessage">
+      <div *ngIf="lessons.length === 0" class="management-empty">
+        No lessons found matching your criteria.
+      </div>
+      
+      <div *ngIf="lessons.length > 0" class="management-table-container">
+        <table class="management-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Grade</th>
+              <th>Video</th>
+              <th>Materials</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- This *ngFor should show all lessons -->
+            <tr *ngFor="let lesson of lessons">
+              <td>{{lesson.title}}</td>
+              <td>Grade {{lesson.grade}}</td>
+              <td>
+                <img *ngIf="lesson.youtube_embed_code" 
+                     [src]="getYoutubeThumbnail(lesson.youtube_embed_code)" 
+                     alt="Video thumbnail" 
+                     class="thumbnail-img">
+              </td>
+              <td>
+                <div *ngFor="let material of lesson.materials" class="material-item">
+                  <a [href]="material.file_url" target="_blank">{{material.file_name}}</a>
+                </div>
+              </td>
+              <td class="actions-cell">
+                <button [routerLink]="['/lessons/edit', lesson.id]" class="btn btn-sm btn-edit">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button (click)="deleteLesson(lesson.id)" class="btn btn-sm btn-delete">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Pagination -->
+<!-- Add this pagination section to your template -->
+<div class="pagination-container">
+  <div class="pagination-controls">
+    <!-- First Page Button -->
+    <button 
+      (click)="changePage(1)"
+      [disabled]="paginationInfo.currentPage === 1">
+      First
+    </button>
+
+    <!-- Previous Page Button -->
+    <button 
+      (click)="changePage(paginationInfo.currentPage - 1)"
+      [disabled]="paginationInfo.currentPage === 1">
+      Previous
+    </button>
+
+    <!-- Page Numbers -->
+    <button 
+      *ngFor="let page of getPageNumbers()"
+      (click)="changePage(page)"
+      [class.active]="page === paginationInfo.currentPage">
+      {{ page }}
+    </button>
+
+    <!-- Next Page Button -->
+    <button 
+      (click)="changePage(paginationInfo.currentPage + 1)"
+      [disabled]="paginationInfo.currentPage === paginationInfo.lastPage">
+      Next
+    </button>
+
+    <!-- Last Page Button -->
+    <button 
+      (click)="changePage(paginationInfo.lastPage)"
+      [disabled]="paginationInfo.currentPage === paginationInfo.lastPage">
+      Last
+    </button>
+  </div>
+
+  <!-- Pagination Info -->
+  <div class="pagination-info">
+    {{ getDisplayRange() }}
+  </div>
+</div>
+      </div>
+    </div>
+  </div>
