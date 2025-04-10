@@ -161,7 +161,7 @@ Unauthorized use of this codebase violates:
 ## 🔒 Security Policy
 
 Report vulnerabilities responsibly:  
-1. Email security issues to **learnify.security@example.com**  
+1. Email security issues to **learnify.supp.G2025@gmail.com**  
 2. Do not disclose publicly until patched  
 3. Include reproduction steps and impact analysis  
 
