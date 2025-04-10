@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit {
     // Navigate to edit profile page
   
     // Example:
-    this.router.navigate(['/profile/edit']);
+    this.router.navigate(['student/dashboard/edit-profile']);
   
   }
 }

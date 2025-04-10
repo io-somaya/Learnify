@@ -19,6 +19,7 @@ import { PackageUpdateComponent } from './packages&payments/packages/package-upd
 import { PackageListComponent } from './packages&payments/packages/package-list/package-list.component';
 import { SubscriptionListComponent } from './admin/subscription-list/subscription-list.component';
 import { LectureListComponent } from './admin/lecture-list/lecture-list.component';
+import { SDashboardComponent } from './student/dashboard/dashboard.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -57,11 +58,7 @@ export const routes: Routes = [
         component: ResetPasswordComponent,
         title: "Reset Password",
     },
-    {
-        path: "packages",
-        component: PackagesComponent,
-        title: "Packages",
-    },
+    
     {
         path: "payment-result",
         component: PaymentResultComponent,
@@ -111,31 +108,31 @@ export const routes: Routes = [
     },
 
     //User routes
-    {
-        path: "profile",
-        component: LayoutComponent,
-        title: "Profile",
-        children: [{
-            path: "",
-            component: ProfileComponent,
-            title: "Profile"
-        },
-        {
-            path: "edit",
-            component: EditProfileComponent,
-            title: "Edit Profile"
-        }
-        ]
 
-
-    },
     
     // Student routes (protected)
     {
-        path: "student",
-        canActivate: [authGuard],
-        loadChildren: () => import('./student/student.module').then(m => m.StudentModule),
-        title: "Student Portal"
+        path: "student/dashboard",
+        // canActivate: [authGuard],
+        title: "Student Portal",
+        component:SDashboardComponent,
+        children:[
+            {
+                path: "profile",
+                component: ProfileComponent,
+                title: "Profile"
+
+            },
+            {
+                path: "edit-profile",
+                component: EditProfileComponent,
+                title: "Edit Profile"
+            },{
+                path: "packages",
+                component: PackagesComponent,
+                title: "Packages",
+            },
+        ]
     },
 
     // Other routes

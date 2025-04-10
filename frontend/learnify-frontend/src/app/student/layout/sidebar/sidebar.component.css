@@ -22,7 +22,11 @@
   background-color: #f8f9fa;
 }
 
-.sidebar-menu li.active {
+/* .sidebar-menu li.active {
+  background-color: var(--medium-purple);
+  color: white;
+} */
+.active-link {
   background-color: var(--medium-purple);
   color: white;
 }
