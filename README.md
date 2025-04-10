@@ -133,10 +133,10 @@ ng build --configuration production --aot
 
 | Member                | Role                | Contact                           |
 |-----------------------|---------------------|-----------------------------------|
-| **Omar Rizk**         | Backend Developer   | [GitHub](https://github.com/OmarMMRizk) · [LinkedIn](https://www.linkedin.com/in/omar-mohamed-rizk/) |
+| **Omar Rizk**         | Full-Stack Developer   | [GitHub](https://github.com/OmarMMRizk) · [LinkedIn](https://www.linkedin.com/in/omar-mohamed-rizk/) |
 | **Abdelrahman Hasan** | Full-Stack Developer| [GitHub](https://github.com/Abdo-hasen) · [LinkedIn](https://www.linkedin.com/in/abdelrhman-hasan22/) |
-| **Somaya Hassan**     | Frontend Lead       | [GitHub](https://github.com/io-somaya) · [LinkedIn](https://www.linkedin.com/in/io-somaya/) |
-| **Mahmoud Elsayed**   | Database Architect  | [GitHub](https://github.com/Mahmoud-Eid-Elsayed) · [LinkedIn](https://www.linkedin.com/in/mahmoud-elsayed/) |
+| **Somaya Hassan**     | Full-Stack Developer & UI/UX     | [GitHub](https://github.com/io-somaya) · [LinkedIn](https://www.linkedin.com/in/io-somaya/) |
+| **Mahmoud Elsayed**   | Full-Stack Developer | [GitHub](https://github.com/Mahmoud-Eid-Elsayed) · [LinkedIn](https://www.linkedin.com/in/mahmoud-elsayed/) |
 
 ## 📜 Project Governance
 
