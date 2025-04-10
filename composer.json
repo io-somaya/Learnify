@@ -1,0 +1,5 @@
+{
+    "require": {
+        "jubaer/zoom-laravel": "^1.3"
+    }
+}
