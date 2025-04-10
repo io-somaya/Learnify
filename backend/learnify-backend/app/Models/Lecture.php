@@ -21,7 +21,9 @@ class Lecture extends Model
         'description',
         'grade',
         'zoom_link',
-        'is_active'
+        'is_active',
+        'zoom_meeting_id',
+        'zoom_start_url'
     ];
 
     protected $casts = [

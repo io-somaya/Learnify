@@ -141,8 +141,7 @@ Route::middleware('auth:sanctum')->group(function () {
             });
 
         //lectures
-        Route::apiResource('lectures', TeacherLectureController::class)
-            ->except(['show']);
+        Route::apiResource('lectures', TeacherLectureController::class);
 
     });
 
@@ -157,6 +156,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/student/lectures', [DashboardController::class, 'upcomingLectures']);
         Route::get('/student/exams', [DashboardController::class, 'upcomingExams']);
         Route::get('/student/activities', [DashboardController::class, 'recentActivities']);
+    });
+
+    Route::middleware(\App\Http\Middleware\CheckRole::class . ':student')->prefix('student')->group(function () {
+        //lectures
+        Route::get('lectures', [TeacherLectureController::class,'index']);
+        Route::get('lectures/{lecture}', [TeacherLectureController::class,'show']);
     });
 
     /*
