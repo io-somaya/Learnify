@@ -1,4 +1,4 @@
-.admin-profile-edit-container {
+.profile-edit-container {
   padding: 20px;
   max-width: 900px;
   margin: 0 auto;
@@ -30,13 +30,13 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Error styles */
-.error-container, .success-container {
+/* Error and Success styles */
+.error-container, .success-message {
   border-radius: 8px;
-  padding: 20px;
+  padding: 15px 20px;
   margin: 20px 0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .error-container {
@@ -44,35 +44,28 @@
   border-left: 4px solid #dc3545;
 }
 
-.success-container {
+.success-message {
   background-color: #e8f7ef;
   border-left: 4px solid #28a745;
-}
-
-.error-icon, .success-icon {
-  font-size: 24px;
-  margin-right: 15px;
+  color: #28a745;
 }
 
 .error-icon {
+  font-size: 24px;
+  margin-right: 15px;
   color: #dc3545;
 }
 
-.success-icon {
+.success-message i {
+  font-size: 20px;
+  margin-right: 10px;
   color: #28a745;
-}
-
-.error-content h3, .success-content h3 {
-  margin-top: 0;
-  margin-bottom: 10px;
 }
 
 .error-content h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
   color: #dc3545;
-}
-
-.success-content h3 {
-  color: #28a745;
 }
 
 .retry-btn {
@@ -94,13 +87,6 @@
   background-color: var(--medium-purple);
   color: white;
   transform: translateY(-2px);
-}
-
-.redirect-message {
-  color: #666;
-  font-size: 14px;
-  margin-top: 5px;
-  font-style: italic;
 }
 
 /* Form Header */
@@ -141,6 +127,7 @@
 /* Form Styling */
 .profile-form {
   width: 100%;
+  margin-bottom: 30px;
 }
 
 .form-card {
@@ -160,6 +147,13 @@
   font-size: 18px;
   margin: 0 0 20px 0;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.form-section h3 i {
+  margin-right: 10px;
+  color: var(--medium-purple);
 }
 
 .form-row {
@@ -184,18 +178,9 @@
   position: relative;
 }
 
-.input-container i {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--medium-purple);
-  font-size: 16px;
-}
-
 .form-control {
   width: 100%;
-  padding: 12px 12px 12px 40px;
+  padding: 12px 15px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   font-size: 15px;
@@ -221,6 +206,20 @@
   color: #dc3545;
   font-size: 12px;
   margin-top: 5px;
+}
+
+.field-info {
+  color: #666;
+  font-size: 12px;
+  margin-top: 8px;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+}
+
+.field-info i {
+  color: var(--medium-purple);
+  margin-right: 5px;
 }
 
 /* Form actions */
@@ -273,24 +272,98 @@
   box-shadow: none;
 }
 
-/* Responsive styles */
+/* Additional Actions */
+.additional-actions {
+  margin-top: 30px;
+}
+
+.additional-actions h3 {
+  color: var(--dark-purple);
+  font-size: 18px;
+  margin: 0 0 20px 0;
+  font-weight: 600;
+}
+
+.action-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.action-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.action-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(120, 134, 199, 0.15);
+}
+
+.action-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--light-pink);
+  color: var(--dark-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.action-content {
+  flex-grow: 1;
+}
+
+.action-content h4 {
+  color: var(--dark-purple);
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.action-content p {
+  color: #666;
+  margin: 0;
+  font-size: 14px;
+}
+
+.action-arrow {
+  color: var(--medium-purple);
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
   .form-row {
     grid-template-columns: 1fr;
     gap: 10px;
   }
-  
+
   .form-section {
     padding: 20px;
   }
-  
+
   .form-actions {
-    flex-direction: column-reverse;
-    padding: 20px;
+    flex-direction: column;
   }
-  
+
   .cancel-btn, .save-btn {
     width: 100%;
     justify-content: center;
+  }
+  
+  .action-cards {
+    grid-template-columns: 1fr;
   }
 }

@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IUserProfile } from '../../Interfaces/IUserProfile';
 import { ProfileService } from '../../services/profile.service';
+
+interface ApiResponse {
+  status: number;
+  message: string;
+  data: IUserProfile;
+}
 
 @Component({
   selector: 'app-profile-edit',
@@ -36,14 +42,16 @@ export class ProfileEditComponent implements OnInit {
       first_name: ['', [Validators.required, Validators.minLength(2)]],
       last_name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      phone_number: ['', [Validators.pattern(/^\+?[0-9\s]+$/)]]
+      phone_number: ['', [Validators.pattern(/^(\+\d{1,3})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]]
     });
   }
 
   fetchProfile(): void {
     this.isLoading = true;
+    this.error = '';
+    
     this.profileService.getProfile().subscribe({
-      next: (response: any) => {
+      next: (response: ApiResponse) => {
         if (response.status === 200) {
           this.user = response.data;
           this.populateForm();
@@ -67,6 +75,9 @@ export class ProfileEditComponent implements OnInit {
         email: this.user.email,
         phone_number: this.user.phone_number
       });
+      
+      // Mark the form as pristine after initial population
+      this.profileForm.markAsPristine();
     }
   }
 
@@ -81,6 +92,11 @@ export class ProfileEditComponent implements OnInit {
           this.isSubmitting = false;
           if (response.status === 200) {
             this.successMessage = 'Profile updated successfully';
+            // Update the local user data
+            if (this.user) {
+              this.user = { ...this.user, ...this.profileForm.value };
+            }
+            this.profileForm.markAsPristine();
             setTimeout(() => this.router.navigate(['/admin/dashboard/profile']), 2000);
           } else {
             this.error = response.message || 'Unexpected response format';
@@ -106,6 +122,14 @@ export class ProfileEditComponent implements OnInit {
     if (field.errors['pattern']) return 'Invalid format';
 
     return 'Invalid value';
+  }
+  
+  navigateToPasswordChange(): void {
+    this.router.navigate(['/admin/dashboard/profile/password']);
+  }
+  
+  navigateToPhotoUpload(): void {
+    this.router.navigate(['/admin/dashboard/profile/photo']);
   }
 
   goBack(): void {

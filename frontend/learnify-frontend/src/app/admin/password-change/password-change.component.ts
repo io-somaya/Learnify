@@ -19,6 +19,17 @@ export class PasswordChangeComponent implements OnInit {
   showCurrentPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
+  
+  // Password strength properties
+  passwordStrength = {
+    hasUpperCase: false,
+    hasLowerCase: false, 
+    hasNumber: false,
+    hasSpecialChar: false
+  };
+  passwordStrengthLevel = 'weak';
+  passwordStrengthText = 'Weak';
+  passwordStrengthPercentage = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -50,6 +61,59 @@ export class PasswordChangeComponent implements OnInit {
     }
     
     return null;
+  }
+
+  checkPasswordStrength(): void {
+    const password = this.passwordForm.get('new_password')?.value;
+    
+    if (!password) {
+      this.resetPasswordStrength();
+      return;
+    }
+    
+    // Check for different character types
+    this.passwordStrength.hasUpperCase = /[A-Z]/.test(password);
+    this.passwordStrength.hasLowerCase = /[a-z]/.test(password);
+    this.passwordStrength.hasNumber = /[0-9]/.test(password);
+    this.passwordStrength.hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+    
+    // Calculate strength score
+    const metRequirements = Object.values(this.passwordStrength).filter(val => val).length;
+    const lengthScore = password.length >= 12 ? 1 : (password.length >= 8 ? 0.5 : 0);
+    
+    // Calculate total score (out of 5)
+    const totalScore = metRequirements + lengthScore;
+    
+    // Set strength level
+    if (totalScore < 2) {
+      this.passwordStrengthLevel = 'weak';
+      this.passwordStrengthText = 'Weak';
+      this.passwordStrengthPercentage = 25;
+    } else if (totalScore < 3) {
+      this.passwordStrengthLevel = 'medium';
+      this.passwordStrengthText = 'Medium';
+      this.passwordStrengthPercentage = 50;
+    } else if (totalScore < 4.5) {
+      this.passwordStrengthLevel = 'strong';
+      this.passwordStrengthText = 'Strong';
+      this.passwordStrengthPercentage = 75;
+    } else {
+      this.passwordStrengthLevel = 'very-strong';
+      this.passwordStrengthText = 'Very Strong';
+      this.passwordStrengthPercentage = 100;
+    }
+  }
+  
+  resetPasswordStrength(): void {
+    this.passwordStrength = {
+      hasUpperCase: false,
+      hasLowerCase: false,
+      hasNumber: false,
+      hasSpecialChar: false
+    };
+    this.passwordStrengthLevel = 'weak';
+    this.passwordStrengthText = 'Weak';
+    this.passwordStrengthPercentage = 0;
   }
 
   onSubmit(): void {
