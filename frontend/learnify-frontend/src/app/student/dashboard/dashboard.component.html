@@ -1,0 +1,38 @@
+<!-- Navbar -->
+<app-navbar></app-navbar>
+
+<!-- Main Content -->
+<div class="main-container">
+  <div class="hero-background">
+    <div class="container">
+      <div class="row">
+        <!-- Hero Section with Profile -->
+        <div class="col-12">
+          <app-hero></app-hero>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row mt-4">
+      <!-- Sidebar -->
+      <div class="col-lg-3">
+        <app-sidebar></app-sidebar>
+      </div>
+      
+      <!-- Main Content -->
+      <div class="col-lg-9">
+        <app-order-history></app-order-history>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<app-footer></app-footer>
+
+<!-- Back to top button -->
+<a class="back-to-top" *ngIf="showBackToTop" (click)="scrollToTop()">
+  <i class="fas fa-arrow-up"></i>
+</a>

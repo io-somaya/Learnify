@@ -1,120 +1,265 @@
-<div class="container py-4">
-    <!-- Students Section -->
-    <h3 class="mb-3"><i class="fa-solid fa-graduation-cap"></i> Students</h3>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Grade A</h5>
-                    <p class="card-text">Total: 25</p>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Grade B</h5>
-                    <p class="card-text">Total: 35</p>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Grade C</h5>
-                    <p class="card-text">Total: 45</p>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="dashboard-container">
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <h2 class="dashboard-title">Dashboard Overview</h2>
+    </header>
 
-    <!-- Lessons Section -->
-    <h3 class="mt-5 mb-3"><i class="fa-solid fa-person-chalkboard"></i> Lessons</h3>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Grade A Lessons</h5>
-                    <p class="card-text">Total: 8</p>
-                </div>
+    <!-- Summary Cards Row -->
+    <section class="summary-cards">
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div class="summary-content">
+                <h3 class="counter" data-target="105">0</h3>
+                <p>Total Students</p>
+                <span class="trend-indicator positive">+12% <i class="fa-solid fa-arrow-up"></i></span>
             </div>
         </div>
-        <div class="col">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Grade B Lessons</h5>
-                    <p class="card-text">Total: 12</p>
-                </div>
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="fa-solid fa-person-chalkboard"></i>
+            </div>
+            <div class="summary-content">
+                <h3 class="counter" data-target="30">0</h3>
+                <p>Total Lessons</p>
+                <span class="trend-indicator positive">+5% <i class="fa-solid fa-arrow-up"></i></span>
             </div>
         </div>
-        <div class="col">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Grade C Lessons</h5>
-                    <p class="card-text">Total: 10</p>
-                </div>
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="fa-solid fa-file-signature"></i>
+            </div>
+            <div class="summary-content">
+                <h3 class="counter" data-target="80">0</h3>
+                <p>Total Subscriptions</p>
+                <span class="trend-indicator positive">+8% <i class="fa-solid fa-arrow-up"></i></span>
             </div>
         </div>
-    </div>
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="fa-solid fa-money-bill-wave"></i>
+            </div>
+            <div class="summary-content">
+                <h3 class="counter" data-target="40">0</h3>
+                <p>Monthly Subscriptions</p>
+                <span class="trend-indicator neutral">0% <i class="fa-solid fa-minus"></i></span>
+            </div>
+        </div>
+    </section>
 
-    <!-- Subscription Section -->
-    <h3 class="mt-5 mb-3"><i class="fa-solid fa-file-signature"></i> Subscriptions</h3>
+    <!-- Two Column Layout for Details -->
+    <main class="dashboard-main">
+        <!-- Left Column -->
+        <div class="dashboard-column">
+            <!-- Students Section -->
+            <section class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-graduation-cap"></i> Students Distribution</h3>
+                    <div class="card-actions">
+                        <button class="action-btn" title="More options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <div class="data-label">
+                                <span>Grade A</span>
+                                <span>25%</span>
+                            </div>
+                            <div class="data-value">25 <small>students</small></div>
+                            <div class="progress-bar">
+                                <div class="progress" style="--progress-width: 25%"></div>
+                            </div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">
+                                <span>Grade B</span>
+                                <span>35%</span>
+                            </div>
+                            <div class="data-value">35 <small>students</small></div>
+                            <div class="progress-bar">
+                                <div class="progress" style="--progress-width: 35%"></div>
+                            </div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">
+                                <span>Grade C</span>
+                                <span>45%</span>
+                            </div>
+                            <div class="data-value">45 <small>students</small></div>
+                            <div class="progress-bar">
+                                <div class="progress" style="--progress-width: 45%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="view-all-btn">View all students <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </section>
 
-    <!-- Yearly Subscriptions -->
-    <h5 class="mb-3"><i class="fa-solid fa-calendar-check"></i> Years</h5>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Grade A</h5>
-                    <p class="card-text">Total: 5</p>
+            <!-- Lessons Section -->
+            <section class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-person-chalkboard"></i> Lessons by Grade</h3>
+                    <div class="card-actions">
+                        <button class="action-btn" title="More options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card text-center">
                 <div class="card-body">
-                    <h5 class="card-title">Grade B</h5>
-                    <p class="card-text">Total: 10</p>
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <div class="data-label">
+                                <span>Grade A Lessons</span>
+                                <span>27%</span>
+                            </div>
+                            <div class="data-value">8 <small>lessons</small></div>
+                            <div class="progress-bar">
+                                <div class="progress grade-a" style="--progress-width: 27%"></div>
+                            </div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">
+                                <span>Grade B Lessons</span>
+                                <span>40%</span>
+                            </div>
+                            <div class="data-value">12 <small>lessons</small></div>
+                            <div class="progress-bar">
+                                <div class="progress grade-b" style="--progress-width: 40%"></div>
+                            </div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">
+                                <span>Grade C Lessons</span>
+                                <span>33%</span>
+                            </div>
+                            <div class="data-value">10 <small>lessons</small></div>
+                            <div class="progress-bar">
+                                <div class="progress grade-c" style="--progress-width: 33%"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Grade C</h5>
-                    <p class="card-text">Total: 25</p>
+                <div class="card-footer">
+                    <button class="view-all-btn">Manage lessons <i class="fa-solid fa-arrow-right"></i></button>
                 </div>
-            </div>
+            </section>
         </div>
-    </div>
 
-    <!-- Monthly Subscriptions -->
-    <h5 class="mt-4 mb-3"><i class="fa-solid fa-calendar-days"></i> Months</h5>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Grade A</h5>
-                    <p class="card-text">Total: 20</p>
+        <!-- Right Column -->
+        <div class="dashboard-column">
+            <!-- Yearly Subscriptions -->
+            <section class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-calendar-check"></i> Yearly Subscriptions</h3>
+                    <div class="card-actions">
+                        <button class="action-btn" title="More options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                    </div>
                 </div>
+                <div class="card-body">
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <div class="data-label">
+                                <span>Grade A</span>
+                                <span>12%</span>
+                            </div>
+                            <div class="data-value">5 <small>subscriptions</small></div>
+                            <div class="progress-bar">
+                                <div class="progress yearly" style="--progress-width: 12%"></div>
+                            </div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">
+                                <span>Grade B</span>
+                                <span>25%</span>
+                            </div>
+                            <div class="data-value">10 <small>subscriptions</small></div>
+                            <div class="progress-bar">
+                                <div class="progress yearly" style="--progress-width: 25%"></div>
+                            </div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">
+                                <span>Grade C</span>
+                                <span>63%</span>
+                            </div>
+                            <div class="data-value">25 <small>subscriptions</small></div>
+                            <div class="progress-bar">
+                                <div class="progress yearly" style="--progress-width: 63%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="view-all-btn">View subscription details <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </section>
+
+            <!-- Monthly Subscriptions -->
+            <section class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-calendar-days"></i> Monthly Subscriptions</h3>
+                    <div class="card-actions">
+                        <button class="action-btn" title="More options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <div class="data-label">
+                                <span>Grade A</span>
+                                <span>31%</span>
+                            </div>
+                            <div class="data-value">20 <small>subscriptions</small></div>
+                            <div class="progress-bar">
+                                <div class="progress monthly" style="--progress-width: 31%"></div>
+                            </div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">
+                                <span>Grade B</span>
+                                <span>38%</span>
+                            </div>
+                            <div class="data-value">25 <small>subscriptions</small></div>
+                            <div class="progress-bar">
+                                <div class="progress monthly" style="--progress-width: 38%"></div>
+                            </div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">
+                                <span>Grade C</span>
+                                <span>31%</span>
+                            </div>
+                            <div class="data-value">20 <small>subscriptions</small></div>
+                            <div class="progress-bar">
+                                <div class="progress monthly" style="--progress-width: 31%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="view-all-btn">View subscription details <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Quick Info Section -->
+    <section class="quick-info">
+        <div class="info-card">
+            <i class="fa-solid fa-bell"></i>
+            <div class="info-content">
+                <h4>Recent Activity</h4>
+                <p>5 new students enrolled today</p>
             </div>
         </div>
-        <div class="col">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Grade B</h5>
-                    <p class="card-text">Total: 25</p>
-                </div>
+        <div class="info-card">
+            <i class="fa-solid fa-lightbulb"></i>
+            <div class="info-content">
+                <h4>Did you know?</h4>
+                <p>You can export your dashboard data as CSV</p>
             </div>
         </div>
-        <div class="col">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Grade C</h5>
-                    <p class="card-text">Total: 20</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    </section>
 </div>

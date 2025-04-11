@@ -1,45 +1,108 @@
-<div id="wrapper" [class.menuDisplayed]="isMenuOpen">
+<div id="wrapper" [class.menu-expanded]="isMenuOpen">
     <!-- Sidebar -->
-    <div id="sidebar-wrapper">
-      <ul class="sidebar-nav">
-<li class="nav-category">Main</li>
-        <li><a routerLink="/admin/dashboard" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
-<span class="link-name"><i class="bi bi-clipboard-data-fill"></i> Dashboard</span>
-<i class="fa-solid fa-chevron-right"></i>
-</a></li>
+    <aside id="sidebar-wrapper">
+        <div class="sidebar-header">
+            <div class="logo">
+                <h2>Learnify</h2>
+            </div>
+            <button class="sidebar-toggle" (click)="toggleMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
 
-        <li class="nav-category">Management</li>
-        <li><a routerLink="/admin/dashboard/subscriptions-list" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
-<span class="link-name"><i class="fa-solid fa-file-signature"></i> Subscriptions</span>
-<i class="fa-solid fa-chevron-right"></i>
-</a></li>
-        <li><a routerLink="/admin/students" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
-<span class="link-name"><i class="fa-solid fa-graduation-cap"></i> Students</span>
-<i class="fa-solid fa-chevron-right"></i>
-</a></li>
-        <li><a routerLink="/admin/dashboard/lectures-list" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
-<span class="link-name"><i class="fa-solid fa-person-chalkboard"></i> Lessons</span>
-            <i class="fa-solid fa-chevron-right"></i>
-        </a></li>
+        <div class="sidebar-profile">
+            <div class="profile-img">
+                <img src="assets/images/avatar.png" alt="Admin" onerror="this.src='https://ui-avatars.com/api/?name=Admin&background=7886C7&color=fff'">
+            </div>
+            <div class="profile-info">
+                <h5>Admin User</h5>
+                <span>Administrator</span>
+            </div>
+        </div>
 
-        <li class="nav-category">Settings</li>
-        <li><a routerLink="/profile" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
-            <span class="link-name"><i class="fa-solid fa-user-gear"></i> Profile</span>
-            <i class="fa-solid fa-chevron-right"></i>
-</a></li>
-      </ul>
-    </div>
+        <nav class="sidebar-nav">
+            <div class="nav-category">
+                <span>Main</span>
+            </div>
+            <ul class="nav-items">
+                <li class="nav-item">
+                    <a routerLink="/admin/dashboard" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <span class="link-name">Dashboard</span>
+                        <i class="fa-solid fa-chevron-right arrow"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-category">
+                <span>Management</span>
+            </div>
+            <ul class="nav-items">
+                <li class="nav-item">
+                    <a routerLink="/admin/dashboard/subscriptions-list" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-file-signature"></i>
+                        </div>
+                        <span class="link-name">Subscriptions</span>
+                        <i class="fa-solid fa-chevron-right arrow"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/admin/students" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <span class="link-name">Students</span>
+                        <i class="fa-solid fa-chevron-right arrow"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/admin/dashboard/lectures-list" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-person-chalkboard"></i>
+                        </div>
+                        <span class="link-name">Lessons</span>
+                        <i class="fa-solid fa-chevron-right arrow"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-category">
+                <span>Settings</span>
+            </div>
+            <ul class="nav-items">
+                <li class="nav-item">
+                    <a routerLink="/profile" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-user-gear"></i>
+                        </div>
+                        <span class="link-name">Profile</span>
+                        <i class="fa-solid fa-chevron-right arrow"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" (click)="logout()">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </div>
+                        <span class="link-name">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>&copy; 2024 Learnify</p>
+        </div>
+    </aside>
   
     <!-- Page Content -->
     <div id="page-content-wrapper">
-          <div class="container-fluid">
-          <div class="row">
-          <div class="col-lg-12">
-      <div id="menu-toggle" (click)="toggleMenu()"><i class="bi bi-filter-left"></i></div>
-     <div class="ms-5">
-        <router-outlet></router-outlet>
-     </div>
-
+        <div class="content-container">
+            <router-outlet></router-outlet>
+        </div>
     </div>
 </div>
 
