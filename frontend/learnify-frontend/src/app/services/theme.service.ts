@@ -38,14 +38,20 @@ export class ThemeService {
    * Apply the new colors to the application
    */
   applyNewColors(): void {
-    this.setColors(this.newColors);
+    // Only apply colors if we're in a browser environment
+    if (isPlatformBrowser(this.platformId)) {
+      this.setColors(this.newColors);
+    }
   }
 
   /**
    * Revert to the original color scheme
    */
   revertToOriginalColors(): void {
-    this.setColors(this.originalColors);
+    // Only apply colors if we're in a browser environment
+    if (isPlatformBrowser(this.platformId)) {
+      this.setColors(this.originalColors);
+    }
   }
 
   /**
@@ -68,7 +74,9 @@ export class ThemeService {
       document.documentElement.style.setProperty('--color-dark-blue', colors.darkPurple);
       
       // Force the body background color directly 
-      document.body.style.backgroundColor = '#f8f9fa';
+      if (document.body) {
+        document.body.style.backgroundColor = '#f8f9fa';
+      }
     }
   }
 } 

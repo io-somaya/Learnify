@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,21 +10,28 @@ import { CommonModule } from '@angular/common';
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   
-  constructor() {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
     // Initialize any data or services here
   }
 
   ngAfterViewInit(): void {
-    // Start animations after view is initialized
-    this.animateCounters();
+    // Start animations after view is initialized and only if we're in a browser
+    if (isPlatformBrowser(this.platformId)) {
+      this.animateCounters();
+    }
   }
 
   /**
    * Animates the counter elements to count up to their target values
    */
   private animateCounters(): void {
+    // Only run in browser environment
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    
     const counters = document.querySelectorAll('.counter');
     const speed = 200; // The lower the faster
     
