@@ -1,0 +1,116 @@
+<div class="admin-profile-container">
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading your profile...</p>
+  </div>
+
+  <div *ngIf="error" class="error-container">
+    <div class="error-icon">
+      <i class="fas fa-exclamation-circle"></i>
+    </div>
+    <div class="error-content">
+      <h3>Error Loading Profile</h3>
+      <p>{{ error }}</p>
+      <button class="retry-btn" (click)="fetchProfile()">
+        <i class="fas fa-redo"></i> Retry
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="user && !isLoading" class="profile-content">
+    <!-- Header with Actions -->
+    <div class="profile-header">
+      <div class="back-button" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i>
+      </div>
+      <h1><i class="fas fa-id-card-alt" style="margin-right: 10px;"></i>Admin Profile</h1>
+      <div class="action-buttons">
+        <button class="action-btn" (click)="editProfile()">
+          <i class="fas fa-edit"></i> Edit Profile
+        </button>
+        <button class="action-btn" (click)="changePassword()">
+          <i class="fas fa-key"></i> Change Password
+        </button>
+      </div>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <div class="profile-top">
+        <div class="profile-image-container">
+          <img 
+            [src]="user.profile_picture || 'assets/images/default-avatar.png'" 
+            alt="Profile Picture" 
+            class="profile-image"
+          >
+          <div class="photo-update-btn" (click)="updatePhoto()">
+            <i class="fas fa-camera"></i>
+          </div>
+        </div>
+        <div class="profile-details">
+          <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+          <div class="role-badge">
+            <i class="fas fa-user-shield"></i> Admin
+          </div>
+          <p class="email"><i class="fas fa-envelope"></i> {{ user.email }}</p>
+          <div class="verification-status" [class.verified]="user.email_verified_at">
+            <i class="fas" [class.fa-check-circle]="user.email_verified_at" [class.fa-times-circle]="!user.email_verified_at"></i>
+            {{ user.email_verified_at ? 'Email Verified' : 'Email Not Verified' }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Information -->
+      <div class="info-section">
+        <h3>Contact Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">
+              <i class="fas fa-phone"></i> Phone Number
+            </div>
+            <div class="info-value">{{ user.phone_number || 'Not provided' }}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">
+              <i class="fas fa-envelope"></i> Email Address
+            </div>
+            <div class="info-value">{{ user.email }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account Information -->
+      <div class="info-section">
+        <h3>Account Information</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">
+              <i class="fas fa-user-tag"></i> Role
+            </div>
+            <div class="info-value">{{ user.role | titlecase }}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">
+              <i class="fas fa-toggle-on"></i> Status
+            </div>
+            <div class="info-value status-pill" [class]="user.status">
+              {{ user.status | titlecase }}
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">
+              <i class="fas fa-calendar-plus"></i> Joined On
+            </div>
+            <div class="info-value">{{ user.created_at | date:'mediumDate' }}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">
+              <i class="fas fa-clock"></i> Last Updated
+            </div>
+            <div class="info-value">{{ user.updated_at | date:'medium' }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
