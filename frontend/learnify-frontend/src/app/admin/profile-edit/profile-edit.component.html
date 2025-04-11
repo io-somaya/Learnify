@@ -1,0 +1,110 @@
+<div class="profile-edit-container">
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading your profile...</p>
+  </div>
+
+  <div *ngIf="error && !isLoading" class="error-container">
+    <div class="error-icon">
+      <i class="fas fa-exclamation-circle"></i>
+    </div>
+    <div class="error-content">
+      <h3>Error</h3>
+      <p>{{ error }}</p>
+      <button class="retry-btn" (click)="fetchProfile()">
+        <i class="fas fa-redo"></i> Retry
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="successMessage" class="success-message">
+    <i class="fas fa-check-circle"></i>
+    <span>{{ successMessage }}</span>
+  </div>
+
+  <div *ngIf="!isLoading && !error" class="edit-form-container">
+    <div class="form-header">
+      <div class="back-button" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i>
+      </div>
+      <h1><i class="fas fa-user-edit"></i> Edit Profile</h1>
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+      <div class="form-group">
+        <label for="first_name">
+          <i class="fas fa-user"></i> First Name
+        </label>
+        <input 
+          type="text" 
+          id="first_name" 
+          formControlName="first_name" 
+          [class.is-invalid]="profileForm.get('first_name')?.invalid && profileForm.get('first_name')?.touched"
+        >
+        <div class="error-message" *ngIf="profileForm.get('first_name')?.invalid && profileForm.get('first_name')?.touched">
+          {{ getFieldError('first_name') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="last_name">
+          <i class="fas fa-user"></i> Last Name
+        </label>
+        <input 
+          type="text" 
+          id="last_name" 
+          formControlName="last_name"
+          [class.is-invalid]="profileForm.get('last_name')?.invalid && profileForm.get('last_name')?.touched"
+        >
+        <div class="error-message" *ngIf="profileForm.get('last_name')?.invalid && profileForm.get('last_name')?.touched">
+          {{ getFieldError('last_name') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">
+          <i class="fas fa-envelope"></i> Email Address
+        </label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          [class.is-invalid]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched"
+        >
+        <div class="error-message" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+          {{ getFieldError('email') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone_number">
+          <i class="fas fa-phone"></i> Phone Number
+        </label>
+        <input 
+          type="tel" 
+          id="phone_number" 
+          formControlName="phone_number"
+          [class.is-invalid]="profileForm.get('phone_number')?.invalid && profileForm.get('phone_number')?.touched"
+        >
+        <div class="error-message" *ngIf="profileForm.get('phone_number')?.invalid && profileForm.get('phone_number')?.touched">
+          {{ getFieldError('phone_number') }}
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="goBack()">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+        <button 
+          type="submit" 
+          class="save-btn" 
+          [disabled]="profileForm.invalid || isSubmitting"
+        >
+          <i class="fas fa-save"></i>
+          <span *ngIf="!isSubmitting">Save Changes</span>
+          <span *ngIf="isSubmitting">Saving...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div> 

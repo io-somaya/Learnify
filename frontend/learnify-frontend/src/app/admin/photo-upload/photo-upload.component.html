@@ -1,0 +1,82 @@
+<div class="photo-upload-container">
+  <div *ngIf="error" class="error-container">
+    <div class="error-icon">
+      <i class="fas fa-exclamation-circle"></i>
+    </div>
+    <div class="error-content">
+      <h3>Error</h3>
+      <p>{{ error }}</p>
+    </div>
+  </div>
+
+  <div *ngIf="successMessage" class="success-message">
+    <i class="fas fa-check-circle"></i>
+    <span>{{ successMessage }}</span>
+  </div>
+
+  <div class="upload-form-container">
+    <div class="form-header">
+      <div class="back-button" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i>
+      </div>
+      <h1><i class="fas fa-camera"></i> Update Profile Photo</h1>
+    </div>
+
+    <div class="upload-content">
+      <div class="photo-preview-container">
+        <div class="photo-preview" [ngClass]="{'has-preview': previewUrl}">
+          <img *ngIf="previewUrl" [src]="previewUrl" alt="Profile Preview">
+          <div *ngIf="!previewUrl" class="no-preview">
+            <i class="fas fa-user"></i>
+            <p>No photo selected</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="upload-controls">
+        <input 
+          type="file" 
+          #fileInput
+          accept="{{ acceptedFormats }}"
+          (change)="onFileSelected($event)"
+          class="file-input"
+        >
+        
+        <button type="button" class="select-btn" (click)="triggerFileInput()">
+          <i class="fas fa-folder-open"></i> Select Photo
+        </button>
+        
+        <div *ngIf="selectedFile" class="selected-file-info">
+          <p><i class="fas fa-file-image"></i> {{ selectedFile.name }}</p>
+          <p><i class="fas fa-weight-hanging"></i> {{ (selectedFile.size / 1024).toFixed(2) }} KB</p>
+        </div>
+        
+        <div class="file-requirements">
+          <p><i class="fas fa-info-circle"></i> Accepted formats: JPEG, PNG</p>
+          <p><i class="fas fa-info-circle"></i> Maximum file size: 5MB</p>
+        </div>
+
+        <div class="upload-actions">
+          <button 
+            type="button" 
+            class="cancel-btn" 
+            (click)="goBack()"
+          >
+            <i class="fas fa-times"></i> Cancel
+          </button>
+          
+          <button 
+            type="button" 
+            class="upload-btn" 
+            [disabled]="!selectedFile || isUploading"
+            (click)="uploadPhoto()"
+          >
+            <i class="fas fa-cloud-upload-alt"></i>
+            <span *ngIf="!isUploading">Upload Photo</span>
+            <span *ngIf="isUploading">Uploading...</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
