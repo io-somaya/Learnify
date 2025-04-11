@@ -23,9 +23,9 @@ export class AdminLoginComponent implements OnInit {
   // Single image with fallback
   images = [
     { 
-      src: 'assets/pics/login.png', 
-      alt: 'Login',
-      fallback: 'https://via.placeholder.com/500x500.png?text=Login'
+      src: 'assets/pics/admin-login.png', 
+      alt: 'Admin Login',
+      fallback: 'https://via.placeholder.com/500x500.png?text=Admin+Login'
     }
   ];
   currentImageIndex = 0;
@@ -96,19 +96,27 @@ export class AdminLoginComponent implements OnInit {
       this.authService.adminLogin(email, password).subscribe({
         next: (response) => {
           this.isLoading = false;
-          console.log('Login successful', response);
-          // show toast message
-          this.toastService.success('Login completed successfully!');          
+          const userRole = response.user?.role || this.authService.userRole;
           
-          // Navigate to dashboard
-          this.router.navigate(['/admin/dashboard']);
+          // Verify user is a teacher or assistant
+          if (userRole === 'teacher' || userRole === 'assistant') {
+            // Success message
+            this.toastService.success('Admin login successful!');
+            // Navigate to admin dashboard
+            this.router.navigate(['/admin/dashboard']);
+          } else {
+            // Not authorized as admin
+            this.errorMessage = 'You do not have permission to access the admin area.';
+            this.toastService.error(this.errorMessage);
+            // Logout the user
+            this.authService.logout();
+          }
         },
         error: (error) => {
           this.isLoading = false;
-          this.errorMessage = 'Login failed. Please check your credentials and try again.';
+          this.errorMessage = 'Invalid credentials. This login is for administrators only.';
           console.error('Login error', error);
-          // show toast message
-          this.toastService.error("Login failed. Please check your credentials and try again.");
+          this.toastService.error(this.errorMessage);
         }
       });
     }
@@ -119,5 +127,10 @@ export class AdminLoginComponent implements OnInit {
     
     // Navigate to forgot password page
     this.router.navigate(['/forgot-password']);
+  }
+  
+  // Navigate back to the regular student login page
+  goToStudentLogin() {
+    this.router.navigate(['/']);
   }
 } 
