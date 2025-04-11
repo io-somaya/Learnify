@@ -1,0 +1,48 @@
+<!-- Modern Navbar -->
+<nav class="navbar navbar-expand-lg" [ngClass]="{'scrolled': isScrolled}">
+  <div class="container-fluid navbar-container">
+    <!-- Logo -->
+    <a class="navbar-brand" href="#">Learn<span>ify</span></a>
+    
+    <!-- Search Bar -->
+    <div class="search-container d-none d-md-flex">
+      <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" placeholder="Search for courses..." class="search-input">
+      </div>
+    </div>
+    
+    <!-- Right Side Navigation Items -->
+    <div class="nav-right">
+      <!-- Notification Icon -->
+      <div class="nav-icon-container">
+        <i class="fas fa-bell notification-icon"></i>
+        <span class="notification-badge">3</span>
+      </div>
+      
+      <!-- Profile Dropdown -->
+      <div class="profile-dropdown">
+        <div class="profile-trigger">
+          <img src="/assets/images/placeholder.jpg" alt="Profile" class="user-profile">
+          <span class="d-none d-md-inline-block ms-2">Somaya Hassan</span>
+          <i class="fas fa-chevron-down ms-2 d-none d-md-inline-block"></i>
+        </div>
+        <div class="profile-dropdown-content">
+          <div class="dropdown-header">
+            <img src="/assets/images/placeholder.jpg" alt="Profile" class="dropdown-profile-img">
+            <div>
+              <p class="dropdown-name">Somaya Hassan</p>
+              <p class="dropdown-email">Somaya&#64;learnify.com</p>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item"><i class="fas fa-user me-2"></i> My Profile</a>
+          <a href="#" class="dropdown-item"><i class="fas fa-graduation-cap me-2"></i> My Courses</a>
+          <a href="#" class="dropdown-item"><i class="fas fa-cog me-2"></i> Settings</a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
