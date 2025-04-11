@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lesson-detail',
@@ -18,11 +19,13 @@ export class LessonDetailComponent implements OnInit {
   isLoading = true;
   errorMessage = '';
   lessonId!: number;
+  safeYoutubeEmbed: SafeHtml | null = null;
 
   constructor(
     private lessonService: LessonService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -46,11 +49,14 @@ export class LessonDetailComponent implements OnInit {
       )
       .subscribe(lesson => {
         this.lesson = lesson;
+        if (lesson?.youtube_embed_code) {
+          this.safeYoutubeEmbed = this.sanitizer.bypassSecurityTrustHtml(lesson.youtube_embed_code);
+        }
         this.isLoading = false;
       });
   }
 
   goBack(): void {
-    this.router.navigate(['/lessons-list']);
+    this.router.navigate(['/student/dashboard/lessons-list']);
   }
 }

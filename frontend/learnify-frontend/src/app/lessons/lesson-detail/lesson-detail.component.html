@@ -41,14 +41,9 @@
           </li>
         </ul>
       </div>
-      <div *ngIf="lesson.youtube_embed_code" class="video-container">
+      <div *ngIf="lesson?.youtube_embed_code" class="video-container">
         <h3>Video</h3>
-        <iframe
-          [src]="getYoutubeThumbnail(lesson.youtube_embed_code)"
-          frameborder="0"
-          allowfullscreen
-          class="video-embed"
-        ></iframe>
+        <div [innerHTML]="safeYoutubeEmbed"></div>
       </div>
 
       <div *ngIf="lesson.activities" class="activities">
