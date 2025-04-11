@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface ThemeColors {
   lightPink: string;
@@ -31,40 +32,51 @@ export class ThemeService {
     componentBackground: '#ffffff'
   };
 
-  constructor() { }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
   /**
    * Apply the new colors to the application
    */
   applyNewColors(): void {
-    this.setColors(this.newColors);
+    // Only apply colors if we're in a browser environment
+    if (isPlatformBrowser(this.platformId)) {
+      this.setColors(this.newColors);
+    }
   }
 
   /**
    * Revert to the original color scheme
    */
   revertToOriginalColors(): void {
-    this.setColors(this.originalColors);
+    // Only apply colors if we're in a browser environment
+    if (isPlatformBrowser(this.platformId)) {
+      this.setColors(this.originalColors);
+    }
   }
 
   /**
    * Set application colors using CSS variables
    */
   private setColors(colors: ThemeColors): void {
-    document.documentElement.style.setProperty('--light-pink', colors.lightPink);
-    document.documentElement.style.setProperty('--light-purple', colors.lightPurple);
-    document.documentElement.style.setProperty('--medium-purple', colors.mediumPurple);
-    document.documentElement.style.setProperty('--dark-purple', colors.darkPurple);
-    document.documentElement.style.setProperty('--page-background', colors.pageBackground);
-    document.documentElement.style.setProperty('--component-background', colors.componentBackground);
-    
-    // Also set the legacy variables for components that might still use them
-    document.documentElement.style.setProperty('--color-light-pink', colors.lightPink);
-    document.documentElement.style.setProperty('--color-light-blue', colors.lightPurple);
-    document.documentElement.style.setProperty('--color-medium-blue', colors.mediumPurple);
-    document.documentElement.style.setProperty('--color-dark-blue', colors.darkPurple);
-    
-    // Force the body background color directly 
-    document.body.style.backgroundColor = '#f8f9fa';
+    // Check if running in browser environment
+    if (isPlatformBrowser(this.platformId)) {
+      document.documentElement.style.setProperty('--light-pink', colors.lightPink);
+      document.documentElement.style.setProperty('--light-purple', colors.lightPurple);
+      document.documentElement.style.setProperty('--medium-purple', colors.mediumPurple);
+      document.documentElement.style.setProperty('--dark-purple', colors.darkPurple);
+      document.documentElement.style.setProperty('--page-background', colors.pageBackground);
+      document.documentElement.style.setProperty('--component-background', colors.componentBackground);
+      
+      // Also set the legacy variables for components that might still use them
+      document.documentElement.style.setProperty('--color-light-pink', colors.lightPink);
+      document.documentElement.style.setProperty('--color-light-blue', colors.lightPurple);
+      document.documentElement.style.setProperty('--color-medium-blue', colors.mediumPurple);
+      document.documentElement.style.setProperty('--color-dark-blue', colors.darkPurple);
+      
+      // Force the body background color directly 
+      if (document.body) {
+        document.body.style.backgroundColor = '#f8f9fa';
+      }
+    }
   }
 } 

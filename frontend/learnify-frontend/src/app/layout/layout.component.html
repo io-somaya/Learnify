@@ -10,7 +10,7 @@
             </button>
         </div>
 
-        <div class="sidebar-profile">
+        <div class="sidebar-profile" (click)="navigateToProfile()">
             <div class="profile-img">
                 <img src="assets/images/avatar.png" alt="Admin" onerror="this.src='https://ui-avatars.com/api/?name=Admin&background=7886C7&color=fff'">
             </div>
@@ -74,7 +74,7 @@
             </div>
             <ul class="nav-items">
                 <li class="nav-item">
-                    <a routerLink="/profile" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
+                    <a routerLink="/admin/dashboard/profile" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
                         <div class="icon-box">
                             <i class="fa-solid fa-user-gear"></i>
                         </div>

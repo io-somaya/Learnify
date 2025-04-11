@@ -25,6 +25,11 @@ import { LectureListComponent } from './lecture-list/lecture-list.component';
 import { LectureManagementComponent } from './admin/lecture-management/lecture-management.component';
 import { AddLectureComponent } from './admin/lecture-management/add-lecture/add-lecture.component';
 import { EditLectureComponent } from './admin/lecture-management/edit-lecture/edit-lecture.component';
+// Import admin profile components
+import { ProfileComponent as AdminProfileComponent } from './admin/profile/profile.component';
+import { ProfileEditComponent } from './admin/profile-edit/profile-edit.component';
+import { PasswordChangeComponent } from './admin/password-change/password-change.component';
+import { PhotoUploadComponent } from './admin/photo-upload/photo-upload.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -121,8 +126,7 @@ export const routes: Routes = [
             path: "lectures-management",
             component: LectureManagementComponent,
             title: "lectures Management"
-        }
-            ,
+        },
         {
             path: "lessons-management",
             component: LessonManagementComponent,
@@ -143,8 +147,27 @@ export const routes: Routes = [
             component: EditLectureComponent,
             title: 'Edit Lecture'
         },
-
-
+        // Admin Profile Routes
+        {
+            path: 'profile',
+            component: AdminProfileComponent,
+            title: 'Admin Profile'
+        },
+        {
+            path: 'profile/edit',
+            component: ProfileEditComponent,
+            title: 'Edit Admin Profile'
+        },
+        {
+            path: 'profile/password',
+            component: PasswordChangeComponent,
+            title: 'Change Password'
+        },
+        {
+            path: 'profile/photo',
+            component: PhotoUploadComponent,
+            title: 'Update Profile Photo'
+        }
         ]
     }, {
         path: "admin/login",
