@@ -33,7 +33,7 @@
     left: 0;
     width: 60px;
     height: 4px;
-    background: linear-gradient(90deg, var(--medium-purple), var(--light-purple));
+    background: var(--medium-purple);
     border-radius: 4px;
     animation: expandWidth 0.8s ease-out forwards;
     animation-delay: 0.7s;
@@ -121,7 +121,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(169, 181, 223, 0.08) 0%, rgba(255, 242, 242, 0.05) 100%);
+    background: rgba(169, 181, 223, 0.05);
     transform: scale(0);
     transform-origin: center;
     transition: transform 0.5s ease;
@@ -556,26 +556,10 @@
     transition: width 1.5s cubic-bezier(0.165, 0.84, 0.44, 1);
     animation: progressAnimation 1.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
     animation-delay: 1s;
-    background-size: 30px 30px;
-    background-image: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.15) 25%,
-        transparent 25%,
-        transparent 50%,
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(255, 255, 255, 0.15) 75%,
-        transparent 75%,
-        transparent
-    );
 }
 
 .data-item:hover .progress {
-    animation: progressStripes 1s linear infinite;
-}
-
-@keyframes progressStripes {
-    from { background-position: 0 0; }
-    to { background-position: 60px 0; }
+    opacity: 0.9;
 }
 
 @keyframes progressAnimation {
@@ -585,75 +569,25 @@
 
 .progress.grade-a {
     background-color: #7886C7;
-    background-image: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.15) 25%,
-        transparent 25%,
-        transparent 50%,
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(255, 255, 255, 0.15) 75%,
-        transparent 75%,
-        transparent
-    );
     --progress-width: 27%;
 }
 
 .progress.grade-b {
     background-color: #A9B5DF;
-    background-image: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.15) 25%,
-        transparent 25%,
-        transparent 50%,
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(255, 255, 255, 0.15) 75%,
-        transparent 75%,
-        transparent
-    );
     --progress-width: 40%;
 }
 
 .progress.grade-c {
     background-color: #2D336B;
-    background-image: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.15) 25%,
-        transparent 25%,
-        transparent 50%,
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(255, 255, 255, 0.15) 75%,
-        transparent 75%,
-        transparent
-    );
     --progress-width: 33%;
 }
 
 .progress.yearly {
     background-color: #A9B5DF;
-    background-image: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.15) 25%,
-        transparent 25%,
-        transparent 50%,
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(255, 255, 255, 0.15) 75%,
-        transparent 75%,
-        transparent
-    );
 }
 
 .progress.monthly {
     background-color: #7886C7;
-    background-image: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.15) 25%,
-        transparent 25%,
-        transparent 50%,
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(255, 255, 255, 0.15) 75%,
-        transparent 75%,
-        transparent
-    );
 }
 
 /* Quick Info Section */
