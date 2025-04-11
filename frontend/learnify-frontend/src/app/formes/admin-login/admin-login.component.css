@@ -743,3 +743,137 @@ form {
     opacity: 0.1;
   }
 } 
+
+/* Admin-specific Styles */
+.admin-side {
+  background: linear-gradient(135deg, var(--dark-purple), #1a2244);
+}
+
+.admin-notice {
+  background-color: #f8f9fa;
+  border-left: 3px solid var(--dark-purple);
+  padding: 12px 15px;
+  margin: 20px 0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.admin-notice i {
+  color: var(--dark-purple);
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.admin-notice span {
+  color: #555;
+  font-size: 14px;
+}
+
+.admin-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  border-radius: 12px;
+  width: 80%;
+  backdrop-filter: blur(5px);
+  z-index: 10;
+}
+
+.admin-icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.admin-overlay h3 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.admin-overlay p {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+/* Student Login Link Section */
+.student-login-section {
+  margin-top: 30px;
+  text-align: center;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.student-login-text {
+  color: #6c757d;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.student-login-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--dark-purple);
+  font-weight: 500;
+  text-decoration: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  background-color: var(--light-pink);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.student-login-link i {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.student-login-link:hover {
+  background-color: var(--light-purple);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(45, 51, 107, 0.2);
+}
+
+.student-login-link:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(45, 51, 107, 0.2);
+}
+
+/* Override the signup-link button for admin login */
+.signup-link .btn {
+  background-color: var(--light-pink);
+  color: var(--dark-purple);
+  border: none;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.signup-link .btn:hover {
+  background-color: var(--light-purple);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Make the signin button more admin-like */
+.signin-btn {
+  background: linear-gradient(to right, #2D336B, #1A2244);
+}
+
+.signin-btn:hover {
+  background: linear-gradient(to right, #252E5F, #151B36);
+}

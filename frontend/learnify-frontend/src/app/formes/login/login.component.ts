@@ -97,11 +97,22 @@ export class LoginComponent implements OnInit {
         next: (response) => {
           this.isLoading = false;
           console.log('Login successful', response);
-          // show toast message
-          this.toastService.success('Login completed successfully!');          
           
-          // Navigate to dashboard
-          this.router.navigate(['/admin/dashboard']);
+          // Show success toast message
+          this.toastService.success('Login completed successfully!');
+          
+          // Get user role
+          const userRole = response.user?.role || this.authService.userRole;
+          
+          // Handle different user roles
+          if (userRole === 'teacher' || userRole === 'assistant') {
+            // If a teacher/admin tries to log in through the student form
+            this.toastService.info('Please use the admin login page for teacher/admin access');
+            this.router.navigate(['/admin/login']);
+          } else {
+            // All other users (including students) go to student dashboard
+            this.router.navigate(['/student/dashboard']);
+          }
         },
         error: (error) => {
           this.isLoading = false;
@@ -119,5 +130,9 @@ export class LoginComponent implements OnInit {
     
     // Navigate to forgot password page
     this.router.navigate(['/forgot-password']);
+  }
+  
+  goToAdminLogin() {
+    this.router.navigate(['/admin/login']);
   }
 } 
