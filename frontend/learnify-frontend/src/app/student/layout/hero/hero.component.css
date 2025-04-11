@@ -1,0 +1,108 @@
+.hero-section {
+  background: transparent;
+  padding: 65px 0 45px; /* Increased padding to accommodate more height */
+  position: relative;
+  margin-bottom: 20px; /* Space for the profile image below */
+  overflow: visible; /* Allow content to overflow for profile pic */
+  border-radius: 15px; /* Slightly increased border radius to match reference */
+  margin-top: 0px; /* Space for fixed navbar */
+  height: 300px; /* Increased height */
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--medium-purple);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+  opacity: 1;
+  border-radius: 15px; /* Match the hero section border radius */
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.profile-img {
+  width: 160px; /* Increased size */
+  height: 160px; /* Increased size */
+  border-radius: 50%;
+  border: 8px solid white; /* Slightly thicker border for larger image */
+  object-fit: cover;
+  position: absolute;
+  z-index: 3;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  left: 60px;
+  bottom: -40px; /* Adjusted position for larger image */
+  background-color: #ffeeb3; /* Light yellow background like in the reference image */
+}
+
+.profile-content {
+  margin-left: 210px; /* Adjusted to align with the larger profile image */
+  margin-top: 100px; /* Keep the vertical position */
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: 0; /* Remove top padding as we've adjusted content positioning individually */
+}
+
+.name-title {
+  font-size: 1.8rem; /* Larger font size to match the larger profile image */
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.ratings-container {
+  display: flex;
+  align-items: center;
+}
+
+.star-icons {
+  color: #FFD700;
+  margin-right: 8px;
+  font-size: 14px; /* Slightly larger stars */
+}
+
+.create-course-btn {
+  background-color: white;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 100px; /* Keep aligned with the username text */
+}
+
+.create-course-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+}
+
+.create-course-btn i {
+  margin-right: 8px;
+}

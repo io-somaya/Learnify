@@ -18,6 +18,7 @@ import { MakePackagesComponent } from './packages&payments/packages/make-package
 import { PackageUpdateComponent } from './packages&payments/packages/package-update/package-update.component';
 import { PackageListComponent } from './packages&payments/packages/package-list/package-list.component';
 import { SubscriptionListComponent } from './admin/subscription-list/subscription-list.component';
+<<<<<<< HEAD
 import { LessonListComponent } from './lessons/lesson-list/lesson-list.component';
 import { LessonDetailComponent } from './lessons/lesson-detail/lesson-detail.component';
 import { LessonManagementComponent } from './admin/lesson-management/lesson-management.component';
@@ -25,6 +26,10 @@ import { LectureListComponent } from './lecture-list/lecture-list.component';
 import { LectureManagementComponent } from './admin/lecture-management/lecture-management.component';
 import { AddLectureComponent } from './admin/lecture-management/add-lecture/add-lecture.component';
 import { EditLectureComponent } from './admin/lecture-management/edit-lecture/edit-lecture.component';
+=======
+import { LectureListComponent } from './admin/lecture-list/lecture-list.component';
+import { SDashboardComponent } from './student/dashboard/dashboard.component';
+>>>>>>> 01-student-dashboard
 
 export const routes: Routes = [
     // Auth routes
@@ -63,11 +68,7 @@ export const routes: Routes = [
         component: ResetPasswordComponent,
         title: "Reset Password",
     },
-    {
-        path: "packages",
-        component: PackagesComponent,
-        title: "Packages",
-    },
+    
     {
         path: "payment-result",
         component: PaymentResultComponent,
@@ -152,23 +153,31 @@ export const routes: Routes = [
         title: "Admin Login"
     },
     //User routes
+
+    
+    // Student routes (protected)
     {
-        path: "profile",
-        component: LayoutComponent,
-        title: "Profile",
-        children: [{
-            path: "",
-            component: ProfileComponent,
-            title: "Profile"
-        },
-        {
-            path: "edit",
-            component: EditProfileComponent,
-            title: "Edit Profile"
-        }
+        path: "student/dashboard",
+        // canActivate: [authGuard],
+        title: "Student Portal",
+        component:SDashboardComponent,
+        children:[
+            {
+                path: "profile",
+                component: ProfileComponent,
+                title: "Profile"
+
+            },
+            {
+                path: "edit-profile",
+                component: EditProfileComponent,
+                title: "Edit Profile"
+            },{
+                path: "packages",
+                component: PackagesComponent,
+                title: "Packages",
+            },
         ]
-
-
     },
 
     // Other routes
