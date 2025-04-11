@@ -53,6 +53,24 @@ export class ProfileService {
     );
   }
 
+  updateProfile(profileData: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone_number?: string;
+  }): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/profile`, 
+      profileData,
+      { 
+        headers: this.getAuthHeaders(),
+        withCredentials: true
+      }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   updatePassword(data: {
     current_password: string;
     new_password: string;
