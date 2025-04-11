@@ -5,20 +5,23 @@
       <li>
         <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
       </li>
+
       <li>
-        <a href="#"><i class="fas fa-user"></i> My Profile</a>
-      </li>
-      <li>
-        <a href="#"><i class="fas fa-graduation-cap"></i> Enrolled Courses</a>
+        <a routerLink="/student/dashboard/lessons-list" routerLinkActive="active-link" 
+           [routerLinkActiveOptions]="{ exact: true }">
+          <i class="fa-solid fa-person-chalkboard"></i>
+          My Lessons</a>
       </li>
 
       <li>
-        <a href="#"><i class="fas fa-star"></i> Reviews</a>
+      <a routerLink="/student/dashboard/lectures-list" 
+        routerLinkActive="active-link" 
+        [routerLinkActiveOptions]="{ exact: true }"><i class="fas fa-chalkboard-teacher"></i> My Lectures</a>
       </li>
       <li>
         <a href="#"><i class="fas fa-pen"></i> My Quiz Attempts</a>
       </li>
-      <li class="active">
+      <li>
         <a href="#"><i class="fas fa-shopping-bag"></i> Order History</a>
       </li>
       <li>
@@ -31,7 +34,9 @@
     <h6 class="text-uppercase text-muted small mb-3">USER</h6>
     <ul class="sidebar-menu">
       <li>
-        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        <a routerLink="/student/dashboard/profile" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" ><i class="fas fa-user"></i> My Profile</a>
+      </li> <li>
+        <a routerLink="/student/dashboard/packages" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" ><i class="fas fa-box-open"></i> Packages</a>
       </li>
       <li>
         <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
