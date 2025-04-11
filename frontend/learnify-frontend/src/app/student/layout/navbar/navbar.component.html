@@ -31,16 +31,17 @@
           <div class="dropdown-header">
             <img src="/assets/images/placeholder.jpg" alt="Profile" class="dropdown-profile-img">
             <div>
-              <p class="dropdown-name">Somaya Hassan</p>
-              <p class="dropdown-email">Somaya&#64;learnify.com</p>
+              <p class="dropdown-name">{{ user?.first_name || 'Guest User' }} {{ user?.last_name || '' }}</p>
+              <p class="dropdown-email">{{ user?.email || 'No email' }}</p>
             </div>
           </div>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item"><i class="fas fa-user me-2"></i> My Profile</a>
-          <a href="#" class="dropdown-item"><i class="fas fa-graduation-cap me-2"></i> My Courses</a>
-          <a href="#" class="dropdown-item"><i class="fas fa-cog me-2"></i> Settings</a>
+          <a routerLink="/student/dashboard/profile" class="dropdown-item"><i class="fas fa-user me-2"></i> My Profile</a>
+          <a routerLink="/student/dashboard" class="dropdown-item"><i class="fas fa-graduation-cap me-2"></i> My Dashboard</a>
+          <a routerLink="/student/dashboard/lessons-list" class="dropdown-item"> <i class="fa-solid fa-person-chalkboard me-2"></i> My Lessons</a>
+          <a routerLink="/student/dashboard/lectures-list" class="dropdown-item"> <i class="fas fa-chalkboard-teacher me-2"></i> My Lectures</a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+          <button  class="dropdown-item text-danger" (click)="logout()"><i class="fas fa-sign-out-alt me-2"></i> Logout</button>
         </div>
       </div>
     </div>

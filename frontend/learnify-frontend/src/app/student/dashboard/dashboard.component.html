@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<app-navbar></app-navbar>
+<app-navbar [user]="user"></app-navbar>
 
 <!-- Main Content -->
 <div class="main-container">
@@ -8,7 +8,7 @@
       <div class="row">
         <!-- Hero Section with Profile -->
         <div class="col-12">
-          <app-hero ></app-hero>
+          <app-hero [user]="user" ></app-hero>
         </div>
       </div>
     </div>

@@ -1,26 +1,35 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { IUserProfile } from '../../../Interfaces/IUserProfile';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit {
+  @Input() user: IUserProfile | null = null;
   isScrolled = false;
 
-  constructor() { }
+  constructor( 
+    private AuthService: AuthService
+  ) { }
 
   ngOnInit(): void {
-    // Initialize scroll state
     this.checkScroll();
+  }
+  logout() {
+    // Call the auth service logout method which handles the API call and local cleanup
+    this.AuthService.logout();
+    // Navigation is handled in the auth service's handleLogout method
   }
 
   @HostListener('window:scroll', [])
   checkScroll() {
-    // Check if page is scrolled
     this.isScrolled = window.scrollY > 60;
   }
 }
