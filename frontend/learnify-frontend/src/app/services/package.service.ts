@@ -25,7 +25,7 @@ export class PackageService {
 
   getPackages(): Observable<IPackage[]> {
     return this.http.get<{ data: IPackage[] }>(
-      `${this.apiUrl}/admin/packages`,  // Changed to admin endpoint
+      `${this.apiUrl}/packages`,  // Changed to admin endpoint
       { headers: this.getAuthHeaders() }
     ).pipe(
       tap(res => console.log('GET Packages Response:', res)),

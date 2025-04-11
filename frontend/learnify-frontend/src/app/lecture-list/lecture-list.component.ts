@@ -24,7 +24,7 @@ export class LectureListComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = null;
 
-    this.lectureService.getLectures().subscribe({
+    this.lectureService.getLecturesStudent().subscribe({
       next: (data) => {
         this.lectures = data;
         this.isLoading = false;

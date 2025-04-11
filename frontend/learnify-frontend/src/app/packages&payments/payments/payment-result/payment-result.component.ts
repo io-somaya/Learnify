@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
     selector: 'app-payment-result', 
@@ -20,7 +21,8 @@ export class PaymentResultComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toster : ToastService
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +37,8 @@ export class PaymentResultComponent implements OnInit {
 
   navigateToDashboard(): void {
     // Navigate to dashboard or another appropriate page
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/student/dashboard']);
+    this.toster.success('Payment successful! Redirecting to dashboard...');
+
   }
 }

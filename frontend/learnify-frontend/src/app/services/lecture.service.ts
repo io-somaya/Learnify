@@ -23,6 +23,17 @@ export class LectureService {
     return token ? { Authorization: `Bearer ${token}` } : {};
   }
 
+
+  getLecturesStudent(): Observable<ILecture[]> {
+    return this.http.get<{ data: ILecture[] }>(
+      `${this.apiUrl}/student/lectures`,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(res => console.log('GET Lectures Response:', res)),
+      map(res => res.data),
+      catchError(this.handleError)
+    );
+  }
   // GET all lectures
   getLectures(): Observable<ILecture[]> {
     return this.http.get<{ data: ILecture[] }>(

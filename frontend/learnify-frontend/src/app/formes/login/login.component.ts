@@ -101,7 +101,7 @@ export class LoginComponent implements OnInit {
           this.toastService.success('Login completed successfully!');          
           
           // Navigate to dashboard
-          this.router.navigate(['/admin/dashboard']);
+          this.router.navigate(['/student/dashboard']);
         },
         error: (error) => {
           this.isLoading = false;

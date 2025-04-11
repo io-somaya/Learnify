@@ -17,6 +17,7 @@ export class AuthService {
   private isBrowser: boolean;
   public registerEmail: string ;
   public userRole: string ;
+  public studentData: any;
 
   constructor(
     private http: HttpClient,
@@ -54,6 +55,8 @@ export class AuthService {
             this.currentUserSubject.next(user);
             this.autoLogout(user.expiresIn * 1000);
             this.userRole = response.user.role;
+            console.log(user);
+            this.studentData = response.user;
             console.log('eluserrr',this.userRole); 
           }
           return response;
@@ -109,7 +112,7 @@ export class AuthService {
       );
   }
 
-  logout() {
+  logout(): void {
     if (this.currentUserValue) {
       this.http.post(`${this.apiUrl}/logout`, {}, {
         headers: new HttpHeaders({
