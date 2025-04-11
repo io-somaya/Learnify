@@ -5,6 +5,7 @@ import { HeroComponent } from '../layout/hero/hero.component';
 import { SidebarComponent } from '../layout/sidebar/sidebar.component';
 import { FooterComponent } from '../layout/footer/footer.component';
 import { OrderHistoryComponent } from '../order-history/order-history.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +16,8 @@ import { OrderHistoryComponent } from '../order-history/order-history.component'
     HeroComponent,
     SidebarComponent,
     FooterComponent,
-    OrderHistoryComponent
+    OrderHistoryComponent,
+    RouterOutlet
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
