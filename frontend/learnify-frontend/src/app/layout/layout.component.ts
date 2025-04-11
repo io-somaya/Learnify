@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
@@ -13,26 +12,20 @@ import { Observable } from 'rxjs';
 })
 export class LayoutComponent {
   isMenuOpen = false;
-  constructor(
-    private authService: AuthService,
-  ) {}
+
+  constructor(private authService: AuthService, private router: Router) {}
+
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
+  navigateToProfile() {
+    this.router.navigate(['/admin/dashboard/profile']);
+  }
+
   logout() {
-    // Implement your logout logic here
-    console.log('Logout clicked');
-    // Example: this.authService.logout();
-    // this.authService.logout().subscribe({
-      // next: (response: unknown) => {
-        // console.log('Logout successful', response);
-        // Redirect to login or perform any other action
-      // },
-      // error: (error: Error) => {
-        // console.error('Logout failed', error);
-      // }
-    // });
-  // }
-}
+    // Call the auth service logout method which handles the API call and local cleanup
+    this.authService.logout();
+    // Navigation is handled in the auth service's handleLogout method
+  }
 }
