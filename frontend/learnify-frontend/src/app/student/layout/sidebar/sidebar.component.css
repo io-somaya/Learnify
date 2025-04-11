@@ -11,38 +11,38 @@
 }
 
 .sidebar-menu li {
-  padding: 12px 15px;
+  padding: 0;
   border-radius: 5px;
   margin-bottom: 5px;
-  display: flex;
-  align-items: center;
+  transition: all 0.3s ease;
 }
 
-.sidebar-menu li:hover {
-  background-color: #f8f9fa;
-}
-
-.sidebar-menu li.active {
-  background-color: var(--medium-purple);
-  color: white;
-}
-
-.sidebar-menu li.active a {
-  color: white;
-}
-
-.sidebar-menu a {
+.sidebar-menu li a {
+  padding: 12px 15px;
   color: #333;
   text-decoration: none;
   font-weight: 500;
-  display: block;
+  display: flex;
+  align-items: center;
   width: 100%;
+  transition: all 0.3s ease;
+}
+
+.sidebar-menu li:hover a {
+  background-color: var(--medium-purple);
+  color: white;
+  border-radius: 5px;
+}
+
+.sidebar-menu li:hover i {
+  color: white;
 }
 
 .sidebar-menu i {
   margin-right: 10px;
   width: 20px;
   text-align: center;
+  transition: color 0.3s ease;
 }
 
 .promo-card {
@@ -50,6 +50,16 @@
   overflow: hidden;
   background-color: var(--light-pink);
   margin-top: 20px;
+}
+
+.active-link {
+  background-color: var(--medium-purple) !important;
+  color: white !important;
+  border-radius: 5px;
+}
+
+.active-link i {
+  color: white;
 }
 
 .promo-card img {
