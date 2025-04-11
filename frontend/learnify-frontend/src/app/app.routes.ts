@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
-import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { DashboardComponent as AdminDashboard } from './admin/dashboard/dashboard.component';
+import { DashboardComponent as StudentDashboard } from './student/dashboard/dashboard.component';
 import { RegisterComponent } from './formes/register/register.component';
 import { LoginComponent } from './formes/login/login.component';
 import { ForgotPasswordComponent } from './formes/forgot-password/forgot-password.component';
@@ -10,8 +11,8 @@ import { VerifyEmailComponent } from './formes/verify-email/verify-email.compone
 import { CheckEmailComponent } from './formes/check-email/check-email.component';
 import { ToastComponent } from './toast/toast.component';
 import { PackagesComponent } from './packages&payments/packages/packages/packages.component';
-import { ProfileComponent } from './student/profile/profile.component';
-import { EditProfileComponent } from './student/edit-profile/edit-profile.component';
+// import { ProfileComponent } from './student/profile/profile.component';
+// import { EditProfileComponent } from './student/edit-profile/edit-profile.component';
 import { AdminLoginComponent } from './formes/admin-login/admin-login.component';
 import { PaymentResultComponent } from './packages&payments/payments/payment-result/payment-result.component';
 import { MakePackagesComponent } from './packages&payments/packages/make-packages/make-packages.component';
@@ -30,6 +31,7 @@ import { ProfileComponent as AdminProfileComponent } from './admin/profile/profi
 import { ProfileEditComponent } from './admin/profile-edit/profile-edit.component';
 import { PasswordChangeComponent } from './admin/password-change/password-change.component';
 import { PhotoUploadComponent } from './admin/photo-upload/photo-upload.component';
+import { OrderHistoryComponent } from './student/order-history/order-history.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -100,7 +102,7 @@ export const routes: Routes = [
         // canActivate: [authGuard],
         children: [{
             path: "",
-            component: DashboardComponent,
+            component: AdminDashboard,
             title: "Dashboard"
         },
         {
@@ -175,31 +177,79 @@ export const routes: Routes = [
         title: "Admin Login"
     },
     //User routes
-    {
-        path: "profile",
-        component: LayoutComponent,
-        title: "Profile",
-        children: [{
-            path: "",
-            component: ProfileComponent,
-            title: "Profile"
-        },
-        {
-            path: "edit",
-            component: EditProfileComponent,
-            title: "Edit Profile"
-        }
-        ]
+    // {
+    //     path: "profile",
+    //     component: LayoutComponent,
+    //     title: "Profile",
+    //     children: [{
+    //         path: "",
+    //         component: ProfileComponent,
+    //         title: "Profile"
+    //     },
+    //     {
+    //         path: "edit",
+    //         component: EditProfileComponent,
+    //         title: "Edit Profile"
+    //     }
+    //     ]
 
 
-    },
+    // },
     
     // Student routes (protected)
     {
-        path: "student",
-        canActivate: [authGuard],
-        loadChildren: () => import('./student/student.module').then(m => m.StudentModule),
-        title: "Student Portal"
+        path: "student/dashboard",
+        component:StudentDashboard,
+        title: "Student Portal",
+        children: [{
+            path: "",
+            component: OrderHistoryComponent,
+            title: "Dashboard"
+        },
+
+        //student profile routes need update
+        {
+            path: "profile",
+            component: AdminProfileComponent,
+            title: "Profile"
+        },
+        {
+            path: "profile/edit",
+            component: ProfileEditComponent,
+            title: "Edit Profile"
+        },
+        {
+            path: "profile/password",//for student
+            component: PasswordChangeComponent,
+            title: "Change Password"
+        },
+        {
+            path: "profile/photo",
+            component: PhotoUploadComponent,
+            title: "Update Profile Photo"
+        },
+        {
+            path: "lectures-list",
+            component: LectureListComponent,
+            title: "Lectures List"
+        },
+        {
+            path: "packages",
+            component: PackagesComponent,
+            title: "Packages"
+        },
+        {
+            path: "lessons-list",
+            component: LessonListComponent,
+            title: "Lessons List"
+            },
+            {
+                path: "payment-result",
+                component: PaymentResultComponent,
+                title: "Payment Result",
+            }
+    ]
+        
     },
 
     // Other routes
