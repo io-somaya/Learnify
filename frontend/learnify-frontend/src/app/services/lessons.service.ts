@@ -22,7 +22,7 @@ export class LessonService {
     const currentUser = localStorage.getItem('currentUser');
     return currentUser ? JSON.parse(currentUser).token : null;
   }
-
+// GET all lessons student 
   getLessons(page: number = 1, grade?: string, search?: string, perPage: number = 10): Observable<{ data: ILesson[], total: number }> {
     const params = new URLSearchParams();
     params.append('page', page.toString());
@@ -53,7 +53,7 @@ export class LessonService {
       catchError(this.handleError)
     );
   }
-
+// GET lessons for student and teacher by ID
   getLessonById(id: number): Observable<ILesson> {
     return this.http.get<{ data: ILesson }>(
       `${this.apiUrl}/lessons/${id}`,
@@ -64,7 +64,7 @@ export class LessonService {
       catchError(this.handleError)
     );
   }
-
+// GET all lessons for teacher
   getManagedLessons(
     page: number = 1,
     grade?: string,
@@ -82,7 +82,7 @@ export class LessonService {
       data: IPaginatedLessons, 
       message: string 
     }>(
-      `${this.apiUrl}/lessons?${params.toString()}`,
+      `${this.apiUrl}/admin/lessons?${params.toString()}`,
       { headers: this.getAuthHeaders() }
     ).pipe(
       tap(res => console.log('API Response:', res)),
@@ -90,20 +90,30 @@ export class LessonService {
     );
   }
 
-  // Add to LessonService
+
+  showTeacherLessonById(id: number): Observable<ILesson> {
+    return this.http.get<{ data: ILesson }>(
+      `${this.apiUrl}/admin/lessons/${id}`,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(res => console.log('GET Lesson Response:', res)),
+      map(res => res.data),
+      catchError(this.handleError)
+    );
+  }
+  //DELETE lesson by ID if u admin and assistant
 deleteLesson(lessonId: number): Observable<any> {
     return this.http.delete(
-      `${this.apiUrl}/lessons/${lessonId}`,
+      `${this.apiUrl}/admin/lessons/${lessonId}`,
       { headers: this.getAuthHeaders() }
     ).pipe(
       catchError(this.handleError)
     );
   }
-  
-  // If you need create/update methods:
+  // POST create new lesson
   createLesson(lessonData: any): Observable<ILesson> {
     return this.http.post<{ data: ILesson }>(
-      `${this.apiUrl}/lessons`,
+      `${this.apiUrl}/admin/lessons`,
       lessonData,
       { headers: this.getAuthHeaders() }
     ).pipe(
@@ -114,7 +124,7 @@ deleteLesson(lessonId: number): Observable<any> {
   
   updateLesson(lessonId: number, lessonData: any): Observable<ILesson> {
     return this.http.put<{ data: ILesson }>(
-      `${this.apiUrl}/lessons/${lessonId}`,
+      `${this.apiUrl}/admin/lessons/${lessonId}`,
       lessonData,
       { headers: this.getAuthHeaders() }
     ).pipe(

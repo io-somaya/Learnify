@@ -4,14 +4,17 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ILesson } from '../../Interfaces/ILesson';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import {  RouterLink } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-lesson-management',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './lesson-management.component.html',
-  styleUrls: ['./lesson-management.component.scss']
+  styleUrls: ['./lesson-management.component.css']
 })
 export class LessonManagementComponent implements OnInit {
   lessons: ILesson[] = [];
@@ -29,7 +32,10 @@ export class LessonManagementComponent implements OnInit {
 
   constructor(
     private lessonService: LessonService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: ToastService,
+    private router: Router
+
   ) {
     this.searchForm = this.fb.group({
       grade: [''],
@@ -39,6 +45,7 @@ export class LessonManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadLessonsData(1);
+    
 
     this.searchForm.get('search')?.valueChanges
       .pipe(
@@ -77,7 +84,30 @@ export class LessonManagementComponent implements OnInit {
         }
       });
   }
+  deleteLesson(id: number): void {
+    if (confirm('Are you sure you want to delete this lesson?')) {
+      this.lessonService.deleteLesson(id).subscribe({
 
+        next: () => {
+          this.loadLessonsData(this.paginationInfo.currentPage);
+          this.toastr.success('Lesson deleted successfully');
+        },
+        error: (error) => {
+          this.errorMessage = error.message;
+        }
+      });
+    }
+  }
+  addLesson(): void {
+    this.router.navigate(['/admin/dashboard/lessons/add']);
+  }
+
+  viewLesson(id: number): void {
+    this.router.navigate(['/admin/dashboard/lessons', id]);
+  }
+  editLesson(id: number): void { 
+    this.router.navigate(['/admin/dashboard/lessons/edit', id, ]);
+   } 
   getDisplayRange(): string {
     if (!this.paginationInfo || this.paginationInfo.total === 0) {
       return 'No entries found';

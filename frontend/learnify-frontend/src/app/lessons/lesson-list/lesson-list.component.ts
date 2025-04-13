@@ -74,6 +74,9 @@ export class LessonListComponent implements OnInit {
       });
   }
 
+  // viewLesson(id: number): void {
+  //   this.router.navigate(['/student/dashboard/lessons', id]);
+  // }
   viewLesson(id: number): void {
     this.router.navigate(['/lessons', id]);
   }

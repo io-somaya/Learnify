@@ -23,13 +23,13 @@
       <!-- Profile Dropdown -->
       <div class="profile-dropdown">
         <div class="profile-trigger">
-          <img src="/assets/images/placeholder.jpg" alt="Profile" class="user-profile">
+          <img [src]="user.profile_picture || 'assets/images/default-avatar.png'" alt="Profile" class="user-profile">
           <span class="d-none d-md-inline-block ms-2"></span>
           <i class="fas fa-chevron-down ms-2 d-none d-md-inline-block"></i>
         </div>
         <div class="profile-dropdown-content">
           <div class="dropdown-header">
-            <img src="/assets/images/placeholder.jpg" alt="Profile" class="dropdown-profile-img">
+            <img [src]="user.profile_picture || 'assets/images/default-avatar.png'" alt="Profile" class="dropdown-profile-img">
             <div>
               <p class="dropdown-name">{{ user?.first_name || 'Guest User' }} {{ user?.last_name || '' }}</p>
               <p class="dropdown-email">{{ user?.email || 'No email' }}</p>

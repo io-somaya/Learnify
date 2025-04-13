@@ -20,7 +20,9 @@ import { PackageUpdateComponent } from './packages&payments/packages/package-upd
 import { PackageListComponent } from './packages&payments/packages/package-list/package-list.component';
 import { SubscriptionListComponent } from './admin/subscription-list/subscription-list.component';
 import { LessonListComponent } from './lessons/lesson-list/lesson-list.component';
-import { LessonDetailComponent } from './lessons/lesson-detail/lesson-detail.component';
+import { LessonDetailComponent as StudentLessonDetail} from './lessons/lesson-detail/lesson-detail.component';
+import { LessonDetailComponent as AdminLessonDetail} from './admin/lesson-management/lesson-detail/lesson-detail.component';
+
 import { LessonManagementComponent } from './admin/lesson-management/lesson-management.component';
 import { LectureListComponent } from './lecture-list/lecture-list.component';
 import { LectureManagementComponent } from './admin/lecture-management/lecture-management.component';
@@ -32,6 +34,8 @@ import { ProfileEditComponent } from './admin/profile-edit/profile-edit.componen
 import { PasswordChangeComponent } from './admin/password-change/password-change.component';
 import { PhotoUploadComponent } from './admin/photo-upload/photo-upload.component';
 import { OrderHistoryComponent } from './student/order-history/order-history.component';
+import { EditLessonComponent } from './admin/lesson-management/edit-lesson/edit-lesson.component';
+import { AddLessonComponent } from './admin/lesson-management/add-lesson/add-lesson.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -84,10 +88,11 @@ export const routes: Routes = [
         component: LessonListComponent,
         title: "Lessons List"
 
-    }, 
+    },
     { path: 'lessons/:id',
-    component: LessonDetailComponent
+    component: StudentLessonDetail
     , title: 'Lesson Detail' },
+
     {
         path: "lectures-list",
         component: LectureListComponent,
@@ -125,14 +130,29 @@ export const routes: Routes = [
             title: "Subscriptions List"
         },
         {
+            path: "lessons-management",
+            component: LessonManagementComponent,
+            title: "Lessons Management"
+        }, 
+       
+        {
             path: "lectures-management",
             component: LectureManagementComponent,
             title: "lectures Management"
         },
         {
-            path: "lessons-management",
-            component: LessonManagementComponent,
-            title: "Lessons Management"
+            path: "lessons/add",
+            component: AddLessonComponent,
+            title: "Add Lesson"
+        },
+
+        { path: 'lessons/:id',
+            component: AdminLessonDetail
+        , title: 'Lesson Detail' },
+        {
+            path: 'lessons/edit/:id',
+            component: EditLessonComponent,
+            title: 'Edit Lesson'
         },
         {
             path: 'lectures-management',
@@ -243,6 +263,9 @@ export const routes: Routes = [
             component: LessonListComponent,
             title: "Lessons List"
             },
+            // { path: 'lessons/:id',
+            //     component: StudentLessonDetail
+            //     , title: 'Lesson Detail' },
             {
                 path: "payment-result",
                 component: PaymentResultComponent,
