@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LessonService } from '../../../services/lessons.service';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../../services/toast.service';
@@ -9,7 +9,7 @@ import { ToastService } from '../../../services/toast.service';
 @Component({
   selector: 'app-edit-lesson',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,RouterLink],
   templateUrl: './edit-lesson.component.html',
   styleUrl: './edit-lesson.component.css'
 })
