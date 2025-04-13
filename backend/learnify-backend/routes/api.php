@@ -16,7 +16,8 @@ use App\Http\Controllers\Teacher\TeacherLecture\TeacherLectureController;
 use App\Http\Controllers\Teacher\TeacherSubscription\TeacherController;
 use App\Http\Controllers\Teacher\TeacherSubscription\TeacherSubscriptionController;
 use App\Http\Controllers\LessonsController;
-
+use App\Http\Controllers\Student\StudentLectureController;
+use App\Http\Middleware\CheckSubscription;
 
 /*
 |--------------------------------------------------------------------------
@@ -119,7 +120,7 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::middleware(\App\Http\Middleware\CheckRole::class . ':teacher')->prefix('admin')->group(function () {
+    Route::middleware(\App\Http\Middleware\CheckRole::class . ':teacher,assistant')->prefix('admin')->group(function () {
         Route::post('/change-password', [AuthController::class, 'changePassword']);
 
         // Dashboard
@@ -142,7 +143,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
         //lectures
         Route::apiResource('lectures', TeacherLectureController::class);
-
     });
 
     /*
@@ -158,11 +158,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/student/activities', [DashboardController::class, 'recentActivities']);
     });
 
-    Route::middleware(\App\Http\Middleware\CheckRole::class . ':student')->prefix('student')->group(function () {
-        //lectures
-        Route::get('lectures', [TeacherLectureController::class,'index']);
-        Route::get('lectures/{lecture}', [TeacherLectureController::class,'show']);
+
+
+    // Student routes with subscription check
+    Route::middleware(['auth:sanctum', \App\Http\Middleware\CheckSubscription::class])->prefix('student')->group(function () {
+        Route::get('lectures', [StudentLectureController::class, 'index']);
+        Route::get('lectures/{lecture}', [StudentLectureController::class, 'show']);
     });
+
+
 
     /*
     |--------------------------------------------------------------------------
@@ -188,8 +192,6 @@ Route::middleware('auth:sanctum')->group(function () {
 */
 // Protected routes
 Route::prefix('lessons')->group(function () {
-    Route::get('/', [LessonsController::class, 'index'])->middleware('auth:sanctum');
-    ;
-    Route::get('/{id}', [LessonsController::class, 'show'])->middleware('auth:sanctum');
-    ;
+    Route::get('/', [LessonsController::class, 'index'])->middleware('auth:sanctum');;
+    Route::get('/{id}', [LessonsController::class, 'show'])->middleware('auth:sanctum');;
 });

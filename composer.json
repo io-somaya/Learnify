@@ -1,5 +1,6 @@
 {
     "require": {
-        "jubaer/zoom-laravel": "^1.3"
+        "jubaer/zoom-laravel": "^1.3",
+        "sendgrid/sendgrid": "^8.1"
     }
 }

@@ -11,6 +11,9 @@ use App\Services\ZoomService;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use App\Http\Resources\LectureResource;
+
 
 class TeacherLectureController extends Controller
 {
@@ -24,54 +27,33 @@ class TeacherLectureController extends Controller
         $this->zoomService = $zoomService;
     }
 
-    //return all lectures with the day of week and time in order
     public function index()
     {
-        $lectures = Lecture::orderByRaw(
-            "FIELD(day_of_week, 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')"
-        )->orderBy('start_time')->get();
+        $lectures = Lecture::query()
+            //filter by grade
+            ->when(request('grade'), fn($q) => $q->where('grade', request('grade')))
 
-        // Transform lectures based on user role
-        $transformedLectures = $lectures->map(function ($lecture) {
-            $data = [
-                'id' => $lecture->id,
-                'title' => $lecture->title,
-                'day_of_week' => $lecture->day_of_week,
-                'start_time' => $lecture->start_time,
-                'end_time' => $lecture->end_time,
-                'grade' => $lecture->grade,
-                'zoom_link' => $lecture->zoom_link
-            ];
+            //search in day of week and title and description
+            ->when(request('search'), function ($q) {
+                $search = request('search');
+                $q->where('day_of_week', 'LIKE', "%{$search}%")
+                    ->orWhere('title', 'LIKE', "%{$search}%")
+                    ->orWhere('description', 'LIKE', "%{$search}%");
+            })
 
-            // Only include start URL for admin users
-            if (auth()->user()->role === "teacher") {
-                $data['zoom_start_url'] = $lecture->zoom_start_url;
-            }
+            //order by day of week and time
+            ->orderByRaw("FIELD(day_of_week, 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
+            ->orderBy('start_time')
 
-            return $data;
-        });
+            // paginate
+            ->paginate(request('per_page', 10));
 
-        return $this->apiResponse(200, 'Lecture schedule retrieved successfully', null, $transformedLectures);
+        return $this->apiResponse(200, 'Lectures retrieved', null, LectureResource::collection($lectures));
     }
 
     public function show(Lecture $lecture)
     {
-        // For students, return basic details without sensitive URLs(start_url of zoom)
-        if (auth()->user()->role === 'student') {
-            return $this->apiResponse(200, 'Lecture details', null, [
-                'id' => $lecture->id,
-                'title' => $lecture->title,
-                'day_of_week' => $lecture->day_of_week,
-                'start_time' => $lecture->start_time,
-                'end_time' => $lecture->end_time,
-                'grade' => $lecture->grade,
-                'zoom_meeting_id' => $lecture->zoom_meeting_id,
-                'zoom_link' => $lecture->zoom_link
-            ]);
-        }
-
-        // For teachers/, return full details
-        return $this->apiResponse(200, 'Lecture details', null, $lecture);
+        return $this->apiResponse(200, 'Lecture details', null, new LectureResource($lecture));
     }
 
 
@@ -79,15 +61,15 @@ class TeacherLectureController extends Controller
     {
         // Start database transaction
         DB::beginTransaction();
-        
+
         try {
             $data = $request->validated();
             $zoomMeeting = $this->zoomService->createMeeting($data);
-            
+
             if (!isset($zoomMeeting['id']) || !isset($zoomMeeting['join_url']) || !isset($zoomMeeting['start_url'])) {
                 throw new \Exception('Failed to create Zoom meeting: Invalid response from Zoom API');
             }
-            
+
             $lecture = Lecture::create([
                 'day_of_week' => $data['day_of_week'],
                 'start_time' => $data['start_time'],
@@ -98,16 +80,16 @@ class TeacherLectureController extends Controller
                 'zoom_link' => $zoomMeeting['join_url'],
                 'zoom_start_url' => $zoomMeeting['start_url']
             ]);
-            
+
             // Commit transaction if everything succeeded
             DB::commit();
-            
+
             return $this->apiResponse(201, 'Lecture and Zoom meeting created', null, $lecture);
         } catch (\Exception $e) {
             // Rollback transaction if anything fails
             DB::rollBack();
-            
-            Log::error('Zoom meeting error: '.$e->getMessage());
+
+            Log::error('Zoom meeting error: ' . $e->getMessage());
             return $this->apiResponse(500, 'Failed to create lecture with Zoom meeting', [
                 'error' => $e->getMessage()
             ]);
@@ -118,17 +100,17 @@ class TeacherLectureController extends Controller
     {
         // Start database transaction
         DB::beginTransaction();
-        
+
         try {
             $data = $request->validated();
-            
+
             // Always update the Zoom meeting
             $zoomMeeting = $this->zoomService->createMeeting($data);
-            
+
             if (!isset($zoomMeeting['id']) || !isset($zoomMeeting['join_url']) || !isset($zoomMeeting['start_url'])) {
                 throw new \Exception('Failed to update Zoom meeting: Invalid response from Zoom API');
             }
-            
+
             // Delete the old meeting if possible
             if ($lecture->zoom_meeting_id) {
                 try {
@@ -138,22 +120,22 @@ class TeacherLectureController extends Controller
                     // Continue with the update even if deletion fails
                 }
             }
-            
+
             // Update lecture with new Zoom details
             $data['zoom_meeting_id'] = $zoomMeeting['id'];
             $data['zoom_link'] = $zoomMeeting['join_url'];
             $data['zoom_start_url'] = $zoomMeeting['start_url'];
-            
+
             $lecture->update($data);
-            
+
             // Commit transaction if everything succeeded
             DB::commit();
-            
+
             return $this->apiResponse(200, 'Lecture and Zoom meeting updated successfully', null, $lecture);
         } catch (\Exception $e) {
             // Rollback transaction if anything fails
             DB::rollBack();
-            
+
             Log::error('Zoom meeting update error: ' . $e->getMessage());
             return $this->apiResponse(500, 'Failed to update lecture with Zoom meeting', [
                 'error' => $e->getMessage()
@@ -165,7 +147,7 @@ class TeacherLectureController extends Controller
     {
         // Start database transaction
         DB::beginTransaction();
-        
+
         try {
             // Delete the Zoom meeting
             if ($lecture->zoom_meeting_id) {
@@ -177,23 +159,21 @@ class TeacherLectureController extends Controller
                     // We'll continue with lecture deletion even if Zoom deletion fails
                 }
             }
-            
+
             $lecture->delete();
-            
+
             // Commit transaction if everything succeeded
             DB::commit();
-            
+
             return $this->apiResponse(200, 'Lecture and associated Zoom meeting deleted successfully');
         } catch (\Exception $e) {
             // Rollback transaction if anything fails
             DB::rollBack();
-            
+
             Log::error('Error deleting lecture: ' . $e->getMessage());
             return $this->apiResponse(500, 'Failed to delete lecture', [
                 'error' => $e->getMessage()
             ]);
         }
     }
-
-  
 }
