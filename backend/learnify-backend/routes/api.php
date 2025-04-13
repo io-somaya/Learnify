@@ -161,7 +161,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     // Student routes with subscription check
-    Route::middleware(['auth:sanctum', \App\Http\Middleware\CheckSubscription::class])->prefix('student')->group(function () {
+    Route::middleware(['auth:sanctum', CheckSubscription::class])->prefix('student')->group(function () {
         Route::get('lectures', [StudentLectureController::class, 'index']);
         Route::get('lectures/{lecture}', [StudentLectureController::class, 'show']);
     });
@@ -190,8 +190,15 @@ Route::middleware('auth:sanctum')->group(function () {
 | Lesson Routes
 |--------------------------------------------------------------------------
 */
+// Admin routes (for teachers and assistants)
+Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
+    // Full CRUD access for teachers and assistants
+    Route::apiResource('lessons', LessonsController::class);
+});
 // Protected routes
 Route::prefix('lessons')->group(function () {
-    Route::get('/', [LessonsController::class, 'index'])->middleware('auth:sanctum');;
-    Route::get('/{id}', [LessonsController::class, 'show'])->middleware('auth:sanctum');;
+    Route::get('/', [LessonsController::class, 'index'])->middleware('auth:sanctum');
+    ;
+    Route::get('/{id}', [LessonsController::class, 'show'])->middleware('auth:sanctum');
+    ;
 });
