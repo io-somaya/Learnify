@@ -6,11 +6,12 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { NavbarComponent } from '../../student/layout/navbar/navbar.component';
 
 @Component({
   selector: 'app-lesson-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,NavbarComponent],
   templateUrl: './lesson-detail.component.html',
   styleUrls: ['./lesson-detail.component.scss']
 })
