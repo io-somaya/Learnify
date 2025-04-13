@@ -27,7 +27,7 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email|unique:users,email,'.$user->id,
+            'email' => 'sometimes|email|unique:users,email,' . $user->id,
             'phone' => 'sometimes|string|max:20',
             'grade' => 'sometimes|nullable|in:1,2,3',
             'parent_phone' => 'sometimes|nullable|string|max:20',
@@ -69,19 +69,43 @@ class ProfileController extends Controller
 
         if ($request->hasFile('photo')) {
             // Delete old photo if exists
-            if ($user->profile_photo_path) {
-                Storage::delete($user->profile_photo_path);
+            if ($user->profile_picture) {
+                Storage::disk('public')->delete($user->profile_picture);
             }
 
-            $path = $request->file('photo')->store('profile-photos');
-            $user->profile_photo_path = $path;
+            // Store in public disk with a unique name
+            $path = $request->file('photo')->store('profile-photos', 'public');
+            $user->profile_picture = $path; // Changed from profile_photo_path to profile_picture
             $user->save();
 
             return $this->apiResponse(200, 'Profile photo updated successfully', [
-                'photo_url' => Storage::url($path)
+                'photo_url' => asset('storage/' . $path) // Using asset helper instead of Storage::url
             ]);
         }
 
         return $this->apiResponse(400, 'No photo uploaded', null);
+    }
+    /**
+     * Delete the user's profile photo
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deletePhoto()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        if ($user->profile_picture) {
+            // Delete the file from storage
+            Storage::disk('public')->delete($user->profile_picture);
+
+            // Clear the profile picture field
+            $user->profile_picture = null;
+            $user->save();
+
+            return $this->apiResponse(200, 'Profile photo deleted successfully', null);
+        }
+
+        return $this->apiResponse(400, 'No profile photo to delete', null);
     }
 }
