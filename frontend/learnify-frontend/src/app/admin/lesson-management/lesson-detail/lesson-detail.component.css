@@ -1,0 +1,117 @@
+.lesson-detail-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .back-button {
+    background: none;
+    border: none;
+    color: #3498db;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding: 5px 0;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  .loading, .error {
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  .error {
+    color: #dc3545;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .retry-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: #2980b9;
+    }
+  }
+  
+  .lesson-content {
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    
+    .meta-info {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      color: #7f8c8d;
+      font-size: 14px;
+    }
+    
+    h3 {
+      color: #2c3e50;
+      margin-top: 25px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 5px;
+    }
+    
+    .description p {
+      line-height: 1.6;
+    }
+    
+    ul {
+      padding-left: 20px;
+      li {
+        margin-bottom: 8px;
+      }
+    }
+    
+    .activities {
+      .activity {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        
+        h4 {
+          margin-top: 0;
+          color: #2c3e50;
+        }
+        
+        .activity-duration {
+          font-size: 14px;
+          color: #7f8c8d;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  margin: 20px 0;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
