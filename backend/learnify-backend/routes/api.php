@@ -44,9 +44,9 @@ Route::get('/packages', [PackageController::class, 'index']);
 
 // Admin routes
 Route::post('/admin/login', [AuthController::class, 'adminLogin'])
-    ->middleware('role:teacher');
+    ->middleware('role:teacher,assistant');
 
-Route::middleware(['auth:sanctum', 'role:teacher'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:teacher,assistant'])->group(function () {
     Route::post('/admin/change-password', [AuthController::class, 'changePassword']);
 });
 
