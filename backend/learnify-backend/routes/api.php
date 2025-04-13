@@ -18,6 +18,7 @@ use App\Http\Controllers\Teacher\TeacherSubscription\TeacherSubscriptionControll
 use App\Http\Controllers\LessonsController;
 use App\Http\Controllers\Student\StudentLectureController;
 use App\Http\Middleware\CheckSubscription;
+use App\Http\Controllers\MaterialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -202,4 +203,24 @@ Route::prefix('lessons')->group(function () {
     ;
     Route::get('/{id}', [LessonsController::class, 'show'])->middleware('auth:sanctum');
     ;
+});
+
+/*
+|--------------------------------------------------------------------------
+| Material Routes
+|--------------------------------------------------------------------------
+*/
+
+// Admin routes (for teachers and assistants)
+Route::middleware(['auth:sanctum', \App\Http\Middleware\CheckRole::class . ':teacher,assistant'])->prefix('admin')->group(function () {
+    // Full CRUD access for teachers and assistants
+    Route::apiResource('materials', MaterialController::class);
+    Route::get('lessons/{lesson}/materials', [MaterialController::class, 'getMaterialsByLesson']);
+});
+
+// Student routes - read-only access
+Route::middleware(['auth:sanctum', \App\Http\Middleware\CheckRole::class . ':student'])->group(function () {
+    Route::get('materials', [MaterialController::class, 'index']);
+    Route::get('materials/{id}', [MaterialController::class, 'show']);
+    Route::get('lessons/{lesson}/materials', [MaterialController::class, 'getMaterialsByLesson']);
 });
