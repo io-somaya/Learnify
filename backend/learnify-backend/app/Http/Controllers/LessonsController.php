@@ -6,6 +6,7 @@ use App\Models\Lesson;
 use App\Models\PackageUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class LessonsController extends Controller
 {
@@ -51,7 +52,7 @@ class LessonsController extends Controller
             $searchTerm = $request->search;
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('title', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('description', 'LIKE', "%{$searchTerm}%");
+                    ->orWhere('description', 'LIKE', "%{$searchTerm}%");
             });
         }
 
@@ -65,6 +66,50 @@ class LessonsController extends Controller
             'data' => $lessons,
             'message' => 'Lessons retrieved successfully'
         ]);
+    }
+
+    /**
+     * Store a newly created lesson in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        $user = Auth::user();
+
+        // Only teachers and assistants can create lessons
+        if (!in_array($user->role, ['teacher', 'assistant'])) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You do not have permission to create lessons'
+            ], 403);
+        }
+
+        // Validate request data
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'grade' => 'required|integer|min:1|max:12',
+            'youtube_embed_code' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Create the lesson
+        $lesson = Lesson::create($request->all());
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $lesson,
+            'message' => 'Lesson created successfully'
+        ], 201);
     }
 
     /**
@@ -92,7 +137,7 @@ class LessonsController extends Controller
             }
         }
 
-        $lesson = Lesson::with('materials')->findOrFail($id);
+        $lesson = Lesson::with(['materials', 'exams'])->findOrFail($id);
 
         // For students, check if the lesson is for their grade
         if ($user->role === 'student' && $user->grade && $lesson->grade !== $user->grade) {
@@ -106,6 +151,84 @@ class LessonsController extends Controller
             'status' => 'success',
             'data' => $lesson,
             'message' => 'Lesson retrieved successfully'
+        ]);
+    }
+
+    /**
+     * Update the specified lesson in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, $id)
+    {
+        $user = Auth::user();
+
+        // Only teachers and assistants can update lessons
+        if (!in_array($user->role, ['teacher', 'assistant'])) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You do not have permission to update lessons'
+            ], 403);
+        }
+
+        // Validate request data
+        $validator = Validator::make($request->all(), [
+            'title' => 'sometimes|string|max:255',
+            'description' => 'sometimes|string',
+            'grade' => 'sometimes|integer|min:1|max:12',
+            'youtube_embed_code' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $lesson = Lesson::findOrFail($id);
+        $lesson->update($request->all());
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $lesson,
+            'message' => 'Lesson updated successfully'
+        ]);
+    }
+
+    /**
+     * Remove the specified lesson from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id)
+    {
+        $user = Auth::user();
+
+        // Only teachers and assistants can delete lessons
+        if (!in_array($user->role, ['teacher', 'assistant'])) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You do not have permission to delete lessons'
+            ], 403);
+        }
+
+        $lesson = Lesson::findOrFail($id);
+
+        // Delete associated materials and exams
+        // Note: Consider using database cascading deletes instead or adjusting this based on your needs
+        $lesson->materials()->delete();
+        $lesson->exams()->delete();
+
+        $lesson->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Lesson deleted successfully'
         ]);
     }
 
