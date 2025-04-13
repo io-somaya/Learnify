@@ -85,6 +85,7 @@ class ProfileController extends Controller
 
         return $this->apiResponse(400, 'No photo uploaded', null);
     }
+
     /**
      * Delete the user's profile photo
      *
