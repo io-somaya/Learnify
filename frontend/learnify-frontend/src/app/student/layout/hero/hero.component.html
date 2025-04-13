@@ -4,16 +4,14 @@
     <div class="hero-content">
       <!-- Left side: Profile information -->
       <div class="profile-content">
-        <h2 class="name-title text-white">{{ user.first_name }} {{ user.last_name }}</h2>
-        <div class="ratings-container">
-          <div class="star-icons">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-          </div>
-          <span class="text-white">4.6 (118 Ratings)</span>
+        <h2 class="name-title text-white text-uppercase">
+          {{ user?.first_name || 'Guest User'  }} {{ user?.last_name || ''  }}</h2>
+        <div class="ratings-container text-warning">
+          Email : <span class="text-white mx-2">{{ user?.email || 'No email' }}</span>
+        </div>
+        <div>
+          <span class="ratings-container text-warning">Grade :<span class="text-white mx-2 ">{{ user?.grade || 'No grade' }}</span>
+ </span>
         </div>
       </div>
       
