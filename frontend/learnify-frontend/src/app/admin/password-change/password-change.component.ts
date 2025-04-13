@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProfileService } from '../../services/profile.service';
+import { ToastService } from '../../services/toast.service';
+
 
 @Component({
   selector: 'app-password-change',
@@ -15,7 +17,6 @@ export class PasswordChangeComponent implements OnInit {
   passwordForm!: FormGroup;
   isSubmitting = false;
   error = '';
-  successMessage = '';
   showCurrentPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
@@ -34,7 +35,8 @@ export class PasswordChangeComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private profileService: ProfileService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastService, // Assuming you have a ToastrService for notifications
   ) {}
 
   ngOnInit(): void {
@@ -120,13 +122,12 @@ export class PasswordChangeComponent implements OnInit {
     if (this.passwordForm.valid) {
       this.isSubmitting = true;
       this.error = '';
-      this.successMessage = '';
 
       this.profileService.updatePassword(this.passwordForm.value).subscribe({
         next: (response: any) => {
           this.isSubmitting = false;
           if (response.status === 200) {
-            this.successMessage = 'Password updated successfully';
+            this.toastr.success('Password updated successfully');
             this.passwordForm.reset();
             setTimeout(() => this.router.navigate(['/admin/dashboard/profile']), 2000);
           } else {
