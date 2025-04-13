@@ -10,6 +10,7 @@ import { AuthService } from './auth.service';
 })
 export class ProfileService {
   private apiUrl = environment.apiUrl || 'http://localhost:8000/api';
+  private baseUrl = environment.apiUrl ? environment.apiUrl.replace('/api', '') : 'http://localhost:8000';
   public userdata: any;
 
   constructor(
@@ -34,6 +35,17 @@ export class ProfileService {
     }));
   }
 
+  // Helper method to format profile picture URLs
+  formatProfilePictureUrl(path: string | null): string {
+    if (!path) return 'assets/images/default-avatar.png';
+    
+    // If the path already starts with http, it's already a full URL
+    if (path.startsWith('http')) return path;
+    
+    // Otherwise, append the path to the storage URL
+    return `${this.baseUrl}/storage/${path}`;
+  }
+
   getProfile(): Observable<any> {
     return this.http.get(`${this.apiUrl}/profile`, { 
       headers: this.getAuthHeaders(),
@@ -46,6 +58,30 @@ export class ProfileService {
             ...response,
             data: response.errors // Move errors to data property
           };
+        }
+        
+        // Format the profile picture URL if there's data
+        if (response.data && response.data.profile_picture) {
+          response.data.profile_picture = this.formatProfilePictureUrl(response.data.profile_picture);
+        }
+        
+        // Store user data for reuse
+        this.userdata = response.data;
+        return response;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  getProfilePicture(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/profile/photo`, { 
+      headers: this.getAuthHeaders(),
+      withCredentials: true
+    }).pipe(
+      map((response: any) => {
+        // Format the URL if it exists in the response
+        if (response && response.data && response.data.photo_url) {
+          response.data.photo_url = this.formatProfilePictureUrl(response.data.photo_url);
         }
         return response;
       }),
@@ -103,6 +139,13 @@ export class ProfileService {
         withCredentials: true
       }
     ).pipe(
+      map(response => {
+        // Format the returned photo URL
+        if (response && response.photo_url) {
+          response.photo_url = this.formatProfilePictureUrl(response.photo_url);
+        }
+        return response;
+      }),
       catchError(this.handleError)
     );
   }

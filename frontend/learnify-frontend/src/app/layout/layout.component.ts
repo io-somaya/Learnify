@@ -19,9 +19,6 @@ export class LayoutComponent {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  navigateToProfile() {
-    this.router.navigate(['/admin/dashboard/profile']);
-  }
 
   logout() {
     // Call the auth service logout method which handles the API call and local cleanup

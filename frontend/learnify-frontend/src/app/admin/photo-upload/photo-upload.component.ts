@@ -77,15 +77,20 @@ export class PhotoUploadComponent implements OnInit {
       this.error = 'Please select a file to upload.';
       return;
     }
-
+  
     this.isUploading = true;
     this.error = '';
     this.successMessage = '';
-
+  
     this.profileService.updatePhoto(this.selectedFile).subscribe({
       next: (response) => {
         this.isUploading = false;
         this.successMessage = 'Profile photo updated successfully';
+        
+        if (this.profileService.userdata) {
+          this.profileService.userdata.profile_picture = response.photo_url;
+        }
+        
         setTimeout(() => this.router.navigate(['/admin/dashboard/profile']), 2000);
       },
       error: (err) => {

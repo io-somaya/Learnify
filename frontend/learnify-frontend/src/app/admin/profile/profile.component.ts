@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { IUserProfile } from "../../Interfaces/IUserProfile";
 import { ProfileService } from '../../services/profile.service';
+import { environment } from '../../../.environments/environment';
 
 interface ApiResponse {
   status: number;
@@ -21,6 +22,8 @@ export class ProfileComponent implements OnInit {
   user: IUserProfile | null = null;
   isLoading = true;
   error = '';
+  profilePictureUrl = '';
+  baseUrl = environment.apiUrl.replace('/api', '') ||'http://localhost:8000'; // Get base URL without /api
   
   constructor(
     private profileService: ProfileService,
@@ -36,6 +39,13 @@ export class ProfileComponent implements OnInit {
       next: (response: ApiResponse) => {
         if (response.status === 200) {
           this.user = response.data;
+          // console.log(this.user);//DD
+          if (this.user && this.user.profile_picture) {
+            if (!this.user.profile_picture.startsWith('http')) {
+              this.user.profile_picture = `${this.baseUrl}/storage/${this.user.profile_picture}`;
+              this.profilePictureUrl = this.user.profile_picture;
+            }
+          }
         } else {
           this.error = response.message || 'Unexpected response format';
         }
@@ -47,6 +57,9 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+
+  // ... other methods remain the same
+
 
   editProfile(): void {
     this.router.navigate(['/admin/dashboard/profile/edit']);

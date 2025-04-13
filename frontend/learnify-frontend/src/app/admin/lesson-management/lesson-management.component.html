@@ -1,7 +1,7 @@
 <div class="management-container">
     <div class="management-header">
       <h2>Lesson Management</h2>
-      <a routerLink="#" class="btn btn-primary">
+      <a (click)="addLesson()" class="btn btn-primary">
         <i class="fas fa-plus"></i> Add New Lesson
       </a>
     </div>
@@ -71,7 +71,10 @@
                 </div>
               </td>
               <td class="actions-cell">
-                <button [routerLink]="['/lessons/edit', lesson.id]" class="btn btn-sm btn-edit">
+                <button (click)="viewLesson(lesson.id)"class="btn btn-sm btn-view">
+                  <i class="fas fa-eye"></i> View
+                </button>
+                <button (click)="editLesson(lesson.id)" class="btn btn-sm btn-edit">
                   <i class="fas fa-edit"></i> Edit
                 </button>
                 <button (click)="deleteLesson(lesson.id)" class="btn btn-sm btn-delete">

@@ -9,7 +9,12 @@ import { OrderHistoryComponent } from '../order-history/order-history.component'
 import { RouterOutlet } from '@angular/router';
 import { ProfileService } from '../../services/profile.service';
 import { IUserProfile } from '../../Interfaces/IUserProfile';
-
+import { environment } from '../../../.environments/environment';
+interface ApiResponse {
+  status: number;
+  message: string;
+  data: IUserProfile;
+}
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -30,6 +35,8 @@ export class DashboardComponent implements OnInit {
   user: IUserProfile | null = null;
   isLoading = true;
   error = '';
+  baseUrl = environment.apiUrl.replace('/api', '') ||'http://localhost:8000'; // Get base URL without /api
+  
 
   constructor(
     private profileService: ProfileService,
@@ -49,23 +56,30 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+
   fetchProfile(): void {
     this.profileService.getProfile().subscribe({
-      next: (response: any) => {
+      next: (response: ApiResponse) => {
         if (response.status === 200) {
           this.user = response.data;
+          // Format the profile picture URL if it exists
+          if (this.user && this.user.profile_picture) {
+            // Check if the URL is already absolute
+            if (!this.user.profile_picture.startsWith('http')) {
+              this.user.profile_picture = `${this.baseUrl}/storage/${this.user.profile_picture}`;
+            }
+          }
         } else {
           this.error = response.message || 'Unexpected response format';
         }
         this.isLoading = false;
       },
-      error: (err: Error) => {
+      error: (err) => {
         this.error = err.message || 'Failed to load profile';
         this.isLoading = false;
       }
     });
   }
-
   scrollToTop(): void {
     window.scrollTo({
       top: 0,
