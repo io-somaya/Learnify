@@ -1,0 +1,126 @@
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #1f2937;
+  font-size: 1.875rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.material-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+input {
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background-color: #f8fafc;
+}
+
+input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.max-h-48 {
+  max-height: 12rem;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #f8fafc;
+}
+
+.max-h-48 label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.max-h-48 label:hover {
+  background-color: #f1f5f9;
+  border-radius: 6px;
+}
+
+button[type="submit"] {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+button[type="button"] {
+  background-color: #a1a1a1;
+  color: white;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+
+
+button[type="submit"]:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+
+button[type="button"]:hover {
+  background-color: #565657;
+  transform: translateY(-1px);
+}
+button[type="submit"]:active {
+  transform: translateY(0);
+}
+button[type="button"]:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+}
