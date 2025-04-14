@@ -1,26 +1,26 @@
-<div class="container mt-4">
-    <h2>Lecture Management</h2>
+<div class="management">
+    <h2 class="management__title">Lecture Management</h2>
     
-    <div class="d-flex justify-content-between mb-3">
-      <h4>All Lectures</h4>
-      <a routerLink="/admin/dashboard/lectures/add" class="btn btn-primary">Add New Lecture</a>
+    <div class="management__header">
+      <h4 class="management__subtitle">All Lectures</h4>
+      <a routerLink="/admin/dashboard/lectures/add" class="management__button management__button--primary">Add New Lecture</a>
     </div>
   
     @if (isLoading) {
-      <div class="text-center">
-        <div class="spinner-border" role="status">
+      <div class="management__loader">
+        <div class="management__spinner">
           <span class="visually-hidden">Loading...</span>
         </div>
       </div>
     } @else if (errorMessage) {
-      <div class="alert alert-danger">
+      <div class="management__error">
         {{ errorMessage }}
-        <button class="btn btn-sm btn-outline-danger ms-2" (click)="loadLectures()">Retry</button>
+        <button class="management__button management__button--danger-outline" (click)="loadLectures()">Retry</button>
       </div>
     } @else {
-      <div class="table-responsive">
-        <table class="table table-striped table-hover">
-          <thead class="table-light">
+      <div class="management__table-wrapper">
+        <table class="management__table">
+          <thead class="management__table-header">
             <tr>
               <th>Title</th>
               <th>Day</th>
@@ -34,26 +34,39 @@
           </thead>
           <tbody>
             @for (lecture of lectures; track lecture.id) {
-              <tr>
-                <td>{{ lecture.title }}</td>
-                <td>{{ lecture.day_of_week }}</td>
-                <td>{{ lecture.start_time | customDateFormat }} - {{ lecture.end_time | customDateFormat }}</td>
-                <td>{{ lecture.description | truncate:50 }}</td>
-                <td>{{ lecture.grade }}</td>
-                <td>
-                  <span class="badge" [ngClass]="lecture.active ? 'bg-success' : 'bg-secondary'">
+              <tr class="management__table-row">
+                <td class="management__table-cell">{{ lecture.title }}</td>
+                <td class="management__table-cell">{{ lecture.day_of_week }}</td>
+                <td class="management__table-cell">
+                  @if (lecture.start_time && lecture.end_time) {
+                    {{ lecture.start_time | customDateFormat}} - {{ lecture.end_time | customDateFormat}}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td class="management__table-cell">{{ lecture.description | truncate:50 }}</td>
+                <td class="management__table-cell">{{ lecture.grade }}</td>
+
+                <td class="management__table-cell">
+                  <span class="management__badge" 
+                        [class.management__badge--active]="lecture.active"
+                        [class.management__badge--inactive]="!lecture.active">
                     {{ lecture.active ? 'Active' : 'Inactive' }}
                   </span>
                 </td>
-                <td>
+                <td class="management__table-cell">
                   @if (lecture.zoom_start_url) {
-                    <a [href]="lecture.zoom_start_url" target="_blank" class="btn btn-sm btn-outline-primary">Join</a>
+                    <a [href]="lecture.zoom_start_url" 
+                       target="_blank" 
+                       class="management__button management__button--zoom">Join</a>
                   }
                 </td>
-                <td>
-                  <div class="btn-group" role="group">
-                    <a (click)="editLecture(lecture.id)" class="btn btn-sm btn-outline-primary">Edit</a>
-                    <button (click)="deleteLecture(lecture.id)" class="btn btn-sm btn-outline-danger">Delete</button>
+                <td class="management__table-cell">
+                  <div class="management__actions">
+                    <a (click)="editLecture(lecture.id)" 
+                       class="management__button management__button--edit">Edit</a>
+                    <button (click)="deleteLecture(lecture.id)" 
+                            class="management__button management__button--delete">Delete</button>
                   </div>
                 </td>
               </tr>
