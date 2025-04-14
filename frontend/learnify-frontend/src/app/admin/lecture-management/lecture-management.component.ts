@@ -5,18 +5,21 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
 import { ToastService } from '../../services/toast.service';
+import { CustomDateFormatPipe } from '../../pipes/DateFormate.pipe';
+import { Router } from '@angular/router';
 
 
 @Component({
   selector: 'app-lecture-management',
   standalone: true,
-  imports: [CommonModule, RouterModule,TruncatePipe],
+  imports: [CommonModule, RouterModule,TruncatePipe , CustomDateFormatPipe],
   templateUrl: './lecture-management.component.html',
   styleUrls: ['./lecture-management.component.css']
 })
 export class LectureManagementComponent implements OnInit {
   private lectureService = inject(LectureService);
   private toaster = inject(ToastService);
+  private router = inject(Router);
   lectures: ILecture[] = [];
   isLoading = false;
   errorMessage: string | null = null;
@@ -39,6 +42,9 @@ export class LectureManagementComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+  editLecture(id){
+    this.router.navigate(['/admin/dashboard/lectures/edit', id, ]);
   }
 
   deleteLecture(id: number) {

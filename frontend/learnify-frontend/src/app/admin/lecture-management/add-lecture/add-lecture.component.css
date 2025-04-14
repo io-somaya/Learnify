@@ -75,6 +75,20 @@
     margin: 0;
   }
   
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin: 10px 0;
+  }
+  
+  .checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+    cursor: pointer;
+  }
+  
   .errorX-message {
     color: #e74c3c;
     font-size: 0.875rem;

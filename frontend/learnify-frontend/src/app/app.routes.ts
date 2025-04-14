@@ -22,12 +22,10 @@ import { SubscriptionListComponent } from './admin/subscription-list/subscriptio
 import { LessonListComponent } from './lessons/lesson-list/lesson-list.component';
 import { LessonDetailComponent as StudentLessonDetail} from './lessons/lesson-detail/lesson-detail.component';
 import { LessonDetailComponent as AdminLessonDetail} from './admin/lesson-management/lesson-detail/lesson-detail.component';
-
 import { LessonManagementComponent } from './admin/lesson-management/lesson-management.component';
 import { LectureListComponent } from './lecture-list/lecture-list.component';
-import { LectureManagementComponent } from './admin/lecture-management/lecture-management.component';
 import { AddLectureComponent } from './admin/lecture-management/add-lecture/add-lecture.component';
-import { EditLectureComponent } from './admin/lecture-management/edit-lecture/edit-lecture.component';
+import { LectureManagementComponent } from './admin/lecture-management/lecture-management.component';
 // Import admin profile components
 import { ProfileComponent as AdminProfileComponent } from './admin/profile/profile.component';
 import { ProfileEditComponent } from './admin/profile-edit/profile-edit.component';
@@ -36,6 +34,7 @@ import { PhotoUploadComponent } from './admin/photo-upload/photo-upload.componen
 import { OrderHistoryComponent } from './student/order-history/order-history.component';
 import { EditLessonComponent } from './admin/lesson-management/edit-lesson/edit-lesson.component';
 import { AddLessonComponent } from './admin/lesson-management/add-lesson/add-lesson.component';
+import { LectureEditComponent } from './admin/lecture-management/lecture-edit/lecture-edit.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -166,7 +165,7 @@ export const routes: Routes = [
         },
         {
             path: 'lectures/edit/:id',
-            component: EditLectureComponent,
+            component: LectureEditComponent,
             title: 'Edit Lecture'
         },
         // Admin Profile Routes

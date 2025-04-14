@@ -75,6 +75,7 @@ class TeacherLectureController extends Controller
                 'start_time' => $data['start_time'],
                 'end_time' => $data['end_time'],
                 'title' => $data['title'],
+                'description' => $data['description'],
                 'grade' => $data['grade'],
                 'zoom_meeting_id' => $zoomMeeting['id'],
                 'zoom_link' => $zoomMeeting['join_url'],

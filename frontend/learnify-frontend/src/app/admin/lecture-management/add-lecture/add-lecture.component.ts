@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { LectureService } from '../../../services/lecture.service';
 import { ToastService } from '../../../services/toast.service';
@@ -8,78 +8,84 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-add-lecture',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './add-lecture.component.html',
   styleUrls: ['./add-lecture.component.css']
 })
-export class AddLectureComponent {
+export class AddLectureComponent implements OnInit {
   lectureForm: FormGroup;
   isSubmitting = false;
-  errorMessage = '';
-
-  // Available options for dropdowns
-  daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  gradeLevels = ['1', '2', '3'];
+  
+  daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
+        'Thursday', 'Friday', 'Saturday'];
+  grades = ['1', '2', '3'];
 
   constructor(
     private fb: FormBuilder,
     private lectureService: LectureService,
     private router: Router,
-    private toaster: ToastService
+    private toastService: ToastService
   ) {
     this.lectureForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
-      description: [''],
+      description: ['', [Validators.required, Validators.minLength(10)]],
       day_of_week: ['Monday', Validators.required],
-      start_time: ['09:00', Validators.required],
-      end_time: ['10:00', Validators.required],
-      grade: [''],
-      zoom_link: ['', [Validators.pattern('https?://.+')]],
+      start_time: ['09:00', [Validators.required, this.validateTime]],
+      end_time: ['10:00', [Validators.required, this.validateTime]],
+      grade: ['', Validators.required],
       is_active: [true]
     });
   }
 
-  // Form control getters
-  get title() { return this.lectureForm.get('title') as FormControl; }
-  get description() { return this.lectureForm.get('description') as FormControl; }
-  get day_of_week() { return this.lectureForm.get('day_of_week') as FormControl; }
-  get start_time() { return this.lectureForm.get('start_time') as FormControl; }
-  get end_time() { return this.lectureForm.get('end_time') as FormControl; }
-  get zoom_link() { return this.lectureForm.get('zoom_link') as FormControl; }
-  get grade() { return this.lectureForm.get('grade') as FormControl; }
+  ngOnInit(): void {}
+
+  validateTime(control: FormControl): { [key: string]: boolean } | null {
+    const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+    return timeRegex.test(control.value) ? null : { invalidTime: true };
+  }
 
   onSubmit(): void {
-    if (this.lectureForm.invalid || this.isSubmitting) {
+    if (this.lectureForm.invalid) {
+      this.markFormGroupTouched(this.lectureForm);
       return;
     }
 
+    if (this.isSubmitting) return;
     this.isSubmitting = true;
-    this.errorMessage = '';
 
+    const formValue = this.lectureForm.value;
     const lectureData = {
-      ...this.lectureForm.value,
-      start_time: this.formatTime(this.lectureForm.value.start_time),
-      end_time: this.formatTime(this.lectureForm.value.end_time)
+      ...formValue,
+      start_time: this.formatTime(formValue.start_time),
+      end_time: this.formatTime(formValue.end_time)
     };
 
     this.lectureService.createLecture(lectureData).subscribe({
       next: () => {
-        this.toaster.success('Lecture created successfully!');
+        this.toastService.success('Lecture created successfully');
         this.router.navigate(['/admin/dashboard/lectures-management']);
       },
       error: (error) => {
-        this.errorMessage = error.message || 'Failed to create lecture';
-        this.toaster.error(this.errorMessage);
+        this.toastService.error(error.message || 'Failed to create lecture');
         this.isSubmitting = false;
-      },
-      complete: () => this.isSubmitting = false
+      }
     });
   }
 
   private formatTime(time: string): string {
-    if (!time.includes(':')) {
-      return time + ':00';
-    }
-    return time;
+    return time.includes(':') ? time : `${time}:00`;
+  }
+
+  private markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
+
+  get f() {
+    return this.lectureForm.controls;
   }
 }

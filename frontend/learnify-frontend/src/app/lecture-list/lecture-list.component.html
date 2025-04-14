@@ -15,7 +15,7 @@
             <tr>
               <th>Title</th>
               <th>Day</th>
-              <th>Time</th>
+              <th>Start Time - End Time</th>
               <th>Description</th>
               <th>Grade</th>
               <th>Zoom</th>
@@ -26,9 +26,10 @@
               <tr>
                 <td>{{ lecture.title }}</td>
                 <td>{{ lecture.day_of_week }}</td>
-                <td>{{ lecture.start_time }} - {{ lecture.end_time }}</td>
+                <td>{{ lecture.start_time | customDateFormat }}-{{ lecture.end_time | customDateFormat }} </td>
                 <td>{{ lecture.description }}</td>
                 <td>{{ lecture.grade }}</td>
+
                 <td><a [href]="lecture.zoom_link" target="_blank">Join</a></td>
               </tr>
             }
@@ -37,4 +38,3 @@
       </div>
     }
   </div>
-  
