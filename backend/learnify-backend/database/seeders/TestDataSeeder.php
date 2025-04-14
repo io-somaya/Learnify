@@ -8,6 +8,7 @@ use App\Models\Package;
 use App\Models\Material;
 use App\Models\PackageUser;
 use App\Models\Payment;
+use App\Models\Lecture;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -171,6 +172,21 @@ class TestDataSeeder extends Seeder
                     ]);
                 }
             }
+        }
+        
+        // Create weekly lectures
+        $days = [ 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',"Friday"];
+        foreach ($days as $index => $day) {
+            Lecture::create([
+                'title' => "Weekly Lecture - $day",
+                'day_of_week' => $day,
+                'start_time' => '08:00:00',
+                'end_time' => '09:00:00',
+                'description' => "Weekly scheduled lecture for $day",
+                'grade' => "1",
+                'zoom_link' => 'https://zoom.us/test-weekly-lecture',
+                'is_active' => true
+            ]);
         }
     }
 }

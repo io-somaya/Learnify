@@ -34,9 +34,7 @@ class StudentLectureController extends Controller
             ->orderByRaw("FIELD(day_of_week, 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
             ->orderBy('start_time')
             
-
-            // paginate
-            ->paginate(request('per_page', 10));
+            ->get();
 
         return $this->apiResponse(200, 'Lectures retrieved', null, LectureResource::collection($lectures));
     }

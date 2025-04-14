@@ -45,8 +45,7 @@ class TeacherLectureController extends Controller
             ->orderByRaw("FIELD(day_of_week, 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
             ->orderBy('start_time')
 
-            // paginate
-            ->paginate(request('per_page', 10));
+            ->get();
 
         return $this->apiResponse(200, 'Lectures retrieved', null, LectureResource::collection($lectures));
     }
@@ -118,7 +117,6 @@ class TeacherLectureController extends Controller
                     $this->zoomService->deleteMeeting($lecture->zoom_meeting_id);
                 } catch (\Exception $e) {
                     Log::warning('Could not delete old Zoom meeting: ' . $e->getMessage());
-                    // Continue with the update even if deletion fails
                 }
             }
 
