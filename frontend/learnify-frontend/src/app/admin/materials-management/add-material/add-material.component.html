@@ -1,0 +1,62 @@
+<div class="container">
+  <h2>Add New Material</h2>
+
+  <form (ngSubmit)="onSubmit()" class="material-form">
+    <div class="form-group">
+      <label for="lessonSearch">Search Lesson</label>
+      <input
+        id="lessonSearch"
+        type="text"
+        [(ngModel)]="lessonSearch"
+        name="lessonSearch"
+        placeholder="Type to search lesson title..."
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="block mb-2 font-medium">Select Lesson</label>
+    
+ 
+    
+      <div class="max-h-48 overflow-y-auto border border-gray-300 rounded p-3 space-y-2">
+        <label
+          *ngFor="let lesson of filteredLessons()"
+          class="flex items-center gap-2"
+        >
+          <input
+            type="radio"
+            name="lesson"
+            [value]="lesson.id"
+            [(ngModel)]="material.lesson_id"
+          />
+          {{ lesson.title }}
+        </label>
+      </div>
+    </div>
+    
+
+    <div class="form-group">
+      <label for="fileName">Material Name</label>
+      <input
+        id="fileName"
+        type="text"
+        [(ngModel)]="material.file_name"
+        name="file_name"
+        placeholder="Enter material name"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="fileUrl">Material File URL</label>
+      <input
+        id="fileUrl"
+        type="text"
+        [(ngModel)]="material.file_url"
+        name="file_url"
+        placeholder="Paste file URL"
+      />
+    </div>
+
+    <button type="submit">Create Material</button>
+  </form>
+</div>

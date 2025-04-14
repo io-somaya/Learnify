@@ -1,0 +1,77 @@
+<!-- Filters Section -->
+<div class="filters-container">
+  <div class="filters-header">
+    <h2 class="filters-title">Learning Materials</h2>
+    <button class="btn-add" (click)="navigateToCreate()">
+      Add New Material
+    </button>
+  </div>
+  
+  <div class="filters">
+    <div class="filter-item">
+      <label for="search">Search by Lesson Title</label>
+      <input
+        type="text"
+        id="search"
+        [(ngModel)]="lessonSearch"
+        placeholder="Enter lesson title..."
+        (input)="filterMaterials()"
+      />
+    </div>
+
+    <div class="filter-item">
+      <label for="fileNameFilter">Search by File Name</label>
+      <input
+        type="text"
+        id="fileNameFilter"
+        [(ngModel)]="fileNameSearch"
+        placeholder="Enter file name..."
+        (input)="filterMaterials()"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- Rest of your code remains the same -->
+<!-- Loading indicator -->
+<div *ngIf="loading" class="loading-indicator">
+  Loading materials...
+</div>
+
+<!-- Error message -->
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<!-- Materials table -->
+<table *ngIf="materials.length > 0 && !loading">
+  <thead>
+    <tr>
+      <th>Lesson Name</th>
+      <th>File Name</th>
+      <th>File URL</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let material of materials">
+      <td>{{ getLessonTitle(material.lesson_id) }}</td>
+      <td>{{ material.file_name }}</td>
+      <td>{{ material.file_url }}</td>
+      <td class="action-buttons">
+        <button (click)="navigateToEdit(material.id)" class="btn-edit">
+          Edit
+        </button>
+        <button (click)="confirmDelete(material.id)" class="btn-delete">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Empty state -->
+<div *ngIf="materials.length === 0 && !loading" class="empty-state">
+  No materials found. Add your first material!
+</div>
+    

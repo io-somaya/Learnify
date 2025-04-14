@@ -1,0 +1,38 @@
+<div class="container mx-auto max-w-xl p-4">
+    <h2 class="text-xl font-bold mb-4">Edit Material</h2>
+  
+    <form (ngSubmit)="onSubmit()" class="space-y-4">
+  
+      <div>
+        <label class="block mb-1 font-medium">File Name</label>
+        <input type="text" [(ngModel)]="material.file_name" name="file_name"
+               class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200" required>
+      </div>
+  
+      <div>
+        <label class="block mb-1 font-medium">File URL</label>
+        <input type="text" [(ngModel)]="material.file_url" name="file_url"
+               class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200" required>
+      </div>
+  
+      <div>
+        <label class="block mb-1 font-medium">Search Lesson</label>
+        <input type="text" [(ngModel)]="lessonSearch" name="lessonSearch"
+               placeholder="Search by title"
+               class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+      </div>
+  
+      <div class="max-h-48 overflow-y-auto border border-gray-300 rounded p-2">
+        <label *ngFor="let lesson of filteredLessons()" class="block cursor-pointer">
+          <input type="radio" name="lesson" [value]="lesson.id" [(ngModel)]="material.lesson_id">
+          {{ lesson.title }}
+        </label>
+      </div>
+  
+      <button type="submit"
+              class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+        Update Material
+      </button>
+    </form>
+  </div>
+  
