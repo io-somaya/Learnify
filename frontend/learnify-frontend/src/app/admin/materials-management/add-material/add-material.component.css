@@ -83,13 +83,34 @@ button[type="submit"] {
   transition: all 0.2s ease;
   margin-top: 1rem;
 }
+button[type="button"] {
+  background-color: #a1a1a1;
+  color: white;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+
 
 button[type="submit"]:hover {
   background-color: #2563eb;
   transform: translateY(-1px);
 }
 
+
+button[type="button"]:hover {
+  background-color: #565657;
+  transform: translateY(-1px);
+}
 button[type="submit"]:active {
+  transform: translateY(0);
+}
+button[type="button"]:active {
   transform: translateY(0);
 }
 

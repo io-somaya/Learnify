@@ -81,4 +81,7 @@ export class AddMaterialComponent implements OnInit {
       }
     });
   }
+  navigateToMaterialsManagement(): void {
+    this.router.navigate(['admin/dashboard/materials-management']);
+  }
 }
