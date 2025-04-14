@@ -28,8 +28,6 @@ class Lecture extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
-        'start_time' => 'datetime:H:i',
-        'end_time' => 'datetime:H:i'
     ];
  
 }
