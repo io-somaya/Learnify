@@ -1,0 +1,30 @@
+<div class="container">
+  <h2>Edit Material</h2>
+  
+  <form (ngSubmit)="onSubmit()">
+    <div>
+      <label>File Name</label>
+      <input type="text" [(ngModel)]="material.file_name" name="file_name" required>
+    </div>
+  
+    <div>
+      <label>File URL</label>
+      <input type="text" [(ngModel)]="material.file_url" name="file_url" required>
+    </div>
+  
+    <div>
+      <label>Search Lesson</label>
+      <input type="text" [(ngModel)]="lessonSearch" name="lessonSearch" placeholder="Search by title">
+    </div>
+  
+    <div class="lesson-selector">
+      <label *ngFor="let lesson of filteredLessons()" class="lesson-option">
+        <input type="radio" name="lesson" [value]="lesson.id" [(ngModel)]="material.lesson_id">
+        {{ lesson.title }}
+      </label>
+    </div>
+  
+    <button type="submit">Update Material</button>
+    <button type="button" (click)="navigateToMaterialsManagement()">Cancel</button>
+  </form>
+</div>

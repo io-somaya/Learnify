@@ -1,73 +1,135 @@
-<form (ngSubmit)="onSubmit()" *ngIf="lecture" class="edit-form">
-    <div class="form-group">
-        <label for="title">Title</label>
-        <input type="text" id="title" [(ngModel)]="lecture.title" name="title" placeholder="Enter lecture title" required />
+<form (ngSubmit)="onSubmit()" *ngIf="lecture" class="form">
+    <!-- Title -->
+    <div class="form__group">
+      <label for="title" class="form__label">Title</label>
+      <input
+        type="text"
+        id="title"
+        [(ngModel)]="lecture.title"
+        name="title"
+        class="form__input"
+        placeholder="Enter lecture title"
+        required
+        [class.form__input--error]="validationErrors['title']"
+      />
+      <div class="form__error" *ngIf="validationErrors['title']">
+        {{ validationErrors['title'][0] }}
+      </div>
     </div>
-
-    <div class="form-group">
-        <label for="description">Description</label>
-        <input type="text" id="description" [(ngModel)]="lecture.description" name="description" placeholder="Enter description" required />
+  
+    <!-- Description -->
+    <div class="form__group">
+      <label for="description" class="form__label">Description</label>
+      <input
+        type="text"
+        id="description"
+        [(ngModel)]="lecture.description"
+        name="description"
+        class="form__input"
+        placeholder="Enter description"
+        required
+      />
     </div>
-
-    <div class="form-group">
-        <label for="day_of_week">Day of Week</label>
-        <select id="day_of_week" [(ngModel)]="lecture.day_of_week" name="day_of_week" class="form-select" required>
-            <option value="">Select a day</option>
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-            <option value="Saturday">Saturday</option>
-            <option value="Sunday">Sunday</option>
-        </select>
+  
+    <!-- Day of Week -->
+    <div class="form__group">
+      <label for="day_of_week" class="form__label">Day of Week</label>
+      <select
+        id="day_of_week"
+        [(ngModel)]="lecture.day_of_week"
+        name="day_of_week"
+        class="form__select"
+        required
+      >
+        <option value="">Select a day</option>
+        <option *ngFor="let day of daysOfWeek" [value]="day">{{ day }}</option>
+      </select>
     </div>
-
-    <div class="form-group">
-        <label for="start_time">Start Time</label>
-        <input type="datetime-local" id="start_time" [(ngModel)]="lecture.start_time" name="start_time" required />
+  
+    <!-- Time Inputs -->
+    <div class="form__row">
+      <div class="form__group">
+        <label for="start_time" class="form__label">Start Time</label>
+        <input
+          type="time"
+          id="start_time"
+          [(ngModel)]="lecture.start_time"
+          name="start_time"
+          class="form__input"
+          required
+          [class.form__input--error]="validationErrors['start_time']"
+        />
+        <div class="form__error" *ngIf="validationErrors['start_time']">
+          {{ validationErrors['start_time'][0] }}
+        </div>
+      </div>
+  
+      <div class="form__group">
+        <label for="end_time" class="form__label">End Time</label>
+        <input
+          type="time"
+          id="end_time"
+          [(ngModel)]="lecture.end_time"
+          name="end_time"
+          class="form__input"
+          required
+          [class.form__input--error]="validationErrors['end_time']"
+        />
+        <div class="form__error" *ngIf="validationErrors['end_time']">
+          {{ validationErrors['end_time'][0] }}
+        </div>
+      </div>
     </div>
-
-    <div class="form-group">
-        <label for="end_time">End Time</label>
-        <input type="datetime-local" id="end_time" [(ngModel)]="lecture.end_time" name="end_time" required />
+  
+    <!-- Grade -->
+    <div class="form__group">
+      <label for="grade" class="form__label">Grade</label>
+      <select
+        id="grade"
+        [(ngModel)]="lecture.grade"
+        name="grade"
+        class="form__select"
+        required
+      >
+        <option value="">Select grade</option>
+        <option *ngFor="let grade of grades" [value]="grade">Grade {{ grade }}</option>
+      </select>
     </div>
-
-    <div class="form-group">
-        <label for="grade">Grade</label>
-        <select id="grade" [(ngModel)]="lecture.grade" name="grade" class="form-select" required>
-            <option value="">Select grade</option>
-            <option value="1">Grade 1</option>
-            <option value="2">Grade 2</option>
-            <option value="3">Grade 3</option>
-        </select>
+  
+    <!-- Zoom Fields (Readonly) -->
+    <div class="form__group">
+      <label for="zoom_link" class="form__label">Zoom Link</label>
+      <input
+        type="text"
+        id="zoom_link"
+        [(ngModel)]="lecture.zoom_link"
+        name="zoom_link"
+        class="form__input form__input--readonly"
+        readonly
+      />
     </div>
-
-    <div class="form-group">
-        <label for="zoom_link">Zoom Link</label>
-        <input type="text" id="zoom_link" [(ngModel)]="lecture.zoom_link" name="zoom_link" 
-               readonly class="readonly-input" />
+  
+    <!-- Status -->
+    <div class="form__group">
+      <label for="is_active" class="form__label">Status</label>
+      <select
+        id="is_active"
+        [(ngModel)]="lecture.is_active"
+        name="is_active"
+        class="form__select"
+      >
+        <option [ngValue]="true">Active</option>
+        <option [ngValue]="false">Inactive</option>
+      </select>
     </div>
-
-    <div class="form-group">
-        <label for="zoom_meeting_id">Meeting ID</label>
-        <input type="text" id="zoom_meeting_id" [(ngModel)]="lecture.zoom_meeting_id" name="zoom_meeting_id" 
-               readonly class="readonly-input" />
-    </div>
-
-    <div class="form-group">
-        <label for="zoom_start_url">Start URL</label>
-        <input type="text" id="zoom_start_url" [(ngModel)]="lecture.zoom_start_url" name="zoom_start_url" 
-               readonly class="readonly-input" />
-    </div>
-
-    <div class="form-group">
-        <label for="is_active">Status</label>
-        <select id="is_active" [(ngModel)]="lecture.is_active" name="is_active" class="form-select">
-            <option value="1">Active</option>
-            <option value="0">Inactive</option>
-        </select>
-    </div>
-
-    <button type="submit" class="submit-button">Update Lecture</button>
-</form>
+  
+    <!-- Submit Button -->
+    <button type="submit" class="form__button" [disabled]="isLoading">
+      {{ isLoading ? 'Updating...' : 'Update Lecture' }}
+    </button>
+  </form>
+  
+  <!-- Loading Overlay -->
+  <div class="overlay" *ngIf="isLoading">
+    <div class="spinner"></div>
+  </div>

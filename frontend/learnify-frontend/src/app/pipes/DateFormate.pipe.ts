@@ -2,37 +2,28 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'customDateFormat',
-  standalone: true, // Make sure this is set to true
+  standalone: true,
 })
 export class CustomDateFormatPipe implements PipeTransform {
-  transform(dateString: string): string {
-    if (!dateString) {
+  transform(time: string): string {
+    if (!time) {
       return '';
     }
 
-    const date = new Date(dateString);
+    // Split the time string into hours, minutes, and seconds
+    const [hours24, minutes] = time.split(':');
     
-    // Check if date is valid
-    if (isNaN(date.getTime())) {
-      return 'Invalid date';
-    }
-
-    // Get day and month
-    const day = date.getDate();
-    const month = date.getMonth() + 1; // getMonth() returns 0-11
+    // Convert hours to number
+    let hours = parseInt(hours24);
     
-    // Get hours in 12-hour format
-    let hours = date.getHours();
+    // Determine if it's AM or PM
     const ampm = hours >= 12 ? 'pm' : 'am';
+    
+    // Convert to 12-hour format
     hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
+    hours = hours ? hours : 12; // Convert 0 to 12
     
-    // Get minutes with leading zero if needed
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    
-    // Return formatted date string
-    // return `${day}-${month} ${hours}:${minutes} ${ampm}`;
+    // Return formatted time
     return `${hours}:${minutes} ${ampm}`;
-
   }
 }

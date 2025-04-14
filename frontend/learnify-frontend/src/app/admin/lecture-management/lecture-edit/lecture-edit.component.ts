@@ -11,69 +11,85 @@ import { ToastService } from '../../../services/toast.service';
   selector: 'app-lecture-edit',
   imports: [CommonModule, FormsModule],
   templateUrl: './lecture-edit.component.html',
-  styleUrls: ['./lecture-edit.component.css'],
+  styleUrls: ['./lecture-edit.component.css']
 })
 export class LectureEditComponent implements OnInit {
   lecture: ILecture | null = null;
   id: number;
+  isLoading = false;
+  error: string | null = null;
+  validationErrors: { [key: string]: string[] } = {};
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private lectureService: LectureService,
-    private toster: ToastService
+    private toaster: ToastService
   ) {}
-
+  daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  grades = [1, 2, 3];
   ngOnInit(): void {
     this.id = +this.route.snapshot.paramMap.get('id')!;
+    this.loadLecture();
+  }
+
+  loadLecture(): void {
+    this.isLoading = true;
     this.lectureService.getLectureById(this.id).subscribe({
-      next: (res) => {
-        this.lecture = {
-          ...res,
-          day_of_week: res.day_of_week || '',
-          description: res.description || '',
-          start_time: this.formatTime(res.start_time),
-          end_time: this.formatTime(res.end_time),
-          title: res.title || '',
-          grade: res.grade || '',
-          is_active: res.is_active ? '1' : '0', // Convert boolean to string
+      next: (data) => {
+        // Convert HH:mm:ss to HH:mm when loading
+        const formattedData = {
+          ...data,
+          start_time: data.start_time.substring(0, 5), // Take only HH:mm
+          end_time: data.end_time.substring(0, 5)      // Take only HH:mm
         };
-        
+        this.lecture = formattedData;
+        this.isLoading = false;
       },
-      error: (err) => console.error(err.message),
+      error: (error) => {
+        console.error('Load error:', error);
+        this.toaster.error('Failed to load lecture');
+        this.isLoading = false;
+      }
     });
   }
 
-  private formatTime(time: string): string {
-    if (!time) return '';
-    // If time is in HH:mm format, convert to datetime-local format
-    if (time.length === 5) {
-      const today = new Date();
-      const [hours, minutes] = time.split(':');
-      today.setHours(parseInt(hours), parseInt(minutes), 0);
-      return today.toISOString().slice(0, 16);
-    }
-    return time.slice(0, 16);
-  }
-
   onSubmit(): void {
-    if (!this.lecture) return;
+    if (!this.lecture) {
+      this.toaster.error('No lecture data to update');
+      return;
+    }
 
-    const updatedLecture = {
-      ...this.lecture,
-      start_time: new Date(this.lecture.start_time).toTimeString().slice(0, 5),
-      end_time: new Date(this.lecture.end_time).toTimeString().slice(0, 5)
+    this.isLoading = true;
+    this.validationErrors = {};
+
+    // No need to modify the time format - send as HH:mm
+    const payload = {
+      title: this.lecture.title,
+      description: this.lecture.description,
+      day_of_week: this.lecture.day_of_week,
+      start_time: this.lecture.start_time,    // Keep as HH:mm
+      end_time: this.lecture.end_time,        // Keep as HH:mm
+      grade: this.lecture.grade,
+      is_active: this.lecture.is_active
     };
 
-    this.lectureService.updateLecture(this.id, updatedLecture).subscribe({
-      next: () => this.router.navigate(['admin/dashboard/lectures-management'])
-      .then(() => this.toster.success('Lecture updated successfully')),
-
-      error: (err) => {
-        console.error(err.message);
-        this.toster.error('Error updating lecture');
+    this.lectureService.updateLecture(this.id, payload).subscribe({
+      next: () => {
+        this.toaster.success('Lecture updated successfully');
+        this.router.navigate(['/admin/dashboard/lectures-management']);
       },
-
+      error: (error) => {
+        if (error.error?.errors) {
+          this.validationErrors = error.error.errors;
+          console.log('Validation errors:', this.validationErrors);
+        } else if (error.status === 422) {
+          this.toaster.error('Invalid time format. Please check the time fields.');
+        } else {
+          this.toaster.error(error.message || 'Failed to update lecture');
+        }
+        this.isLoading = false;
+      }
     });
   }
 }

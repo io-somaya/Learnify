@@ -35,6 +35,9 @@ import { OrderHistoryComponent } from './student/order-history/order-history.com
 import { EditLessonComponent } from './admin/lesson-management/edit-lesson/edit-lesson.component';
 import { AddLessonComponent } from './admin/lesson-management/add-lesson/add-lesson.component';
 import { LectureEditComponent } from './admin/lecture-management/lecture-edit/lecture-edit.component';
+import { MaterialsManagementComponent } from './admin/materials-management/materials-management.component';
+import { AddMaterialComponent } from './admin/materials-management/add-material/add-material.component';
+import { EditMaterialComponent } from './admin/materials-management/edit-material/edit-material.component';
 
 export const routes: Routes = [
     // Auth routes
@@ -167,6 +170,21 @@ export const routes: Routes = [
             path: 'lectures/edit/:id',
             component: LectureEditComponent,
             title: 'Edit Lecture'
+        },
+        {
+            path: "materials-management",
+            component: MaterialsManagementComponent,
+            title: "Materials Management"
+        },
+        {
+            path: "materials/add",
+            component: AddMaterialComponent,
+            title: "Create Material"
+        },
+        {
+            path: "materials/edit/:id",
+            component: EditMaterialComponent,
+            title: "Edit Material"
         },
         // Admin Profile Routes
         {

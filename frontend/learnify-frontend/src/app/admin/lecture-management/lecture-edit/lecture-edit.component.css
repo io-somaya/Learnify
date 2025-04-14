@@ -1,88 +1,308 @@
-.edit-form {
-  max-width: 600px;
+/* Modern CSS Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Variables */
+:root {
+  --color-primary: #4361ee;
+  --color-primary-light: #4f6ef2;
+  --color-primary-dark: #3a56d4;
+  --color-secondary: #2b2d42;
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+  --gradient-hover: linear-gradient(135deg, #3a56d4 0%, #2845c3 100%);
+  
+  /* Button Gradients */
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  --gradient-info: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  --gradient-purple: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  --gradient-pink: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+}
+
+/* Form Container */
+.form {
+  max-width: 800px;
   margin: 2rem auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(45, 51, 107, 0.15);
+  position: relative;
+  overflow: hidden;
 }
 
-.form-group {
-  margin-bottom: 1rem;
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #333;
-}
-
-input[type="text"],
-input[type="datetime-local"] {
+.form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  height: 4px;
+  background: var(--gradient-primary);
+}
+
+/* Form Groups */
+.form__group {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.form__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Labels */
+.form__label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color:#2D336B;
+  letter-spacing: 0.3px;
+}
+
+/* Inputs and Selects */
+.form__input,
+.form__select {
+  width: 100%;
+  padding: 0.875rem 1.125rem;
+  border-radius: 10px;
   font-size: 1rem;
-  margin-bottom: 1rem;
-  transition: border-color 0.3s ease;
+  background: var(--color-gray-50);
+  color: var(--color-secondary);
+  transition: all 0.3s ease;
+  border: 1px solid #2e3aa9;
 }
 
-input[type="text"]:focus,
-input[type="datetime-local"]:focus {
+.form__input:hover,
+.form__select:hover {
+  border-color: #4553cf;
+  background: white;
+}
+
+.form__input:focus,
+.form__select:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: rgba(75, 75, 232, 0.468);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+  transform: translateY(-1px);
 }
 
-.checkbox-group {
+/* Select Styling */
+.form__select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+/* Error States */
+.form__input--error {
+  border-color: var(--color-error);
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+.form__error {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  gap: 0.5rem;
+  animation: slideIn 0.3s ease-out;
 }
 
-.checkbox-group input[type="checkbox"] {
-  margin-right: 0.5rem;
+/* Readonly State */
+.form__input--readonly {
+  background: var(--color-gray-100);
+  border-color: var(--color-gray-200);
+  color: var(--color-gray-500);
+  cursor: not-allowed;
 }
 
-.submit-button {
-  background-color: #007bff;
+/* Button Styling */
+.form__button {
+  width: 100%;
+  padding: 1rem 2rem;
+  background:linear-gradient(135deg, #2f6ac9 0%, #2D336B 100%);
   color: white;
-  padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
+  font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  margin-top: 2rem;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(45, 51, 107, 0.2);
 }
 
-.submit-button:hover {
-  background-color: #0056b3;
+/* Add these new button variations */
+.form__button--success {
+  background: var(--gradient-success);
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
 }
 
-.error-message {
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+.form__button--warning {
+  background: var(--gradient-warning);
+  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2);
 }
 
-.form-select {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    background-color: white;
+.form__button--danger {
+  background: var(--gradient-danger);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
 }
 
-.form-select:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+.form__button--info {
+  background: var(--gradient-info);
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
 }
 
-.form-select option {
-    padding: 0.5rem;
+.form__button--purple {
+  background: var(--gradient-purple);
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2);
+}
+
+.form__button--pink {
+  background: var(--gradient-pink);
+  box-shadow: 0 4px 10px rgba(236, 72, 153, 0.2);
+}
+
+/* Enhanced hover effects */
+.form__button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(45, 51, 107, 0.25);
+}
+
+.form__button--success:hover {
+  box-shadow: 0 6px 15px rgba(16, 185, 129, 0.25);
+}
+
+.form__button--warning:hover {
+  box-shadow: 0 6px 15px rgba(245, 158, 11, 0.25);
+}
+
+.form__button--danger:hover {
+  box-shadow: 0 6px 15px rgba(239, 68, 68, 0.25);
+}
+
+.form__button--info:hover {
+  box-shadow: 0 6px 15px rgba(59, 130, 246, 0.25);
+}
+
+.form__button--purple:hover {
+  box-shadow: 0 6px 15px rgba(139, 92, 246, 0.25);
+}
+
+.form__button--pink:hover {
+  box-shadow: 0 6px 15px rgba(236, 72, 153, 0.25);
+}
+
+/* Add ripple effect */
+.form__button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease-out, height 0.6s ease-out;
+}
+
+.form__button:active::after {
+  width: 200%;
+  height: 200%;
+}
+
+.form__button:active {
+  transform: translateY(0);
+}
+
+.form__button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Loading Overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Animations */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .form {
+    margin: 1rem;
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+  
+  .form__button {
+    padding: 0.875rem 1.5rem;
+  }
+  
+  .form__row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }

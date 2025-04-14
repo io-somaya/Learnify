@@ -1,198 +1,308 @@
 /* lecture-management.component.css */
 
-/* Container Styles */
-.container {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+/* Variables */
+:root {
+  --color-primary: #4361ee;
+  --color-secondary: #2D336B;
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-gray-50: #f9fafb;
+  --color-primary-light: #4f6ef2;
+  --color-primary-dark: #3a56d4;
+  --color-warning: #f59e0b;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --gradient-primary: linear-gradient(135deg, #2f6ac9 0%, #2D336B 100%);
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+/* Main Container */
+.management {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(45, 51, 107, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.management::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gradient-primary);
+}
+
+/* Header Styles */
+.management__title {
+  color: var(--color-secondary);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.management__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.management__subtitle {
+  color: var(--color-secondary);
+  font-weight: 500;
+}
+
+/* Button Styles */
+.management__button {
+  padding: 0.875rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  min-width: 80px;
+  justify-content: center;
+  border: 2px solid #2D336B;
+  color: #2D336B !important;
+}
+
+.management__button--primary {
+  border: 2px solid #2D336B;
+  color: #2D336B !important;
+  background: transparent;
+}
+
+.management__button--primary:hover {
+  background: rgba(45, 51, 107, 0.25);
+  color: #2D336B !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(45, 51, 107, 0.1);
+  border-color: rgba(45, 51, 107, 0.8) !important; /* Keep 80% of border opacity */
+}
+
+.management__button--edit {
+  border: 2px solid #2D336B;
+  color: #2D336B !important;
+  background: transparent;
+  padding: 0.5rem 1rem;
+}
+
+.management__button--edit:hover {
+  background: rgba(45, 51, 107, 0.25);
+  color: #2D336B !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(45, 51, 107, 0.1);
+  border-color:  #2d336bb8 !important;
+}
+
+.management__button--delete {
+  border: 2px solid #ef4444;
+  color: #ef4444 !important;
+  background: transparent;
+  padding: 0.5rem 1rem;
+}
+
+.management__button--delete:hover {
+  background: rgba(239, 68, 68, 0.25);
+  color: #ef4444 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(239, 68, 68, 0.1);
+  border-color:#ef44449d !important;
+}
+
+.management__button--zoom {
+  border: 2px solid #10b981;
+  color: #10b981 !important;
+  background: transparent;
+  padding: 0.5rem 1rem;
+}
+
+.management__button--zoom:hover {
+  background: rgba(16, 185, 129, 0.258);
+  color: #11d191 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(16, 185, 129, 0.1);
+  border-color: #10b981!important;
+}
+
+/* Common hover effects for all buttons */
+.management__button:hover {
+  border-color: transparent;
+}
+
+/* Table Styles */
+.management__table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(45, 51, 107, 0.1);
+  border: 1px solid var(--color-gray-200);
+}
+
+.management__table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--color-gray-200);
+}
+
+.management__table-header th {
+  background: var(--color-gray-50);
+  color: var(--color-secondary);
+  font-weight: 600;
+  padding: 1rem;
+  text-align: left;
+  border: 1px solid var(--color-gray-200);
+}
+
+.management__table-row:hover {
+  background: rgba(67, 97, 238, 0.05);
+}
+
+.management__table-cell {
+  padding: 1rem;
+  border: 1px solid var(--color-gray-200);
+}
+
+/* Ensure first column has left border */
+.management__table-header th:first-child,
+.management__table-cell:first-child {
+  border-left: 1px solid var(--color-gray-200);
+}
+
+/* Ensure last column has right border */
+.management__table-header th:last-child,
+.management__table-cell:last-child {
+  border-right: 1px solid var(--color-gray-200);
+}
+
+/* Badge Styles */
+.management__badge {
+  padding: 0.5rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  position: relative;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+
+.management__badge--active {
+  border: 2px solid #10b981;
+  color: #10b981 !important;
+  background: transparent;
+}
+
+.management__badge--active:hover {
+  background: rgba(16, 185, 129, 0.05);
+  color: #10b981 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(16, 185, 129, 0.1);
+}
+
+.management__badge--inactive {
+  border: 2px solid #6b7280;
+  color: #6b7280 !important;
+  background: transparent;
+}
+
+.management__badge--inactive:hover {
+  background: rgba(107, 114, 128, 0.05);
+  color: #6b7280 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(107, 114, 128, 0.1);
+}
+
+.management__badge::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.management__badge--active::before {
+  background-color: #10b981;
+}
+
+.management__badge--inactive::before {
+  background-color: #6b7280;
+}
+
+/* Loading and Error States */
+.management__loader {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.management__spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-gray-200);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.management__error {
+  padding: 1rem;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-error);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Actions Column */
+.management__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Animations */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .management {
+    margin: 1rem;
+    padding: 1.5rem;
   }
-  
-  /* Header Styles */
-  .container h2 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
+
+  .management__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
   }
-  
-  /* Action Bar Styles */
-  .d-flex.justify-content-between {
-    margin-bottom: 1.5rem;
-    align-items: center;
+
+  .management__actions {
+    flex-direction: column;
   }
-  
-  .btn-primary {
-    background-color: #3498db;
-    border-color: #3498db;
-    padding: 0.5rem 1rem;
+
+  .management__table-cell {
+    padding: 0.75rem;
     font-size: 0.9rem;
   }
-  
-  .btn-primary:hover {
-    background-color: #2980b9;
-    border-color: #2980b9;
-  }
-  
-  /* Loading Spinner */
-  .text-center {
-    text-align: center;
-    padding: 2rem;
-  }
-  
-  .spinner-border {
-    width: 3rem;
-    height: 3rem;
-    color: #3498db;
-  }
-  
-  /* Error Message */
-  .alert-danger {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 1rem;
-    border-radius: 0.25rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .btn-outline-danger {
-    color: #721c24;
-    border-color: #721c24;
-  }
-  
-  .btn-outline-danger:hover {
-    background-color: #721c24;
-    color: white;
-  }
-  
-  /* Table Styles */
-  .table-responsive {
-    overflow-x: auto;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
-  }
-  
-  .table {
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #212529;
-    border-collapse: collapse;
-  }
-  
-  .table th,
-  .table td {
-    padding: 1rem;
-    vertical-align: middle;
-    border-top: 1px solid #dee2e6;
-  }
-  
-  .table thead th {
-    vertical-align: bottom;
-    border-bottom: 2px solid #dee2e6;
-    background-color: #f8f9fa;
-    font-weight: 600;
-    color: #495057;
-  }
-  
-  .table tbody tr:hover {
-    background-color: rgba(52, 152, 219, 0.05);
-  }
-  
-  /* Badge Styles */
-  .badge {
-    display: inline-block;
-    padding: 0.35em 0.65em;
-    font-size: 0.75em;
-    font-weight: 700;
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-    border-radius: 0.25rem;
-  }
-  
-  .bg-success {
-    background-color: #28a745 !important;
-  }
-  
-  .bg-secondary {
-    background-color: #6c757d !important;
-    color: white;
-  }
-  
-  /* Button Group Styles */
-  .btn-group {
-    display: flex;
-    gap: 0.5rem;
-  }
-  
-  .btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    border-radius: 0.2rem;
-  }
-  
-  .btn-outline-primary {
-    color: #3498db;
-    border-color: #3498db;
-  }
-  
-  .btn-outline-primary:hover {
-    background-color: #3498db;
-    color: white;
-  }
-  
-  .btn-outline-danger {
-    color: #e74c3c;
-    border-color: #e74c3c;
-  }
-  
-  .btn-outline-danger:hover {
-    background-color: #e74c3c;
-    color: white;
-  }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .container {
-      padding: 1rem;
-    }
-    
-    .table th,
-    .table td {
-      padding: 0.75rem;
-      font-size: 0.9rem;
-    }
-    
-    .d-flex.justify-content-between {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-    
-    .btn-group {
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-  }
-  
-  /* Animation for hover effects */
-  .btn, .badge, .table tbody tr {
-    transition: all 0.2s ease-in-out;
-  }
-  
-  /* Zoom link button */
-  .btn-outline-primary.zoom-btn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.8rem;
-  }
-  
-  /* Truncated text style */
-  td {
-    max-width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+}

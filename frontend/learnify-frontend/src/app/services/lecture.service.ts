@@ -46,7 +46,16 @@ export class LectureService {
     );
   }
 
-
+  // GET lecture by ID
+  getLectureById(id: number): Observable<ILecture> {
+    return this.http.get<{data: ILecture}>(
+      `${this.apiUrl}/admin/lectures/${id}`,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      map(res => res.data),
+      catchError(this.handleError)
+    );
+  }
 
   // POST create new lecture
   createLecture(lecture: ILecture): Observable<ILecture> {
@@ -58,30 +67,29 @@ export class LectureService {
       catchError(this.handleError)
     );
   }
-  // GET lecture by ID
-getLectureById(id: number): Observable<ILecture> {
-  return this.http.get<{ data: ILecture }>(
-    `${this.apiUrl}/admin/lectures/${id}`,
-    { headers: this.getAuthHeaders() }
-  ).pipe(
-    map(res => res.data),
-    tap(res => console.log('GET Lecture by ID Response:', res)),
-    catchError(this.handleError)
-  );
-}
 
-// PUT update lecture
-updateLecture(id: number, lecture: ILecture): Observable<{ message: string }> {
-  return this.http.put<{ message: string }>(
-    `${this.apiUrl}/admin/lectures/${id}`,
-    lecture,
-    { headers: this.getAuthHeaders() }
-  ).pipe(
-    catchError(this.handleError)
-  );
-}
-
-  
+  // PUT update lecture
+  updateLecture(id: number, lecture: ILecture): Observable<ILecture> {
+    return this.http.put<{data: ILecture, status: number, message: string}>(
+      `${this.apiUrl}/admin/lectures/${id}`,
+      lecture,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(response => {
+        if (response.status !== 200) {
+          throw new Error(response.message);
+        }
+      }),
+      map(response => response.data),
+      catchError((error: HttpErrorResponse) => {
+        if (error.error?.errors) {
+          const messages = Object.values(error.error.errors).flat();
+          return throwError(() => new Error(messages.join(', ')));
+        }
+        return throwError(() => error);
+      })
+    );
+  }
 
   // DELETE lecture by ID
   deleteLecture(id: number): Observable<{ message: string }> {
