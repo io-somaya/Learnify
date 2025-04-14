@@ -28,6 +28,7 @@ class StudentLectureController extends Controller
             //order by day of week and time
             ->orderByRaw("FIELD(day_of_week, 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')")
             ->orderBy('start_time')
+            
 
             // paginate
             ->paginate(request('per_page', 10));

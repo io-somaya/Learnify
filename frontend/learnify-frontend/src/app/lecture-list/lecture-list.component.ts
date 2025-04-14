@@ -2,11 +2,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { LectureService } from '../services/lecture.service';
 import { ILecture } from '../Interfaces/ILecture';
 import { CommonModule } from '@angular/common';
+import { CustomDateFormatPipe } from '../pipes/DateFormate.pipe';
 
 @Component({
   selector: 'app-lecture-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CustomDateFormatPipe],
   templateUrl: './lecture-list.component.html',
   styleUrls: ['./lecture-list.component.css']
 })

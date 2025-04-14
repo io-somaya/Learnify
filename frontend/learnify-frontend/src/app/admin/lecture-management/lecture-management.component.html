@@ -24,7 +24,7 @@
             <tr>
               <th>Title</th>
               <th>Day</th>
-              <th>Time</th>
+              <th>Start Time - End Time</th>
               <th>Description</th>
               <th>Grade</th>
               <th>Status</th>
@@ -37,22 +37,22 @@
               <tr>
                 <td>{{ lecture.title }}</td>
                 <td>{{ lecture.day_of_week }}</td>
-                <td>{{ lecture.start_time }} - {{ lecture.end_time }}</td>
+                <td>{{ lecture.start_time | customDateFormat }} - {{ lecture.end_time | customDateFormat }}</td>
                 <td>{{ lecture.description | truncate:50 }}</td>
                 <td>{{ lecture.grade }}</td>
                 <td>
-                  <span class="badge" [ngClass]="lecture.is_active ? 'bg-success' : 'bg-secondary'">
-                    {{ lecture.is_active ? 'Active' : 'Inactive' }}
+                  <span class="badge" [ngClass]="lecture.active ? 'bg-success' : 'bg-secondary'">
+                    {{ lecture.active ? 'Active' : 'Inactive' }}
                   </span>
                 </td>
                 <td>
-                  @if (lecture.zoom_link) {
-                    <a [href]="lecture.zoom_link" target="_blank" class="btn btn-sm btn-outline-primary">Join</a>
+                  @if (lecture.zoom_start_url) {
+                    <a [href]="lecture.zoom_start_url" target="_blank" class="btn btn-sm btn-outline-primary">Join</a>
                   }
                 </td>
                 <td>
                   <div class="btn-group" role="group">
-                    <a [routerLink]="['/admin/dashboard/lectures/edit', lecture.id]" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <a (click)="editLecture(lecture.id)" class="btn btn-sm btn-outline-primary">Edit</a>
                     <button (click)="deleteLecture(lecture.id)" class="btn btn-sm btn-outline-danger">Delete</button>
                   </div>
                 </td>
