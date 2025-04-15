@@ -1,135 +1,170 @@
-<form (ngSubmit)="onSubmit()" *ngIf="lecture" class="form">
-    <!-- Title -->
-    <div class="form__group">
-      <label for="title" class="form__label">Title</label>
-      <input
-        type="text"
-        id="title"
-        [(ngModel)]="lecture.title"
-        name="title"
-        class="form__input"
-        placeholder="Enter lecture title"
-        required
-        [class.form__input--error]="validationErrors['title']"
-      />
-      <div class="form__error" *ngIf="validationErrors['title']">
-        {{ validationErrors['title'][0] }}
-      </div>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2>Edit Lecture</h2>
     </div>
-  
-    <!-- Description -->
-    <div class="form__group">
-      <label for="description" class="form__label">Description</label>
-      <input
-        type="text"
-        id="description"
-        [(ngModel)]="lecture.description"
-        name="description"
-        class="form__input"
-        placeholder="Enter description"
-        required
-      />
-    </div>
-  
-    <!-- Day of Week -->
-    <div class="form__group">
-      <label for="day_of_week" class="form__label">Day of Week</label>
-      <select
-        id="day_of_week"
-        [(ngModel)]="lecture.day_of_week"
-        name="day_of_week"
-        class="form__select"
-        required
-      >
-        <option value="">Select a day</option>
-        <option *ngFor="let day of daysOfWeek" [value]="day">{{ day }}</option>
-      </select>
-    </div>
-  
-    <!-- Time Inputs -->
-    <div class="form__row">
-      <div class="form__group">
-        <label for="start_time" class="form__label">Start Time</label>
-        <input
-          type="time"
-          id="start_time"
-          [(ngModel)]="lecture.start_time"
-          name="start_time"
-          class="form__input"
-          required
-          [class.form__input--error]="validationErrors['start_time']"
-        />
-        <div class="form__error" *ngIf="validationErrors['start_time']">
-          {{ validationErrors['start_time'][0] }}
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()" *ngIf="lecture">
+        <!-- Alert for validation errors -->
+        <div class="alert alert-danger" *ngIf="Object.keys(validationErrors).length > 0">
+          Please correct the errors below.
         </div>
-      </div>
-  
-      <div class="form__group">
-        <label for="end_time" class="form__label">End Time</label>
-        <input
-          type="time"
-          id="end_time"
-          [(ngModel)]="lecture.end_time"
-          name="end_time"
-          class="form__input"
-          required
-          [class.form__input--error]="validationErrors['end_time']"
-        />
-        <div class="form__error" *ngIf="validationErrors['end_time']">
-          {{ validationErrors['end_time'][0] }}
+
+        <!-- Title -->
+        <div class="mb-3">
+          <label for="title" class="form-label">Lecture Title</label>
+          <input
+            type="text"
+            id="title"
+            [(ngModel)]="lecture.title"
+            name="title"
+            class="form-control"
+            [ngClass]="{'is-invalid': validationErrors['title']}"
+            placeholder="Enter lecture title"
+            required
+          />
+          <div class="invalid-feedback" *ngIf="validationErrors['title']">
+            {{ validationErrors['title'][0] }}
+          </div>
         </div>
-      </div>
+      
+        <!-- Description -->
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <input
+            type="text"
+            id="description"
+            [(ngModel)]="lecture.description"
+            name="description"
+            class="form-control"
+            [ngClass]="{'is-invalid': validationErrors['description']}"
+            placeholder="Enter description"
+            required
+          />
+          <div class="invalid-feedback" *ngIf="validationErrors['description']">
+            {{ validationErrors['description'][0] }}
+          </div>
+        </div>
+      
+        <div class="row">
+          <!-- Day of Week -->
+          <div class="col-md-4 mb-3">
+            <label for="day_of_week" class="form-label">Day of Week</label>
+            <select
+              id="day_of_week"
+              [(ngModel)]="lecture.day_of_week"
+              name="day_of_week"
+              class="form-select"
+              [ngClass]="{'is-invalid': validationErrors['day_of_week']}"
+              required
+            >
+              <option value="">Select a day</option>
+              <option *ngFor="let day of daysOfWeek" [value]="day">{{ day }}</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="validationErrors['day_of_week']">
+              Day of week is required
+            </div>
+          </div>
+        
+          <!-- Start Time -->
+          <div class="col-md-4 mb-3">
+            <label for="start_time" class="form-label">Start Time</label>
+            <input
+              type="time"
+              id="start_time"
+              [(ngModel)]="lecture.start_time"
+              name="start_time"
+              class="form-control"
+              [ngClass]="{'is-invalid': validationErrors['start_time']}"
+              required
+            />
+            <div class="invalid-feedback" *ngIf="validationErrors['start_time']">
+              Start time is required
+            </div>
+          </div>
+        
+          <!-- End Time -->
+          <div class="col-md-4 mb-3">
+            <label for="end_time" class="form-label">End Time</label>
+            <input
+              type="time"
+              id="end_time"
+              [(ngModel)]="lecture.end_time"
+              name="end_time"
+              class="form-control"
+              [ngClass]="{'is-invalid': validationErrors['end_time']}"
+              required
+            />
+            <div class="invalid-feedback" *ngIf="validationErrors['end_time']">
+              End time is required
+            </div>
+          </div>
+        </div>
+      
+        <!-- Grade -->
+        <div class="mb-3">
+          <label for="grade" class="form-label">Grade Level</label>
+          <select
+            id="grade"
+            [(ngModel)]="lecture.grade"
+            name="grade"
+            class="form-select"
+            [ngClass]="{'is-invalid': validationErrors['grade']}"
+            required
+          >
+            <option value="">Select grade</option>
+            <option *ngFor="let grade of grades" [value]="grade">Grade {{ grade }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="validationErrors['grade']">
+            Grade is required
+          </div>
+        </div>
+      
+        <!-- Zoom Fields (Readonly) -->
+        <div class="mb-3">
+          <label for="zoom_link" class="form-label">Zoom Link</label>
+          <input
+            type="text"
+            id="zoom_link"
+            [(ngModel)]="lecture.zoom_link"
+            name="zoom_link"
+            class="form-control"
+            readonly
+          />
+          <small class="form-text text-muted">This link is automatically generated and cannot be edited.</small>
+        </div>
+      
+        <!-- Status -->
+        <div class="mb-3">
+          <div class="form-check">
+            <input
+              type="checkbox"
+              id="is_active"
+              [(ngModel)]="lecture.is_active"
+              name="is_active"
+              class="form-check-input"
+            />
+            <label for="is_active" class="form-check-label">Active</label>
+            <small class="form-text text-muted d-block">Inactive lectures won't be visible to students.</small>
+          </div>
+        </div>
+      
+        <!-- Actions -->
+        <div class="d-flex gap-2 justify-content-end mt-4">
+          <button type="button" class="btn btn-secondary" routerLink="/admin/lecture-management">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            {{ isLoading ? 'Updating...' : 'Update Lecture' }}
+          </button>
+        </div>
+      </form>
     </div>
-  
-    <!-- Grade -->
-    <div class="form__group">
-      <label for="grade" class="form__label">Grade</label>
-      <select
-        id="grade"
-        [(ngModel)]="lecture.grade"
-        name="grade"
-        class="form__select"
-        required
-      >
-        <option value="">Select grade</option>
-        <option *ngFor="let grade of grades" [value]="grade">Grade {{ grade }}</option>
-      </select>
-    </div>
-  
-    <!-- Zoom Fields (Readonly) -->
-    <div class="form__group">
-      <label for="zoom_link" class="form__label">Zoom Link</label>
-      <input
-        type="text"
-        id="zoom_link"
-        [(ngModel)]="lecture.zoom_link"
-        name="zoom_link"
-        class="form__input form__input--readonly"
-        readonly
-      />
-    </div>
-  
-    <!-- Status -->
-    <div class="form__group">
-      <label for="is_active" class="form__label">Status</label>
-      <select
-        id="is_active"
-        [(ngModel)]="lecture.is_active"
-        name="is_active"
-        class="form__select"
-      >
-        <option [ngValue]="true">Active</option>
-        <option [ngValue]="false">Inactive</option>
-      </select>
-    </div>
-  
-    <!-- Submit Button -->
-    <button type="submit" class="form__button" [disabled]="isLoading">
-      {{ isLoading ? 'Updating...' : 'Update Lecture' }}
-    </button>
-  </form>
-  
-  <!-- Loading Overlay -->
-  <div class="overlay" *ngIf="isLoading">
-    <div class="spinner"></div>
   </div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="overlay" *ngIf="isLoading">
+  <div class="spinner"></div>
+</div>

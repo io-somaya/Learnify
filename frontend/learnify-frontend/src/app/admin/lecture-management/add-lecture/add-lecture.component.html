@@ -1,80 +1,154 @@
-<div class="container mt-4">
+<div class="container">
   <div class="card">
     <div class="card-header">
-      <h3>Add New Lecture</h3>
+      <h2>Create New Lecture</h2>
     </div>
     <div class="card-body">
       <form [formGroup]="lectureForm" (ngSubmit)="onSubmit()">
+        <!-- Error Alert -->
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i>
+          {{ errorMessage }}
+        </div>
+
         <!-- Title -->
         <div class="mb-3">
-          <label for="title" class="form-label">Title</label>
-          <input type="text" class="form-control" id="title" formControlName="title">
-          <div *ngIf="f['title'].touched && f['title'].errors" class="text-danger">
-            <div *ngIf="f['title'].errors['required']">Title is required</div>
-            <div *ngIf="f['title'].errors['minlength']">Title must be at least 3 characters</div>
+          <label for="title" class="form-label">
+            <i class="fas fa-heading" style="margin-right: 6px;"></i>Lecture Title
+          </label>
+          <input 
+            type="text" 
+            id="title" 
+            formControlName="title" 
+            class="form-control" 
+            [ngClass]="{'is-invalid': f['title'].touched && f['title'].invalid}"
+            placeholder="Enter a descriptive title for the lecture"
+          >
+          <div *ngIf="f['title'].touched && f['title'].errors" class="invalid-feedback">
+            <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>
+            <span *ngIf="f['title'].errors['required']">Title is required</span>
+            <span *ngIf="f['title'].errors['minlength']">Title must be at least 3 characters</span>
           </div>
         </div>
 
         <!-- Description -->
         <div class="mb-3">
-          <label for="description" class="form-label">Description</label>
-          <textarea class="form-control" id="description" rows="3" formControlName="description"></textarea>
-          <div *ngIf="f['description'].touched && f['description'].errors" class="text-danger">
-            <div *ngIf="f['description'].errors['required']">Description is required</div>
-            <div *ngIf="f['description'].errors['minlength']">Description must be at least 10 characters</div>
+          <label for="description" class="form-label">
+            <i class="fas fa-align-left" style="margin-right: 6px;"></i>Description
+          </label>
+          <textarea 
+            id="description" 
+            formControlName="description" 
+            class="form-control" 
+            rows="4"
+            [ngClass]="{'is-invalid': f['description'].touched && f['description'].invalid}"
+            placeholder="Describe what students will learn in this lecture"
+          ></textarea>
+          <div *ngIf="f['description'].touched && f['description'].errors" class="invalid-feedback">
+            <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>
+            <span *ngIf="f['description'].errors['required']">Description is required</span>
+            <span *ngIf="f['description'].errors['minlength']">Description must be at least 10 characters</span>
           </div>
         </div>
 
         <!-- Day of Week -->
         <div class="mb-3">
-          <label for="day_of_week" class="form-label">Day of Week</label>
-          <select class="form-select" id="day_of_week" formControlName="day_of_week">
+          <label for="day_of_week" class="form-label">
+            <i class="fas fa-calendar-day" style="margin-right: 6px;"></i>Day of Week
+          </label>
+          <select 
+            id="day_of_week" 
+            formControlName="day_of_week" 
+            class="form-select"
+            [ngClass]="{'is-invalid': f['day_of_week'].touched && f['day_of_week'].invalid}"
+          >
+            <option value="" disabled>Select day</option>
             <option *ngFor="let day of daysOfWeek" [value]="day">{{ day }}</option>
           </select>
+          <div *ngIf="f['day_of_week'].touched && f['day_of_week'].errors" class="invalid-feedback">
+            <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>
+            <span *ngIf="f['day_of_week'].errors['required']">Day of week is required</span>
+          </div>
         </div>
 
         <!-- Time -->
         <div class="row mb-3">
           <div class="col">
-            <label for="start_time" class="form-label">Start Time</label>
-            <input type="time" class="form-control" id="start_time" formControlName="start_time">
-            <div *ngIf="f['start_time'].touched && f['start_time'].errors" class="text-danger">
-              <div *ngIf="f['start_time'].errors['invalidTime']">Invalid time format (HH:MM)</div>
+            <label for="start_time" class="form-label">
+              <i class="fas fa-clock" style="margin-right: 6px;"></i>Start Time
+            </label>
+            <input 
+              type="time" 
+              class="form-control" 
+              id="start_time" 
+              formControlName="start_time"
+              [ngClass]="{'is-invalid': f['start_time'].touched && f['start_time'].invalid}"
+            >
+            <div *ngIf="f['start_time'].touched && f['start_time'].errors" class="invalid-feedback">
+              <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>
+              <span *ngIf="f['start_time'].errors['invalidTime']">Invalid time format (HH:MM)</span>
+              <span *ngIf="f['start_time'].errors['required']">Start time is required</span>
             </div>
           </div>
           <div class="col">
-            <label for="end_time" class="form-label">End Time</label>
-            <input type="time" class="form-control" id="end_time" formControlName="end_time">
-            <div *ngIf="f['end_time'].touched && f['end_time'].errors" class="text-danger">
-              <div *ngIf="f['end_time'].errors['invalidTime']">Invalid time format (HH:MM)</div>
+            <label for="end_time" class="form-label">
+              <i class="fas fa-clock" style="margin-right: 6px;"></i>End Time
+            </label>
+            <input 
+              type="time" 
+              class="form-control" 
+              id="end_time" 
+              formControlName="end_time"
+              [ngClass]="{'is-invalid': f['end_time'].touched && f['end_time'].invalid}"
+            >
+            <div *ngIf="f['end_time'].touched && f['end_time'].errors" class="invalid-feedback">
+              <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>
+              <span *ngIf="f['end_time'].errors['invalidTime']">Invalid time format (HH:MM)</span>
+              <span *ngIf="f['end_time'].errors['required']">End time is required</span>
             </div>
           </div>
         </div>
 
         <!-- Grade -->
         <div class="mb-3">
-          <label for="grade" class="form-label">Grade</label>
-          <select class="form-select" id="grade" formControlName="grade">
+          <label for="grade" class="form-label">
+            <i class="fas fa-graduation-cap" style="margin-right: 6px;"></i>Grade Level
+          </label>
+          <select 
+            id="grade" 
+            formControlName="grade" 
+            class="form-select"
+            [ngClass]="{'is-invalid': f['grade'].touched && f['grade'].invalid}"
+          >
             <option value="" disabled selected>Select grade</option>
             <option *ngFor="let grade of grades" [value]="grade">Grade {{ grade }}</option>
           </select>
-          <div *ngIf="f['grade'].touched && f['grade'].errors" class="text-danger">
-            <div *ngIf="f['grade'].errors['required']">Grade is required</div>
+          <div *ngIf="f['grade'].touched && f['grade'].errors" class="invalid-feedback">
+            <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>
+            <span *ngIf="f['grade'].errors['required']">Grade is required</span>
           </div>
         </div>
 
         <!-- Active Status -->
         <div class="mb-3 form-check">
           <input type="checkbox" class="form-check-input" id="is_active" formControlName="is_active">
-          <label class="form-check-label" for="is_active">Active</label>
+          <label class="form-check-label" for="is_active">
+            <i class="fas fa-toggle-on" style="margin-right: 6px;"></i>Active
+          </label>
+          <small class="form-text">
+            <i class="fas fa-info-circle" style="margin-right: 4px;"></i>
+            Inactive lectures won't be visible to students
+          </small>
         </div>
 
-        <!-- Buttons -->
-        <div class="d-flex justify-content-between">
-          <button type="button" class="btn btn-secondary" routerLink="/admin/dashboard/lectures-management">Cancel</button>
-          <button type="submit" class="btn btn-primary" [disabled]="isSubmitting">
-            <span *ngIf="!isSubmitting">Create Lecture</span>
-            <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-between" style="margin-top: 30px;">
+          <button type="button" class="btn btn-secondary" routerLink="/admin/dashboard/lectures-management">
+            <i class="fas fa-arrow-left"></i> Cancel
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="isSubmitting || lectureForm.invalid">
+            <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            <i *ngIf="!isSubmitting" class="fas fa-save"></i> Create Lecture
           </button>
         </div>
       </form>

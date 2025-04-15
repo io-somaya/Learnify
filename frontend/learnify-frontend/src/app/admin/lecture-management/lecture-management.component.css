@@ -1,23 +1,21 @@
 /* lecture-management.component.css */
 
-/* Variables */
+/* Root Variables */
 :root {
-  --color-primary: #4361ee;
-  --color-secondary: #2D336B;
-  --color-success: #10b981;
-  --color-error: #ef4444;
-  --color-gray-50: #f9fafb;
-  --color-primary-light: #4f6ef2;
-  --color-primary-dark: #3a56d4;
-  --color-warning: #f59e0b;
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e5e7eb;
-  --color-gray-300: #d1d5db;
-  --color-gray-400: #9ca3af;
-  --color-gray-500: #6b7280;
-  --gradient-primary: linear-gradient(135deg, #2f6ac9 0%, #2D336B 100%);
-  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  --light-purple: #e9ecff;
+  --medium-purple: #7886C7;
+  --dark-purple: #2D336B;
+  --page-background: #f5f7ff;
+  --component-background: #ffffff;
+  --success-color: #10b981;
+  --danger-color: #ef4444;
+  --warning-color: #f59e0b;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
 }
 
 /* Main Container */
@@ -25,11 +23,24 @@
   max-width: 1200px;
   margin: 2rem auto;
   padding: 2.5rem;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 15px 40px rgba(45, 51, 107, 0.15);
+  background: var(--component-background);
+  border-radius: 18px;
+  box-shadow: 0 10px 40px rgba(45, 51, 107, 0.08);
   position: relative;
   overflow: hidden;
+  animation: fadeIn 0.5s ease-in-out;
+  font-family: 'Outfit', sans-serif;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .management::before {
@@ -39,14 +50,15 @@
   left: 0;
   width: 100%;
   height: 4px;
-  background: var(--gradient-primary);
+  background: linear-gradient(to right, var(--medium-purple), var(--dark-purple));
 }
 
 /* Header Styles */
 .management__title {
-  color: var(--color-secondary);
+  color: var(--dark-purple);
   margin-bottom: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 28px;
   letter-spacing: 0.3px;
 }
 
@@ -58,176 +70,177 @@
 }
 
 .management__subtitle {
-  color: var(--color-secondary);
-  font-weight: 500;
+  color: var(--dark-purple);
+  font-weight: 600;
+  font-size: 18px;
 }
 
 /* Button Styles */
 .management__button {
-  padding: 0.875rem 1.5rem;
-  border-radius: 10px;
+  padding: 10px 20px;
+  border-radius: 8px;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: transparent;
-  min-width: 80px;
+  gap: 8px;
   justify-content: center;
-  border: 2px solid #2D336B;
-  color: #2D336B !important;
 }
 
 .management__button--primary {
-  border: 2px solid #2D336B;
-  color: #2D336B !important;
-  background: transparent;
+  background-color: var(--medium-purple);
+  border: 1px solid var(--medium-purple);
+  color: white !important;
+  box-shadow: 0 4px 6px rgba(120, 134, 199, 0.2);
 }
 
 .management__button--primary:hover {
-  background: rgba(45, 51, 107, 0.25);
-  color: #2D336B !important;
+  background-color: var(--dark-purple);
+  border-color: var(--dark-purple);
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(45, 51, 107, 0.1);
-  border-color: rgba(45, 51, 107, 0.8) !important; /* Keep 80% of border opacity */
+  box-shadow: 0 6px 8px rgba(120, 134, 199, 0.3);
 }
 
 .management__button--edit {
-  border: 2px solid #2D336B;
-  color: #2D336B !important;
-  background: transparent;
-  padding: 0.5rem 1rem;
+  background-color: var(--light-purple);
+  border: 1px solid var(--medium-purple);
+  color: var(--dark-purple) !important;
 }
 
 .management__button--edit:hover {
-  background: rgba(45, 51, 107, 0.25);
-  color: #2D336B !important;
+  background-color: var(--medium-purple);
+  color: white !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(45, 51, 107, 0.1);
-  border-color:  #2d336bb8 !important;
+  box-shadow: 0 4px 6px rgba(120, 134, 199, 0.2);
 }
 
 .management__button--delete {
-  border: 2px solid #ef4444;
-  color: #ef4444 !important;
-  background: transparent;
-  padding: 0.5rem 1rem;
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--danger-color);
+  color: var(--danger-color) !important;
 }
 
 .management__button--delete:hover {
-  background: rgba(239, 68, 68, 0.25);
-  color: #ef4444 !important;
+  background-color: var(--danger-color);
+  color: white !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(239, 68, 68, 0.1);
-  border-color:#ef44449d !important;
+  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
 }
 
 .management__button--zoom {
-  border: 2px solid #10b981;
-  color: #10b981 !important;
-  background: transparent;
-  padding: 0.5rem 1rem;
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid var(--success-color);
+  color: var(--success-color) !important;
 }
 
 .management__button--zoom:hover {
-  background: rgba(16, 185, 129, 0.258);
-  color: #11d191 !important;
+  background-color: var(--success-color);
+  color: white !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(16, 185, 129, 0.1);
-  border-color: #10b981!important;
+  box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
 }
 
-/* Common hover effects for all buttons */
-.management__button:hover {
-  border-color: transparent;
+.management__button--danger-outline {
+  background-color: transparent;
+  border: 1px solid var(--danger-color);
+  color: var(--danger-color) !important;
+}
+
+.management__button--danger-outline:hover {
+  background-color: var(--danger-color);
+  color: white !important;
 }
 
 /* Table Styles */
 .management__table-wrapper {
   overflow-x: auto;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(45, 51, 107, 0.1);
-  border: 1px solid var(--color-gray-200);
+  box-shadow: 0 2px 10px rgba(45, 51, 107, 0.05);
+  border: 1px solid var(--gray-200);
+  animation: cardFadeIn 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .management__table {
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid var(--color-gray-200);
+  border: none;
 }
 
 .management__table-header th {
-  background: var(--color-gray-50);
-  color: var(--color-secondary);
+  background: linear-gradient(to right, rgba(120, 134, 199, 0.05), rgba(45, 51, 107, 0.05));
+  color: var(--dark-purple);
   font-weight: 600;
-  padding: 1rem;
+  padding: 16px;
   text-align: left;
-  border: 1px solid var(--color-gray-200);
+  border: 1px solid var(--gray-200);
+  font-size: 14px;
+}
+
+.management__table-row {
+  transition: all 0.2s ease;
 }
 
 .management__table-row:hover {
-  background: rgba(67, 97, 238, 0.05);
+  background: rgba(120, 134, 199, 0.05);
+}
+
+.management__table-row:nth-child(even) {
+  background-color: var(--gray-50);
 }
 
 .management__table-cell {
-  padding: 1rem;
-  border: 1px solid var(--color-gray-200);
-}
-
-/* Ensure first column has left border */
-.management__table-header th:first-child,
-.management__table-cell:first-child {
-  border-left: 1px solid var(--color-gray-200);
-}
-
-/* Ensure last column has right border */
-.management__table-header th:last-child,
-.management__table-cell:last-child {
-  border-right: 1px solid var(--color-gray-200);
+  padding: 16px;
+  border: 1px solid var(--gray-200);
+  font-size: 14px;
+  vertical-align: middle;
 }
 
 /* Badge Styles */
 .management__badge {
-  padding: 0.5rem 1.5rem;
-  border-radius: 10px;
+  padding: 6px 12px;
+  border-radius: 6px;
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 12px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 100px;
+  min-width: 80px;
   position: relative;
   transition: all 0.3s ease;
-  background: transparent;
 }
 
 .management__badge--active {
-  border: 2px solid #10b981;
-  color: #10b981 !important;
-  background: transparent;
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--success-color) !important;
+  border: 1px solid var(--success-color);
 }
 
 .management__badge--active:hover {
-  background: rgba(16, 185, 129, 0.05);
-  color: #10b981 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(16, 185, 129, 0.1);
+  background-color: rgba(16, 185, 129, 0.2);
 }
 
 .management__badge--inactive {
-  border: 2px solid #6b7280;
-  color: #6b7280 !important;
-  background: transparent;
+  background-color: rgba(107, 114, 128, 0.1);
+  color: var(--gray-500) !important;
+  border: 1px solid var(--gray-500);
 }
 
 .management__badge--inactive:hover {
-  background: rgba(107, 114, 128, 0.05);
-  color: #6b7280 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(107, 114, 128, 0.1);
+  background-color: rgba(107, 114, 128, 0.2);
 }
 
 .management__badge::before {
@@ -240,11 +253,11 @@
 }
 
 .management__badge--active::before {
-  background-color: #10b981;
+  background-color: var(--success-color);
 }
 
 .management__badge--inactive::before {
-  background-color: #6b7280;
+  background-color: var(--gray-500);
 }
 
 /* Loading and Error States */
@@ -257,26 +270,29 @@
 .management__spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid var(--color-gray-200);
-  border-top-color: var(--color-primary);
+  border: 3px solid var(--gray-200);
+  border-top-color: var(--medium-purple);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
 .management__error {
-  padding: 1rem;
+  padding: 16px;
   border-radius: 10px;
   background: rgba(239, 68, 68, 0.1);
-  color: var(--color-error);
+  color: var(--danger-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 /* Actions Column */
 .management__actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 /* Animations */
@@ -297,12 +313,26 @@
     gap: 1rem;
   }
 
+  .management__button {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+
   .management__actions {
     flex-direction: column;
+    gap: 6px;
   }
 
   .management__table-cell {
-    padding: 0.75rem;
-    font-size: 0.9rem;
+    padding: 12px;
+    font-size: 13px;
+  }
+  
+  .management__title {
+    font-size: 22px;
+  }
+  
+  .management__subtitle {
+    font-size: 16px;
   }
 }

@@ -1,57 +1,74 @@
 <div class="lesson-detail-container">
     <button class="back-button" (click)="goBack()">
-      ← Back to Lessons
+      <i class="fas fa-arrow-left"></i> Back to Lessons
     </button>
   
 
     <h2>Lesson Details</h2>
-    <div *ngIf="isLoading" class="loading">Loading lesson details...</div>
+    <div *ngIf="isLoading" class="loading">
+      <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 10px;"></i>
+      <div>Loading lesson details...</div>
+    </div>
     
     <div *ngIf="errorMessage" class="error">
-      {{errorMessage}}
-      <button (click)="loadLesson()" class="retry-button">Retry</button>
+      <i class="fas fa-exclamation-triangle" style="font-size: 24px; margin-bottom: 8px;"></i>
+      <div>{{errorMessage}}</div>
+      <button (click)="loadLesson()" class="retry-button">
+        <i class="fas fa-redo-alt"></i> Retry
+      </button>
     </div>
   
     <div *ngIf="lesson && !isLoading" class="lesson-content">
       <h1>{{lesson.title}}</h1>
       
       <div class="meta-info">
-        <span class="grade">Grade: {{lesson.grade}}</span>
-        <span *ngIf="lesson.subject" class="subject">Subject: {{lesson.subject}}</span>
-        <span *ngIf="lesson.duration" class="duration">Duration: {{lesson.duration}} minutes</span>
+        <span class="grade">
+          <i class="fas fa-graduation-cap"></i> Grade {{lesson.grade}}
+        </span>
+        <span *ngIf="lesson.subject" class="subject">
+          <i class="fas fa-book"></i> {{lesson.subject}}
+        </span>
+        <span *ngIf="lesson.duration" class="duration">
+          <i class="fas fa-clock"></i> {{lesson.duration}} minutes
+        </span>
       </div>
       
       <div *ngIf="lesson.description" class="description">
-        <h3>Description</h3>
+        <h3><i class="fas fa-info-circle" style="margin-right: 8px;"></i>Description</h3>
         <p>{{lesson.description}}</p>
       </div>
       
       <div *ngIf="lesson.objectives" class="objectives">
-        <h3>Learning Objectives</h3>
+        <h3><i class="fas fa-bullseye" style="margin-right: 8px;"></i>Learning Objectives</h3>
         <ul>
           <li *ngFor="let objective of lesson.objectives">{{objective}}</li>
         </ul>
       </div>
 
-      <div *ngIf="lesson.materials" class="materials">
-        <h3>Materials</h3>
+      <div *ngIf="lesson.materials && lesson.materials.length > 0" class="materials">
+        <h3><i class="fas fa-file-alt" style="margin-right: 8px;"></i>Materials</h3>
         <ul>
           <li *ngFor="let material of lesson.materials">
             <a [href]="material.file_url" target="_blank">{{material.file_name}}</a>
           </li>
         </ul>
       </div>
-      <div *ngIf="lesson?.youtube_embed_code" class="video-container">
-        <h3>Video</h3>
-        <div [innerHTML]="safeYoutubeEmbed"></div>
+
+      <div *ngIf="lesson?.youtube_embed_code" class="video-section">
+        <h3><i class="fas fa-play-circle" style="margin-right: 8px;"></i>Video</h3>
+        <div class="video-container">
+          <div [innerHTML]="safeYoutubeEmbed"></div>
+        </div>
       </div>
 
-      <div *ngIf="lesson.activities" class="activities">
-        <h3>Activities</h3>
+      <div *ngIf="lesson.activities && lesson.activities.length > 0" class="activities">
+        <h3><i class="fas fa-tasks" style="margin-right: 8px;"></i>Activities</h3>
         <div *ngFor="let activity of lesson.activities" class="activity">
           <h4>{{activity.title}}</h4>
           <p>{{activity.description}}</p>
-          <p *ngIf="activity.duration" class="activity-duration">Duration: {{activity.duration}} min</p>
+          <p *ngIf="activity.duration" class="activity-duration">
+            <i class="fas fa-hourglass-half"></i> Duration: {{activity.duration}} minutes
+          </p>
         </div>
       </div>
     </div>

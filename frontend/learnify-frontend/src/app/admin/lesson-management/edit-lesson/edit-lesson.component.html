@@ -1,104 +1,122 @@
-<div class="container mt-4">
-    <div class="card">
-      <div class="card-header">
-        <h2>Update Lesson</h2>
-      </div>
-      <div class="card-body">
-        <!-- Loading Spinner -->
-        <div *ngIf="isLoading" class="text-center my-5">
-          <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-          <p class="mt-2">Loading lesson details...</p>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2>Update Lesson</h2>
+    </div>
+    <div class="card-body">
+      <!-- Loading Spinner -->
+      <div *ngIf="isLoading" class="loading-spinner">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
-  
-        <!-- Error Alert for Loading -->
-        <div *ngIf="!isLoading && errorMessage && !lessonForm.dirty" class="alert alert-danger">
+        <p class="mt-2">Loading lesson details...</p>
+      </div>
+
+      <!-- Error Alert for Loading -->
+      <div *ngIf="!isLoading && errorMessage && !lessonForm.dirty" class="alert alert-danger">
+        <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i>
+        {{ errorMessage }}
+        <div class="mt-3">
+          <button class="btn btn-primary" routerLink="/admin/dashboard/lessons-management">
+            <i class="fas fa-arrow-left"></i> Back to Lessons
+          </button>
+        </div>
+      </div>
+
+      <!-- Edit Form -->
+      <form *ngIf="!isLoading && (!errorMessage || lessonForm.dirty)" [formGroup]="lessonForm" (ngSubmit)="onSubmit()">
+        <!-- Error Alert for Submission -->
+        <div *ngIf="errorMessage && lessonForm.dirty" class="alert alert-danger">
+          <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i>
           {{ errorMessage }}
-          <div class="mt-3">
-            <button class="btn btn-primary" routerLink="/admin/lessons">Back to Lessons</button>
+        </div>
+
+        <!-- Title -->
+        <div class="mb-3">
+          <label for="title" class="form-label">
+            <i class="fas fa-heading" style="margin-right: 6px;"></i>Lesson Title
+          </label>
+          <input 
+            type="text" 
+            id="title" 
+            formControlName="title" 
+            class="form-control" 
+            [ngClass]="{'is-invalid': lessonForm.get('title')?.touched && lessonForm.get('title')?.invalid}"
+            placeholder="Enter a descriptive title for the lesson"
+          >
+          <div *ngIf="lessonForm.get('title')?.touched && lessonForm.get('title')?.invalid" class="invalid-feedback">
+            <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>Title is required
           </div>
         </div>
-  
-        <!-- Edit Form -->
-        <form *ngIf="!isLoading && (!errorMessage || lessonForm.dirty)" [formGroup]="lessonForm" (ngSubmit)="onSubmit()">
-          <!-- Error Alert for Submission -->
-          <div *ngIf="errorMessage && lessonForm.dirty" class="alert alert-danger">
-            {{ errorMessage }}
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label for="description" class="form-label">
+            <i class="fas fa-align-left" style="margin-right: 6px;"></i>Description
+          </label>
+          <textarea 
+            id="description" 
+            formControlName="description" 
+            class="form-control" 
+            rows="4"
+            [ngClass]="{'is-invalid': lessonForm.get('description')?.touched && lessonForm.get('description')?.invalid}"
+            placeholder="Describe what students will learn in this lesson"
+          ></textarea>
+          <div *ngIf="lessonForm.get('description')?.touched && lessonForm.get('description')?.invalid" class="invalid-feedback">
+            <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>Description is required
           </div>
-  
-          <!-- Title -->
-          <div class="mb-3">
-            <label for="title" class="form-label">Title*</label>
-            <input 
-              type="text" 
-              id="title" 
-              formControlName="title" 
-              class="form-control" 
-              [ngClass]="{'is-invalid': lessonForm.get('title')?.touched && lessonForm.get('title')?.invalid}"
-            >
-            <div *ngIf="lessonForm.get('title')?.touched && lessonForm.get('title')?.invalid" class="invalid-feedback">
-              Title is required
-            </div>
+        </div>
+
+        <!-- Grade -->
+        <div class="mb-3">
+          <label for="grade" class="form-label">
+            <i class="fas fa-graduation-cap" style="margin-right: 6px;"></i>Grade Level
+          </label>
+          <select 
+            id="grade" 
+            formControlName="grade" 
+            class="form-select"
+            [ngClass]="{'is-invalid': lessonForm.get('grade')?.touched && lessonForm.get('grade')?.invalid}"
+          >
+            <option value="" disabled selected>Select Grade</option>
+            <option *ngFor="let grade of [1,2,3,4,5,6,7,8,9,10,11,12]" [value]="grade">
+              Grade {{ grade }}
+            </option>
+          </select>
+          <div *ngIf="lessonForm.get('grade')?.touched && lessonForm.get('grade')?.invalid" class="invalid-feedback">
+            <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>Grade is required
           </div>
-  
-          <!-- Description -->
-          <div class="mb-3">
-            <label for="description" class="form-label">Description*</label>
-            <textarea 
-              id="description" 
-              formControlName="description" 
-              class="form-control" 
-              rows="4"
-              [ngClass]="{'is-invalid': lessonForm.get('description')?.touched && lessonForm.get('description')?.invalid}"
-            ></textarea>
-            <div *ngIf="lessonForm.get('description')?.touched && lessonForm.get('description')?.invalid" class="invalid-feedback">
-              Description is required
-            </div>
-          </div>
-  
-          <!-- Grade -->
-          <div class="mb-3">
-            <label for="grade" class="form-label">Grade Level*</label>
-            <select 
-              id="grade" 
-              formControlName="grade" 
-              class="form-select"
-              [ngClass]="{'is-invalid': lessonForm.get('grade')?.touched && lessonForm.get('grade')?.invalid}"
-            >
-              <option value="" disabled selected>Select Grade</option>
-              <option *ngFor="let grade of [1,2,3,4,5,6,7,8,9,10,11,12]" [value]="grade">
-                Grade {{ grade }}
-              </option>
-            </select>
-            <div *ngIf="lessonForm.get('grade')?.touched && lessonForm.get('grade')?.invalid" class="invalid-feedback">
-              Grade is required
-            </div>
-          </div>
-  
-          <!-- YouTube Embed Code -->
-          <div class="mb-3">
-            <label for="youtube_embed_code" class="form-label">YouTube Embed Code (optional)</label>
-            <textarea 
-              id="youtube_embed_code" 
-              formControlName="youtube_embed_code" 
-              class="form-control" 
-              rows="3"
-            ></textarea>
-            <small class="form-text text-muted">
-              Paste the embed code from YouTube (e.g., &lt;iframe src="..."&gt;&lt;/iframe&gt;)
-            </small>
-          </div>
-  
-          <!-- Submit Button -->
-          <div class="d-flex justify-content-between">
-            <button type="button" class="btn btn-secondary" routerLink="/admin/dashboard/lessons-management">Cancel</button>
-            <button type="submit" class="btn btn-primary" [disabled]="isSubmitting">
-              <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-              Update Lesson
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
+
+        <!-- YouTube Embed Code -->
+        <div class="mb-3">
+          <label for="youtube_embed_code" class="form-label">
+            <i class="fab fa-youtube" style="margin-right: 6px;"></i>YouTube Embed Code <span style="opacity: 0.7;">(optional)</span>
+          </label>
+          <textarea 
+            id="youtube_embed_code" 
+            formControlName="youtube_embed_code" 
+            class="form-control" 
+            rows="3"
+            placeholder="Paste the embed code from YouTube"
+          ></textarea>
+          <small class="form-text">
+            <i class="fas fa-info-circle" style="margin-right: 4px;"></i>
+            Paste the iframe embed code from YouTube to include a video with this lesson
+          </small>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-between" style="margin-top: 30px;">
+          <button type="button" class="btn btn-secondary" routerLink="/admin/dashboard/lessons-management">
+            <i class="fas fa-arrow-left"></i> Cancel
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="isSubmitting || lessonForm.invalid">
+            <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            <i *ngIf="!isSubmitting" class="fas fa-save"></i> Update Lesson
+          </button>
+        </div>
+      </form>
     </div>
   </div>
+</div>
