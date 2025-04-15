@@ -1,96 +1,246 @@
 .container {
-    padding: 20px;
-    font-family: Arial, sans-serif;
+  padding: 28px;
+  background-color: var(--page-background);
+  animation: fadeIn 0.5s ease-in-out;
+  max-width: 1440px;
+  margin: 0 auto;
+  font-family: 'Outfit', sans-serif;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  
-  .spinner {
-    text-align: center;
-    padding: 20px;
-    font-style: italic;
-    color: #666;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .table-container {
-    margin-top: 20px;
-    overflow-x: auto;
-    max-height: 500px;
-    overflow-y: auto;
+}
+
+h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--dark-purple);
+  letter-spacing: -0.5px;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 16px;
+}
+
+h2:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: var(--medium-purple);
+  border-radius: 4px;
+  animation: expandWidth 0.8s ease-out forwards;
+  animation-delay: 0.2s;
+}
+
+.dashboard-header {
+  margin-bottom: 36px;
+  animation: slideDown 0.6s ease-out;
+  position: relative;
+  padding-bottom: 16px;
+}
+
+.dashboard-subtitle {
+  font-size: 16px;
+  color: #8a7373;
+  margin-bottom: 0;
+  opacity: 0.8;
+  max-width: 600px;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  thead th {
-    background-color: #f8f9fa;
-    font-weight: 600;
-    position: sticky;
-    top: 0;
-    z-index: 1;
+}
+
+@keyframes expandWidth {
+  from { width: 0; }
+  to { width: 60px; }
+}
+
+.spinner {
+  text-align: center;
+  padding: 30px;
+  font-style: italic;
+  color: var(--medium-purple);
+  font-size: 16px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
   }
-  
-  th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+  50% {
+    opacity: 1;
   }
-  
-  tr:hover {
-    background-color: #f5f5f5;
+  100% {
+    opacity: 0.6;
   }
-  
-  .status-badge {
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: capitalize;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+}
+
+.table-container {
+  margin-top: 20px;
+  overflow-x: auto;
+  max-height: 500px;
+  overflow-y: auto;
+  background-color: var(--component-background);
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+  animation: cardFadeIn 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 1px solid rgba(169, 181, 223, 0.1);
+  padding: 5px;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  .status-badge.completed {
-    background-color: #e6f7e6;
-    color: #2e7d32;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .status-badge.pending {
-    background-color: #fff8e1;
-    color: #ff8f00;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  background-color: var(--light-purple);
+  color: var(--dark-purple);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  padding: 15px;
+  transition: background-color 0.3s ease;
+}
+
+thead tr {
+  background: linear-gradient(to right, var(--light-purple), var(--medium-purple));
+}
+
+thead th:first-child {
+  border-top-left-radius: 12px;
+}
+
+thead th:last-child {
+  border-top-right-radius: 12px;
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid rgba(169, 181, 223, 0.2);
+}
+
+tr {
+  transition: all 0.3s ease;
+}
+
+tr:hover {
+  background-color: rgba(169, 181, 223, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.status-badge.completed {
+  background-color: rgba(46, 125, 50, 0.1);
+  color: #2e7d32;
+  border: 1px solid rgba(46, 125, 50, 0.2);
+}
+
+.status-badge.pending {
+  background-color: rgba(255, 143, 0, 0.1);
+  color: #ff8f00;
+  border: 1px solid rgba(255, 143, 0, 0.2);
+}
+
+.status-badge.unknown {
+  background-color: rgba(117, 117, 117, 0.1);
+  color: #757575;
+  border: 1px solid rgba(117, 117, 117, 0.2);
+}
+
+.status-cell {
+  width: 120px;
+}
+
+.error-message {
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff5252, #d32f2f);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
   }
-  
-  .status-badge.unknown {
-    background-color: #eeeeee;
-    color: #757575;
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
-  
-  .status-cell {
-    width: 100px;
-  }
-  
-  .error-message {
-    color: #d32f2f;
-    background-color: #fde0e0;
-    padding: 15px;
-    border-radius: 4px;
-    margin: 20px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .error-message button {
-    background-color: #d32f2f;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .error-message button:hover {
-    background-color: #b71c1c;
-  }
+}
+
+.error-message button {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.error-message button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.error-message button:active {
+  transform: translateY(0);
+}
   
