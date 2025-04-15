@@ -19,6 +19,7 @@ use App\Http\Controllers\LessonsController;
 use App\Http\Controllers\Student\StudentLectureController;
 use App\Http\Middleware\CheckSubscription;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\Auth\GoogleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +76,10 @@ Route::prefix('admin')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     // Common routes for all authenticated users
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 
     // Profile management
     Route::prefix('profile')->group(function () {

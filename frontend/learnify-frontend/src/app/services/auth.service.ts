@@ -1,33 +1,63 @@
+//frontend\learnify-frontend\src\app\services\auth.service.ts
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../.environments/environment';
 import { isPlatformBrowser } from '@angular/common';
-
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = environment.apiUrl || 'http://localhost:8000/api'; 
+  private apiUrl = environment.apiUrl || 'http://localhost:8000/api';
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
   private tokenExpirationTimer: any;
   private isBrowser: boolean;
-  public registerEmail: string ;
-  public userRole: string ;
+  public registerEmail: string;
+  public userRole: string;
   public studentData: any;
 
   constructor(
     private http: HttpClient,
     private router: Router,
+    private route: ActivatedRoute,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
     this.currentUserSubject = new BehaviorSubject<any>(this.getStoredUser());
     this.currentUser = this.currentUserSubject.asObservable();
+
+    // Check for token in URL parameters (for Google OAuth callback)
+    if (this.isBrowser) {
+      this.route.queryParams.subscribe(params => {
+        if (params['token']) {
+          // Save the token
+          localStorage.setItem('auth_token', params['token']);
+
+          // Now get the user data
+          this.getUserData().subscribe({
+            next: (userData) => {
+              // Store user data in local storage
+              localStorage.setItem('currentUser', JSON.stringify({
+                ...userData,
+                token: params['token'] // Include token in currentUser object
+              }));
+
+              this.currentUserSubject.next(userData);
+              this.router.navigate(['/student/dashboard']);
+            },
+            error: (error) => {
+              console.error('Error fetching user data:', error);
+              this.router.navigate(['/student/dashboard']);
+            }
+          });
+        }
+      });
+    }
   }
+
 
   private getStoredUser(): any {
     if (this.isBrowser) {
@@ -35,6 +65,33 @@ export class AuthService {
       return storedUser ? JSON.parse(storedUser) : null;
     }
     return null;
+  }
+  getUserData(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/user`).pipe(
+      tap(userData => {
+        if (this.isBrowser) {
+          // Get current stored user data
+          const currentUserStr = localStorage.getItem('currentUser');
+          const currentUser = currentUserStr ? JSON.parse(currentUserStr) : {};
+
+          // Update with latest user data but preserve token
+          const updatedUser = {
+            ...userData,
+            token: currentUser.token || localStorage.getItem('auth_token')
+          };
+
+          // Update storage and subject
+          localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+          this.currentUserSubject.next(updatedUser);
+        }
+      })
+    );
+  }
+
+  loginWithGoogle(): void {
+    if (this.isBrowser) {
+      window.location.href = `${environment.backendUrl}/login/google`;
+    }
   }
 
   public get currentUserValue() {
@@ -47,7 +104,7 @@ export class AuthService {
         tap(response => {
           if (response && response.token && this.isBrowser) {
             const user = {
-              email: email,
+              ...response.user, // Include all user properties from the backend
               token: response.token,
               expiresIn: response.expires_in || 3600 // Default: 1 hour
             };
@@ -57,7 +114,7 @@ export class AuthService {
             this.userRole = response.user.role;
             console.log(user);
             this.studentData = response.user;
-            console.log('eluserrr',this.userRole); 
+            console.log('eluserrr', this.userRole);
           }
           return response;
         }),
@@ -83,7 +140,7 @@ export class AuthService {
             this.autoLogout(user.expiresIn * 1000);
             console.log(user);
             this.userRole = response.user.role;
-            console.log('eluserrr',this.userRole); 
+            console.log('eluserrr', this.userRole);
           }
           return response;
         }),
@@ -188,7 +245,7 @@ export class AuthService {
         })
       );
   }
-//not like backend
+  //not like backend
   resendVerificationEmail(email?: string): Observable<any> {
     const emailToSend = email || this.currentUserValue?.email;
 

@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->enum('role', ['student', 'teacher', 'assistant'])->default('student');
             $table->enum('status', ['active', 'inactive', 'suspended'])->default('active');
             $table->string('profile_picture')->nullable();
+            $table->string('google_id')->nullable()->unique();
             $table->rememberToken();
             $table->timestamps();
         });

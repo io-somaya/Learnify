@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\GoogleController;
 
 
 Route::get('/', function () {
@@ -16,3 +17,11 @@ Route::get('/payment/result', function (Request $request) {
         'message' => $request->query('message', 'No message provided')
     ]);
 });
+
+// Google Auth Routes
+Route::get('api/auth/google', [GoogleController::class, 'redirectToGoogle']);
+Route::get('api/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+// these fallback routes to catch the paths without the 'api' prefix
+Route::get('login/google', [GoogleController::class, 'redirectToGoogle']);
+Route::get('login/google/callback', [GoogleController::class, 'handleGoogleCallback']);

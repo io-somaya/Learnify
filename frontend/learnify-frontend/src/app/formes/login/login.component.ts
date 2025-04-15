@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastService } from '../../services/toast.service';
+import { environment } from '../../../.environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -19,11 +20,11 @@ export class LoginComponent implements OnInit {
   errorMessage: string = '';
   isLoading: boolean = false;
   isBrowser: boolean;
-  
+
   // Single image with fallback
   images = [
-    { 
-      src: 'assets/pics/login.png', 
+    {
+      src: 'assets/pics/login.png',
       alt: 'Login',
       fallback: 'https://via.placeholder.com/500x500.png?text=Login'
     }
@@ -32,13 +33,13 @@ export class LoginComponent implements OnInit {
   carouselInterval: any;
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private toastService: ToastService,
     private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
-    
+
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -89,17 +90,17 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.isLoading = true;
       this.errorMessage = '';
-      
+
       const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
-      
+
       this.authService.login(email, password).subscribe({
         next: (response) => {
           this.isLoading = false;
           console.log('Login successful', response);
           // show toast message
-          this.toastService.success('Login completed successfully!');          
-          
+          this.toastService.success('Login completed successfully!');
+
           // Navigate to dashboard
           this.router.navigate(['/student/dashboard']);
         },
@@ -116,8 +117,14 @@ export class LoginComponent implements OnInit {
 
   forgotPassword() {
     if (!this.isBrowser) return;
-    
+
     // Navigate to forgot password page
     this.router.navigate(['/forgot-password']);
   }
-} 
+
+  loginWithGoogle(): void {
+    if (this.isBrowser) {
+      window.location.href = `${environment.backendUrl}/login/google`;
+    }
+  }
+}
