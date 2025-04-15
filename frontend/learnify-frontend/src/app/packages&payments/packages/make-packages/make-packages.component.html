@@ -1,99 +1,111 @@
-<div class="container mt-4">
-    <div class="row">
-      <div class="col-md-8 offset-md-2">
-        <div class="card">
-          <div class="card-header">
-            <h4>Create New Package</h4>
-          </div>
-          <div class="card-body">
-            <form [formGroup]="packageForm" (ngSubmit)="onSubmit()">
-              <!-- Package Name -->
-              <div class="mb-3">
-                <label for="name" class="form-label">Package Name</label>
-                <input 
-                  type="text" 
-                  id="name" 
-                  formControlName="name" 
-                  class="form-control" 
-                  [ngClass]="{'is-invalid': name?.invalid && (name?.dirty || name?.touched)}"
-                >
-                <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="invalid-feedback">
-                  <div *ngIf="name?.errors?.['required']">Package name is required.</div>
-                  <div *ngIf="name?.errors?.['minlength']">Package name must be at least 3 characters.</div>
-                </div>
-              </div>
+<div class="package-create">
+  <h2 class="package-create__title">
+    <i class="fas fa-plus-circle me-2"></i>
+    Create New Package
+  </h2>
   
-              <!-- Description -->
-              <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea 
-                  id="description" 
-                  formControlName="description" 
-                  class="form-control" 
-                  rows="3"
-                  [ngClass]="{'is-invalid': description?.invalid && (description?.dirty || description?.touched)}"
-                ></textarea>
-                <div *ngIf="description?.invalid && (description?.dirty || description?.touched)" class="invalid-feedback">
-                  <div *ngIf="description?.errors?.['required']">Description is required.</div>
-                  <div *ngIf="description?.errors?.['minlength']">Description must be at least 10 characters.</div>
-                </div>
-              </div>
-  
-              <!-- Price -->
-              <div class="mb-3">
-                <label for="price" class="form-label">Price</label>
-                <div class="input-group">
-                  <span class="input-group-text">$</span>
-                  <input 
-                    type="number" 
-                    id="price" 
-                    formControlName="price" 
-                    class="form-control" 
-                    [ngClass]="{'is-invalid': price?.invalid && (price?.dirty || price?.touched)}"
-                  >
-                  <div *ngIf="price?.invalid && (price?.dirty || price?.touched)" class="invalid-feedback">
-                    <div *ngIf="price?.errors?.['required']">Price is required.</div>
-                    <div *ngIf="price?.errors?.['min']">Price must be greater than or equal to 0.</div>
-                  </div>
-                </div>
-              </div>
-  
-              <!-- Duration in Days -->
-              <div class="mb-3">
-                <label for="duration_days" class="form-label">Duration (days)</label>
-                <input 
-                  type="number" 
-                  id="duration_days" 
-                  formControlName="duration_days" 
-                  class="form-control"
-                  [ngClass]="{'is-invalid': duration_days?.invalid && (duration_days?.dirty || duration_days?.touched)}"
-                >
-                <div *ngIf="duration_days?.invalid && (duration_days?.dirty || duration_days?.touched)" class="invalid-feedback">
-                  <div *ngIf="duration_days?.errors?.['required']">Duration is required.</div>
-                  <div *ngIf="duration_days?.errors?.['min']">Duration must be at least 1 day.</div>
-                </div>
-              </div>
-  
-              <!-- Error Message -->
-              <div *ngIf="errorMessage" class="alert alert-danger">
-                {{ errorMessage }}
-              </div>
-  
-              <!-- Submit Button -->
-              <div class="d-grid gap-2">
-                <button 
-                  type="submit" 
-                  class="btn btn-primary" 
-                  [disabled]="packageForm.invalid || isSubmitting"
-                >
-                  <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                  Create Package
-                </button>
-                <a routerLink="/packages" class="btn btn-secondary">Cancel</a>
-              </div>
-            </form>
-          </div>
+  <div *ngIf="errorMessage" class="package-create__error">
+    <span>
+      <i class="fas fa-exclamation-circle me-2"></i>
+      {{ errorMessage }}
+    </span>
+  </div>
+
+  <form [formGroup]="packageForm" (ngSubmit)="onSubmit()" class="package-create__form">
+    <div class="package-create__form-group">
+      <label for="name" class="package-create__label required">
+        <i class="fas fa-tag me-2"></i>
+        Package Name
+      </label>
+      <input 
+        type="text" 
+        id="name" 
+        formControlName="name"
+        class="package-create__input"
+        [class.is-invalid]="name?.invalid && (name?.dirty || name?.touched)"
+        placeholder="Enter a descriptive name for this package">
+      <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="package-create__error-text">
+        <div *ngIf="name?.errors?.['required']">Package name is required</div>
+        <div *ngIf="name?.errors?.['minlength']">Package name must be at least 3 characters</div>
+      </div>
+    </div>
+
+    <div class="package-create__form-group">
+      <label for="description" class="package-create__label required">
+        <i class="fas fa-align-left me-2"></i>
+        Description
+      </label>
+      <textarea 
+        class="package-create__textarea" 
+        id="description" 
+        formControlName="description" 
+        rows="4"
+        [class.is-invalid]="description?.invalid && (description?.dirty || description?.touched)"
+        placeholder="Enter a detailed description of what this package includes"></textarea>
+      <div *ngIf="description?.invalid && (description?.dirty || description?.touched)" class="package-create__error-text">
+        <div *ngIf="description?.errors?.['required']">Description is required</div>
+        <div *ngIf="description?.errors?.['minlength']">Description must be at least 10 characters</div>
+      </div>
+    </div>
+
+    <div class="package-create__row">
+      <div class="package-create__col">
+        <label for="price" class="package-create__label required">
+          <i class="fas fa-dollar-sign me-2"></i>
+          Price
+        </label>
+        <div class="package-create__input-group">
+          <span class="package-create__input-group-text">$</span>
+          <input 
+            type="number" 
+            class="package-create__input" 
+            id="price" 
+            formControlName="price" 
+            step="0.01"
+            [class.is-invalid]="price?.invalid && (price?.dirty || price?.touched)"
+            placeholder="0.00">
+        </div>
+        <div *ngIf="price?.invalid && (price?.dirty || price?.touched)" class="package-create__error-text">
+          <div *ngIf="price?.errors?.['required']">Price is required</div>
+          <div *ngIf="price?.errors?.['min']">Price must be greater than or equal to 0</div>
+        </div>
+      </div>
+
+      <div class="package-create__col">
+        <label for="duration_days" class="package-create__label required">
+          <i class="fas fa-calendar-alt me-2"></i>
+          Duration (days)
+        </label>
+        <input 
+          type="number" 
+          class="package-create__input" 
+          id="duration_days" 
+          formControlName="duration_days"
+          [class.is-invalid]="duration_days?.invalid && (duration_days?.dirty || duration_days?.touched)"
+          placeholder="Enter package duration in days">
+        <div *ngIf="duration_days?.invalid && (duration_days?.dirty || duration_days?.touched)" class="package-create__error-text">
+          <div *ngIf="duration_days?.errors?.['required']">Duration is required</div>
+          <div *ngIf="duration_days?.errors?.['min']">Duration must be at least 1 day</div>
         </div>
       </div>
     </div>
-  </div>
+
+    <div class="package-create__actions">
+      <a 
+        routerLink="/admin/dashboard/packages-list" 
+        class="package-create__button package-create__button--secondary">
+        <i class="fas fa-arrow-left me-1"></i>
+        Cancel
+      </a>
+      
+      <button 
+        type="submit" 
+        class="package-create__button package-create__button--primary" 
+        [disabled]="packageForm.invalid || isSubmitting">
+        <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1" role="status"></span>
+        <i *ngIf="!isSubmitting" class="fas fa-check-circle me-1"></i>
+        {{ isSubmitting ? 'Creating...' : 'Create Package' }}
+      </button>
+    </div>
+  </form>
+</div>
