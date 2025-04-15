@@ -1,135 +1,156 @@
 <div class="management-container">
-    <div class="management-header">
+  <div class="management-header">
+    <div>
       <h2>Lesson Management</h2>
-      <a (click)="addLesson()" class="btn btn-primary">
-        <i class="fas fa-plus"></i> Add New Lesson
-      </a>
+      <p class="dashboard-subtitle">Create, organize, and manage educational lessons for students</p>
     </div>
-  
-    <!-- Search and Filter Form -->
-    <form [formGroup]="searchForm" class="management-search-form">
-      <div class="form-group">
-        <label for="grade">Grade Level:</label>
-        <select id="grade" formControlName="grade" class="form-control">
-          <option value="">All Grades</option>
-          <option *ngFor="let grade of grades" [value]="grade">Grade {{grade}}</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label for="search">Search:</label>
-        <input 
-          id="search" 
-          type="text" 
-          formControlName="search" 
-          placeholder="Search lessons..." 
-          class="form-control"
-        >
-      </div>
-    </form>
-  
-    <!-- Status Messages -->
-    <div *ngIf="isLoading" class="management-loading">
-      <i class="fas fa-spinner fa-spin"></i> Loading lessons...
+    <a (click)="addLesson()" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Add New Lesson
+    </a>
+  </div>
+
+  <!-- Search and Filter Form -->
+  <form [formGroup]="searchForm" class="management-search-form">
+    <div class="form-group">
+      <label for="grade">
+        <i class="fas fa-filter" style="margin-right: 6px;"></i>Grade Level
+      </label>
+      <select id="grade" formControlName="grade" class="form-control">
+        <option value="">All Grades</option>
+        <option *ngFor="let grade of grades" [value]="grade">Grade {{grade}}</option>
+      </select>
     </div>
     
-    <div *ngIf="errorMessage" class="management-error">
-      <i class="fas fa-exclamation-circle"></i> {{errorMessage}}
+    <div class="form-group">
+      <label for="search">
+        <i class="fas fa-search" style="margin-right: 6px;"></i>Search
+      </label>
+      <input 
+        id="search" 
+        type="text" 
+        formControlName="search" 
+        placeholder="Search by lesson title or content..." 
+        class="form-control"
+      >
     </div>
+  </form>
+
+  <!-- Status Messages -->
+  <div *ngIf="isLoading" class="management-loading">
+    <i class="fas fa-spinner fa-spin" style="margin-right: 10px;"></i> Loading lessons...
+  </div>
   
-    <!-- Lessons Table -->
-    <div *ngIf="!isLoading && !errorMessage">
-      <div *ngIf="lessons.length === 0" class="management-empty">
-        No lessons found matching your criteria.
-      </div>
-      
-      <div *ngIf="lessons.length > 0" class="management-table-container">
-        <table class="management-table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Grade</th>
-              <th>Video</th>
-              <th>Materials</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- This *ngFor should show all lessons -->
-            <tr *ngFor="let lesson of lessons">
-              <td>{{lesson.title}}</td>
-              <td>Grade {{lesson.grade}}</td>
-              <td>
-                <img *ngIf="lesson.youtube_embed_code" 
-                     [src]="getYoutubeThumbnail(lesson.youtube_embed_code)" 
-                     alt="Video thumbnail" 
-                     class="thumbnail-img">
-              </td>
-              <td>
+  <div *ngIf="errorMessage" class="management-error">
+    <div>
+      <i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i> {{errorMessage}}
+    </div>
+    <button (click)="loadLessons()" class="retry-button">
+      <i class="fas fa-redo-alt" style="margin-right: 8px;"></i> Retry
+    </button>
+  </div>
+
+  <!-- Lessons Table -->
+  <div *ngIf="!isLoading && !errorMessage">
+    <div *ngIf="lessons.length === 0" class="management-empty">
+      <i class="fas fa-info-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
+      <p>No lessons found matching your criteria.</p>
+      <p *ngIf="searchForm.get('grade')?.value || searchForm.get('search')?.value">
+        Try adjusting your search filters or <a (click)="resetFilters()" style="color: var(--medium-purple); cursor: pointer; text-decoration: underline;">clear all filters</a>.
+      </p>
+    </div>
+    
+    <div *ngIf="lessons.length > 0" class="management-table-container">
+      <table class="management-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Grade</th>
+            <th>Video</th>
+            <th>Materials</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let lesson of lessons">
+            <td>
+              <strong>{{lesson.title}}</strong>
+            </td>
+            <td>
+              <span class="grade-badge">Grade {{lesson.grade}}</span>
+            </td>
+            <td>
+              <img *ngIf="lesson.youtube_embed_code" 
+                   [src]="getYoutubeThumbnail(lesson.youtube_embed_code)" 
+                   alt="Video thumbnail" 
+                   class="thumbnail-img">
+              <span *ngIf="!lesson.youtube_embed_code" class="no-video">
+                <i class="fas fa-video-slash"></i> No video
+              </span>
+            </td>
+            <td>
+              <div *ngIf="lesson.materials && lesson.materials.length" class="materials-list">
                 <div *ngFor="let material of lesson.materials" class="material-item">
                   <a [href]="material.file_url" target="_blank">{{material.file_name}}</a>
                 </div>
-              </td>
-              <td class="actions-cell">
-                <button (click)="viewLesson(lesson.id)"class="btn btn-sm btn-view">
-                  <i class="fas fa-eye"></i> View
-                </button>
-                <button (click)="editLesson(lesson.id)" class="btn btn-sm btn-edit">
-                  <i class="fas fa-edit"></i> Edit
-                </button>
-                <button (click)="deleteLesson(lesson.id)" class="btn btn-sm btn-delete">
-                  <i class="fas fa-trash"></i> Delete
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <!-- Pagination -->
-<!-- Add this pagination section to your template -->
-<div class="pagination-container">
-  <div class="pagination-controls">
-    <!-- First Page Button -->
-    <button 
-      (click)="changePage(1)"
-      [disabled]="paginationInfo.currentPage === 1">
-      First
-    </button>
+              </div>
+              <span *ngIf="!lesson.materials || !lesson.materials.length" class="no-materials">
+                <i class="fas fa-file-alt"></i> No materials
+              </span>
+            </td>
+            <td class="actions-cell">
+              <button (click)="viewLesson(lesson.id)" class="btn btn-view">
+                <i class="fas fa-eye"></i> View
+              </button>
+              <button (click)="editLesson(lesson.id)" class="btn btn-edit">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button (click)="deleteLesson(lesson.id)" class="btn btn-delete">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <!-- Pagination -->
+      <div *ngIf="paginationInfo?.lastPage > 1" class="pagination-container">
+        <div class="pagination-controls">
+          <button 
+            (click)="changePage(1)"
+            [disabled]="paginationInfo.currentPage === 1">
+            <i class="fas fa-angle-double-left"></i>
+          </button>
 
-    <!-- Previous Page Button -->
-    <button 
-      (click)="changePage(paginationInfo.currentPage - 1)"
-      [disabled]="paginationInfo.currentPage === 1">
-      Previous
-    </button>
+          <button 
+            (click)="changePage(paginationInfo.currentPage - 1)"
+            [disabled]="paginationInfo.currentPage === 1">
+            <i class="fas fa-angle-left"></i>
+          </button>
 
-    <!-- Page Numbers -->
-    <button 
-      *ngFor="let page of getPageNumbers()"
-      (click)="changePage(page)"
-      [class.active]="page === paginationInfo.currentPage">
-      {{ page }}
-    </button>
+          <button 
+            *ngFor="let page of getPageNumbers()"
+            (click)="changePage(page)"
+            [class.active]="page === paginationInfo.currentPage">
+            {{ page }}
+          </button>
 
-    <!-- Next Page Button -->
-    <button 
-      (click)="changePage(paginationInfo.currentPage + 1)"
-      [disabled]="paginationInfo.currentPage === paginationInfo.lastPage">
-      Next
-    </button>
+          <button 
+            (click)="changePage(paginationInfo.currentPage + 1)"
+            [disabled]="paginationInfo.currentPage === paginationInfo.lastPage">
+            <i class="fas fa-angle-right"></i>
+          </button>
 
-    <!-- Last Page Button -->
-    <button 
-      (click)="changePage(paginationInfo.lastPage)"
-      [disabled]="paginationInfo.currentPage === paginationInfo.lastPage">
-      Last
-    </button>
-  </div>
+          <button 
+            (click)="changePage(paginationInfo.lastPage)"
+            [disabled]="paginationInfo.currentPage === paginationInfo.lastPage">
+            <i class="fas fa-angle-double-right"></i>
+          </button>
+        </div>
 
-  <!-- Pagination Info -->
-  <div class="pagination-info">
-    {{ getDisplayRange() }}
-  </div>
-</div>
+        <div class="pagination-info">
+          {{ getDisplayRange() }}
+        </div>
       </div>
     </div>
   </div>
+</div>
