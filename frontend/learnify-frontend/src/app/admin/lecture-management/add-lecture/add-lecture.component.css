@@ -1,165 +1,218 @@
-.lecture-form-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 28px;
+  background-color: var(--page-background);
+  border-radius: 10px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.5s ease-in-out;
+  font-family: 'Outfit', sans-serif;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  
-  .lecture-form-container h2 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    text-align: center;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .lecture-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+}
+
+.card {
+  background-color: var(--component-background);
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(169, 181, 223, 0.1);
+  overflow: hidden;
+  animation: cardFadeIn 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .form-group label {
-    font-weight: 600;
-    color: #34495e;
+}
+
+.card-header {
+  background: linear-gradient(to right, var(--light-purple), var(--medium-purple));
+  padding: 20px;
+  border-bottom: none;
+}
+
+.card-header h2 {
+  color: var(--dark-purple);
+  margin: 0;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.card-body {
+  padding: 30px;
+}
+
+.form-label {
+  font-weight: 600;
+  color: var(--dark-purple);
+  margin-bottom: 8px;
+  display: block;
+  font-size: 14px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(169, 181, 223, 0.3);
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--medium-purple);
+  box-shadow: 0 0 0 3px rgba(120, 134, 199, 0.15);
+  outline: none;
+}
+
+.form-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(169, 181, 223, 0.3);
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: white;
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237886C7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+.form-select:focus {
+  border-color: var(--medium-purple);
+  box-shadow: 0 0 0 3px rgba(120, 134, 199, 0.15);
+  outline: none;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background-color: var(--medium-purple);
+  border-color: var(--medium-purple);
+  color: white;
+  box-shadow: 0 4px 6px rgba(120, 134, 199, 0.2);
+}
+
+.btn-primary:hover {
+  background-color: var(--dark-purple);
+  border-color: var(--dark-purple);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(120, 134, 199, 0.3);
+}
+
+.btn-primary:disabled {
+  background-color: var(--medium-purple);
+  border-color: var(--medium-purple);
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background-color: #f8f9fa;
+  border-color: #f8f9fa;
+  color: var(--dark-purple);
+}
+
+.btn-secondary:hover {
+  background-color: #e9ecef;
+  border-color: #e9ecef;
+  transform: translateY(-2px);
+}
+
+.alert {
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  animation: fadeIn 0.4s ease;
+}
+
+.alert-danger {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.invalid-feedback {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  font-size: 13px;
+  color: #dc3545;
+  animation: fadeIn 0.3s ease;
+}
+
+.form-text {
+  color: #6c757d;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+  border-color: #dc3545;
+}
+
+.spinner-border {
+  vertical-align: middle;
+  animation: spin 1s linear infinite;
+  border-width: 2px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
   }
-  
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
+  to {
+    transform: rotate(360deg);
   }
-  
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-  }
-  
-  .form-group input.invalid,
-  .form-group select.invalid,
-  .form-group textarea.invalid {
-    border-color: #e74c3c;
-  }
-  
-  .form-group textarea {
-    min-height: 100px;
-    resize: vertical;
-  }
-  
-  .time-fields {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-  
-  .checkbox-group {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  
-  .checkbox-group input[type="checkbox"] {
-    width: auto;
-    margin: 0;
-  }
-  
-  .checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    margin: 10px 0;
-  }
-  
-  .checkbox-label input[type="checkbox"] {
-    width: auto;
-    margin-right: 8px;
-    cursor: pointer;
-  }
-  
-  .errorX-message {
-    color: #e74c3c;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-  }
-  
-  .form-error {
-    color: #e74c3c;
-    background-color: #fdecea;
-    padding: 0.75rem;
-    border-radius: 4px;
-    margin: 1rem 0;
-  }
-  
-  .form-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
-    margin-top: 1rem;
-  }
-  
-  .submit-btn {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s;
-  }
-  
-  .submit-btn:hover {
-    background-color: #2980b9;
-  }
-  
-  .submit-btn:disabled {
-    background-color: #bdc3c7;
-    cursor: not-allowed;
-  }
-  
-  .cancel-btn {
-    background-color: #f1f1f1;
-    color: #34495e;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s;
-  }
-  
-  .cancel-btn:hover {
-    background-color: #e0e0e0;
-  }
-  
-  @media (max-width: 768px) {
-    .lecture-form-container {
-      padding: 1rem;
-    }
-  
-    .time-fields {
-      grid-template-columns: 1fr;
-    }
-  
-    .form-actions {
-      flex-direction: column;
-    }
-  
-    .submit-btn,
-    .cancel-btn {
-      width: 100%;
-    }
-  }
+}
+
+.mb-3 {
+  margin-bottom: 20px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.me-2 {
+  margin-right: 0.5rem;
+}

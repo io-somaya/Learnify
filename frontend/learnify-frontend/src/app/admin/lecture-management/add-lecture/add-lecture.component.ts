@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 export class AddLectureComponent implements OnInit {
   lectureForm: FormGroup;
   isSubmitting = false;
+  errorMessage: string = '';
   
   daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
         'Thursday', 'Friday', 'Saturday'];
@@ -52,6 +53,7 @@ export class AddLectureComponent implements OnInit {
 
     if (this.isSubmitting) return;
     this.isSubmitting = true;
+    this.errorMessage = '';
 
     const formValue = this.lectureForm.value;
     const lectureData = {
@@ -66,7 +68,8 @@ export class AddLectureComponent implements OnInit {
         this.router.navigate(['/admin/dashboard/lectures-management']);
       },
       error: (error) => {
-        this.toastService.error(error.message || 'Failed to create lecture');
+        this.errorMessage = error.message || 'Failed to create lecture';
+        this.toastService.error(this.errorMessage);
         this.isSubmitting = false;
       }
     });
