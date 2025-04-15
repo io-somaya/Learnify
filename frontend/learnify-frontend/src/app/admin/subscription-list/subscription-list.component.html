@@ -1,43 +1,76 @@
 <div class="container">
-    <h2>Subscription List</h2>
-  
-    @if (isLoading) {
-      <div class="spinner">Loading...</div>
-    } @else if (errorMessage) {
-      <div class="error-message">
-        {{ errorMessage }}
-        <button (click)="loadSubscriptions()">Retry</button>
+  <div class="dashboard-header">
+    <h2>Subscription Management</h2>
+    <p class="dashboard-subtitle">Manage and track all user subscriptions in one place</p>
+  </div>
+
+  @if (isLoading) {
+    <div class="table-container" style="display: flex; justify-content: center; align-items: center; min-height: 300px;">
+      <div class="spinner">
+        <i class="fas fa-sync-alt" style="margin-right: 10px;"></i> Loading subscription data...
       </div>
-    } @else {
-      <div class="table-container">
-        <table>
-          <thead>
+    </div>
+  } @else if (errorMessage) {
+    <div class="error-message">
+      <div>
+        <i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i>
+        {{ errorMessage }}
+      </div>
+      <button (click)="loadSubscriptions()">
+        <i class="fas fa-redo-alt" style="margin-right: 8px;"></i> Retry
+      </button>
+    </div>
+  } @else {
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            @for (column of columns; track column.name) {
+              <th>{{ column.label }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (subscription of subscriptions; track subscription.id) {
             <tr>
               @for (column of columns; track column.name) {
-                <th>{{ column.label }}</th>
+                <td [class.status-cell]="column.name === 'paymentStatus'">
+                  @if (column.name === 'paymentStatus') {
+                    <span 
+                      [class]="'status-badge ' + getValue(subscription, column.name)">
+                      <i class="fas" 
+                         [ngClass]="{
+                           'fa-check-circle': getValue(subscription, column.name) === 'completed',
+                           'fa-clock': getValue(subscription, column.name) === 'pending',
+                           'fa-question-circle': getValue(subscription, column.name) === 'unknown'
+                         }"
+                         style="margin-right: 5px;"></i>
+                      {{ getValue(subscription, column.name) | titlecase }}
+                    </span>
+                  } @else if (column.name === 'amount') {
+                    <strong>${{ getValue(subscription, column.name) || '—' }}</strong>
+                  } @else if (column.name === 'createdAt' || column.name === 'updatedAt') {
+                    {{ getValue(subscription, column.name) | date:'medium' || '—' }}
+                  } @else {
+                    {{ getValue(subscription, column.name) || '—' }}
+                  }
+                </td>
               }
             </tr>
-          </thead>
-          <tbody>
-            @for (subscription of subscriptions; track subscription.id) {
-              <tr>
-                @for (column of columns; track column.name) {
-                  <td [class.status-cell]="column.name === 'paymentStatus'">
-                    @if (column.name === 'paymentStatus') {
-                      <span 
-                        [class]="'status-badge ' + getValue(subscription, column.name)">
-                        {{ getValue(subscription, column.name) | titlecase }}
-                      </span>
-                    } @else {
-                      {{ getValue(subscription, column.name) || '—' }}
-                    }
-                  </td>
-                }
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    }
-  </div>
+          }
+          @if (subscriptions.length === 0) {
+            <tr>
+              <td [attr.colspan]="columns.length" style="text-align: center; padding: 30px;">
+                <div style="color: var(--medium-purple); opacity: 0.7;">
+                  <i class="fas fa-info-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
+                  <p>No subscription data available</p>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
   
