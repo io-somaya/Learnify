@@ -20,22 +20,13 @@
     display: flex;
     flex-direction: column;
     border-right: 1px solid rgba(169, 181, 223, 0.1);
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--medium-purple) transparent;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* Internet Explorer and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 #sidebar-wrapper::-webkit-scrollbar {
-    width: 5px;
-}
-
-#sidebar-wrapper::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-#sidebar-wrapper::-webkit-scrollbar-thumb {
-    background-color: var(--medium-purple);
-    border-radius: 10px;
+    display: none;
 }
 
 .sidebar-header {
@@ -276,6 +267,7 @@
 /* Collapsed Sidebar Styles */
 #wrapper:not(.menu-expanded) #sidebar-wrapper {
     width: 80px;
+    overflow-x: hidden; /* Add this line */
 }
 
 #wrapper:not(.menu-expanded) .sidebar-profile,
@@ -298,6 +290,7 @@
 #wrapper:not(.menu-expanded) .nav-item a {
     justify-content: center;
     padding: 12px;
+    white-space: nowrap; /* Add this line */
 }
 
 #wrapper:not(.menu-expanded) .nav-item a .icon-box {

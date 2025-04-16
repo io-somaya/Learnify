@@ -10,15 +10,10 @@
       </button>
     </div>
 
-
-
     <nav class="sidebar-nav">
-      <div class="nav-category">
-        <span>Main</span>
-      </div>
       <ul class="nav-items">
         <li class="nav-item">
-          <a routerLink="/admin/dashboard" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
+          <a routerLink="/admin/dashboard" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link" title="Dashboard">
             <div class="icon-box">
               <i class="fa-solid fa-chart-pie"></i>
             </div>
@@ -34,7 +29,7 @@
       <ul class="nav-items">
         <li class="nav-item">
           <a routerLink="/admin/dashboard/subscriptions-list" [routerLinkActiveOptions]="{exact:true}"
-            routerLinkActive="active-link">
+            routerLinkActive="active-link" title="Subscriptions Management">
             <div class="icon-box">
               <i class="fa-solid fa-file-signature"></i>
             </div>
@@ -44,7 +39,7 @@
         </li>
         <li class="nav-item">
           <a routerLink="/admin/dashboard/materials-management" [routerLinkActiveOptions]="{exact:true}"
-            routerLinkActive="active-link">
+            routerLinkActive="active-link" title="Materials Management">
             <div class="icon-box">
               <i class="fa-solid fa-file-lines"></i>
             </div>
@@ -53,7 +48,8 @@
           </a>
         </li>
         <li class="nav-item">
-          <a routerLink="/admin/students" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
+          <a routerLink="/admin/students" [routerLinkActiveOptions]="{exact:true}" 
+            routerLinkActive="active-link" title="Students Management">
             <div class="icon-box">
               <i class="fa-solid fa-graduation-cap"></i>
             </div>
@@ -63,7 +59,7 @@
         </li>
         <li class="nav-item">
           <a routerLink="/admin/dashboard/packages-list" [routerLinkActiveOptions]="{exact:true}"
-            routerLinkActive="active-link">
+            routerLinkActive="active-link" title="Packages Management">
             <div class="icon-box">
               <i class="fas fa-box-open"></i>
             </div>
@@ -73,7 +69,7 @@
         </li>
         <li class="nav-item">
           <a routerLink="/admin/dashboard/lessons-management" [routerLinkActiveOptions]="{exact:true}"
-            routerLinkActive="active-link">
+            routerLinkActive="active-link" title="Lessons Management">
             <div class="icon-box">
               <i class="fa-solid fa-person-chalkboard"></i>
             </div>
@@ -83,11 +79,11 @@
         </li>
         <li class="nav-item">
           <a routerLink="/admin/dashboard/lectures-management" [routerLinkActiveOptions]="{exact:true}"
-            routerLinkActive="active-link">
+            routerLinkActive="active-link" title="Lectures Management">
             <div class="icon-box">
               <i class="fas fa-chalkboard-teacher"></i>
             </div>
-            <span class="link-name">lectures </span>
+            <span class="link-name">Lectures</span>
             <i class="fa-solid fa-chevron-right arrow"></i>
           </a>
         </li>
@@ -99,7 +95,7 @@
       <ul class="nav-items">
         <li class="nav-item">
           <a routerLink="/admin/dashboard/profile" [routerLinkActiveOptions]="{exact:true}"
-            routerLinkActive="active-link">
+            routerLinkActive="active-link" title="Profile Settings">
             <div class="icon-box">
               <i class="fa-solid fa-user-gear"></i>
             </div>
@@ -108,7 +104,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="javascript:void(0);" (click)="logout()">
+          <a href="javascript:void(0);" (click)="logout()" title="Logout from system">
             <div class="icon-box">
               <i class="fa-solid fa-right-from-bracket"></i>
             </div>
