@@ -1,8 +1,12 @@
 <div class="management">
-    <h2 class="management__title">
-      <i class="fas fa-chalkboard-teacher me-2"></i>
-      Lecture Management
-    </h2>
+    <!-- Header Section -->
+    <div class="management__header-section">
+      <h2 class="management__title">
+        <i class="fas fa-chalkboard-teacher me-2"></i>
+        Lecture Management
+      </h2>
+      <p class="management__subtitle">Create and manage lecture sessions for students across different grades</p>
+    </div>
     
     <div class="management__header">
       <h4 class="management__subtitle">
@@ -10,29 +14,37 @@
         All Lectures
       </h4>
       <a routerLink="/admin/dashboard/lectures/add" class="management__button management__button--primary">
-        <i class="fas fa-plus"></i>
+        <i class="fas fa-plus me-2"></i>
         Add New Lecture
       </a>
     </div>
   
+    <!-- Loading State -->
     @if (isLoading) {
       <div class="management__loader">
-        <div class="management__spinner">
+        <div class="spinner-border text-primary" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
+        <p class="mt-3">Loading lecture data...</p>
       </div>
-    } @else if (errorMessage) {
+    } 
+    
+    <!-- Error State -->
+    @else if (errorMessage) {
       <div class="management__error">
         <span>
           <i class="fas fa-exclamation-circle me-2"></i>
           {{ errorMessage }}
         </span>
         <button class="management__button management__button--danger-outline" (click)="loadLectures()">
-          <i class="fas fa-sync-alt"></i>
+          <i class="fas fa-sync-alt me-2"></i>
           Retry
         </button>
       </div>
-    } @else {
+    } 
+    
+    <!-- Table Content -->
+    @else {
       <div class="management__table-wrapper">
         <table class="management__table">
           <thead class="management__table-header">
@@ -74,7 +86,7 @@
                     <a [href]="lecture.zoom_start_url" 
                        target="_blank" 
                        class="management__button management__button--zoom">
-                       <i class="fas fa-video"></i>
+                       <i class="fas fa-video me-1"></i>
                        Join
                     </a>
                   } @else {
@@ -85,12 +97,12 @@
                   <div class="management__actions">
                     <a (click)="editLecture(lecture.id)" 
                        class="management__button management__button--edit">
-                       <i class="fas fa-edit"></i>
+                       <i class="fas fa-edit me-1"></i>
                        Edit
                     </a>
                     <button (click)="deleteLecture(lecture.id)" 
                             class="management__button management__button--delete">
-                            <i class="fas fa-trash"></i>
+                            <i class="fas fa-trash me-1"></i>
                             Delete
                     </button>
                   </div>
@@ -100,8 +112,15 @@
             @empty {
               <tr>
                 <td colspan="8" class="text-center py-4">
-                  <i class="fas fa-info-circle me-2"></i>
-                  No lectures found. Create your first lecture by clicking the "Add New Lecture" button.
+                  <div class="management__empty">
+                    <i class="fas fa-chalkboard-teacher fa-3x text-muted mb-3"></i>
+                    <h3>No Lectures Available</h3>
+                    <p>You haven't created any lectures yet. Get started by adding your first lecture.</p>
+                    <a routerLink="/admin/dashboard/lectures/add" class="management__button management__button--primary mt-3">
+                      <i class="fas fa-plus me-2"></i>
+                      Add New Lecture
+                    </a>
+                  </div>
                 </td>
               </tr>
             }
