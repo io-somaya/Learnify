@@ -1,4 +1,4 @@
-/* Root Variables */
+/* Root Variables - Matching Dashboard Style */
 :root {
   --light-purple: #e9ecff;
   --medium-purple: #7886C7;
@@ -17,16 +17,12 @@
 }
 
 .package-management {
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 2rem auto;
-  padding: 2.5rem;
-  background: var(--component-background);
-  border-radius: 18px;
-  box-shadow: 0 10px 40px rgba(45, 51, 107, 0.08);
-  position: relative;
-  overflow: hidden;
+  padding: 28px;
+  background-color: var(--page-background);
   animation: fadeIn 0.5s ease-in-out;
-  font-family: 'Outfit', sans-serif;
+  min-height: calc(100vh - 70px);
 }
 
 @keyframes fadeIn {
@@ -40,45 +36,95 @@
   }
 }
 
-.package-management::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(to right, var(--medium-purple), var(--dark-purple));
+/* Header Styles */
+.package-management__header-section {
+  margin-bottom: 36px;
+  animation: slideDown 0.6s ease-out;
+  position: relative;
+  padding-bottom: 16px;
 }
 
-/* Header Styles */
+.package-management__header-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: var(--medium-purple);
+  border-radius: 4px;
+  animation: expandWidth 0.8s ease-out forwards;
+  animation-delay: 0.7s;
+}
+
+@keyframes expandWidth {
+  from { width: 0; }
+  to { width: 60px; }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .package-management__title {
   color: var(--dark-purple);
-  margin-bottom: 1.5rem;
+  margin-bottom: 8px;
   font-weight: 700;
   font-size: 28px;
-  letter-spacing: 0.3px;
+  letter-spacing: -0.5px;
+}
+
+.package-management__subtitle {
+  font-size: 16px;
+  color: #8a7373;
+  margin: 0;
+  opacity: 0.8;
 }
 
 .package-management__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 24px;
+  animation: cardFadeIn 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  animation-delay: 0.1s;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Search Bar */
 .package-management__search {
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
   max-width: 500px;
+  position: relative;
+  animation: cardFadeIn 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  animation-delay: 0.2s;
 }
 
 .package-management__search-input {
   border-radius: 8px;
-  border: 1px solid var(--gray-200);
-  padding: 10px 15px;
+  border: 1px solid rgba(169, 181, 223, 0.3);
+  padding: 12px 15px;
   font-size: 14px;
   transition: all 0.3s ease;
   width: 100%;
+  background-color: var(--component-background);
 }
 
 .package-management__search-input:focus {
@@ -92,6 +138,11 @@
   border: none;
   color: var(--gray-500);
   cursor: pointer;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
 }
 
 .package-management__search-btn:hover {
@@ -128,9 +179,9 @@
 }
 
 .package-management__button--edit {
-  background-color: var(--light-purple);
-  border: 1px solid var(--medium-purple);
-  color: var(--dark-purple) !important;
+  background-color: rgba(120, 134, 199, 0.1);
+  border: 1px solid rgba(120, 134, 199, 0.2);
+  color: var(--medium-purple) !important;
 }
 
 .package-management__button--edit:hover {
@@ -142,7 +193,7 @@
 
 .package-management__button--delete {
   background-color: rgba(239, 68, 68, 0.1);
-  border: 1px solid var(--danger-color);
+  border: 1px solid rgba(239, 68, 68, 0.2);
   color: var(--danger-color) !important;
 }
 
@@ -156,20 +207,23 @@
 /* Table Styles */
 .package-management__table-wrapper {
   overflow-x: auto;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(45, 51, 107, 0.05);
-  border: 1px solid var(--gray-200);
-  animation: cardFadeIn 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border-radius: 18px;
+  background-color: var(--component-background);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(169, 181, 223, 0.1);
+  animation: cardSlideIn 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+  animation-delay: 0.3s;
+  margin-bottom: 24px;
 }
 
-@keyframes cardFadeIn {
+@keyframes cardSlideIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateX(-20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
 
@@ -180,30 +234,31 @@
 }
 
 .package-management__table-header th {
-  background: linear-gradient(to right, rgba(120, 134, 199, 0.05), rgba(45, 51, 107, 0.05));
+  background-color: rgba(169, 181, 223, 0.05);
   color: var(--dark-purple);
   font-weight: 600;
   padding: 16px;
   text-align: left;
-  border: 1px solid var(--gray-200);
-  font-size: 14px;
+  border-bottom: 1px solid rgba(169, 181, 223, 0.2);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  user-select: none;
 }
 
 .package-management__table-row {
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .package-management__table-row:hover {
-  background: rgba(120, 134, 199, 0.05);
-}
-
-.package-management__table-row:nth-child(even) {
-  background-color: var(--gray-50);
+  background-color: rgba(169, 181, 223, 0.05);
+  transform: translateX(5px);
 }
 
 .package-management__table-cell {
   padding: 16px;
-  border: 1px solid var(--gray-200);
+  border-bottom: 1px solid rgba(169, 181, 223, 0.2);
   font-size: 14px;
   vertical-align: middle;
 }
@@ -216,11 +271,12 @@
 .package-management__duration {
   color: var(--dark-purple);
   background-color: var(--light-purple);
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 6px 12px;
+  border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* Loading, Empty and Error States */
@@ -228,7 +284,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
+  justify-content: center;
+  padding: 3rem;
+  text-align: center;
+  background-color: var(--component-background);
+  margin: 1rem 0;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+  animation: fadeIn 0.5s ease;
 }
 
 .package-management__spinner {
@@ -241,12 +304,17 @@
 }
 
 .package-management__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
   text-align: center;
-  padding: 3rem 1rem;
-  background-color: var(--gray-50);
-  border-radius: 12px;
-  border: 1px dashed var(--gray-300);
+  background-color: var(--component-background);
   margin: 1rem 0;
+  border-radius: 18px;
+  border: 1px dashed rgba(169, 181, 223, 0.4);
+  animation: fadeIn 0.5s ease;
 }
 
 .package-management__empty-icon {
@@ -257,7 +325,7 @@
 
 .package-management__error {
   padding: 16px;
-  border-radius: 10px;
+  border-radius: 12px;
   background: rgba(239, 68, 68, 0.1);
   color: var(--danger-color);
   display: flex;
@@ -266,11 +334,12 @@
   font-size: 14px;
   margin-bottom: 20px;
   border: 1px solid rgba(239, 68, 68, 0.2);
+  animation: fadeIn 0.5s ease;
 }
 
 .package-management__success {
   padding: 16px;
-  border-radius: 10px;
+  border-radius: 12px;
   background: rgba(16, 185, 129, 0.1);
   color: var(--success-color);
   display: flex;
@@ -279,6 +348,7 @@
   font-size: 14px;
   margin-bottom: 20px;
   border: 1px solid rgba(16, 185, 129,.2);
+  animation: fadeIn 0.5s ease;
 }
 
 /* Actions Column */
@@ -296,14 +366,14 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .package-management {
-    margin: 1rem;
-    padding: 1.5rem;
+    padding: 20px;
+    margin: 0;
   }
 
   .package-management__header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 12px;
   }
 
   .package-management__search {
@@ -318,7 +388,7 @@
 
   .package-management__actions {
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
   }
 
   .package-management__table-cell {
@@ -327,6 +397,6 @@
   }
   
   .package-management__title {
-    font-size: 22px;
+    font-size: 24px;
   }
 }
