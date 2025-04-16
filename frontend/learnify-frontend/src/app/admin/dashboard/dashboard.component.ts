@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +11,10 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     // Initialize any data or services here
@@ -21,6 +25,27 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     if (isPlatformBrowser(this.platformId)) {
       this.animateCounters();
     }
+  }
+
+  /**
+   * Navigate to the students page
+   */
+  viewAllStudents(): void {
+    this.router.navigate(['/admin/students']);
+  }
+
+  /**
+   * Navigate to the lessons management page
+   */
+  manageLessons(): void {
+    this.router.navigate(['/admin/dashboard/lessons-management']);
+  }
+
+  /**
+   * Navigate to the subscriptions page
+   */
+  viewSubscriptionDetails(): void {
+    this.router.navigate(['/admin/dashboard/subscriptions-list']);
   }
 
   /**

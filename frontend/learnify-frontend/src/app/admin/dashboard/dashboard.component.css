@@ -455,25 +455,32 @@
     background: none;
     border: none;
     color: var(--medium-purple);
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
-    cursor: pointer;
-    padding: 8px 16px;
-    border-radius: 6px;
+    padding: 8px 12px;
+    border-radius: 8px;
     transition: all 0.3s ease;
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(169, 181, 223, 0.08);
 }
 
 .view-all-btn i {
-    margin-left: 8px;
-    font-size: 12px;
+    margin-left: 10px;
+    font-size: 14px;
     transition: transform 0.3s ease;
 }
 
 .view-all-btn:hover {
-    color: var(--dark-purple);
-    background-color: rgba(169, 181, 223, 0.1);
+    background-color: var(--medium-purple);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(120, 134, 199, 0.2);
 }
 
 .view-all-btn:hover i {
@@ -482,7 +489,7 @@
 
 .view-all-btn:focus {
     outline: none;
-    box-shadow: 0 0 0 2px rgba(120, 134, 199, 0.3);
+    box-shadow: 0 0 0 3px rgba(120, 134, 199, 0.3);
 }
 
 /* Data Grid */
