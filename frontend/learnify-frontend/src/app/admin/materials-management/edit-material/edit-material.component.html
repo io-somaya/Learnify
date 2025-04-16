@@ -1,30 +1,56 @@
 <div class="container">
-  <h2>Edit Material</h2>
+  <h2>
+    <i class="fas fa-edit me-2"></i>
+    Edit Material
+  </h2>
   
   <form (ngSubmit)="onSubmit()">
     <div>
-      <label>File Name</label>
-      <input type="text" [(ngModel)]="material.file_name" name="file_name" required>
-    </div>
-  
-    <div>
-      <label>File URL</label>
-      <input type="text" [(ngModel)]="material.file_url" name="file_url" required>
-    </div>
-  
-    <div>
-      <label>Search Lesson</label>
-      <input type="text" [(ngModel)]="lessonSearch" name="lessonSearch" placeholder="Search by title">
-    </div>
-  
-    <div class="lesson-selector">
-      <label *ngFor="let lesson of filteredLessons()" class="lesson-option">
-        <input type="radio" name="lesson" [value]="lesson.id" [(ngModel)]="material.lesson_id">
-        {{ lesson.title }}
+      <label for="fileName">
+        <i class="fas fa-file-alt me-2"></i>
+        File Name
       </label>
+      <input type="text" id="fileName" [(ngModel)]="material.file_name" name="file_name" required>
     </div>
   
-    <button type="submit">Update Material</button>
-    <button type="button" (click)="navigateToMaterialsManagement()">Cancel</button>
+    <div>
+      <label for="fileUrl">
+        <i class="fas fa-link me-2"></i>
+        File URL
+      </label>
+      <input type="text" id="fileUrl" [(ngModel)]="material.file_url" name="file_url" required>
+    </div>
+  
+    <div>
+      <label for="lessonSearch">
+        <i class="fas fa-search me-2"></i>
+        Search Lesson
+      </label>
+      <input type="text" id="lessonSearch" [(ngModel)]="lessonSearch" name="lessonSearch" placeholder="Search by title">
+    </div>
+  
+    <div>
+      <label>
+        <i class="fas fa-book-open me-2"></i>
+        Select Lesson
+      </label>
+      <div class="lesson-selector">
+        <label *ngFor="let lesson of filteredLessons()" class="lesson-option">
+          <input type="radio" name="lesson" [value]="lesson.id" [(ngModel)]="material.lesson_id">
+          {{ lesson.title }}
+        </label>
+      </div>
+    </div>
+  
+    <div class="buttons-container">
+      <button type="button" (click)="navigateToMaterialsManagement()">
+        <i class="fas fa-arrow-left me-2"></i>
+        Cancel
+      </button>
+      <button type="submit">
+        <i class="fas fa-save me-2"></i>
+        Update Material
+      </button>
+    </div>
   </form>
 </div>

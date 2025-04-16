@@ -1,9 +1,15 @@
 <div class="container">
-  <h2>Add New Material</h2>
+  <h2>
+    <i class="fas fa-plus-circle me-2"></i>
+    Add New Material
+  </h2>
 
   <form (ngSubmit)="onSubmit()" class="material-form">
     <div class="form-group">
-      <label for="lessonSearch">Search Lesson</label>
+      <label for="lessonSearch">
+        <i class="fas fa-search me-2"></i>
+        Search Lesson
+      </label>
       <input
         id="lessonSearch"
         type="text"
@@ -14,11 +20,11 @@
     </div>
 
     <div class="form-group">
-      <label class="block mb-2 font-medium">Select Lesson</label>
-    
- 
-    
-      <div class="max-h-48 overflow-y-auto border border-gray-300 rounded p-3 space-y-2">
+      <label>
+        <i class="fas fa-book-open me-2"></i>
+        Select Lesson
+      </label>
+      <div class="max-h-48">
         <label
           *ngFor="let lesson of filteredLessons()"
           class="flex items-center gap-2"
@@ -33,10 +39,12 @@
         </label>
       </div>
     </div>
-    
 
     <div class="form-group">
-      <label for="fileName">Material Name</label>
+      <label for="fileName">
+        <i class="fas fa-file-alt me-2"></i>
+        Material Name
+      </label>
       <input
         id="fileName"
         type="text"
@@ -47,7 +55,10 @@
     </div>
 
     <div class="form-group">
-      <label for="fileUrl">Material File URL</label>
+      <label for="fileUrl">
+        <i class="fas fa-link me-2"></i>
+        Material File URL
+      </label>
       <input
         id="fileUrl"
         type="text"
@@ -57,9 +68,15 @@
       />
     </div>
 
-    <button type="submit">Create Material</button>
-    <button type="button" (click)="navigateToMaterialsManagement()">
-      Cancel
-    </button>
+    <div class="d-flex justify-content-between mt-4">
+      <button type="button" (click)="navigateToMaterialsManagement()">
+        <i class="fas fa-arrow-left me-2"></i>
+        Cancel
+      </button>
+      <button type="submit">
+        <i class="fas fa-save me-2"></i>
+        Create Material
+      </button>
+    </div>
   </form>
 </div>
