@@ -1,98 +1,225 @@
+/* Root Variables - Matching Dashboard Style */
+:root {
+  --light-purple: #e9ecff;
+  --medium-purple: #7886C7;
+  --dark-purple: #2D336B;
+  --page-background: #f5f7ff;
+  --component-background: #ffffff;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+}
+
 .container {
-    max-width: 600px;
-    margin: 30px auto;
-    padding: 20px 30px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background-color: var(--component-background);
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(169, 181, 223, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h2 {
+  color: var(--dark-purple);
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+  padding-bottom: 16px;
+  animation: slideDown 0.6s ease-out;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: var(--medium-purple);
+  border-radius: 4px;
+  animation: expandWidth 0.8s ease-out forwards;
+  animation-delay: 0.7s;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes expandWidth {
+  from { width: 0; }
+  to { width: 60px; }
+}
+
+form {
+  animation: cardFadeIn 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  animation-delay: 0.2s;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+form > div {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--dark-purple);
+  font-size: 14px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 14px;
+  border: 1px solid rgba(169, 181, 223, 0.3);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background-color: var(--component-background);
+}
+
+input[type="text"]:focus {
+  border-color: var(--medium-purple);
+  box-shadow: 0 0 0 3px rgba(120, 134, 199, 0.15);
+  outline: none;
+}
+
+.lesson-selector {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid rgba(169, 181, 223, 0.3);
+  padding: 15px;
+  border-radius: 8px;
+  background-color: var(--component-background);
+}
+
+.lesson-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+  color: var(--dark-purple);
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.lesson-option:last-child {
+  margin-bottom: 0;
+}
+
+.lesson-option input[type="radio"] {
+  margin-right: 10px;
+  cursor: pointer;
+  accent-color: var(--medium-purple);
+}
+
+.lesson-option:hover {
+  background-color: var(--light-purple);
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+button[type="submit"] {
+  background-color: var(--medium-purple);
+  color: white;
+  box-shadow: 0 4px 6px rgba(120, 134, 199, 0.2);
+}
+
+button[type="submit"]:hover {
+  background-color: var(--dark-purple);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(120, 134, 199, 0.3);
+}
+
+button[type="button"] {
+  background-color: rgba(156, 163, 175, 0.1);
+  color: var(--gray-500);
+  border: 1px solid rgba(156, 163, 175, 0.2);
+}
+
+button[type="button"]:hover {
+  background-color: var(--gray-400);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(156, 163, 175, 0.2);
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin: 1rem;
+    padding: 1.5rem;
   }
   
   h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #333;
+    font-size: 24px;
   }
   
-  form > div {
-    margin-bottom: 20px;
-  }
-  
-  label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: #555;
-  }
-  
-  input[type="text"] {
-    width: 100%;
-    padding: 8px 12px;
-    font-size: 15px;
-    border: 1.5px solid #ccc;
-    border-radius: 4px;
-    transition: border-color 0.3s ease;
-  }
-  
-  input[type="text"]:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-  
-  .lesson-selector {
-    max-height: 200px;
-    overflow-y: auto;
-    border: 1px solid #ddd;
-    padding: 10px 15px;
-    border-radius: 4px;
-    background-color: #fff;
-  }
-  
-  .lesson-option {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    cursor: pointer;
-    user-select: none;
-    font-size: 14px;
-    color: #444;
-  }
-  
-  .lesson-option input[type="radio"] {
-    margin-right: 10px;
-    cursor: pointer;
-    accent-color: #007bff;
-  }
-  
-  .lesson-option:hover {
-    background-color: #f0f8ff;
-    border-radius: 4px;
+  .buttons-container {
+    flex-direction: column-reverse;
+    gap: 12px;
   }
   
   button {
-    padding: 10px 18px;
-    font-size: 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 12px;
-    transition: background-color 0.3s ease;
+    width: 100%;
   }
-  
-  button[type="submit"] {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
-  
-  button[type="button"] {
-    background-color: #6c757d;
-    color: white;
-  }
-  
-  button[type="button"]:hover {
-    background-color: #565e64;
-  }
+}
