@@ -1,24 +1,25 @@
-<div id="wrapper" [class.menu-expanded]="isMenuOpen">
+<div id="wrapper" [class.menu-expanded]="isMenuOpen" class="overflow-hidden">
   <!-- Sidebar -->
   <aside id="sidebar-wrapper">
+    <!-- Sidebar Header -->
     <div class="sidebar-header">
       <div class="logo">
-        <h2>Learnify</h2>
+        <h2><i class="fas fa-graduation-cap me-2"></i>Learnify</h2>
       </div>
-      <button class="sidebar-toggle" (click)="toggleMenu()">
+      <button class="sidebar-toggle" (click)="toggleMenu()" title="Toggle menu">
         <i class="fa-solid fa-bars"></i>
       </button>
     </div>
 
-
-
+    <!-- Sidebar Navigation -->
     <nav class="sidebar-nav">
+      <!-- Main Section -->
       <div class="nav-category">
         <span>Main</span>
       </div>
       <ul class="nav-items">
         <li class="nav-item">
-          <a routerLink="/admin/dashboard" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
+          <a routerLink="/admin/dashboard" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link" data-title="Dashboard">
             <div class="icon-box">
               <i class="fa-solid fa-chart-pie"></i>
             </div>
@@ -28,13 +29,14 @@
         </li>
       </ul>
 
+      <!-- Management Section -->
       <div class="nav-category">
         <span>Management</span>
       </div>
       <ul class="nav-items">
         <li class="nav-item">
           <a routerLink="/admin/dashboard/subscriptions-list" [routerLinkActiveOptions]="{exact:true}"
-            routerLinkActive="active-link">
+            routerLinkActive="active-link" data-title="Subscriptions">
             <div class="icon-box">
               <i class="fa-solid fa-file-signature"></i>
             </div>
@@ -44,7 +46,7 @@
         </li>
         <li class="nav-item">
           <a routerLink="/admin/dashboard/materials-management" [routerLinkActiveOptions]="{exact:true}"
-            routerLinkActive="active-link">
+            routerLinkActive="active-link" data-title="Material">
             <div class="icon-box">
               <i class="fa-solid fa-file-lines"></i>
             </div>
@@ -53,7 +55,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a routerLink="/admin/students" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link">
+          <a routerLink="/admin/students" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link" data-title="Students">
             <div class="icon-box">
               <i class="fa-solid fa-graduation-cap"></i>
             </div>
@@ -63,7 +65,7 @@
         </li>
         <li class="nav-item">
           <a routerLink="/admin/dashboard/packages-list" [routerLinkActiveOptions]="{exact:true}"
-            routerLinkActive="active-link">
+            routerLinkActive="active-link" data-title="Packages">
             <div class="icon-box">
               <i class="fas fa-box-open"></i>
             </div>
@@ -73,7 +75,7 @@
         </li>
         <li class="nav-item">
           <a routerLink="/admin/dashboard/lessons-management" [routerLinkActiveOptions]="{exact:true}"
-            routerLinkActive="active-link">
+            routerLinkActive="active-link" data-title="Lessons">
             <div class="icon-box">
               <i class="fa-solid fa-person-chalkboard"></i>
             </div>
@@ -83,23 +85,24 @@
         </li>
         <li class="nav-item">
           <a routerLink="/admin/dashboard/lectures-management" [routerLinkActiveOptions]="{exact:true}"
-            routerLinkActive="active-link">
+            routerLinkActive="active-link" data-title="Lectures">
             <div class="icon-box">
               <i class="fas fa-chalkboard-teacher"></i>
             </div>
-            <span class="link-name">lectures </span>
+            <span class="link-name">Lectures</span>
             <i class="fa-solid fa-chevron-right arrow"></i>
           </a>
         </li>
       </ul>
 
+      <!-- Settings Section - Will be pushed to bottom by margin-top: auto applied in CSS -->
       <div class="nav-category">
         <span>Settings</span>
       </div>
       <ul class="nav-items">
         <li class="nav-item">
           <a routerLink="/admin/dashboard/profile" [routerLinkActiveOptions]="{exact:true}"
-            routerLinkActive="active-link">
+            routerLinkActive="active-link" data-title="Profile">
             <div class="icon-box">
               <i class="fa-solid fa-user-gear"></i>
             </div>
@@ -108,7 +111,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="javascript:void(0);" (click)="logout()">
+          <a href="javascript:void(0);" (click)="logout()" class="logout-link" data-title="Logout">
             <div class="icon-box">
               <i class="fa-solid fa-right-from-bracket"></i>
             </div>
@@ -118,8 +121,9 @@
       </ul>
     </nav>
 
+    <!-- Sidebar Footer -->
     <div class="sidebar-footer">
-      <p>&copy; 2024 Learnify</p>
+      <p>&copy; 2024 Learnify | Education Platform</p>
     </div>
   </aside>
 
