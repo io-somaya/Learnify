@@ -1,20 +1,20 @@
 <div class="container">
   <div class="card">
     <div class="card-header">
-      <h2>Create New Lecture</h2>
+      <h2><i class="fas fa-plus-circle me-2"></i>Create New Lecture</h2>
     </div>
     <div class="card-body">
       <form [formGroup]="lectureForm" (ngSubmit)="onSubmit()">
         <!-- Error Alert -->
         <div *ngIf="errorMessage" class="alert alert-danger">
-          <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i>
+          <i class="fas fa-exclamation-circle me-2"></i>
           {{ errorMessage }}
         </div>
 
         <!-- Title -->
         <div class="mb-3">
           <label for="title" class="form-label">
-            <i class="fas fa-heading" style="margin-right: 6px;"></i>Lecture Title
+            <i class="fas fa-heading me-2"></i>Lecture Title
           </label>
           <input 
             type="text" 
@@ -25,7 +25,7 @@
             placeholder="Enter a descriptive title for the lecture"
           >
           <div *ngIf="f['title'].touched && f['title'].errors" class="invalid-feedback">
-            <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>
+            <i class="fas fa-exclamation-circle me-2"></i>
             <span *ngIf="f['title'].errors['required']">Title is required</span>
             <span *ngIf="f['title'].errors['minlength']">Title must be at least 3 characters</span>
           </div>
@@ -34,7 +34,7 @@
         <!-- Description -->
         <div class="mb-3">
           <label for="description" class="form-label">
-            <i class="fas fa-align-left" style="margin-right: 6px;"></i>Description
+            <i class="fas fa-align-left me-2"></i>Description
           </label>
           <textarea 
             id="description" 
@@ -45,7 +45,7 @@
             placeholder="Describe what students will learn in this lecture"
           ></textarea>
           <div *ngIf="f['description'].touched && f['description'].errors" class="invalid-feedback">
-            <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>
+            <i class="fas fa-exclamation-circle me-2"></i>
             <span *ngIf="f['description'].errors['required']">Description is required</span>
             <span *ngIf="f['description'].errors['minlength']">Description must be at least 10 characters</span>
           </div>
@@ -54,7 +54,7 @@
         <!-- Day of Week -->
         <div class="mb-3">
           <label for="day_of_week" class="form-label">
-            <i class="fas fa-calendar-day" style="margin-right: 6px;"></i>Day of Week
+            <i class="fas fa-calendar-day me-2"></i>Day of Week
           </label>
           <select 
             id="day_of_week" 
@@ -66,7 +66,7 @@
             <option *ngFor="let day of daysOfWeek" [value]="day">{{ day }}</option>
           </select>
           <div *ngIf="f['day_of_week'].touched && f['day_of_week'].errors" class="invalid-feedback">
-            <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>
+            <i class="fas fa-exclamation-circle me-2"></i>
             <span *ngIf="f['day_of_week'].errors['required']">Day of week is required</span>
           </div>
         </div>
@@ -75,7 +75,7 @@
         <div class="row mb-3">
           <div class="col">
             <label for="start_time" class="form-label">
-              <i class="fas fa-clock" style="margin-right: 6px;"></i>Start Time
+              <i class="fas fa-clock me-2"></i>Start Time
             </label>
             <input 
               type="time" 
@@ -85,14 +85,14 @@
               [ngClass]="{'is-invalid': f['start_time'].touched && f['start_time'].invalid}"
             >
             <div *ngIf="f['start_time'].touched && f['start_time'].errors" class="invalid-feedback">
-              <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>
+              <i class="fas fa-exclamation-circle me-2"></i>
               <span *ngIf="f['start_time'].errors['invalidTime']">Invalid time format (HH:MM)</span>
               <span *ngIf="f['start_time'].errors['required']">Start time is required</span>
             </div>
           </div>
           <div class="col">
             <label for="end_time" class="form-label">
-              <i class="fas fa-clock" style="margin-right: 6px;"></i>End Time
+              <i class="fas fa-clock me-2"></i>End Time
             </label>
             <input 
               type="time" 
@@ -102,7 +102,7 @@
               [ngClass]="{'is-invalid': f['end_time'].touched && f['end_time'].invalid}"
             >
             <div *ngIf="f['end_time'].touched && f['end_time'].errors" class="invalid-feedback">
-              <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>
+              <i class="fas fa-exclamation-circle me-2"></i>
               <span *ngIf="f['end_time'].errors['invalidTime']">Invalid time format (HH:MM)</span>
               <span *ngIf="f['end_time'].errors['required']">End time is required</span>
             </div>
@@ -112,7 +112,7 @@
         <!-- Grade -->
         <div class="mb-3">
           <label for="grade" class="form-label">
-            <i class="fas fa-graduation-cap" style="margin-right: 6px;"></i>Grade Level
+            <i class="fas fa-graduation-cap me-2"></i>Grade Level
           </label>
           <select 
             id="grade" 
@@ -124,7 +124,7 @@
             <option *ngFor="let grade of grades" [value]="grade">Grade {{ grade }}</option>
           </select>
           <div *ngIf="f['grade'].touched && f['grade'].errors" class="invalid-feedback">
-            <i class="fas fa-exclamation-circle" style="margin-right: 4px;"></i>
+            <i class="fas fa-exclamation-circle me-2"></i>
             <span *ngIf="f['grade'].errors['required']">Grade is required</span>
           </div>
         </div>
@@ -133,10 +133,10 @@
         <div class="mb-3 form-check">
           <input type="checkbox" class="form-check-input" id="is_active" formControlName="is_active">
           <label class="form-check-label" for="is_active">
-            <i class="fas fa-toggle-on" style="margin-right: 6px;"></i>Active
+            <i class="fas fa-toggle-on me-2"></i>Active
           </label>
           <small class="form-text">
-            <i class="fas fa-info-circle" style="margin-right: 4px;"></i>
+            <i class="fas fa-info-circle me-1"></i>
             Inactive lectures won't be visible to students
           </small>
         </div>
@@ -144,11 +144,11 @@
         <!-- Action Buttons -->
         <div class="d-flex justify-content-between" style="margin-top: 30px;">
           <button type="button" class="btn btn-secondary" routerLink="/admin/dashboard/lectures-management">
-            <i class="fas fa-arrow-left"></i> Cancel
+            <i class="fas fa-arrow-left me-2"></i> Cancel
           </button>
           <button type="submit" class="btn btn-primary" [disabled]="isSubmitting || lectureForm.invalid">
             <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-            <i *ngIf="!isSubmitting" class="fas fa-save"></i> Create Lecture
+            <i *ngIf="!isSubmitting" class="fas fa-save me-2"></i> Create Lecture
           </button>
         </div>
       </form>

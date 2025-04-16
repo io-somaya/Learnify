@@ -1,162 +1,162 @@
 <div class="container">
   <div class="card">
     <div class="card-header">
-      <h2>Edit Lecture</h2>
+      <h2><i class="bi bi-pencil-square me-2"></i> Edit Lecture</h2>
     </div>
     <div class="card-body">
-      <form (ngSubmit)="onSubmit()" *ngIf="lecture">
-        <!-- Alert for validation errors -->
-        <div class="alert alert-danger" *ngIf="Object.keys(validationErrors).length > 0">
-          Please correct the errors below.
-        </div>
+      <div *ngIf="errorMessage" class="alert alert-danger mb-4">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ errorMessage }}
+      </div>
+      <div *ngIf="successMessage" class="alert alert-success mb-4">
+        <i class="bi bi-check-circle-fill me-2"></i> {{ successMessage }}
+      </div>
 
-        <!-- Title -->
-        <div class="mb-3">
-          <label for="title" class="form-label">Lecture Title</label>
+      <form [formGroup]="lectureForm" (ngSubmit)="onSubmit()" *ngIf="lectureForm">
+        <div class="mb-4">
+          <label for="title" class="form-label">
+            <i class="bi bi-bookmark-fill me-2"></i> Lecture Title
+          </label>
           <input
             type="text"
             id="title"
-            [(ngModel)]="lecture.title"
-            name="title"
             class="form-control"
-            [ngClass]="{'is-invalid': validationErrors['title']}"
-            placeholder="Enter lecture title"
-            required
+            formControlName="title"
+            [ngClass]="{'is-invalid': submitted && f['title'].errors}"
           />
-          <div class="invalid-feedback" *ngIf="validationErrors['title']">
-            {{ validationErrors['title'][0] }}
+          <div *ngIf="submitted && f['title'].errors" class="invalid-feedback">
+            <div *ngIf="f['title'].errors['required']">
+              <i class="bi bi-info-circle me-1"></i> Title is required
+            </div>
+            <div *ngIf="f['title'].errors['minlength']">
+              <i class="bi bi-info-circle me-1"></i> Title must be at least 3 characters
+            </div>
           </div>
         </div>
-      
-        <!-- Description -->
-        <div class="mb-3">
-          <label for="description" class="form-label">Description</label>
-          <input
-            type="text"
+
+        <div class="mb-4">
+          <label for="description" class="form-label">
+            <i class="bi bi-card-text me-2"></i> Description
+          </label>
+          <textarea
             id="description"
-            [(ngModel)]="lecture.description"
-            name="description"
             class="form-control"
-            [ngClass]="{'is-invalid': validationErrors['description']}"
-            placeholder="Enter description"
-            required
-          />
-          <div class="invalid-feedback" *ngIf="validationErrors['description']">
-            {{ validationErrors['description'][0] }}
-          </div>
-        </div>
-      
-        <div class="row">
-          <!-- Day of Week -->
-          <div class="col-md-4 mb-3">
-            <label for="day_of_week" class="form-label">Day of Week</label>
-            <select
-              id="day_of_week"
-              [(ngModel)]="lecture.day_of_week"
-              name="day_of_week"
-              class="form-select"
-              [ngClass]="{'is-invalid': validationErrors['day_of_week']}"
-              required
-            >
-              <option value="">Select a day</option>
-              <option *ngFor="let day of daysOfWeek" [value]="day">{{ day }}</option>
-            </select>
-            <div class="invalid-feedback" *ngIf="validationErrors['day_of_week']">
-              Day of week is required
+            formControlName="description"
+            rows="4"
+            [ngClass]="{'is-invalid': submitted && f['description'].errors}"
+          ></textarea>
+          <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+            <div *ngIf="f['description'].errors['required']">
+              <i class="bi bi-info-circle me-1"></i> Description is required
             </div>
-          </div>
-        
-          <!-- Start Time -->
-          <div class="col-md-4 mb-3">
-            <label for="start_time" class="form-label">Start Time</label>
-            <input
-              type="time"
-              id="start_time"
-              [(ngModel)]="lecture.start_time"
-              name="start_time"
-              class="form-control"
-              [ngClass]="{'is-invalid': validationErrors['start_time']}"
-              required
-            />
-            <div class="invalid-feedback" *ngIf="validationErrors['start_time']">
-              Start time is required
-            </div>
-          </div>
-        
-          <!-- End Time -->
-          <div class="col-md-4 mb-3">
-            <label for="end_time" class="form-label">End Time</label>
-            <input
-              type="time"
-              id="end_time"
-              [(ngModel)]="lecture.end_time"
-              name="end_time"
-              class="form-control"
-              [ngClass]="{'is-invalid': validationErrors['end_time']}"
-              required
-            />
-            <div class="invalid-feedback" *ngIf="validationErrors['end_time']">
-              End time is required
+            <div *ngIf="f['description'].errors['minlength']">
+              <i class="bi bi-info-circle me-1"></i> Description must be at least 10 characters
             </div>
           </div>
         </div>
-      
-        <!-- Grade -->
-        <div class="mb-3">
-          <label for="grade" class="form-label">Grade Level</label>
+
+        <div class="mb-4">
+          <label for="dayOfWeek" class="form-label">
+            <i class="bi bi-calendar-week me-2"></i> Day of Week
+          </label>
           <select
-            id="grade"
-            [(ngModel)]="lecture.grade"
-            name="grade"
+            id="dayOfWeek"
             class="form-select"
-            [ngClass]="{'is-invalid': validationErrors['grade']}"
-            required
+            formControlName="dayOfWeek"
+            [ngClass]="{'is-invalid': submitted && f['dayOfWeek'].errors}"
           >
-            <option value="">Select grade</option>
-            <option *ngFor="let grade of grades" [value]="grade">Grade {{ grade }}</option>
+            <option value="">Select Day</option>
+            <option *ngFor="let day of daysOfWeek" [value]="day">{{ day }}</option>
           </select>
-          <div class="invalid-feedback" *ngIf="validationErrors['grade']">
-            Grade is required
+          <div *ngIf="submitted && f['dayOfWeek'].errors" class="invalid-feedback">
+            <div *ngIf="f['dayOfWeek'].errors['required']">
+              <i class="bi bi-info-circle me-1"></i> Day of week is required
+            </div>
           </div>
         </div>
-      
-        <!-- Zoom Fields (Readonly) -->
-        <div class="mb-3">
-          <label for="zoom_link" class="form-label">Zoom Link</label>
-          <input
-            type="text"
-            id="zoom_link"
-            [(ngModel)]="lecture.zoom_link"
-            name="zoom_link"
-            class="form-control"
-            readonly
-          />
-          <small class="form-text text-muted">This link is automatically generated and cannot be edited.</small>
-        </div>
-      
-        <!-- Status -->
-        <div class="mb-3">
-          <div class="form-check">
+
+        <div class="row mb-4">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label for="startTime" class="form-label">
+              <i class="bi bi-clock me-2"></i> Start Time
+            </label>
             <input
-              type="checkbox"
-              id="is_active"
-              [(ngModel)]="lecture.is_active"
-              name="is_active"
-              class="form-check-input"
+              type="time"
+              id="startTime"
+              class="form-control"
+              formControlName="startTime"
+              [ngClass]="{'is-invalid': submitted && f['startTime'].errors}"
             />
-            <label for="is_active" class="form-check-label">Active</label>
-            <small class="form-text text-muted d-block">Inactive lectures won't be visible to students.</small>
+            <div *ngIf="submitted && f['startTime'].errors" class="invalid-feedback">
+              <div *ngIf="f['startTime'].errors['required']">
+                <i class="bi bi-info-circle me-1"></i> Start time is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="endTime" class="form-label">
+              <i class="bi bi-clock-fill me-2"></i> End Time
+            </label>
+            <input
+              type="time"
+              id="endTime"
+              class="form-control"
+              formControlName="endTime"
+              [ngClass]="{'is-invalid': submitted && f['endTime'].errors}"
+            />
+            <div *ngIf="submitted && f['endTime'].errors" class="invalid-feedback">
+              <div *ngIf="f['endTime'].errors['required']">
+                <i class="bi bi-info-circle me-1"></i> End time is required
+              </div>
+            </div>
           </div>
         </div>
-      
-        <!-- Actions -->
-        <div class="d-flex gap-2 justify-content-end mt-4">
-          <button type="button" class="btn btn-secondary" routerLink="/admin/lecture-management">
-            Cancel
+
+        <div class="mb-4">
+          <label for="gradeLevel" class="form-label">
+            <i class="bi bi-bar-chart-fill me-2"></i> Grade Level
+          </label>
+          <select
+            id="gradeLevel"
+            class="form-select"
+            formControlName="gradeLevel"
+            [ngClass]="{'is-invalid': submitted && f['gradeLevel'].errors}"
+          >
+            <option value="">Select Grade Level</option>
+            <option *ngFor="let grade of gradeLevels" [value]="grade">{{ grade }}</option>
+          </select>
+          <div *ngIf="submitted && f['gradeLevel'].errors" class="invalid-feedback">
+            <div *ngIf="f['gradeLevel'].errors['required']">
+              <i class="bi bi-info-circle me-1"></i> Grade level is required
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <div class="form-check">
+            <input type="checkbox" id="active" class="form-check-input" formControlName="active">
+            <label for="active" class="form-check-label">
+              <i class="bi bi-toggle-on me-2"></i> Active
+            </label>
+          </div>
+          <small class="form-text text-muted mt-1">
+            <i class="bi bi-info-circle me-1"></i> Active lectures will be visible to students and teachers
+          </small>
+        </div>
+
+        <div class="d-flex gap-3 mt-4 flex-wrap">
+          <button type="submit" class="btn btn-primary" [disabled]="loading">
+            <i class="bi bi-save me-2"></i> 
+            <span *ngIf="!loading">Update Lecture</span>
+            <span *ngIf="loading" class="d-flex align-items-center">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Updating...
+            </span>
           </button>
-          <button type="submit" class="btn btn-primary" [disabled]="isLoading">
-            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-            {{ isLoading ? 'Updating...' : 'Update Lecture' }}
+          <button type="button" class="btn btn-secondary" (click)="onCancel()">
+            <i class="bi bi-x-circle me-2"></i> Cancel
+          </button>
+          <button type="button" class="btn btn-danger ms-auto" (click)="onDelete()">
+            <i class="bi bi-trash me-2"></i> Delete
           </button>
         </div>
       </form>
