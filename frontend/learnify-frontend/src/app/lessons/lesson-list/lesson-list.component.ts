@@ -70,6 +70,9 @@ export class LessonListComponent implements OnInit {
         error: (error) => {
           this.errorMessage = error.message;
           this.isLoading = false;
+          if (error.status === 403) {
+          this.errorMessage = 'You are not Subscribed to view this page.';
+          }
         }
       });
   }
