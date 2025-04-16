@@ -1,69 +1,96 @@
-<div class="container">
-  <div class="dashboard-header">
-    <h2>Subscription Management</h2>
-    <p class="dashboard-subtitle">Manage and track all user subscriptions in one place</p>
+<div class="subscription-container">
+  <!-- Header Section -->
+  <div class="subscription-header">
+    <h2 class="subscription-title">
+      <i class="fas fa-receipt me-2"></i>
+      Subscription Management
+    </h2>
+    <p class="subscription-subtitle">Monitor and manage all user subscription transactions in one place</p>
   </div>
 
-  @if (isLoading) {
-    <div class="table-container" style="display: flex; justify-content: center; align-items: center; min-height: 300px;">
-      <div class="spinner">
-        <i class="fas fa-sync-alt" style="margin-right: 10px;"></i> Loading subscription data...
-      </div>
+  <!-- Controls Section (Search & Filter) -->
+  <div class="controls-section">
+    <div class="search-container">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="search-input" placeholder="Search by email or transaction ID..." (input)="onSearch($event)">
     </div>
-  } @else if (errorMessage) {
-    <div class="error-message">
-      <div>
-        <i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i>
-        {{ errorMessage }}
+    <div class="filter-container">
+      <select class="filter-select" (change)="onFilterChange($event)">
+        <option value="all">All Statuses</option>
+        <option value="completed">Completed</option>
+        <option value="pending">Pending</option>
+        <option value="unknown">Unknown</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  @if (isLoading) {
+    <div class="loading-container">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
-      <button (click)="loadSubscriptions()">
-        <i class="fas fa-redo-alt" style="margin-right: 8px;"></i> Retry
+      <p class="loading-message">Loading subscription data...</p>
+    </div>
+  } 
+  
+  <!-- Error State -->
+  @else if (errorMessage) {
+    <div class="error-container">
+      <i class="fas fa-exclamation-circle fa-2x mb-3"></i>
+      <p class="error-message">{{ errorMessage }}</p>
+      <button class="retry-button" (click)="loadSubscriptions()">
+        <i class="fas fa-sync-alt"></i>
+        Retry
       </button>
     </div>
-  } @else {
+  } 
+  
+  <!-- Main Content -->
+  @else {
+    <!-- Table Section -->
     <div class="table-container">
       <table>
         <thead>
           <tr>
-            @for (column of columns; track column.name) {
-              <th>{{ column.label }}</th>
-            }
+            <th><i class="fas fa-hashtag me-2"></i>ID</th>
+            <th><i class="fas fa-user me-2"></i>User Email</th>
+            <th><i class="fas fa-box me-2"></i>Package</th>
+            <th><i class="fas fa-dollar-sign me-2"></i>Amount</th>
+            <th><i class="fas fa-file-invoice me-2"></i>Transaction ID</th>
+            <th><i class="fas fa-info-circle me-2"></i>Status</th>
+            <th><i class="fas fa-calendar-alt me-2"></i>Created</th>
           </tr>
         </thead>
         <tbody>
-          @for (subscription of subscriptions; track subscription.id) {
+          @for (subscription of paginatedSubscriptions; track subscription.id) {
             <tr>
-              @for (column of columns; track column.name) {
-                <td [class.status-cell]="column.name === 'paymentStatus'">
-                  @if (column.name === 'paymentStatus') {
-                    <span 
-                      [class]="'status-badge ' + getValue(subscription, column.name)">
-                      <i class="fas" 
-                         [ngClass]="{
-                           'fa-check-circle': getValue(subscription, column.name) === 'completed',
-                           'fa-clock': getValue(subscription, column.name) === 'pending',
-                           'fa-question-circle': getValue(subscription, column.name) === 'unknown'
-                         }"
-                         style="margin-right: 5px;"></i>
-                      {{ getValue(subscription, column.name) | titlecase }}
-                    </span>
-                  } @else if (column.name === 'amount') {
-                    <strong>${{ getValue(subscription, column.name) || '—' }}</strong>
-                  } @else if (column.name === 'createdAt' || column.name === 'updatedAt') {
-                    {{ getValue(subscription, column.name) | date:'medium' || '—' }}
-                  } @else {
-                    {{ getValue(subscription, column.name) || '—' }}
-                  }
-                </td>
-              }
+              <td>{{ subscription.id }}</td>
+              <td>{{ getValue(subscription, 'package_user.user.email') }}</td>
+              <td>{{ getValue(subscription, 'package_user.package.name') }}</td>
+              <td>${{ subscription.amount_paid }}</td>
+              <td>{{ subscription.transaction_reference }}</td>
+              <td>
+                <span class="status-badge status-{{ subscription.payment_status }}">
+                  {{ subscription.payment_status }}
+                </span>
+              </td>
+              <td>{{ subscription.created_at | date:'MMM d, yyyy, h:mm a' }}</td>
             </tr>
           }
-          @if (subscriptions.length === 0) {
+          
+          <!-- Empty State -->
+          @if (filteredSubscriptions.length === 0) {
             <tr>
-              <td [attr.colspan]="columns.length" style="text-align: center; padding: 30px;">
-                <div style="color: var(--medium-purple); opacity: 0.7;">
-                  <i class="fas fa-info-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
-                  <p>No subscription data available</p>
+              <td colspan="7">
+                <div class="empty-container">
+                  <i class="fas fa-file-invoice-dollar fa-3x text-muted mb-3"></i>
+                  <h3>No subscription data available</h3>
+                  <p class="empty-message">There are currently no subscriptions in the system or none match your search criteria.</p>
+                  <button class="retry-button" (click)="loadSubscriptions()">
+                    <i class="fas fa-sync-alt me-2"></i>
+                    Refresh Data
+                  </button>
                 </div>
               </td>
             </tr>
@@ -71,6 +98,23 @@
         </tbody>
       </table>
     </div>
+    
+    <!-- Pagination -->
+    @if (filteredSubscriptions.length > 0) {
+      <div class="pagination-container">
+        <button class="pagination-button" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        @for (page of getPaginationRange(); track page) {
+          <button class="pagination-button" [class.active]="currentPage === page" (click)="changePage(page)">
+            {{ page }}
+          </button>
+        }
+        <button class="pagination-button" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    }
   }
 </div>
   
