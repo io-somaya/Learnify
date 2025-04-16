@@ -187,6 +187,7 @@ export class AuthService {
   private handleLogout() {
     if (this.isBrowser) {
       localStorage.removeItem('currentUser');
+      localStorage.removeItem('auth_token');
     }
     this.currentUserSubject.next(null);
     if (this.tokenExpirationTimer) {
