@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map , tap} from 'rxjs/operators';
 import { environment } from '../../.environments/environment';
 import { IAssignment, IAssignmentDetail } from '../Interfaces/IAssignment';
 
@@ -45,18 +45,31 @@ export class AssignmentService {
     );
   }
 
-  createAssignment(assignmentData: Partial<IAssignment>): Observable<IAssignment> {
-    return this.http.post<{
-      status: number,
-      message: string,
-      data: IAssignment
-    }>(`${this.apiUrl}/admin/assignments`, assignmentData, {
-      headers: this.getAuthHeaders()
-    }).pipe(
-      map(response => response.data),
+  // createAssignment(assignmentData: Partial<IAssignment>): Observable<IAssignment> {
+  //   return this.http.post<{
+  //     status: number,
+  //     message: string,
+  //     data: IAssignment
+  //   }>(`${this.apiUrl}/admin/assignments`, assignmentData, {
+  //     headers: this.getAuthHeaders()
+  //   }).pipe(
+  //     map(response => response.data),
+  //     catchError(this.handleError)
+  //   );
+  // }
+// ---------------------------------------------------------------
+  createAssignment(assignmentData: IAssignment): Observable<IAssignment> {
+    return this.http.post<{ data: IAssignment }>(
+      `${this.apiUrl}/admin/assignments`,
+      assignmentData,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(res => console.log('Create Assignment Response:', res)),
+      map(res => res.data),
       catchError(this.handleError)
     );
   }
+  // --------------------------------------------------
 
   updateAssignment(id: number, assignmentData: Partial<IAssignment>): Observable<IAssignment> {
     return this.http.put<{

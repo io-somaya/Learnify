@@ -1,0 +1,171 @@
+<div class="assignment-detail-container">
+    <div class="assignment-header">
+      <h1 class="page-title">      <i class="fas fa-tasks me-2"></i>
+        Create New Assignment</h1>
+      <button class="back-button" (click)="onSubmit()" [disabled]="isSubmitting">
+        <span *ngIf="!isSubmitting">
+          <i class="fas fa-save me-2"></i>Save Assignment</span>
+        <span *ngIf="isSubmitting" class="loader-sm"></span>
+      </button>
+    </div>
+  
+    <!-- Error/success messages -->
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+  
+    <form [formGroup]="assignmentForm" class="form-container">
+      <!-- Basic Assignment Info -->
+      <div class="question-card">
+        <div class="assignment-header">
+          <h2>        <i class="fas fa-info-circle me-2"></i>
+            Assignment Details</h2>
+        </div>
+        <div class="card-body">
+          <div class="options-grid">
+            <div class="option">
+              <label for="title"><i class="fas fa-heading me-2"></i>Title</label>
+              <input id="title" type="text" formControlName="title" placeholder="Enter assignment title" class="form-control">
+              <div *ngIf="isFieldInvalid(assignmentForm, 'title')" class="zerror-message">
+                {{ getErrorMessage(assignmentForm, 'title') }}
+              </div>
+            </div>
+  
+            <div class="option">
+              <label for="grade"><i class="fas fa-graduation-cap me-2"></i>Grade</label>
+              <select id="grade" formControlName="grade" class="form-control">
+                <option value="" disabled>
+                  Select grade</option>
+                <option *ngFor="let grade of grades" [value]="grade">
+                  Grade {{ grade }}
+                </option>
+              </select>
+              <div *ngIf="isFieldInvalid(assignmentForm, 'grade')" class="zerror-message">
+                {{ getErrorMessage(assignmentForm, 'grade') }}
+              </div>
+            </div>
+  
+            <div class="option">
+              <label for="description"><i class="fas fa-align-left me-2"></i>Description</label>
+              <textarea id="description" formControlName="description" rows="3" placeholder="Assignment description" class="form-control"></textarea>
+              <div *ngIf="isFieldInvalid(assignmentForm, 'description')" class="zerror-message">
+                {{ getErrorMessage(assignmentForm, 'description') }}
+              </div>
+            </div>
+  
+            <div class="option">
+              <label for="lesson_id"><i class="fas fa-book me-2"></i>Lesson (Optional)</label>
+              <select id="lesson_id" formControlName="lesson_id" class="form-control">
+                <option [value]="null">No Lesson</option>
+                <option *ngFor="let lesson of lessons" [value]="lesson.id">
+                  {{ lesson.title }} (Grade {{ lesson.grade }})
+                </option>
+              </select>
+              <div *ngIf="isLoadingLessons" class="loader-sm"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Questions Section -->
+      <div class="questions-container">
+        <h2>
+          Questions
+          <i class="fas fa-question me-2"></i>
+        </h2>
+        <div formArrayName="questions">
+          <div *ngFor="let questionGroup of questionsFormArray.controls; let questionIndex = index" class="question-card" [formGroupName]="questionIndex">
+            <h3>Question {{ questionIndex + 1 }}
+              <i class="fas fa-question me-2"></i>
+            </h3>
+            <button *ngIf="questionsFormArray.length > 1" class="pagination-button bbttnn d-block float-end" type="button" (click)="removeQuestion(questionIndex)">
+              Remove Question
+               <i class="fas fa-trash mx-2"></i>
+            </button>
+            
+            <div class="card-body">
+              <div class="option">
+                <label for="question-text-{{questionIndex}}">Question Text 
+                  
+                </label>
+                <textarea id="question-text-{{questionIndex}}" formControlName="question_text" rows="2" placeholder="Enter question" class="form-control"></textarea>
+                <div *ngIf="isFieldInvalid(questionsFormArray.at(questionIndex), 'question_text')" class="zerror-message">
+                  Question text is required
+                </div>
+              </div>
+              
+              <div class="option">
+                <label for="question-type-{{questionIndex}}">Question Type</label>
+                <select id="question-type-{{questionIndex}}" formControlName="question_type" class="form-control">
+                  <option value="mcq">Multiple Choice</option>
+                  <option value="essay">Essay</option>
+                  <option value="short_answer">Short Answer</option>
+                </select>
+              </div>
+  
+              <!-- Options for MCQ -->
+              <div *ngIf="questionGroup.get('question_type')?.value === 'mcq'" class="options-section">
+                <div class="meta-info">
+                  <h4>
+                    <i class="fas fa-list me-2"></i>
+                    Answer Options
+                  </h4>
+                  <button class="pagination-button" type="button" (click)="addOption(questionIndex)">
+                    <i class="fas fa-plus me-2"></i>
+                    Add Option
+                  </button>
+                </div>
+  
+                <div formArrayName="options" class="options-grid">
+                  <div *ngFor="let option of getOptionsFormArray(questionIndex).controls; let optionIndex = index"
+                       [formGroupName]="optionIndex" 
+                       class="option"
+                       [ngClass]="{'correct': questionGroup.get('correct_answer')?.value === optionIndex}">
+                    <div class="option-content">
+                      <div class="form-group">
+                        <label for="option-{{questionIndex}}-{{optionIndex}}">Option {{ optionIndex + 1 }}</label>
+                        <input id="option-{{questionIndex}}-{{optionIndex}}" type="text" formControlName="option_text" 
+                              placeholder="Enter option text" class="form-control">
+                        <div *ngIf="isFieldInvalid(getOptionsFormArray(questionIndex).at(optionIndex), 'option_text')" class="zerror-message">
+                          Option text is required
+                        </div>
+                      </div>
+                      
+                      <div class="option-actions">
+                        <div class="radio-container">
+                          <input type="radio" id="correct-{{questionIndex}}-{{optionIndex}}" name="correct-{{questionIndex}}"
+                                [checked]="questionGroup.get('correct_answer')?.value === optionIndex"
+                                (change)="questionGroup.get('correct_answer')?.setValue(optionIndex)"
+                                [value]="optionIndex">
+                          <label for="correct-{{questionIndex}}-{{optionIndex}}">Correct</label>
+                        </div>
+                        
+                        <button *ngIf="getOptionsFormArray(questionIndex).length > 2" 
+                                class="pagination-button bbttnn" type="button"
+                                (click)="removeOption(questionIndex, optionIndex)">
+                          <i class="fas fa-cancel me-2"></i>
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="pagination d-flex justify-content-evenly">
+          <!-- back button -->
+          <button class="pagination-button" type="button" (click)="goBack()">
+            <i class="fas fa-arrow-left me-2"></i>
+            Back
+          </button>
+          <button class="pagination-button" type="button" (click)="addQuestion()">
+            <i class="fas fa-plus me-2"></i>
+
+            Add Question
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
