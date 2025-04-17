@@ -24,12 +24,18 @@ export class MaterialsManagementComponent implements OnInit {
   fileNameSearch: string = '';
   loading = false;
   errorMessage: string | null = null;
+  itemsPerPage = 10;
   currentPage = 1;
   totalPages = 1;
+  pagedMaterials: IMaterial[] = [];
   
   // For debounced search
   private searchDebounce = new Subject<void>();
   private destroy$ = new Subject<void>();
+
+  // Add these new properties for lessons pagination
+  lessonsCurrentPage = 1;
+  lessonsTotalPages = 1;
 
   constructor(
     private materialService: MaterialService,
@@ -62,11 +68,11 @@ export class MaterialsManagementComponent implements OnInit {
       next: (response) => {
         // Add the new lessons to our collection
         this.lessons = [...this.lessons, ...response.data.data];
-        this.totalPages = response.data.last_page;
-        this.currentPage++;
+        this.lessonsTotalPages = response.data.last_page;
+        this.lessonsCurrentPage++;
 
-        if (this.currentPage <= this.totalPages) {
-          this.loadLessons(this.currentPage);
+        if (this.lessonsCurrentPage <= this.lessonsTotalPages) {
+          this.loadLessons(this.lessonsCurrentPage);
         } else {
           // Once we've loaded all lessons, trigger a refresh of the materials
           // to ensure they have the proper lesson names
@@ -93,6 +99,7 @@ export class MaterialsManagementComponent implements OnInit {
       next: (materials) => {
         this.originalMaterials = materials; // Store original
         this.materials = [...materials];
+        this.updatePagedMaterials();
         this.loading = false;
         
         // Enrich materials with lesson names if lessons are already loaded
@@ -154,12 +161,40 @@ export class MaterialsManagementComponent implements OnInit {
       });
     }
     
+    this.currentPage = 1; // Reset to first page when filtering
+    this.updatePagedMaterials();
     this.loading = false;
   }
   
   getLessonTitle(lessonId: number): string {
     const lesson = this.lessons.find(l => l.id === lessonId);
     return lesson ? lesson.title : 'Unknown Lesson';
+  }
+
+  updatePagedMaterials(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.pagedMaterials = this.materials.slice(startIndex, endIndex);
+    this.totalPages = Math.ceil(this.materials.length / this.itemsPerPage);
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePagedMaterials();
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.goToPage(this.currentPage + 1);
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.goToPage(this.currentPage - 1);
+    }
   }
 
   confirmDelete(materialId: number): void {
@@ -177,6 +212,7 @@ export class MaterialsManagementComponent implements OnInit {
         // Update both original and filtered materials arrays
         this.originalMaterials = this.originalMaterials.filter(m => m.id !== materialId);
         this.materials = this.materials.filter(m => m.id !== materialId);
+        this.updatePagedMaterials();
         this.loading = false;
       },
       error: (error) => {

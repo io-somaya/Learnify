@@ -38,6 +38,8 @@ import { LectureEditComponent } from './admin/lecture-management/lecture-edit/le
 import { MaterialsManagementComponent } from './admin/materials-management/materials-management.component';
 import { AddMaterialComponent } from './admin/materials-management/add-material/add-material.component';
 import { EditMaterialComponent } from './admin/materials-management/edit-material/edit-material.component';
+import { AssignmentManagementComponent } from './admin/assignment-management/assignment-management.component';
+import {AssignmentDetailComponent} from './admin/assignment-management/assignment-detail/assignment-detail.component';
 
 export function route(name: string): string {
   const routes = {
@@ -195,6 +197,15 @@ export const routes: Routes = [
       path: "materials/edit/:id",
       component: EditMaterialComponent,
       title: "Edit Material"
+    },{
+      path:"assignments-management",
+      component:AssignmentManagementComponent,
+      title:"Assignments Management"
+    },
+    {
+      path: "assignment/:id",
+      component: AssignmentDetailComponent,
+      title: "Assignment Details"
     },
     // Admin Profile Routes
     {
