@@ -1,7 +1,6 @@
 <?php
 // routes/api.php
 
-use App\Http\Controllers\Api\Teacher\AssignmentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
@@ -21,6 +20,7 @@ use App\Http\Controllers\Student\StudentLectureController;
 use App\Http\Middleware\CheckSubscription;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Teacher\Assignment\TeacherAssignmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -153,7 +153,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('lectures', TeacherLectureController::class);
 
         // Assignments
-        Route::apiResource('assignments', AssignmentController::class);
+        Route::apiResource('assignments', TeacherAssignmentController::class);
     });
 
     /*
