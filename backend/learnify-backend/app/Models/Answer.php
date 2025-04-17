@@ -2,21 +2,29 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
-        'exam_user_id', 'question_id', 'selected_option_id', 'score'
+        'assignment_user_id',
+        'question_id',
+        'selected_option_id'
     ];
 
-    // One-to-One relationship with Question (M:1)
+    public function assignmentSubmission()
+    {
+        return $this->belongsTo(AssignmentUser::class, 'assignment_user_id');
+    }
+
     public function question()
     {
         return $this->belongsTo(Question::class);
     }
 
-    // One-to-One relationship with Option (M:1)
     public function selectedOption()
     {
         return $this->belongsTo(Option::class, 'selected_option_id');

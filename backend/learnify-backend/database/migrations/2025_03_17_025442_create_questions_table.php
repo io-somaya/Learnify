@@ -6,23 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->enum('question_type', ['mcq', 'true_false'])->default('mcq');
+            $table->foreignId('assignment_id')->constrained()->onDelete('cascade');
             $table->text('question_text');
-            $table->enum('difficulty', ['easy', 'medium', 'hard'])->default('medium');
+            $table->enum('question_type', ['mcq'])->default('mcq');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('questions');

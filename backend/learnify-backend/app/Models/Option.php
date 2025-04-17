@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Option extends Model
 {
     protected $fillable = [
-        'question_id', 'option_key', 'option_text', 'is_correct'
+        'question_id', 'option_text', 'is_correct'
     ];
 
     // One-to-One relationship with Question (1:1)

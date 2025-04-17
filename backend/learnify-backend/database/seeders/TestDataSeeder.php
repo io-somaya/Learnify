@@ -9,6 +9,11 @@ use App\Models\Material;
 use App\Models\PackageUser;
 use App\Models\Payment;
 use App\Models\Lecture;
+use App\Models\Assignment;
+use App\Models\Question;
+use App\Models\Option;
+use App\Models\AssignmentUser;
+use App\Models\Answer;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -174,19 +179,144 @@ class TestDataSeeder extends Seeder
             }
         }
         
-        // Create weekly lectures
-        $days = [ 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',"Friday"];
-        foreach ($days as $index => $day) {
+        // Create weekly lectures for all grades
+        $days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        $grades = ['1', '2', '3'];
+        $subjects = ['Math', 'Science', 'Arabic'];
+        
+        foreach ($grades as $grade) {
+            foreach ($days as $day) {
+                // Morning lectures (core subjects)
+                foreach ($subjects as $subject) {
+                    Lecture::create([
+                        'title' => "Grade {$grade} {$subject} - {$day}",
+                        'day_of_week' => $day,
+                        'start_time' => '09:00:00',
+                        'end_time' => '10:00:00',
+                        'description' => "Weekly {$subject} lecture for Grade {$grade}",
+                        'grade' => $grade,
+                        'zoom_link' => "https://zoom.us/grade{$grade}-{$subject}-".strtolower($day),
+                        'is_active' => true
+                    ]);
+                }
+        
+                // Afternoon activity session
+                Lecture::create([
+                    'title' => "Grade {$grade} Activity Session - {$day}",
+                    'day_of_week' => $day,
+                    'start_time' => '13:00:00',
+                    'end_time' => '14:00:00',
+                    'description' => "Interactive activity session for Grade {$grade} students",
+                    'grade' => $grade,
+                    'zoom_link' => "https://zoom.us/grade{$grade}-activity-".strtolower($day),
+                    'is_active' => true
+                ]);
+            }
+        }
+        
+        // Special Friday lectures (different format)
+        foreach ($grades as $grade) {
             Lecture::create([
-                'title' => "Weekly Lecture - $day",
-                'day_of_week' => $day,
-                'start_time' => '08:00:00',
-                'end_time' => '09:00:00',
-                'description' => "Weekly scheduled lecture for $day",
-                'grade' => "1",
-                'zoom_link' => 'https://zoom.us/test-weekly-lecture',
+                'title' => "Grade {$grade} Weekly Review",
+                'day_of_week' => 'Friday',
+                'start_time' => '11:00:00',
+                'end_time' => '12:30:00',
+                'description' => "Weekly review session covering all subjects",
+                'grade' => $grade,
+                'zoom_link' => "https://zoom.us/grade{$grade}-review-friday",
                 'is_active' => true
             ]);
         }
+
+        // Create assignments for each grade
+        $assignments = [];
+        foreach ($grades as $grade) {
+            $assignments[] = [
+                'lesson_id' => Lesson::where('grade', $grade)->first()->id,
+                'title' => "Grade {$grade} Math Assignment",
+                'description' => "Math assignment for grade {$grade} students",
+                'grade' => $grade,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        
+            $assignments[] = [
+                'lesson_id' => null, // Add this for general assignments
+                'title' => "General Assignment for Grade {$grade}",
+                'description' => "General knowledge assignment",
+                'grade' => $grade,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+        Assignment::insert($assignments);
+    
+        // Create questions for assignments
+        $questions = [];
+        foreach (Assignment::all() as $assignment) {
+            for ($i = 1; $i <= 5; $i++) {
+                $questions[] = [
+                    'assignment_id' => $assignment->id,
+                    'question_text' => "Question {$i} for assignment {$assignment->title}",
+                    'question_type' => 'mcq',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+        }
+        Question::insert($questions);
+    
+        // Create options for questions
+        $options = [];
+        foreach (Question::all() as $question) {
+            for ($i = 1; $i <= 4; $i++) {
+                $options[] = [
+                    'question_id' => $question->id,
+                    'option_text' => "Option {$i} for question {$question->id}",
+                    'is_correct' => $i === 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+        }
+        Option::insert($options);
+    
+        // Create assignment submissions
+        $submissions = [];
+        foreach (User::where('role', 'student')->get() as $student) {
+            foreach (Assignment::where('grade', $student->grade)->get() as $assignment) {
+                $status = rand(0, 1) ? 'submitted' : 'graded';
+                $submissions[] = [
+                    'user_id' => $student->id,
+                    'assignment_id' => $assignment->id,
+                    'status' => $status,
+                    'submit_time' => $status !== 'not_started' ? now()->subDays(rand(1, 7)) : null,
+                    'score' => $status === 'graded' ? rand(50, 100) : null,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+        }
+        AssignmentUser::insert($submissions);
+    
+        // Create answers for submissions
+        $answers = [];
+        foreach (AssignmentUser::where('status', '!=', 'not_started')->get() as $submission) {
+            $assignmentQuestions = Question::where('assignment_id', $submission->assignment_id)->get();
+            
+            foreach ($assignmentQuestions as $question) {
+                $options = Option::where('question_id', $question->id)->get();
+                $selectedOption = rand(0, 1) ? $options->firstWhere('is_correct', true) : $options->random();
+                
+                $answers[] = [
+                    'assignment_user_id' => $submission->id,
+                    'question_id' => $question->id,
+                    'selected_option_id' => $selectedOption->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+        }
+        Answer::insert($answers);
     }
 }
