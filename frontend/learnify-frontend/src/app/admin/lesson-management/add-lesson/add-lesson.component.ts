@@ -63,4 +63,8 @@ export class AddLessonComponent implements OnInit {
         }
       });
   }
+  onCancel(): void {
+    this.router.navigate(['/admin/dashboard/lessons-management']);
+  }
+
 }
