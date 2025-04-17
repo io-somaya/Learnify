@@ -13,7 +13,7 @@ import { NavbarComponent } from '../../student/layout/navbar/navbar.component';
   standalone: true,
   imports: [CommonModule,NavbarComponent],
   templateUrl: './lesson-detail.component.html',
-  styleUrls: ['./lesson-detail.component.scss']
+  styleUrls: ['./lesson-detail.component.css']
 })
 export class LessonDetailComponent implements OnInit {
   lesson: ILesson | null = null;
