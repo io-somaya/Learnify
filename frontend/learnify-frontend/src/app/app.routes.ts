@@ -40,6 +40,7 @@ import { AddMaterialComponent } from './admin/materials-management/add-material/
 import { EditMaterialComponent } from './admin/materials-management/edit-material/edit-material.component';
 import { AssignmentManagementComponent } from './admin/assignment-management/assignment-management.component';
 import {AssignmentDetailComponent} from './admin/assignment-management/assignment-detail/assignment-detail.component';
+import { CreateAssignmentComponent } from './admin/assignment-management/create-assignment/create-assignment.component';
 
 export function route(name: string): string {
   const routes = {
@@ -206,6 +207,10 @@ export const routes: Routes = [
       path: "assignment/:id",
       component: AssignmentDetailComponent,
       title: "Assignment Details"
+    },{
+      path:"assignments/add",
+      component:CreateAssignmentComponent,
+      title:"Create Assignment"
     },
     // Admin Profile Routes
     {
