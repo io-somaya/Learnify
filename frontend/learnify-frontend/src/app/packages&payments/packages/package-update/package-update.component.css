@@ -127,9 +127,10 @@
 .package-update__textarea {
   width: 100%;
   padding: 12px;
-  border: 1px solid var(--gray-300);
+  border: 1px solid rgba(169, 181, 223, 0.3);
   border-radius: 8px;
   font-size: 14px;
+  background-color: white;
   transition: all 0.3s ease;
 }
 
@@ -142,7 +143,7 @@
 
 .package-update__input.is-invalid,
 .package-update__textarea.is-invalid {
-  border-color: var(--danger-color);
+  border-color: #ef4444;
 }
 
 .package-update__input.is-invalid:focus,
@@ -157,14 +158,15 @@
 
 .package-update__input-group-text {
   background-color: var(--gray-100);
-  border: 1px solid var(--gray-300);
+  border: 1.2px solid#d1d5db;
   border-right: none;
   border-radius: 8px 0 0 8px;
   padding: 0 12px;
   display: flex;
   align-items: center;
-  color: var(--gray-500);
-  font-weight: 600;
+  color: var(--dark-purple);
+  font-weight: 300;
+  font-size: 30px;
 }
 
 .package-update__input-group .package-update__input {
@@ -176,7 +178,7 @@
   display: block;
   margin-top: 6px;
   font-size: 12px;
-  color: var(--danger-color);
+  color:   #ef4444;
   animation: fadeIn 0.3s ease;
 }
 
@@ -190,13 +192,13 @@
   padding: 10px 20px;
   border-radius: 8px;
   font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
   transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  border: none;
+  cursor: pointer;
+  border: 1px solid transparent;
 }
 
 .package-update__button--primary {
@@ -218,11 +220,13 @@
 
 .package-update__button--secondary {
   background-color: var(--gray-100);
-  color: var(--gray-700);
+  border-color: var(--gray-100);
+  color: var(--dark-purple);
 }
 
 .package-update__button--secondary:hover:not(:disabled) {
   background-color: var(--gray-200);
+  border-color: var(--gray-200);
   transform: translateY(-2px);
 }
 

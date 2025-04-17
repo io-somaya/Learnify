@@ -89,7 +89,7 @@
 
         <!-- Action Buttons -->
         <div class="d-flex justify-content-between" style="margin-top: 30px;">
-          <button type="button" class="btn btn-secondary" routerLink="/admin/dashboard/lessons-management">
+          <button type="button" class="btn btn-secondary me-auto" (click)="onCancel()" >
             <i class="fas fa-arrow-left"></i> Cancel
           </button>
           <button type="submit" class="btn btn-primary" [disabled]="isSubmitting || lessonForm.invalid">

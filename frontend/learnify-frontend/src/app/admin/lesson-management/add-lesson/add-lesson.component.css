@@ -137,14 +137,14 @@
 }
 
 .btn-secondary {
-  background-color: #f8f9fa;
-  border-color: #f8f9fa;
+  background-color: var(--gray-100);
+  border-color: var(--gray-100);
   color: var(--dark-purple);
 }
 
 .btn-secondary:hover {
-  background-color: #e9ecef;
-  border-color: #e9ecef;
+  background-color: var(--gray-200);
+  border-color: var(--gray-200);
   transform: translateY(-2px);
 }
 
