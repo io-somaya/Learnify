@@ -61,9 +61,9 @@ class TeacherAssignmentController extends Controller
     }
 
      /**
-     * Store a newly created assignment in storage.
-     *
-     * @param StoreAssignmentRequest $request // Use Form Request for validation
+     * 
+     * create new assighment with questions and options and model answer
+     * @param StoreAssignmentRequest 
      * @return JsonResponse
      */
     public function store(StoreAssignmentRequest $request): JsonResponse
@@ -89,7 +89,6 @@ class TeacherAssignmentController extends Controller
                     'question_type' => $questionData['question_type'], // e.g., 'mcq'
                 ]);
 
-                // Loop through options for the current question
                 foreach ($questionData['options'] as $index => $optionData) {
                     // Create the option associated with the question
                     $question->options()->create([
