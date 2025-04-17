@@ -1,6 +1,7 @@
 <?php
 // routes/api.php
 
+use App\Http\Controllers\Api\Teacher\AssignmentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
@@ -150,6 +151,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
         //lectures
         Route::apiResource('lectures', TeacherLectureController::class);
+
+        // Assignments
+        Route::apiResource('assignments', AssignmentController::class);
     });
 
     /*
