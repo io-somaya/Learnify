@@ -160,7 +160,7 @@
 }
 
 .management__button--delete:hover {
-  background-color: var(--danger-color);
+  background-color: rgba(255, 0, 0, 0.7);
   color: white !important;
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
