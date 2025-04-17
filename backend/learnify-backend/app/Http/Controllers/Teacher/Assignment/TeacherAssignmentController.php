@@ -10,7 +10,7 @@ use App\Http\traits\ApiTrait;
 use App\Models\Assignment;
 use Illuminate\Http\JsonResponse;
 use Exception;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request; 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -45,7 +45,8 @@ class TeacherAssignmentController extends Controller
     public function show(Assignment $assignment, Request $request): JsonResponse
     {
         try {
-            $perPage = $request->get('per_page', 10);
+            
+            $perPage = $request->query('per_page', 10); 
             $assignment->load(['lesson']);
             $questions = $assignment->questions()
                 ->with('options')
@@ -56,7 +57,10 @@ class TeacherAssignmentController extends Controller
                 'questions' => $questions,
             ]);
         } catch (Exception $e) {
-            return $this->apiResponse(500, 'Error retrieving assignment', $e->getMessage());
+            // Log the detailed error for debugging
+            Log::error("Error retrieving assignment {$assignment->id}: " . $e->getMessage() . "\n" . $e->getTraceAsString());
+            // Return a generic error to the user
+            return $this->apiResponse(500, 'Error retrieving assignment', 'An unexpected error occurred.');
         }
     }
 
