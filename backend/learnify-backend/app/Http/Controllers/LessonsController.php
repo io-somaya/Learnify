@@ -137,7 +137,7 @@ class LessonsController extends Controller
             }
         }
 
-        $lesson = Lesson::with(['materials', 'exams'])->findOrFail($id);
+        $lesson = Lesson::with(['materials'])->findOrFail($id);
 
         // For students, check if the lesson is for their grade
         if ($user->role === 'student' && $user->grade && $lesson->grade !== $user->grade) {
@@ -222,7 +222,6 @@ class LessonsController extends Controller
         // Delete associated materials and exams
         // Note: Consider using database cascading deletes instead or adjusting this based on your needs
         $lesson->materials()->delete();
-        $lesson->exams()->delete();
 
         $lesson->delete();
 
