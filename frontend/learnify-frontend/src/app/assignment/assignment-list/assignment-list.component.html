@@ -1,0 +1,50 @@
+<div class="assignments-container">
+    <div class="header-section">
+      <h2 class="section-title">Assignments Management</h2>
+    </div>
+  
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="spinner-container">
+      <div class="spinner-content">
+        <div class="spinner-circle"></div>
+        <p>Loading assignments...</p>
+      </div>
+    </div>
+  
+    <!-- Error State -->
+    <div *ngIf="errorMessage" class="error-container">
+      <div class="error-icon"><i class="fas fa-exclamation-circle"></i></div>
+      <p class="error-text">{{errorMessage}}</p>
+      <button class="retry-btn" (click)="loadAssignments()">Retry</button>
+    </div>
+  
+    <!-- Assignments Grid -->
+    <div *ngIf="!isLoading && !errorMessage" class="content-section">
+      <!-- Empty State -->
+      <div *ngIf="assignments.length === 0" class="no-assignments">
+        <div class="empty-state">
+          <i class="fas fa-tasks empty-icon"></i>
+          <p>No assignments found.</p>
+          <p class="empty-subtext">Try creating a new assignment.</p>
+        </div>
+      </div>
+      
+      <!-- Assignments Cards -->
+      <div *ngIf="assignments.length > 0" class="assignments-grid">
+        <div *ngFor="let assignment of assignments" class="assignment-card" (click)="viewAssignment(assignment.id)">
+          <div class="assignment-icon-wrapper">
+            <div class="assignment-icon">
+              <i class="fas fa-clipboard-list"></i>
+            </div>
+          </div>
+          <div class="assignment-content">
+            <h3 class="assignment-title">{{assignment.title}}</h3>
+            <div class="assignment-metadata">
+              <span class="grade-badge">Grade {{assignment.grade}}</span>
+              <span class="questions-count">
+                {{assignment.questions_count}} Questions
+              </span>
+            </div>
+            <p class="assignment-description">{{assignment.description}}</p>
+            <div class="assignment-footer">
+             

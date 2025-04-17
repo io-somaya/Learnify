@@ -70,7 +70,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let material of materials">
+      <tr *ngFor="let material of pagedMaterials">
         <td>{{ getLessonTitle(material.lesson_id) }}</td>
         <td>{{ material.file_name }}</td>
         <td>{{ material.file_url }}</td>
@@ -89,6 +89,35 @@
   </table>
 </div>
 
+<div class="pagination-container" *ngIf="materials.length > itemsPerPage">
+  <div class="pagination">
+    <button 
+      class="pagination-btn" 
+      [disabled]="currentPage === 1"
+      (click)="previousPage()">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    
+    <button 
+      class="pagination-btn"
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      [class.active]="currentPage === i + 1"
+      (click)="goToPage(i + 1)">
+      {{ i + 1 }}
+    </button>
+    
+    <button 
+      class="pagination-btn" 
+      [disabled]="currentPage === totalPages"
+      (click)="nextPage()">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+  <div class="pagination-info">
+    Page {{ currentPage }} of {{ totalPages }}
+  </div>
+</div>
+
 <!-- Empty state -->
 <div *ngIf="materials.length === 0 && !loading" class="empty-state">
   <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
@@ -99,4 +128,3 @@
     Add Your First Material
   </button>
 </div>
-    

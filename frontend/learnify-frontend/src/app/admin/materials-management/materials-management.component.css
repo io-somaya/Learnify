@@ -316,8 +316,8 @@ td:nth-child(3) {
 }
 
 .btn-delete:hover {
-  background-color: rgba(255, 0, 0, 0.7);
-  color: rgb(255, 255, 255);
+  background-color: var(--danger-color);
+  color: white;
   border-color: var(--danger-color);
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
@@ -368,5 +368,68 @@ td:nth-child(3) {
   .btn-edit, .btn-delete {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* Add these styles at the end of the file */
+.pagination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--component-background);
+  border-top: 1px solid rgba(169, 181, 223, 0.2);
+}
+
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.pagination-btn {
+  padding: 8px 12px;
+  border: 1px solid rgba(169, 181, 223, 0.3);
+  background-color: var(--component-background);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: var(--light-purple);
+  border-color: var(--medium-purple);
+}
+
+.pagination-btn.active {
+  background-color: var(--medium-purple);
+  color: white;
+  border-color: var(--medium-purple);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  color: var(--gray-500);
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .pagination-btn {
+    padding: 6px 10px;
+    min-width: 35px;
   }
 }

@@ -18,6 +18,49 @@
         Add New Lecture
       </a>
     </div>
+
+    <!-- Search and Filter Form -->
+    <form [formGroup]="searchForm" class="management__search-form">
+      <div class="management__form-group">
+        <label for="search">
+          <i class="fas fa-search"></i>
+          Search Lectures
+        </label>
+        <input 
+          id="search" 
+          type="text" 
+          formControlName="search"
+          class="management__form-control"
+          placeholder="Search by title or description..."
+        >
+      </div>
+
+      <div class="management__form-group">
+        <label for="grade">
+          <i class="fas fa-filter"></i>
+          Filter by Grade
+        </label>
+        <select 
+          id="grade" 
+          formControlName="grade"
+          class="management__form-control"
+        >
+          <option value="">All Grades</option>
+          <option *ngFor="let grade of grades" [value]="grade">
+            Grade {{grade}}
+          </option>
+        </select>
+      </div>
+
+      <button 
+        type="button" 
+        class="management__button management__button--secondary"
+        (click)="resetFilters()"
+      >
+        <i class="fas fa-undo"></i>
+        Reset Filters
+      </button>
+    </form>
   
     <!-- Loading State -->
     @if (isLoading) {
@@ -60,7 +103,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (lecture of lectures; track lecture.id) {
+            @for (lecture of displayedLectures; track lecture.id) {
               <tr class="management__table-row">
                 <td class="management__table-cell">{{ lecture.title }}</td>
                 <td class="management__table-cell">{{ lecture.day_of_week }}</td>
@@ -126,6 +169,48 @@
             }
           </tbody>
         </table>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-container" *ngIf="totalPages > 1">
+          <div class="pagination-controls">
+            <button 
+              (click)="goToPage(1)"
+              [disabled]="currentPage === 1">
+              <i class="fas fa-angle-double-left"></i>
+            </button>
+
+            <button 
+              (click)="previousPage()"
+              [disabled]="currentPage === 1">
+              <i class="fas fa-angle-left"></i>
+            </button>
+
+            <button 
+              *ngFor="let page of pages"
+              (click)="goToPage(page)"
+              [class.active]="page === currentPage">
+              {{ page }}
+            </button>
+
+            <button 
+              (click)="nextPage()"
+              [disabled]="currentPage === totalPages">
+              <i class="fas fa-angle-right"></i>
+            </button>
+
+            <button 
+              (click)="goToPage(totalPages)"
+              [disabled]="currentPage === totalPages">
+              <i class="fas fa-angle-double-right"></i>
+            </button>
+          </div>
+
+          <div class="pagination-info">
+            Showing {{ (currentPage - 1) * pageSize + 1 }} - 
+            {{ Math.min(currentPage * pageSize, filteredLectures.length) }} 
+            of {{ filteredLectures.length }} lectures
+          </div>
+        </div>
       </div>
-    }
+    } 
   </div>

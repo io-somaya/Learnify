@@ -1,0 +1,66 @@
+<div class="assignment-detail-container">
+    <!-- go back -->
+    <button class="back-button" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> Back to Assignments
+    </button>
+  @if (loading) {
+    <div class="loading">Loading...</div>
+  } @else if (error) {
+    <div class="error">{{error}}</div>
+  } @else if (assignmentDetail) {
+    <div class="assignment-header">
+      <h1>{{assignmentDetail.assignment.title}}</h1>
+      <p class="description">{{assignmentDetail.assignment.description}}</p>
+      <div class="meta-info">
+        <span>Grade: {{assignmentDetail.assignment.grade}}</span>
+        @if (assignmentDetail.assignment.lesson) {
+          <span>Lesson: {{assignmentDetail.assignment.lesson.title}}</span>
+        }
+      </div>
+    </div>
+
+    <div class="questions-container">
+      <h2>Questions</h2>
+      @for (question of assignmentDetail.questions.data; track question.id) {
+        <div class="question-card">
+          <h3>{{question.question_text}}</h3>
+          <div class="options-grid">
+            @for (option of question.options; track option.id) {
+              <div class="option" [class.correct]="option.is_correct === 1">
+                {{option.option_text}}
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (totalPages > 1) {
+<!-- Update the pagination buttons section -->
+<div class="pagination" *ngIf="totalPages > 1">
+  <button 
+    class="pagination-button" 
+    [disabled]="currentPage === 1"
+    (click)="onPageChange(currentPage - 1)">
+    Previous
+  </button>
+
+  @for (page of pages; track page) {
+    <button 
+      class="pagination-button" 
+      [ngClass]="{'active': currentPage === page}"
+      (click)="onPageChange(page)">
+      {{page}}
+    </button>
+  }
+
+  <button 
+    class="pagination-button" 
+    [disabled]="currentPage === totalPages"
+    (click)="onPageChange(currentPage + 1)">
+    Next
+  </button>
+</div>
+    }
+  }
+</div>
