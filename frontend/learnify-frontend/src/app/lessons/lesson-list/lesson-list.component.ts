@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './lesson-list.component.html',
-  styleUrls: ['./lesson-list.component.scss']
+  styleUrls: ['./lesson-list.component.css']
 })
 export class LessonListComponent implements OnInit {
   lessons: ILesson[] = [];

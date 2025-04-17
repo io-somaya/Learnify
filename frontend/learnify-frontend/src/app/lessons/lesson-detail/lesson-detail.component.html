@@ -2,61 +2,123 @@
   <app-navbar></app-navbar>
 </div>
 
-<div class="lesson-detail-container ">
+<div class="lesson-detail-container">
+  <!-- Back Navigation -->
+  <div class="back-navigation">
     <button class="back-button" (click)="goBack()">
-      ← Back to Lessons
+      <i class="fas fa-arrow-left"></i> Back to Lessons
     </button>
-  
+  </div>
 
-    <h2>Lesson Details</h2>
-    <div *ngIf="isLoading" class="loading">Loading lesson details...</div>
-    
-    <div *ngIf="errorMessage" class="error">
-      {{errorMessage}}
-      <button (click)="loadLesson()" class="retry-button">Retry</button>
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="spinner-container">
+    <div class="spinner-content">
+      <div class="spinner-circle"></div>
+      <p>Loading lesson details...</p>
     </div>
-  
-    <div *ngIf="lesson && !isLoading" class="lesson-content">
-      <h1>{{lesson.title}}</h1>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="errorMessage" class="error-container">
+    <div class="error-icon"><i class="fas fa-exclamation-circle"></i></div>
+    <p class="error-text">{{errorMessage}}</p>
+    <button class="retry-btn" (click)="loadLesson()">Retry</button>
+  </div>
+
+  <!-- Lesson Content -->
+  <div *ngIf="lesson && !isLoading" class="lesson-content-wrapper">
+    <!-- Lesson Header -->
+    <div class="lesson-header">
+      <h2 class="section-title">Lesson Details</h2>
+      <h1 class="lesson-title">{{lesson.title}}</h1>
       
-      <div class="meta-info">
-        <span class="grade">Grade: {{lesson.grade}}</span>
-        <span *ngIf="lesson.subject" class="subject">Subject: {{lesson.subject}}</span>
-        <span *ngIf="lesson.duration" class="duration">Duration: {{lesson.duration}} minutes</span>
+      <div class="lesson-meta">
+        <div class="meta-badge grade">
+          <i class="fas fa-graduation-cap"></i>
+          <span>Grade {{lesson.grade}}</span>
+        </div>
+        <div *ngIf="lesson.subject" class="meta-badge subject">
+          <i class="fas fa-book"></i>
+          <span>{{lesson.subject}}</span>
+        </div>
+        <div *ngIf="lesson.duration" class="meta-badge duration">
+          <i class="fas fa-clock"></i>
+          <span>{{lesson.duration}} minutes</span>
+        </div>
       </div>
-      
-      <div *ngIf="lesson.description" class="description">
-        <h3>Description</h3>
+    </div>
+
+    <!-- Lesson Description -->
+    <div *ngIf="lesson.description" class="content-section description-section">
+      <h3 class="content-title">
+        <i class="fas fa-info-circle"></i> Description
+      </h3>
+      <div class="content-body">
         <p>{{lesson.description}}</p>
       </div>
-      
-      <div *ngIf="lesson.objectives" class="objectives">
-        <h3>Learning Objectives</h3>
-        <ul>
-          <li *ngFor="let objective of lesson.objectives">{{objective}}</li>
-        </ul>
-      </div>
-
-      <div *ngIf="lesson.materials" class="materials">
-        <h3>Materials</h3>
-        <ul>
-          <li *ngFor="let material of lesson.materials">
-            <a [href]="material.file_url" target="_blank">{{material.file_name}}</a>
+    </div>
+    
+    <!-- Learning Objectives -->
+    <div *ngIf="lesson.objectives && lesson.objectives.length > 0" class="content-section objectives-section">
+      <h3 class="content-title">
+        <i class="fas fa-bullseye"></i> Learning Objectives
+      </h3>
+      <div class="content-body">
+        <ul class="objectives-list">
+          <li *ngFor="let objective of lesson.objectives">
+            <i class="fas fa-check-circle"></i>
+            <span>{{objective}}</span>
           </li>
         </ul>
       </div>
-      <div *ngIf="lesson?.youtube_embed_code" class="video-container">
-        <h3>Video</h3>
-        <div [innerHTML]="safeYoutubeEmbed"></div>
-      </div>
+    </div>
 
-      <div *ngIf="lesson.activities" class="activities">
-        <h3>Activities</h3>
-        <div *ngFor="let activity of lesson.activities" class="activity">
-          <h4>{{activity.title}}</h4>
-          <p>{{activity.description}}</p>
-          <p *ngIf="activity.duration" class="activity-duration">Duration: {{activity.duration}} min</p>
+    <!-- Materials -->
+    <div *ngIf="lesson.materials && lesson.materials.length > 0" class="content-section materials-section">
+      <h3 class="content-title">
+        <i class="fas fa-file-alt"></i> Materials
+      </h3>
+      <div class="content-body">
+        <ul class="materials-list">
+          <li *ngFor="let material of lesson.materials">
+            <a [href]="material.file_url" target="_blank" class="material-link">
+              <i class="fas fa-download"></i>
+              <span>{{material.file_name}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Video Section -->
+    <div *ngIf="lesson?.youtube_embed_code" class="content-section video-section">
+      <h3 class="content-title">
+        <i class="fas fa-play-circle"></i> Video
+      </h3>
+      <div class="content-body">
+        <div class="video-container" [innerHTML]="safeYoutubeEmbed"></div>
+      </div>
+    </div>
+
+    <!-- Activities -->
+    <div *ngIf="lesson.activities && lesson.activities.length > 0" class="content-section activities-section">
+      <h3 class="content-title">
+        <i class="fas fa-tasks"></i> Activities
+      </h3>
+      <div class="content-body">
+        <div class="activities-list">
+          <div *ngFor="let activity of lesson.activities; let i = index" class="activity-card">
+            <div class="activity-number">{{i + 1}}</div>
+            <div class="activity-content">
+              <h4 class="activity-title">{{activity.title}}</h4>
+              <p class="activity-description">{{activity.description}}</p>
+              <p *ngIf="activity.duration" class="activity-duration">
+                <i class="far fa-clock"></i> {{activity.duration}} minutes
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>

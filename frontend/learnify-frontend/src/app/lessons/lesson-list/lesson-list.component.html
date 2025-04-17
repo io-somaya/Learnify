@@ -1,66 +1,96 @@
-<div class="lesson-container">
-  <h2>Lessons</h2>
-  
-  <!-- Search and Filter Form -->
-  <form [formGroup]="searchForm" class="search-form">
-  
+<div class="lessons-container">
+  <div class="header-section">
+    <h2 class="section-title">Lessons</h2>
     
-    <div class="form-group">
-      <label for="search">Search:</label>
+    <!-- Search Form -->
+    <form [formGroup]="searchForm" class="search-bar">
       <input 
-        id="search" 
         type="text" 
         formControlName="search" 
         placeholder="Search lessons..." 
-        class="form-control"
+        class="search-input"
       >
+      <button class="search-btn"><i class="fas fa-search"></i></button>
+    </form>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="spinner-container">
+    <div class="spinner-content">
+      <div class="spinner-circle"></div>
+      <p>Loading your lessons...</p>
     </div>
-  </form>
+  </div>
 
-  <!-- Loading and Error States -->
-  <div *ngIf="isLoading" class="loading">Loading lessons...</div>
-  <div *ngIf="errorMessage" class="error">{{errorMessage}}</div>
+  <!-- Error State -->
+  <div *ngIf="errorMessage" class="error-container">
+    <div class="error-icon"><i class="fas fa-exclamation-circle"></i></div>
+    <p class="error-text">{{errorMessage}}</p>
+    <button class="retry-btn" (click)="loadLessons()">Retry</button>
+  </div>
 
-  <!-- Lessons List -->
-  <div *ngIf="!isLoading && !errorMessage">
+  <!-- Lessons Grid -->
+  <div *ngIf="!isLoading && !errorMessage" class="content-section">
+    <!-- Empty State -->
     <div *ngIf="lessons.length === 0" class="no-lessons">
-      No lessons found matching your criteria.
+      <div class="empty-state">
+        <i class="fas fa-book empty-icon"></i>
+        <p>No lessons found matching your criteria.</p>
+        <p class="empty-subtext">Try adjusting your search or check back later.</p>
+      </div>
     </div>
     
-    <div class="lesson-list">
+    <!-- Lessons Cards -->
+    <div *ngIf="lessons.length > 0" class="lessons-grid">
       <div *ngFor="let lesson of lessons" class="lesson-card" (click)="viewLesson(lesson.id)">
-        <h3>{{lesson.title}}</h3>
-        <p>Grade: {{lesson.grade}}</p>
-        <p>{{lesson.description}}</p>
+        <div class="lesson-icon-wrapper">
+          <div class="lesson-icon">
+            <i class="fas fa-book-open"></i>
+          </div>
+        </div>
+        <div class="lesson-content">
+          <h3 class="lesson-title">{{lesson.title}}</h3>
+          <div class="lesson-grade">
+            <span class="grade-badge">Grade {{lesson.grade}}</span>
+          </div>
+          <p class="lesson-description">{{lesson.description}}</p>
+          <div class="lesson-footer">
+            <button class="view-btn">
+              <i class="fas fa-eye"></i> View Lesson
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Pagination Controls -->
-    <div class="pagination" *ngIf="totalPages > 1">
-      <button (click)="goToPage(1)" [disabled]="currentPage === 1">
-        &laquo; First
-      </button>
-      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
-        &lsaquo; Previous
-      </button>
-      
-      <button 
-        *ngFor="let page of getPageNumbers()" 
-        (click)="goToPage(page)"
-        [class.active]="page === currentPage">
-        {{ page }}
-      </button>
-      
-      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">
-        Next &rsaquo;
-      </button>
-      <button (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages">
-        Last &raquo;
-      </button>
-    </div>
-
-    <div class="pagination-info">
-      Page {{currentPage}} of {{totalPages}} | Showing {{lessons.length}} of {{totalItems}} lessons
+    <div class="pagination-wrapper" *ngIf="totalPages > 1">
+      <div class="pagination">
+        <button class="pagination-btn" (click)="goToPage(1)" [disabled]="currentPage === 1">
+          <i class="fas fa-angle-double-left"></i>
+        </button>
+        <button class="pagination-btn" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+          <i class="fas fa-angle-left"></i>
+        </button>
+        
+        <button 
+          *ngFor="let page of getPageNumbers()" 
+          class="pagination-btn page-number"
+          [class.active]="page === currentPage"
+          (click)="goToPage(page)">
+          {{ page }}
+        </button>
+        
+        <button class="pagination-btn" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">
+          <i class="fas fa-angle-right"></i>
+        </button>
+        <button class="pagination-btn" (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages">
+          <i class="fas fa-angle-double-right"></i>
+        </button>
+      </div>
+      <div class="pagination-info">
+        Page {{currentPage}} of {{totalPages}} | Showing {{lessons.length}} of {{totalItems}} lessons
+      </div>
     </div>
   </div>
 </div>
