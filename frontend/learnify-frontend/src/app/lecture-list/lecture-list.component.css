@@ -1,40 +1,304 @@
-.container {
-    padding: 20px;
-    font-family: Arial, sans-serif;
+/* Main container */
+.lecture-schedule-container {
+  padding: 25px;
+  background-color: var(--component-background);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+/* Header section */
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--dark-purple);
+  margin: 0;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, var(--medium-purple), var(--light-purple));
+  border-radius: 2px;
+}
+
+/* Search bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f7;
+  border-radius: 50px;
+  padding: 5px 15px;
+  max-width: 300px;
+  width: 100%;
+}
+
+.search-input {
+  border: none;
+  background: transparent;
+  padding: 8px 10px;
+  flex-grow: 1;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  color: var(--medium-purple);
+  cursor: pointer;
+  padding: 5px;
+}
+
+/* Loading state */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.spinner-content {
+  text-align: center;
+}
+
+.spinner-circle {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(168, 181, 223, 0.3);
+  border-top: 3px solid var(--medium-purple);
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error state */
+.error-container {
+  background-color: #fff2f2;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  margin: 20px 0;
+  border-left: 4px solid #ff6b6b;
+}
+
+.error-icon {
+  color: #ff6b6b;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.error-text {
+  color: #5a5a5a;
+  margin-bottom: 15px;
+}
+
+.retry-btn {
+  background-color: var(--medium-purple);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.retry-btn:hover {
+  background-color: var(--dark-purple);
+}
+
+/* Table styling */
+.lectures-table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.lectures-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: white;
+}
+
+.lectures-table th {
+  text-align: left;
+  padding: 15px;
+  background-color: #f9f9fc;
+  color: var(--dark-purple);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.lectures-table th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.lectures-table th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.lectures-table td {
+  padding: 15px;
+  border-bottom: 1px solid #f1f1f1;
+  color: #4a4a4a;
+  vertical-align: middle;
+}
+
+.lectures-table tr:last-child td {
+  border-bottom: none;
+}
+
+.lectures-table tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.lectures-table tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+.lectures-table tr:hover {
+  background-color: #fcfcfe;
+}
+
+/* Title cell styling */
+.lecture-title {
+  min-width: 180px;
+}
+
+.title-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.lecture-icon {
+  background-color: var(--light-pink);
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  color: var(--medium-purple);
+}
+
+/* Time badge */
+.time-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f0f4ff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--medium-purple);
+}
+
+.time-badge i {
+  margin-right: 5px;
+}
+
+/* Description cell */
+.description-cell {
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Grade badge */
+.grade-badge {
+  display: inline-block;
+  background: linear-gradient(45deg, var(--medium-purple), var(--light-purple));
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-align: center;
+  min-width: 30px;
+}
+
+/* Join button */
+.join-btn {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--medium-purple);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.join-btn i {
+  margin-right: 6px;
+}
+
+.join-btn:hover {
+  background-color: var(--dark-purple);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Empty state */
+.no-lectures {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.empty-state {
+  background-color: #fafafa;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  color: var(--light-purple);
+  margin-bottom: 15px;
+}
+
+.empty-subtext {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header-section {
+    flex-direction: column;
+    align-items: flex-start;
   }
   
-  .spinner {
-    text-align: center;
-    padding: 20px;
-    color: #666;
+  .search-bar {
+    margin-top: 15px;
+    max-width: 100%;
   }
   
-  .table-container {
-    margin-top: 20px;
-    overflow-x: auto;
+  .time-badge, .grade-badge, .join-btn {
+    font-size: 0.8rem;
   }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  th {
-    background-color: #f0f0f0;
-    font-weight: 600;
-  }
-  
-  tr:hover {
-    background-color: #f9f9f9;
-  }
-  
-  a {
-    color: #007bff;
-    text-decoration: none;
-  }
+}
   
