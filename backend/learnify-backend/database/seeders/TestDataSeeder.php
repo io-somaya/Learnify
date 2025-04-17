@@ -24,7 +24,7 @@ class TestDataSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create users - using first_name and last_name instead of name
+        // Create users - using first_name and last_name 
         $teacher = User::create([
             'first_name' => 'Teacher',
             'last_name' => 'User',
