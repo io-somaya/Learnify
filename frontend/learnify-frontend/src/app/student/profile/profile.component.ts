@@ -17,7 +17,7 @@ export class StudentProfileComponent implements OnInit {
   user: IUserProfile | null = null;
   isLoading = true;
   error: string | null = null;
-  baseUrl = environment.apiUrl;
+  baseUrl = environment.backendUrl || environment.apiUrl.replace('/api', '');
 
   constructor(
     public router: Router,
@@ -34,8 +34,14 @@ export class StudentProfileComponent implements OnInit {
     this.error = null;
     
     this.profileService.getProfile().subscribe({
-      next: (response) => {
-        this.user = response;
+      next: (response: any) => {
+        // Extract user data from the response structure
+        if (response.data) {
+          this.user = response.data;
+        } else if (response) {
+          // Fallback if response structure is different
+          this.user = response;
+        }
         
         // Format the profile picture URL if it exists
         if (this.user && this.user.profile_picture) {
@@ -43,6 +49,9 @@ export class StudentProfileComponent implements OnInit {
           if (!this.user.profile_picture.startsWith('http')) {
             this.user.profile_picture = `${this.baseUrl}/storage/${this.user.profile_picture}`;
           }
+        } else if (this.user) {
+          // Set default profile picture if none exists
+          this.user.profile_picture = 'assets/images/default-avatar.png';
         }
         
         this.isLoading = false;
@@ -51,6 +60,7 @@ export class StudentProfileComponent implements OnInit {
         console.error('Error fetching profile:', err);
         this.isLoading = false;
         this.error = err.message || 'Failed to load profile';
+        this.toastService.error('Failed to load profile data. Please try again.');
       }
     });
   }

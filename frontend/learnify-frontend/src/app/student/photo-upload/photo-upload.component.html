@@ -1,0 +1,113 @@
+<div class="photo-upload-page">
+  <!-- Error message -->
+  <div *ngIf="error" class="error-container">
+    <div class="error-icon">
+      <i class="fas fa-exclamation-circle"></i>
+    </div>
+    <div class="error-content">
+      <p>{{ error }}</p>
+    </div>
+  </div>
+
+  <!-- Success message -->
+  <div *ngIf="successMessage" class="success-container">
+    <div class="success-icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    <div class="success-content">
+      <p>{{ successMessage }}</p>
+    </div>
+  </div>
+
+  <div class="photo-content-container">
+    <!-- Header -->
+    <div class="photo-header">
+      <div class="navigation">
+        <a class="back-btn" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i>
+        </a>
+        <h2 class="page-title">
+          <i class="fas fa-camera"></i> Update Profile Photo
+        </h2>
+      </div>
+    </div>
+
+    <!-- Photo Upload Content -->
+    <div class="photo-upload-content">
+      <!-- Preview Area -->
+      <div class="preview-area" [class.has-preview]="previewUrl">
+        <div class="preview-container" *ngIf="previewUrl">
+          <img [src]="previewUrl" alt="Preview" class="preview-image">
+        </div>
+        <div class="placeholder" *ngIf="!previewUrl">
+          <i class="fas fa-user-circle"></i>
+          <p>No image selected</p>
+        </div>
+      </div>
+
+      <!-- Upload Controls -->
+      <div class="upload-controls">
+        <input 
+          type="file" 
+          #fileInput 
+          class="file-input" 
+          (change)="onFileSelected($event)" 
+          accept="image/jpeg, image/png, image/jpg"
+        >
+        
+        <div class="button-group">
+          <button 
+            type="button" 
+            class="select-btn" 
+            (click)="triggerFileInput()"
+            [disabled]="isUploading"
+          >
+            <i class="fas fa-folder-open"></i>
+            {{ previewUrl ? 'Change Image' : 'Select Image' }}
+          </button>
+          
+          <button 
+            type="button" 
+            class="reset-btn" 
+            *ngIf="previewUrl" 
+            (click)="resetFileInput()"
+            [disabled]="isUploading"
+          >
+            <i class="fas fa-times"></i>
+            Clear
+          </button>
+        </div>
+        
+        <div class="upload-instructions">
+          <h4>Image Requirements</h4>
+          <ul>
+            <li><i class="fas fa-check"></i> File formats: JPEG, PNG</li>
+            <li><i class="fas fa-check"></i> Maximum size: 5MB</li>
+            <li><i class="fas fa-check"></i> Recommended dimensions: Square (1:1 ratio)</li>
+          </ul>
+        </div>
+        
+        <div class="upload-actions">
+          <button 
+            type="button" 
+            class="cancel-btn" 
+            (click)="goBack()"
+            [disabled]="isUploading"
+          >
+            Cancel
+          </button>
+          <button 
+            type="button" 
+            class="upload-btn"
+            [disabled]="!selectedFile || isUploading" 
+            (click)="uploadPhoto()"
+          >
+            <i class="fas fa-spinner fa-spin" *ngIf="isUploading"></i>
+            <span *ngIf="!isUploading">Upload Photo</span>
+            <span *ngIf="isUploading">Uploading...</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
