@@ -19,7 +19,6 @@ class QuestionResource extends JsonResource
             'question_text' => $this->question_text,
             'question_type' => $this->question_type,
             // Use OptionResource to format the nested options
-            // Ensure 'options' relation is loaded before using this resource
             'options' => OptionResource::collection($this->whenLoaded('options')),
         ];
     }

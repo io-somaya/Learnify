@@ -1,5 +1,4 @@
 <?php
-// routes/api.php
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -154,6 +153,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // Assignments
         Route::apiResource('assignments', TeacherAssignmentController::class);
+
+        // submissions for a specific assignment 
+        Route::get('/assignments/{assignment}/submissions', [TeacherAssignmentController::class, 'submissions']);
     });
 
     /*

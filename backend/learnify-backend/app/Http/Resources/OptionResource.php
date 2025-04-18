@@ -18,8 +18,8 @@ class OptionResource extends JsonResource
             'id' => $this->id,
             'option_text' => $this->option_text,
             'is_correct' => (bool) $this->is_correct, // Cast to boolean
-            // 'created_at' => $this->created_at->toDateTimeString(), // Optional timestamps
-            // 'updated_at' => $this->updated_at->toDateTimeString(),
+            'created_at' => $this->created_at->toDateTimeString(), 
+            'updated_at' => $this->updated_at->toDateTimeString(),
         ];
     }
 }

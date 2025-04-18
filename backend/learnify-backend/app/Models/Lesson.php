@@ -32,4 +32,13 @@ class Lesson extends Model
     {
         return $this->hasMany(Exam::class);
     }
+
+    /**
+     * Get the assignments associated with the lesson.
+     * One-to-Many relationship with Assignments
+     */
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class);
+    }
 }
