@@ -5,7 +5,7 @@ import { NavbarComponent } from '../layout/navbar/navbar.component';
 import { HeroComponent } from '../layout/hero/hero.component';
 import { SidebarComponent } from '../layout/sidebar/sidebar.component';
 import { FooterComponent } from '../layout/footer/footer.component';
-import { OrderHistoryComponent } from '../order-history/order-history.component';
+import { DashboardHomeComponent } from '../dashboard-home/dashboard-home.component';
 import { RouterOutlet } from '@angular/router';
 import { ProfileService } from '../../services/profile.service';
 import { IUserProfile } from '../../Interfaces/IUserProfile';
@@ -24,7 +24,7 @@ interface ApiResponse {
     HeroComponent,
     SidebarComponent,
     FooterComponent,
-    OrderHistoryComponent,
+    DashboardHomeComponent,
     RouterOutlet
   ],
   templateUrl: './dashboard.component.html',

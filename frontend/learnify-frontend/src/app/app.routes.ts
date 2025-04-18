@@ -42,6 +42,7 @@ import { AssignmentManagementComponent } from './admin/assignment-management/ass
 import {AssignmentDetailComponent} from './admin/assignment-management/assignment-detail/assignment-detail.component';
 import { CreateAssignmentComponent } from './admin/assignment-management/create-assignment/create-assignment.component';
 import { StudentProfileComponent } from './student/profile/profile.component';
+import { DashboardHomeComponent } from './student/dashboard-home/dashboard-home.component';
 
 export function route(name: string): string {
   const routes = {
@@ -267,11 +268,11 @@ export const routes: Routes = [
     title: "Student Portal",
     children: [{
       path: "",
-      component: OrderHistoryComponent,
+      component: DashboardHomeComponent,
       title: "Dashboard"
     },
 
-    // Updated student profile routes
+    // Student profile routes
     {
       path: "profile",
       component: StudentProfileComponent,
@@ -292,6 +293,8 @@ export const routes: Routes = [
       component: PhotoUploadComponent,
       title: "Update Profile Photo"
     },
+    
+    // Other student routes
     {
       path: "lectures-list",
       component: LectureListComponent,
@@ -308,12 +311,20 @@ export const routes: Routes = [
       title: "Lessons List"
     },
     {
+      path: "quiz-attempts",
+      component: OrderHistoryComponent, // Temporary - replace with actual component when available
+      title: "Quiz Attempts"
+    },
+    {
+      path: "q-and-a",
+      component: OrderHistoryComponent, // Temporary - replace with actual component when available
+      title: "Question & Answer"
+    },
+    {
       path: "payment-result",
       component: PaymentResultComponent,
       title: "Payment Result",
-    }
-    ]
-
+    }]
   },
 
   // Other routes
