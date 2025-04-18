@@ -25,19 +25,25 @@ export class PackagesComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private toastService: ToastService
-  
   ) {}
 
   ngOnInit(): void {
     this.loadPackages();
   }
 
-  private loadPackages(): void {
+  loadPackages(): void {
+    this.isLoading = true;
+    this.error = null;
+    
     this.packageService.getPackages().subscribe({
       next: (packages) => {
-        this.packages = packages;
+        // Make sure each package has the properties we need
+        this.packages = packages.map(pkg => ({
+          ...pkg,
+          // Ensure duration_days has a default value if not provided
+          duration_days: pkg.duration_days || 30
+        }));
         this.isLoading = false;
-        this.error = null;
       },
       error: (err) => {
         console.error('Error fetching packages:', err);

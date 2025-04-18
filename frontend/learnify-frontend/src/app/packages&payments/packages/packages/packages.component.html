@@ -1,32 +1,62 @@
 @if (isLoading) {
-  <div class="loading">Loading packages...</div>
+  <div class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading packages...</p>
+  </div>
 } @else {
   @if (error) {
-    <div class="alert alert-danger">
-      {{ error }}
-      <button class="btn btn-link" (click)="loadPackages()">Try Again</button>
+    <div class="error-container">
+      <div class="alert">
+        <i class="fas fa-exclamation-circle"></i>
+        <p>{{ error }}</p>
+        <button class="retry-btn" (click)="loadPackages()">Try Again</button>
+      </div>
     </div>
   } @else {
     @if (packages.length === 0) {
-      <div class="no-packages">No packages available.</div>
+      <div class="empty-container">
+        <i class="fas fa-box-open"></i>
+        <p>No packages available at the moment.</p>
+      </div>
     } @else {
-      <ul class="package-list">
-        @for (package of packages; track package.id) {
-          <li (click)="purchasePackage(package.id) ">
-            <span class="package-name">{{ package.name }}</span>
-            <span class="package-description">{{ package.description }}</span>
-            <span class="package-price">{{ package.price | currency }}</span>
-            <span class="package-duration">{{ package.duration }} days</span>
-            
-            <div class="action-buttons">
-              <!-- <button type="button" class="btn btn-sm btn-primary" (click)="purchasePackage(package.id)">
-                Purchase
-              </button> -->
-
+      <div class="packages-container">
+        <h2 class="section-title">Choose Your Learning Plan</h2>
+        <p class="section-subtitle">Select the package that best fits your learning goals</p>
+        
+        <div class="packages-grid">
+          @for (package of packages; track package.id) {
+            <div class="package-card" [class.popular]="package.name.toLowerCase().includes('premium')">
+              @if (package.name.toLowerCase().includes('premium')) {
+                <div class="popular-badge">Popular</div>
+              }
+              
+              <div class="package-header">
+                <h3>{{ package.name }}</h3>
+                <div class="package-price">
+                  <span class="currency">$</span>
+                  <span class="amount">{{ package.price }}</span>
+                  <span class="duration">/ {{ package.duration_days }} days</span>
+                </div>
+              </div>
+              
+              <div class="package-body">
+                <p class="package-description">{{ package.description }}</p>
+                <ul class="package-features">
+                  <li><i class="fas fa-check"></i> Full access to all courses</li>
+                  <li><i class="fas fa-check"></i> Downloadable resources</li>
+                  <li><i class="fas fa-check"></i> Certificate of completion</li>
+                </ul>
+              </div>
+              
+              <div class="package-footer">
+                <button class="purchase-btn" (click)="purchasePackage(package.id)">
+                  Purchase Now
+                </button>
+              </div>
             </div>
-          </li>
-        }
-      </ul>
+          }
+        </div>
+      </div>
     }
   }
 }
