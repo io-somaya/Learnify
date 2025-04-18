@@ -3,13 +3,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { StudentModule } from './student/student.module';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule],
+  declarations: [],
+  imports: [
+    BrowserModule,
+    StudentModule,
+    AppComponent
+  ],
   providers: [
     provideHttpClient(withInterceptors([authInterceptor]))
   ],
-  bootstrap: [AppComponent]
+  bootstrap: []
 })
 export class AppModule { }
