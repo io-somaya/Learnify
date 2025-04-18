@@ -21,7 +21,7 @@ use App\Http\Middleware\CheckSubscription;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Teacher\Assignment\TeacherAssignmentController;
-
+use App\Http\Controllers\Teacher\UserManagement\UserManagementController;
 /*
 |--------------------------------------------------------------------------
 | Public Routes (No Authentication Required)
@@ -232,4 +232,23 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\CheckRole::class . ':stu
     Route::get('materials', [MaterialController::class, 'index']);
     Route::get('materials/{id}', [MaterialController::class, 'show']);
     Route::get('lessons/{lesson}/materials', [MaterialController::class, 'getMaterialsByLesson']);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Admin User Management Routes
+|--------------------------------------------------------------------------
+*/
+
+// Admin User Management Routes
+Route::group(['middleware' => ['auth:sanctum', \App\Http\Middleware\CheckRole::class.':teacher']], function () {
+    Route::prefix('admin/users')->name('admin.users.')->group(function () {
+        Route::get('/', [UserManagementController::class, 'index'])->name('index');
+        Route::get('/{user}', [UserManagementController::class, 'show'])->name('show');
+        Route::put('/{user}', [UserManagementController::class, 'update'])->name('update');
+        Route::delete('/{user}', [UserManagementController::class, 'destroy'])->name('destroy');
+        Route::patch('/{user}/status', [UserManagementController::class, 'updateStatus'])->name('update-status');
+        Route::patch('/{user}/role', [UserManagementController::class, 'updateRole'])->name('update-role');
+        Route::patch('/{user}/grade', [UserManagementController::class, 'updateGrade'])->name('update-grade');
+    });
 });
