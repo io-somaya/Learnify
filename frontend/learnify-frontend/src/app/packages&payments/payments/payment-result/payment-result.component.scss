@@ -1,0 +1,315 @@
+/* Payment Result Component Styles */
+.payment-result-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(248, 249, 250, 0.9) 0%, rgba(255, 255, 255, 0.95) 100%);
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Loading container styles */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem;
+  animation: fadeIn 0.5s ease;
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 5px solid rgba(120, 134, 199, 0.1);
+  border-radius: 50%;
+  border-top: 5px solid var(--medium-purple, #7886C7);
+  animation: spin 1.2s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container p {
+  font-size: 1.1rem;
+  color: var(--dark-purple, #2D336B);
+  font-weight: 500;
+}
+
+.result-card {
+  width: 100%;
+  max-width: 550px;
+  background-color: white;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+  padding: 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  animation: cardSlideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+  transition: all 0.3s ease;
+  transform: scale(1);
+  
+  &:hover {
+    transform: scale(1.01);
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.12);
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+  }
+  
+  &.success::before {
+    background: linear-gradient(90deg, #7886C7, #A9B5DF);
+  }
+  
+  &.error::before {
+    background: linear-gradient(90deg, #FF6B6B, #FFB8B8);
+  }
+}
+
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.icon {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.03);
+    z-index: -1;
+    transform: scale(1.2);
+  }
+  
+  .fa-check-circle {
+    color: #7886C7;
+    animation: pulseSuccess 1.5s ease-in-out;
+  }
+  
+  .fa-times-circle {
+    color: #FF6B6B;
+    animation: pulseError 1.5s ease-in-out;
+  }
+}
+
+@keyframes pulseSuccess {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseError {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #2D336B;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.details {
+  margin-bottom: 2rem;
+  color: #6c757d;
+  animation: fadeIn 1s ease-in-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+  
+  p {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+}
+
+.transaction-details {
+  background-color: rgba(169, 181, 223, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  text-align: left;
+  border: 1px dashed rgba(120, 134, 199, 0.3);
+  
+  p {
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    
+    strong {
+      min-width: 120px;
+      color: #2D336B;
+    }
+  }
+}
+
+.actions {
+  margin-top: 2rem;
+  animation: fadeIn 1.2s ease-in-out;
+  animation-delay: 0.6s;
+  animation-fill-mode: both;
+}
+
+.primary-button {
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, #7886C7, #A9B5DF);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(120, 134, 199, 0.15);
+  
+  &:hover, &:focus {
+    background: linear-gradient(135deg, #6974B3, #97A3D2);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(120, 134, 199, 0.25);
+  }
+  
+  &:active {
+    transform: translateY(-1px);
+  }
+}
+
+.error .primary-button {
+  background: linear-gradient(135deg, #FF6B6B, #FFB8B8);
+  box-shadow: 0 10px 20px rgba(255, 107, 107, 0.15);
+  
+  &:hover, &:focus {
+    background: linear-gradient(135deg, #FF5757, #FFA5A5);
+    box-shadow: 0 15px 30px rgba(255, 107, 107, 0.25);
+  }
+}
+
+/* Added for PayMob specific branding */
+.payment-info {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: #adb5bd;
+  
+  .payment-logo {
+    height: 24px;
+    margin-left: 8px;
+    opacity: 0.7;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .payment-result-container {
+    padding: 1rem;
+  }
+  
+  .result-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .icon {
+    width: 100px;
+    height: 100px;
+    font-size: 3rem;
+  }
+  
+  h2 {
+    font-size: 1.75rem;
+  }
+  
+  .transaction-details {
+    padding: 1rem;
+  }
+  
+  .primary-button {
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .icon {
+    width: 80px;
+    height: 80px;
+    font-size: 2.5rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  .details p {
+    font-size: 1rem;
+  }
+  
+  .transaction-details p {
+    font-size: 0.9rem;
+    
+    strong {
+      min-width: 100px;
+    }
+  }
+} 

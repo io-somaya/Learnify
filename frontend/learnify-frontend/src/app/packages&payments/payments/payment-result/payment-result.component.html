@@ -1,29 +1,56 @@
 <!-- src/app/components/payment-result/payment-result.component.html -->
 <div class="payment-result-container">
-    <div class="result-card" [ngClass]="status === 'success' ? 'success' : 'error'">
-      <div class="icon">
-        <i class="fas" [ngClass]="status === 'success' ? 'fa-check-circle' : 'fa-times-circle'"></i>
+  <!-- Loading State -->
+  <div *ngIf="isProcessing" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Processing your payment...</p>
+  </div>
+
+  <!-- Result Card -->
+  <div *ngIf="!isProcessing" class="result-card" [ngClass]="status === 'success' ? 'success' : 'error'">
+    <div class="icon">
+      <i class="fas" [ngClass]="status === 'success' ? 'fa-check-circle' : 'fa-times-circle'"></i>
+    </div>
+
+    <h2>{{ status === 'success' ? 'Payment Successful!' : 'Payment Failed' }}</h2>
+
+    <div class="details" *ngIf="status === 'success'">
+      <p>Thank you! Your payment has been processed successfully.</p>
+      <div class="transaction-details">
+        <p><strong>Transaction ID:</strong> {{ transactionId || 'N/A' }}</p>
+        <p><strong>Amount:</strong> {{ amount | currency:'EGP':'symbol':'1.2-2' }}</p>
+        <p><strong>Date:</strong> {{ timestamp | date:'medium' }}</p>
+        <p><strong>Payment Method:</strong> {{ paymentMethod }}</p>
       </div>
-  
-      <h2>{{ status === 'success' ? 'Payment Successful' : 'Payment Failed' }}</h2>
-  
-      <div class="details" *ngIf="status === 'success'">
-        <p>Your transaction has been completed successfully.</p>
-        <div class="transaction-details">
-          <p><strong>Transaction ID:</strong> {{ transactionId }}</p>
-          <p *ngIf="amount"><strong>Amount:</strong> {{ amount | currency:'EGP':'symbol':'1.2-2' }}</p>
-        </div>
-      </div>
-  
-      <div class="details" *ngIf="status !== 'success'">
-        <p>{{ message || 'There was a problem processing your payment.' }}</p>
-        <p>Please try again or contact support if the problem persists.</p>
-      </div>
-  
-      <div class="actions">
-        <button class="primary-button" (click)="navigateToDashboard()">
-          {{ status === 'success' ? 'Go to Dashboard' : 'Try Again' }}
-        </button>
+      <p class="mt-3">A confirmation email has been sent to your registered email address.</p>
+    </div>
+
+    <div class="details" *ngIf="status !== 'success'">
+      <p>{{ message || 'We could not process your payment at this time.' }}</p>
+      <p>Please check the following:</p>
+      <ul style="text-align: left; padding-left: 1rem;">
+        <li>Your card details are correct</li>
+        <li>Your card has sufficient funds</li>
+        <li>Your card is enabled for online transactions</li>
+      </ul>
+      <p>If the problem persists, please contact your bank or our support team.</p>
+    </div>
+
+    <div class="actions">
+      <button class="primary-button" (click)="navigateToDashboard()">
+        {{ status === 'success' ? 'Go to Dashboard' : 'Try Again' }}
+      </button>
+      <div *ngIf="status !== 'success'" style="margin-top: 1rem;">
+        <a (click)="contactSupport()" style="color: #7886C7; text-decoration: none; font-size: 0.9rem; cursor: pointer;">
+          <i class="fas fa-headset"></i> Contact Support
+        </a>
       </div>
     </div>
+
+    <!-- PayMob branding -->
+    <div class="payment-info">
+      <span>Secured by</span>
+      <img src="assets/images/paymob-logo.png" alt="PayMob" class="payment-logo" onerror="this.src='https://accept.paymobsolutions.com/images/logo.png'; this.onerror=null;">
+    </div>
   </div>
+</div>
