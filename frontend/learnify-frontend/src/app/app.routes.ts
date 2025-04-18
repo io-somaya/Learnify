@@ -44,6 +44,11 @@ import { CreateAssignmentComponent } from './admin/assignment-management/create-
 import { StudentProfileComponent } from './student/profile/profile.component';
 import { DashboardHomeComponent } from './student/dashboard-home/dashboard-home.component';
 
+// Student profile components
+import { StudentProfileEditComponent } from './student/profile-edit/profile-edit.component';
+import { StudentPasswordChangeComponent } from './student/password-change/password-change.component';
+import { StudentPhotoUploadComponent } from './student/photo-upload/photo-upload.component';
+
 export function route(name: string): string {
   const routes = {
     'login.google': '/login/google'
@@ -280,17 +285,17 @@ export const routes: Routes = [
     },
     {
       path: "profile/edit",
-      component: ProfileEditComponent,
+      component: StudentProfileEditComponent,
       title: "Edit Profile"
     },
     {
       path: "profile/password",
-      component: PasswordChangeComponent,
+      component: StudentPasswordChangeComponent,
       title: "Change Password"
     },
     {
       path: "profile/photo",
-      component: PhotoUploadComponent,
+      component: StudentPhotoUploadComponent,
       title: "Update Profile Photo"
     },
     
