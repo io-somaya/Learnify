@@ -1,0 +1,304 @@
+<div class="dashboard-container">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading your dashboard data...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-container">
+    <span class="error-icon">
+      <i class="fas fa-exclamation-circle"></i>
+    </span>
+    <div class="error-content">
+      <p>{{ error || 'Unable to load your dashboard data. Please try again.' }}</p>
+      <button class="retry-btn" (click)="fetchUserData()">
+        <i class="fas fa-redo"></i> Retry
+      </button>
+    </div>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div *ngIf="!isLoading && !error" class="dashboard-content">
+    <!-- Welcome Header -->
+    <div class="welcome-header">
+      <h1>Welcome, <span>{{ user?.first_name || 'Student' }}</span>!</h1>
+      <p>Track your progress and manage your learning journey with Learnify.</p>
+    </div>
+    
+    <!-- Stats Overview -->
+    <div class="stats-overview">
+      <!-- Enrolled Courses -->
+      <div class="stat-card enrolled">
+        <div class="stat-icon">
+          <i class="fas fa-book-open"></i>
+        </div>
+        <div class="stat-content">
+          <span class="stat-value">{{ enrolledCourses || '0' }}</span>
+          <span class="stat-label">Enrolled Courses</span>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar" [style.width]="(enrolledCourses / 10) * 100 + '%'"></div>
+        </div>
+      </div>
+
+      <!-- Completed Courses -->
+      <div class="stat-card completed">
+        <div class="stat-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-content">
+          <span class="stat-value">{{ completedCourses || '0' }}</span>
+          <span class="stat-label">Completed Courses</span>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar" [style.width]="completedCourses && enrolledCourses ? (completedCourses / enrolledCourses) * 100 + '%' : '0%'"></div>
+        </div>
+      </div>
+
+      <!-- Upcoming Lectures -->
+      <div class="stat-card upcoming">
+        <div class="stat-icon">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <div class="stat-content">
+          <span class="stat-value">{{ upcomingLectures || '0' }}</span>
+          <span class="stat-label">Upcoming Lectures</span>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar" [style.width]="(upcomingLectures / 10) * 100 + '%'"></div>
+        </div>
+      </div>
+
+      <!-- Quizzes Taken -->
+      <div class="stat-card quizzes">
+        <div class="stat-icon">
+          <i class="fas fa-tasks"></i>
+        </div>
+        <div class="stat-content">
+          <span class="stat-value">{{ quizzesTaken || '0' }}</span>
+          <span class="stat-label">Quizzes Taken</span>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar" [style.width]="(quizzesTaken / 10) * 100 + '%'"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics Sections -->
+    <div class="analytics-section">
+      <!-- Learning Progress -->
+      <div class="analytics-card">
+        <div class="card-header">
+          <h2>Learning Progress</h2>
+          <div class="time-selector">
+            <span [class.active]="selectedTimeRange === 'week'" (click)="changeTimeRange('week')">Week</span>
+            <span [class.active]="selectedTimeRange === 'month'" (click)="changeTimeRange('month')">Month</span>
+            <span [class.active]="selectedTimeRange === 'year'" (click)="changeTimeRange('year')">Year</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="progress-bars">
+            <div class="progress-item" *ngFor="let day of learningProgressData">
+              <span class="progress-day">{{ day.label }}</span>
+              <div class="progress-bar-container">
+                <div class="progress-bar-bg"></div>
+                <div class="progress-bar-fill" [style.height]="day.percentage + '%'"></div>
+              </div>
+              <span class="progress-value">{{ day.hours }}h</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course Completion -->
+      <div class="analytics-card">
+        <div class="card-header">
+          <h2>Course Completion</h2>
+        </div>
+        <div class="card-body">
+          <div class="donut-chart-container">
+            <div class="donut-chart" [style.--completion-rate]="completionRate">
+              <div class="donut-text">
+                <span class="donut-percent">{{ completionRate || '0' }}%</span>
+                <span class="donut-label">Completion</span>
+              </div>
+            </div>
+            <div class="completion-stats">
+              <div class="completion-item">
+                <div class="dot completed"></div>
+                <span class="completion-label">Completed</span>
+                <span class="completion-value">{{ completedCourses || '0' }}</span>
+              </div>
+              <div class="completion-item">
+                <div class="dot in-progress"></div>
+                <span class="completion-label">In Progress</span>
+                <span class="completion-value">{{ inProgressCoursesCount || '0' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Metrics -->
+    <div class="performance-metrics">
+      <h2>Performance Metrics</h2>
+      <div class="performance-grid">
+        <!-- Quiz Performance -->
+        <div class="performance-metric">
+          <div class="metric-icon quiz">
+            <i class="fas fa-brain"></i>
+          </div>
+          <div class="metric-info">
+            <span class="metric-label">Average Quiz Score</span>
+            <span class="metric-value">{{ averageQuizScore || '0' }}%</span>
+            <span class="metric-trend" [ngClass]="quizScoreTrend > 0 ? 'positive' : quizScoreTrend < 0 ? 'negative' : 'neutral'">
+              <i class="fas" [ngClass]="quizScoreTrend > 0 ? 'fa-arrow-up' : quizScoreTrend < 0 ? 'fa-arrow-down' : 'fa-arrow-right'"></i>
+              {{ quizScoreTrend > 0 ? '+' : '' }}{{ quizScoreTrend || '0' }}% from last month
+            </span>
+          </div>
+        </div>
+
+        <!-- Learning Time -->
+        <div class="performance-metric">
+          <div class="metric-icon time">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="metric-info">
+            <span class="metric-label">Total Learning Time</span>
+            <span class="metric-value">{{ totalLearningHours || '0' }}h</span>
+            <span class="metric-trend" [ngClass]="learningTimeTrend > 0 ? 'positive' : learningTimeTrend < 0 ? 'negative' : 'neutral'">
+              <i class="fas" [ngClass]="learningTimeTrend > 0 ? 'fa-arrow-up' : learningTimeTrend < 0 ? 'fa-arrow-down' : 'fa-arrow-right'"></i>
+              {{ learningTimeTrend > 0 ? '+' : '' }}{{ learningTimeTrend || '0' }}% from last month
+            </span>
+          </div>
+        </div>
+
+        <!-- Learning Streak -->
+        <div class="performance-metric">
+          <div class="metric-icon streak">
+            <i class="fas fa-fire"></i>
+          </div>
+          <div class="metric-info">
+            <span class="metric-label">Learning Streak</span>
+            <span class="metric-value">{{ learningStreak || '0' }} days</span>
+            <span class="metric-trend positive">
+              <i class="fas fa-trophy"></i>
+              Best: {{ bestStreak || '0' }} days
+            </span>
+          </div>
+        </div>
+
+        <!-- Attendance Rate -->
+        <div class="performance-metric">
+          <div class="metric-icon attendance">
+            <i class="fas fa-user-check"></i>
+          </div>
+          <div class="metric-info">
+            <span class="metric-label">Attendance Rate</span>
+            <span class="metric-value">{{ attendanceRate || '0' }}%</span>
+            <span class="metric-trend" [ngClass]="attendanceTrend > 0 ? 'positive' : attendanceTrend < 0 ? 'negative' : 'neutral'">
+              <i class="fas" [ngClass]="attendanceTrend > 0 ? 'fa-arrow-up' : attendanceTrend < 0 ? 'fa-arrow-down' : 'fa-arrow-right'"></i>
+              {{ attendanceTrend > 0 ? '+' : '' }}{{ attendanceTrend || '0' }}% from last month
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Last Row: Activity + Schedule -->
+    <div class="analytics-section">
+      <!-- Activity Heatmap -->
+      <div class="analytics-card">
+        <div class="card-header">
+          <h2>Activity Overview</h2>
+        </div>
+        <div class="card-body">
+          <div class="calendar-grid">
+            <div class="calendar-legend">
+              <div class="legend-item">
+                <div class="legend-color level-0"></div>
+                <span>No activity</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color level-1"></div>
+                <span>Low</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color level-2"></div>
+                <span>Medium</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color level-3"></div>
+                <span>High</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color level-4"></div>
+                <span>Very high</span>
+              </div>
+            </div>
+            
+            <div class="month-grid">
+              <div class="month-header">
+                <span class="day-label" *ngFor="let day of weekDays">{{ day }}</span>
+              </div>
+              <div class="month-days">
+                <div 
+                  *ngFor="let cell of activityHeatmap" 
+                  class="day-cell" 
+                  [ngClass]="'level-' + cell.level"
+                  [title]="cell.date + ': ' + cell.hours + ' hours'"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Schedule -->
+      <div class="analytics-card">
+        <div class="card-header">
+          <h2>Upcoming Schedule</h2>
+        </div>
+        <div class="card-body">
+          <div class="timeline" *ngIf="upcomingEvents && upcomingEvents.length > 0">
+            <div class="timeline-item" *ngFor="let event of upcomingEvents">
+              <div class="timeline-date">
+                <span class="date-day">{{ event.day }}</span>
+                <span class="date-month">{{ event.month }}</span>
+              </div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">{{ event.title }}</h3>
+                <div class="timeline-details">
+                  <span class="timeline-time">
+                    <i class="fas fa-clock"></i> {{ event.time }}
+                  </span>
+                  <span class="timeline-type" [ngClass]="event.type">{{ event.type }}</span>
+                </div>
+              </div>
+              <div class="timeline-actions">
+                <button class="action-btn join" *ngIf="event.canJoin" title="Join Now">
+                  <i class="fas fa-video"></i>
+                </button>
+                <button class="action-btn reminder" title="Set Reminder">
+                  <i class="fas fa-bell"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="empty-timeline" *ngIf="!upcomingEvents || upcomingEvents.length === 0">
+            <div class="empty-icon">
+              <i class="fas fa-calendar"></i>
+            </div>
+            <p>You don't have any upcoming events</p>
+            <a href="/calendar" class="link-btn">
+              <i class="fas fa-calendar-plus"></i> Check your calendar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -26,6 +26,7 @@
   align-items: center;
   width: 100%;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .sidebar-menu li:hover a {
@@ -45,11 +46,54 @@
   transition: color 0.3s ease;
 }
 
-.promo-card {
-  border-radius: 10px;
+/* Profile link special styling */
+.sidebar-menu li a[routerLink="/student/dashboard/profile"] {
+  position: relative;
   overflow: hidden;
-  background-color: var(--light-pink);
-  margin-top: 20px;
+  font-weight: 600;
+}
+
+.sidebar-menu li a[routerLink="/student/dashboard/profile"] i {
+  color: var(--medium-purple);
+  font-size: 1.1em;
+}
+
+.sidebar-menu li a[routerLink="/student/dashboard/profile"]::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+  width: 30px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--medium-purple), transparent);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.sidebar-menu li a[routerLink="/student/dashboard/profile"]:hover::after,
+.sidebar-menu li a[routerLink="/student/dashboard/profile"].active-link::after {
+  opacity: 1;
+  width: calc(100% - 30px);
+}
+
+/* Logout link */
+.logout-link {
+  color: #dc3545 !important;
+  transition: all 0.3s ease;
+}
+
+.logout-link i {
+  color: #dc3545 !important;
+}
+
+.sidebar-menu li a.logout-link:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545 !important;
+}
+
+.sidebar-menu li a.logout-link:hover i {
+  color: #dc3545 !important;
+  transform: translateX(3px);
 }
 
 .active-link {
@@ -59,7 +103,14 @@
 }
 
 .active-link i {
-  color: white;
+  color: white !important;
+}
+
+.promo-card {
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: var(--light-pink);
+  margin-top: 20px;
 }
 
 .promo-card img {

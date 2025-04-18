@@ -3,7 +3,9 @@
     <h6 class="text-uppercase text-muted small mb-3">WELCOME</h6>
     <ul class="sidebar-menu">
       <li>
-        <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a routerLink="/student/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+          <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
       </li>
 
       <li>
@@ -19,13 +21,14 @@
         [routerLinkActiveOptions]="{ exact: true }"><i class="fas fa-chalkboard-teacher"></i> My Lectures</a>
       </li>
       <li>
-        <a href="#"><i class="fas fa-pen"></i> My Quiz Attempts</a>
+        <a routerLink="/student/dashboard/quiz-attempts" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+          <i class="fas fa-pen"></i> My Quiz Attempts
+        </a>
       </li>
       <li>
-        <a href="#"><i class="fas fa-shopping-bag"></i> Order History</a>
-      </li>
-      <li>
-        <a href="#"><i class="fas fa-question-circle"></i> Question & Answer</a>
+        <a routerLink="/student/dashboard/q-and-a" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+          <i class="fas fa-question-circle"></i> Question & Answer
+        </a>
       </li>
     </ul>
   </div>
@@ -34,12 +37,19 @@
     <h6 class="text-uppercase text-muted small mb-3">USER</h6>
     <ul class="sidebar-menu">
       <li>
-        <a routerLink="/student/dashboard/profile" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" ><i class="fas fa-user"></i> My Profile</a>
-      </li> <li>
-        <a routerLink="/student/dashboard/packages" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" ><i class="fas fa-box-open"></i> Packages</a>
+        <a routerLink="/student/dashboard/profile" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+          <i class="fas fa-user-graduate"></i> My Profile
+        </a>
       </li>
       <li>
-        <!-- <button (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button> -->
+        <a routerLink="/student/dashboard/packages" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+          <i class="fas fa-box-open"></i> Packages
+        </a>
+      </li>
+      <li>
+        <a (click)="logout()" class="logout-link">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
       </li>
     </ul>
   </div>
