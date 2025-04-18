@@ -1,0 +1,192 @@
+<div class="profile-page">
+  <!-- Loading state -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading your profile...</p>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="error-container">
+    <div class="error-icon">
+      <i class="fas fa-exclamation-circle"></i>
+    </div>
+    <div class="error-content">
+      <p>{{ error }}</p>
+      <button class="retry-btn" (click)="fetchProfile()">
+        <i class="fas fa-redo"></i> Retry
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="user && !isLoading" class="profile-content-container">
+    <!-- Profile Banner with Avatar -->
+    <div class="profile-banner">
+      <div class="banner-overlay"></div>
+      <div class="profile-avatar">
+        <img [src]="user.profile_picture || 'assets/images/default-avatar.png'" alt="Profile Picture">
+        <div class="edit-avatar" (click)="editPhoto()">
+          <i class="fas fa-camera"></i>
+        </div>
+      </div>
+      <div class="profile-details">
+        <h1 class="profile-name">{{ user.first_name }} {{ user.last_name }}</h1>
+        <div class="profile-info">
+          <p><i class="fas fa-envelope"></i> {{ user.email }}</p>
+          <p><i class="fas fa-graduation-cap"></i> {{ user.grade || 'No grade' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Navigation -->
+    <div class="profile-actions">
+      <div class="navigation">
+        <a class="back-btn" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i>
+        </a>
+        <h2 class="page-title">
+          <i class="fas fa-user-graduate"></i> My Profile
+        </h2>
+      </div>
+      <div class="action-btns">
+        <button class="edit-btn" (click)="editProfile()">
+          <i class="fas fa-edit"></i> Edit Profile
+        </button>
+        <button class="password-btn" (click)="changePassword()">
+          <i class="fas fa-key"></i> Change Password
+        </button>
+      </div>
+    </div>
+
+    <!-- Profile Information Cards -->
+    <div class="cards-container">
+      <!-- Personal Information Card -->
+      <div class="card personal-card">
+        <div class="card-header">
+          <h3><i class="fas fa-user"></i> Personal Information</h3>
+        </div>
+        <div class="card-body">
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="info-content">
+                <label>Full Name</label>
+                <span>{{ user.first_name }} {{ user.last_name }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <div class="info-content">
+                <label>Grade</label>
+                <span>{{ user.grade || 'Not specified' }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="info-content">
+                <label>Email</label>
+                <span>{{ user.email }}</span>
+                <div class="verification-badge" [class.verified]="user.email_verified_at">
+                  <i [class]="user.email_verified_at ? 'fas fa-check-circle' : 'fas fa-times-circle'"></i>
+                  {{ user.email_verified_at ? 'Verified' : 'Not Verified' }}
+                </div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+              <div class="info-content">
+                <label>Joined On</label>
+                <span>{{ user.created_at | date:'mediumDate' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Information Card -->
+      <div class="card contact-card">
+        <div class="card-header">
+          <h3><i class="fas fa-address-card"></i> Contact Information</h3>
+        </div>
+        <div class="card-body">
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div class="info-content">
+                <label>Phone Number</label>
+                <span>{{ user.phone_number || 'Not provided' }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-phone-volume"></i>
+              </div>
+              <div class="info-content">
+                <label>Parent Phone</label>
+                <span>{{ user.parent_phone || 'Not provided' }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-tag"></i>
+              </div>
+              <div class="info-content">
+                <label>Role</label>
+                <span>{{ user.role | titlecase }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-toggle-on"></i>
+              </div>
+              <div class="info-content">
+                <label>Status</label>
+                <div class="status-badge" [ngClass]="user.status.toLowerCase()">{{ user.status | titlecase }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h3 class="quick-actions-title">Quick Actions</h3>
+      <div class="quick-actions-grid">
+        <a class="quick-action-item" routerLink="/student/dashboard/order-history">
+          <div class="quick-action-icon">
+            <i class="fas fa-shopping-bag"></i>
+          </div>
+          <span>Order History</span>
+        </a>
+        <a class="quick-action-item" routerLink="/student/dashboard/lessons-list">
+          <div class="quick-action-icon">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <span>My Lessons</span>
+        </a>
+        <a class="quick-action-item" routerLink="/student/dashboard/packages">
+          <div class="quick-action-icon">
+            <i class="fas fa-cubes"></i>
+          </div>
+          <span>Packages</span>
+        </a>
+        <a class="quick-action-item" routerLink="/student/dashboard/lectures-list">
+          <div class="quick-action-icon">
+            <i class="fas fa-chalkboard-teacher"></i>
+          </div>
+          <span>Lectures</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div> 
