@@ -41,6 +41,7 @@ import { EditMaterialComponent } from './admin/materials-management/edit-materia
 import { AssignmentManagementComponent } from './admin/assignment-management/assignment-management.component';
 import {AssignmentDetailComponent} from './admin/assignment-management/assignment-detail/assignment-detail.component';
 import { CreateAssignmentComponent } from './admin/assignment-management/create-assignment/create-assignment.component';
+import { StudentProfileComponent } from './student/profile/profile.component';
 
 export function route(name: string): string {
   const routes = {
@@ -270,11 +271,11 @@ export const routes: Routes = [
       title: "Dashboard"
     },
 
-    //student profile routes need update
+    // Updated student profile routes
     {
       path: "profile",
-      component: AdminProfileComponent,
-      title: "Profile"
+      component: StudentProfileComponent,
+      title: "My Profile"
     },
     {
       path: "profile/edit",
@@ -282,7 +283,7 @@ export const routes: Routes = [
       title: "Edit Profile"
     },
     {
-      path: "profile/password",//for student
+      path: "profile/password",
       component: PasswordChangeComponent,
       title: "Change Password"
     },
@@ -306,9 +307,6 @@ export const routes: Routes = [
       component: LessonListComponent,
       title: "Lessons List"
     },
-    // { path: 'lessons/:id',
-    //     component: StudentLessonDetail
-    //     , title: 'Lesson Detail' },
     {
       path: "payment-result",
       component: PaymentResultComponent,
