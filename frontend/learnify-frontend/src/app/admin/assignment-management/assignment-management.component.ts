@@ -127,14 +127,14 @@ export class AssignmentManagementComponent implements OnInit {
     }
   }
   goToCreateAssignment(): void {
-    this.router.navigate(['/admin/dashboard/assignments/add']);
+    this.router.navigate(['/admin/dashboard/assignments/add' ]);
   }
   viewAssignment(id: number): void {
     this.router.navigate(['/admin/dashboard/assignment', id]);
   }
 
   editAssignment(id: number): void {
-    this.router.navigate(['/admin/assignments/edit', id]);
+    this.router.navigate(['/admin/dashboard/assignments-management/edit', id]);
   }
 
   deleteAssignment(id: number, event: Event): void {
