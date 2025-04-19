@@ -1,0 +1,63 @@
+.subscription-details {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Roboto', sans-serif;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.subscription-details h1 {
+  color: #333;
+  font-size: 18px;
+  margin: 15px 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background-color: #f9f9fd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s;
+  border: 1px solid rgba(106, 17, 203, 0.05);
+}
+
+.subscription-details h1:hover {
+  box-shadow: 0 5px 15px rgba(106, 17, 203, 0.08);
+  transform: translateY(-2px);
+  border-color: rgba(106, 17, 203, 0.1);
+}
+
+.subscription-details h1::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 18px;
+  background: var(--medium-purple, #6a11cb);
+  border-radius: 2px;
+}
+
+p {
+  text-align: center;
+  color: #dc3545;
+  padding: 20px;
+  background-color: #fff2f5;
+  border-left: 4px solid #dc3545;
+  border-radius: 8px;
+  margin: 20px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .subscription-details {
+    padding: 15px;
+  }
+
+  .subscription-details h1 {
+    font-size: 16px;
+    padding: 12px;
+  }
+}

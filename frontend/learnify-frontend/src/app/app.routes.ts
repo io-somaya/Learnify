@@ -48,6 +48,7 @@ import { DashboardHomeComponent } from './student/dashboard-home/dashboard-home.
 import { StudentProfileEditComponent } from './student/profile-edit/profile-edit.component';
 import { StudentPasswordChangeComponent } from './student/password-change/password-change.component';
 import { StudentPhotoUploadComponent } from './student/photo-upload/photo-upload.component';
+import { CurrentSubscriptionComponent } from './student/current-subscription/current-subscription.component';
 
 export function route(name: string): string {
   const routes = {
@@ -329,7 +330,11 @@ export const routes: Routes = [
       path: "payment-result",
       component: PaymentResultComponent,
       title: "Payment Result",
-    }]
+    },
+    {
+    path: "current-subscription",
+    component: CurrentSubscriptionComponent,
+      title: "Current Subscription"}]
   },
 
   // Other routes
