@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AssignmentService } from '../../../services/assignment.service';
 import { FormsModule } from '@angular/forms';
 
@@ -51,7 +51,8 @@ export class AssignmentSubmissionsComponent implements OnInit {
 
   constructor(
     private assignmentService: AssignmentService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -181,5 +182,8 @@ export class AssignmentSubmissionsComponent implements OnInit {
     }
     
     return range;
+  }
+  goBack(): void {
+    this.router.navigate(['/admin/dashboard/assignments-management']);
   }
 }

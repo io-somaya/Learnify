@@ -439,3 +439,31 @@
       margin-top: 12px;
     }
   }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--medium-purple);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px rgba(120, 134, 199, 0.2);
+  }
+  
+  .back-button:hover {
+    background-color: var(--dark-purple);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(120, 134, 199, 0.3);
+  }
+  
+  .back-button i {
+    margin-right: 0.5rem;
+  }
+  
+  
