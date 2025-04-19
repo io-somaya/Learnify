@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map , tap} from 'rxjs/operators';
 import { environment } from '../../.environments/environment';
 import { IAssignment, IAssignmentDetail } from '../Interfaces/IAssignment';
+import { ISubmissionResponse } from '../Interfaces/ISubmission';
 
 @Injectable({
   providedIn: 'root'
@@ -45,19 +46,6 @@ export class AssignmentService {
     );
   }
 
-  // createAssignment(assignmentData: Partial<IAssignment>): Observable<IAssignment> {
-  //   return this.http.post<{
-  //     status: number,
-  //     message: string,
-  //     data: IAssignment
-  //   }>(`${this.apiUrl}/admin/assignments`, assignmentData, {
-  //     headers: this.getAuthHeaders()
-  //   }).pipe(
-  //     map(response => response.data),
-  //     catchError(this.handleError)
-  //   );
-  // }
-// ---------------------------------------------------------------
   createAssignment(assignmentData: IAssignment): Observable<IAssignment> {
     return this.http.post<{ data: IAssignment }>(
       `${this.apiUrl}/admin/assignments`,
@@ -69,7 +57,6 @@ export class AssignmentService {
       catchError(this.handleError)
     );
   }
-  // --------------------------------------------------
 
   updateAssignment(id: number, assignmentData: Partial<IAssignment>): Observable<IAssignment> {
     return this.http.put<{
@@ -88,6 +75,27 @@ export class AssignmentService {
     return this.http.delete(`${this.apiUrl}/admin/assignments/${id}`, {
       headers: this.getAuthHeaders()
     }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getSubmissions(assignmentId: number, page: number = 1, perPage: number = 5, status?: string): Observable<ISubmissionResponse> {
+    let url = `${this.apiUrl}/admin/assignments/${assignmentId}/submissions?page=${page}&per_page=${perPage}`;
+    
+    // Add status filter parameter if provided
+    if (status) {
+      url += `&status=${status}`;
+    }
+    
+    return this.http.get<{
+      status: number,
+      message: string,
+      data: ISubmissionResponse
+    }>(url, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      map(response => response.data),
+      tap(res => console.log('Get Submissions Response:', res)),
       catchError(this.handleError)
     );
   }

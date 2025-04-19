@@ -132,6 +132,9 @@ export class AssignmentManagementComponent implements OnInit {
   viewAssignment(id: number): void {
     this.router.navigate(['/admin/dashboard/assignment', id]);
   }
+  viewAssignmentSubmissions(id: number): void {
+    this.router.navigate(['/admin/dashboard/assignment-submissions', id]);
+  }
 
   editAssignment(id: number): void {
     this.router.navigate(['/admin/dashboard/assignments-management/edit', id]);

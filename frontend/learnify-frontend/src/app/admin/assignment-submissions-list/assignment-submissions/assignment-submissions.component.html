@@ -1,0 +1,121 @@
+<div class="subscription-container">
+    <div class="subscription-header">
+      <h1 class="subscription-title">
+        <i class="fas fa-tasks me-2"></i>
+        Assignment Submissions</h1>
+      <p class="subscription-subtitle">View and manage student submissions for this assignment</p>
+    </div>
+  
+    <div class="controls-section">
+      <div class="search-container">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input 
+          type="text" 
+          class="search-input" 
+          placeholder="Search submissions..." 
+          [(ngModel)]="searchTerm"
+          (input)="applySearch()">
+      </div>
+      
+      <!-- Status Filter Dropdown -->
+      <div class="filter-container">
+        <select 
+          class="status-filter" 
+          [(ngModel)]="statusFilter" 
+          (change)="applyStatusFilter()">
+          <option value="">All Statuses</option>
+          <option value="graded">Graded</option>
+          <option value="submitted">Submitted</option>
+          <!-- Add more status options as needed -->
+        </select>
+      </div>
+    </div>
+  
+    <div class="table-container">
+      <table *ngIf="!isLoading && submissions.length > 0">
+        <thead>
+          <tr>
+            <th class="sortable" (click)="sortBy('student')">
+              <i class="fas fa-user me-2"></i>
+              Student
+              <i *ngIf="sortColumn === 'student'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</i>
+            </th>
+            <th class="sortable" (click)="sortBy('email')">
+              <i class="fas fa-envelope me-2"></i>
+              Email
+              <i *ngIf="sortColumn === 'email'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</i>
+            </th>
+            <th class="sortable" (click)="sortBy('status')">
+              <i class="fas fa-toggle-on me-2"></i>
+              Status
+              <i *ngIf="sortColumn === 'status'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</i>
+            </th>
+            <th class="sortable" (click)="sortBy('score')">
+              <i class="fas fa-trophy me-2"></i>
+              Score
+              <i *ngIf="sortColumn === 'score'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</i>
+            </th>
+            <th class="sortable" (click)="sortBy('submitted_at')">
+              <i class="fas fa-calendar me-2"></i>
+              Submitted At
+              <i *ngIf="sortColumn === 'submitted_at'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</i>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let submission of filteredSubmissions">
+            <td>{{ submission.first_name }} {{ submission.last_name }}</td>
+            <td>{{ submission.student_email }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="{
+                'status-completed': submission.status === 'graded',
+                'status-pending': submission.status === 'submitted',
+                'status-unknown': !['graded', 'submitted'].includes(submission.status)
+              }">
+                {{ submission.status }}
+              </span>
+            </td>
+            <td>{{ submission.score !== null ? submission.score : 'Not graded' }}</td>
+            <td>{{ submission.submitted_at | date:'medium' }}</td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <div class="loading-container" *ngIf="isLoading">
+        <div class="spinner"></div>
+        <p class="loading-message">Loading submissions...</p>
+      </div>
+  
+      <div class="empty-container" *ngIf="!isLoading && filteredSubmissions.length === 0">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <h3>No Submissions Found</h3>
+        <p class="empty-message">There are no submissions for this assignment yet.</p>
+      </div>
+    </div>
+  
+    <div class="pagination-container" *ngIf="!isLoading && totalItems > pageSize">
+      <button class="pagination-button" 
+              (click)="onPageChange(currentPage - 1)" 
+              [disabled]="currentPage === 1">
+        &lt;
+      </button>
+      
+      <button class="pagination-button"
+              *ngFor="let page of getPaginationRange()"
+              [class.active]="page === currentPage"
+              (click)="onPageChange(page)">
+        {{ page }}
+      </button>
+      
+      <button class="pagination-button" 
+              (click)="onPageChange(currentPage + 1)" 
+              [disabled]="currentPage === getTotalPages()">
+        &gt;
+      </button>
+    </div>
+  </div>

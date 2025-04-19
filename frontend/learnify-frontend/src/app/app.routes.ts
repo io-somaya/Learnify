@@ -50,6 +50,7 @@ import { StudentPasswordChangeComponent } from './student/password-change/passwo
 import { StudentPhotoUploadComponent } from './student/photo-upload/photo-upload.component';
 import { CurrentSubscriptionComponent } from './student/current-subscription/current-subscription.component';
 import { EditAssignmentComponent } from './admin/assignment-management/edit-assignment/edit-assignment.component';
+import { AssignmentSubmissionsComponent } from './admin/assignment-submissions-list/assignment-submissions/assignment-submissions.component';
 
 export function route(name: string): string {
   const routes = {
@@ -224,6 +225,10 @@ export const routes: Routes = [
       path: 'assignments-management/edit/:id',
       component: EditAssignmentComponent,
       title: 'Edit Assignment'
+    },{
+      path: 'assignments-management/submissions/:id',
+      component: AssignmentSubmissionsComponent,
+      title: 'Assignment Submissions'
     },
     // Admin Profile Routes
     {

@@ -92,7 +92,7 @@
           <th><i class="fas fa-graduation-cap me-2"></i>Grade</th>
           <th><i class="fas fa-book me-2"></i>Lesson</th>
           <th><i class="fas fa-question-circle me-2"></i>Questions</th>
-          <th><i class="fas fa-cogs me-2"></i>Actions</th>
+          <th class="text-center"><i class="fas fa-cogs  me-2"></i>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -108,6 +108,10 @@
               <a (click)="viewAssignment(assignment.id)" class="management__button management__button--view">
                 <i class="fas fa-eye me-1"></i>
                 View
+              </a>
+              <a (click)="viewAssignmentSubmissions(assignment.id)" class="management__button management__button--view">
+                <i class="fas fa-eye me-1"></i>
+                View Submissions
               </a>
 
               <a (click)="editAssignment(assignment.id)" class="management__button management__button--edit">
