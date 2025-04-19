@@ -6,6 +6,7 @@ import { AssignmentService } from '../../../services/assignment.service';
 import { LessonService } from '../../../services/lessons.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-create-assignment',
@@ -21,12 +22,14 @@ export class CreateAssignmentComponent implements OnInit {
   assignmentForm!: FormGroup;
   lessons: any[] = [];
   grades: string[] = ['1', '2', '3'];
-  questionTypes: string[] = ['mcq', 'essay', 'short_answer'];
+  questionTypes: string[] = ['mcq'];
+  // questionTypes: string[] = ['mcq', 'essay', 'short_answer'];
+
   isSubmitting = false;
   isLoadingLessons = false;
   totalLessons = 0;
   currentPage = 1;
-  perPage = 50; // Load more lessons to avoid pagination
+  perPage = 1000; // Load more lessons to avoid pagination
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
@@ -34,7 +37,8 @@ export class CreateAssignmentComponent implements OnInit {
     private fb: FormBuilder,
     private assignmentService: AssignmentService,
     private lessonService: LessonService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -153,9 +157,10 @@ export class CreateAssignmentComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.successMessage = 'Assignment created successfully!';
+          this.toastService.success('Assignment created successfully');
           setTimeout(() => {
             this.successMessage = null;
-            this.router.navigate(['/admin/assignments']);
+            this.router.navigate(['/admin/dashboard/assignments-management']);
           }, 2000);
         },
         error: (error) => {

@@ -93,14 +93,12 @@
                 </div>
               </div>
               
-              <div class="option">
+              <!-- <div class="option">
                 <label for="question-type-{{questionIndex}}">Question Type</label>
                 <select id="question-type-{{questionIndex}}" formControlName="question_type" class="form-control">
                   <option value="mcq">Multiple Choice</option>
-                  <option value="essay">Essay</option>
-                  <option value="short_answer">Short Answer</option>
                 </select>
-              </div>
+              </div> -->
   
               <!-- Options for MCQ -->
               <div *ngIf="questionGroup.get('question_type')?.value === 'mcq'" class="options-section">

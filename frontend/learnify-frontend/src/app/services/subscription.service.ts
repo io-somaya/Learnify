@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from '../../.environments/environment';
-import { ISubscription } from '../Interfaces/ISubscription';
+import { ISubscription ,ISubscriptionDetail} from '../Interfaces/ISubscription';
 
 
 @Injectable({
@@ -30,6 +30,20 @@ export class SubscriptionService {
       { headers: this.getAuthHeaders() }
     ).pipe(
       tap(res => console.log('GET Subscriptions Response:', res)),
+      map(res => res.data),
+      catchError(this.handleError)
+    );
+  }
+
+
+  getCurrentSubscription(): Observable<ISubscriptionDetail> {
+    
+    return this.http.get<{ data: ISubscriptionDetail }>(
+      `${this.apiUrl}/subscriptions/current`,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+        
+      tap(res => console.log('GET Current Subscription Response:', res)),
       map(res => res.data),
       catchError(this.handleError)
     );

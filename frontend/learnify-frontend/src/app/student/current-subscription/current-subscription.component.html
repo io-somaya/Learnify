@@ -1,0 +1,11 @@
+@if (currentSubscription) {
+  <div class="subscription-details">
+    <h1>Package Name: {{currentSubscription.package.name}}</h1>
+    <h1>Status: {{currentSubscription.status}}</h1>
+    <h1>Start Date: {{currentSubscription.start_date}}</h1>
+    <h1>End Date: {{currentSubscription.end_date}}</h1>
+    <h1>Days Remaining: {{currentSubscription.days_remaining | number : '1.0-0'}}</h1>
+  </div>
+} @else {
+  <p>No active subscription found.</p>
+}
