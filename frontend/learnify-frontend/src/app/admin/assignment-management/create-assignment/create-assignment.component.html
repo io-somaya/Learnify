@@ -53,6 +53,15 @@
             </div>
   
             <div class="option">
+              <label for="deadline"><i class="fas fa-calendar me-2"></i>Deadline</label>
+              <input id="deadline" type="datetime-local" formControlName="due_date" class="form-control">
+              <div *ngIf="isFieldInvalid(assignmentForm, 'due_date')" class="zerror-message">
+              {{ getErrorMessage(assignmentForm, 'due_date') }}
+              </div>
+            </div>
+
+  
+            <div class="option">
               <label for="lesson_id"><i class="fas fa-book me-2"></i>Lesson (Optional)</label>
               <select id="lesson_id" formControlName="lesson_id" class="form-control">
                 <option [value]="null">No Lesson</option>

@@ -52,6 +52,7 @@ export class CreateAssignmentComponent implements OnInit {
       description: ['', [Validators.required]],
       grade: ['', [Validators.required]],
       lesson_id: [null],
+      due_date: ['', [Validators.required]],
       questions: this.fb.array([this.createQuestionFormGroup()])
     });
   }

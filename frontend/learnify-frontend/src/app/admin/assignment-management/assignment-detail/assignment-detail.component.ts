@@ -40,6 +40,7 @@ export class AssignmentDetailComponent implements OnInit {
         this.assignmentDetail = data;
         this.totalPages = data.questions.last_page;
         this.loading = false;
+        console.log("assigment data",data);
       },
       error: (error) => {
         this.error = error.message;
