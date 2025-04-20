@@ -19,6 +19,7 @@ class AssignmentDetailResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'grade' => $this->grade,
+            'due_date' => $this->due_date ? $this->due_date->toDateTimeString() : null,
             // Include full lesson details if loaded
             'lesson' => $this->whenLoaded('lesson', function () {
                 return [

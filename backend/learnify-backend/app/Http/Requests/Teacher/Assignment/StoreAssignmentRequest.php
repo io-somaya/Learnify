@@ -21,6 +21,7 @@ class StoreAssignmentRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'grade' => 'required|in:1,2,3',
+            'due_date' => 'nullable|date|after:today', // Ensure the due date is in the future
 
             // Questions array validation
             'questions' => 'required|array|min:1', // Must have at least one question

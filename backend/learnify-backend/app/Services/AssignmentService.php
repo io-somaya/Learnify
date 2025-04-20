@@ -28,6 +28,7 @@ class AssignmentService
                 'description' => $validatedData['description'] ?? null,
                 'grade' => $validatedData['grade'],
                 'lesson_id' => $validatedData['lesson_id'] ?? null,
+                'due_date' => $validatedData['due_date'] ?? null,
             ]);
 
             // Create the questions and options associated with the assignment

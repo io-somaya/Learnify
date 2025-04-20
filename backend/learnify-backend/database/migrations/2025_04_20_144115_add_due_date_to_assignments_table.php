@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
             Schema::table('assignments', function (Blueprint $table) {
-            $table->timestamp('due_date')->nullable()->after('description'); // Or wherever you want it
+            $table->timestamp('due_date')->nullable()->after('description'); 
         });
     }
 
