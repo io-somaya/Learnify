@@ -31,6 +31,7 @@ export interface IAssignment {
     id: number;
     title: string;
   } | null;
+  questions: IQuestion[];
   created_at: string;
   updated_at: string;
 }
@@ -58,4 +59,13 @@ export interface IPagination {
 export interface IAssignmentDetail {
   assignment: IAssignment;
   questions: IPagination;
+}
+
+export interface ISubmissionAnswer {
+  question_id: number;
+  option_id: number;
+}
+
+export interface ISubmissionPayload {
+  answers: ISubmissionAnswer[];
 }
