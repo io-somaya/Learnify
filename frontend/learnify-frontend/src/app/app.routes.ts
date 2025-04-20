@@ -51,6 +51,7 @@ import { StudentPhotoUploadComponent } from './student/photo-upload/photo-upload
 import { CurrentSubscriptionComponent } from './student/current-subscription/current-subscription.component';
 import { EditAssignmentComponent } from './admin/assignment-management/edit-assignment/edit-assignment.component';
 import { AssignmentSubmissionsComponent } from './admin/assignment-submissions-list/assignment-submissions/assignment-submissions.component';
+import { StartAssignmentComponent } from './student/assignment/start-assignment/start-assignment.component';
 
 export function route(name: string): string {
   const routes = {
@@ -344,7 +345,14 @@ export const routes: Routes = [
     {
     path: "current-subscription",
     component: CurrentSubscriptionComponent,
-      title: "Current Subscription"}]
+      title: "Current Subscription"},
+      {
+        path:"start-assignment/:id",
+        component:StartAssignmentComponent,
+        title:"Start Assignment"
+      }
+    
+    ]
   },
 
   // Other routes
