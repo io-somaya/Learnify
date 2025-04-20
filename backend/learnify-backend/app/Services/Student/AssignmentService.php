@@ -7,7 +7,8 @@ use App\Models\Answer;
 use App\Models\AssignmentUser;
 use App\Models\Question;
 use App\Models\Option;
-use Illuminate\Support\Facades\DB; // Import DB facade for transactions
+use Illuminate\Support\Facades\DB;
+use App\Exceptions\SubmissionDeadlineExceededException; // Custom exception for submission deadline
 
 class AssignmentService
 {
@@ -26,6 +27,14 @@ class AssignmentService
      */
     public function submitAssignment($assignmentId, $studentAnswers, $studentId)
     {
+        // Fetch the assignment first to check its details, including the due date
+        $assignment = Assignment::findOrFail($assignmentId);
+
+        // Check if the assignment has a due date and if it has passed
+        if ($assignment->due_date && now()->gt($assignment->due_date)) {
+            throw new SubmissionDeadlineExceededException("The deadline for submitting this assignment has passed.");
+        }
+
         // Start a database transaction
         return DB::transaction(function () use ($assignmentId, $studentAnswers, $studentId) {
             $correctAnswers = $this->getCorrectAnswers($assignmentId);
@@ -39,7 +48,7 @@ class AssignmentService
                 [
                     'score' => $grade,
                     'status' => 'graded',
-                    'submitted_at' => now()
+                    'submitted_at' => now() // Use the current time as submission time
                 ]
             );
 
@@ -49,8 +58,7 @@ class AssignmentService
                 Answer::create([
                     'assignment_user_id' => $submission->id,
                     'question_id' => $answer['question_id'],
-                    // Ensure option_id exists, handle potential null/missing values 
-                    'selected_option_id' => $answer['option_id'] ?? null, 
+                    'selected_option_id' => $answer['option_id'] ?? null,
                     'is_correct' => $this->isAnswerCorrect($answer, $correctAnswers),
                 ]);
             }

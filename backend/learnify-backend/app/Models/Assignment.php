@@ -13,7 +13,12 @@ class Assignment extends Model
         'lesson_id',
         'title',
         'description',
-        'grade'
+        'grade',
+        'due_date',
+    ];
+
+    protected $casts = [
+        'due_date' => 'datetime',
     ];
 
     public function lesson()
@@ -32,4 +37,6 @@ class Assignment extends Model
             ->using(AssignmentUser::class)
             ->withPivot('score', 'submit_time', 'status');
     }
+
+
 }
