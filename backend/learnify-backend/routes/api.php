@@ -21,6 +21,9 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Teacher\Assignment\TeacherAssignmentController;
 use App\Http\Controllers\Teacher\UserManagement\UserManagementController;
+use App\Http\Controllers\AIAssistantController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Public Routes (No Authentication Required)
@@ -154,7 +157,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // Assignments
         Route::apiResource('assignments', TeacherAssignmentController::class);
 
-        // submissions for a specific assignment 
+        // submissions for a specific assignment
         Route::get('/assignments/{assignment}/submissions', [TeacherAssignmentController::class, 'submissions']);
     });
 
@@ -243,7 +246,7 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\CheckRole::class . ':stu
 */
 
 // Admin User Management Routes
-Route::group(['middleware' => ['auth:sanctum', \App\Http\Middleware\CheckRole::class.':teacher']], function () {
+Route::group(['middleware' => ['auth:sanctum', \App\Http\Middleware\CheckRole::class . ':teacher']], function () {
     Route::prefix('admin/users')->name('admin.users.')->group(function () {
         Route::get('/', [UserManagementController::class, 'index'])->name('index');
         Route::get('/{user}', [UserManagementController::class, 'show'])->name('show');
@@ -253,4 +256,15 @@ Route::group(['middleware' => ['auth:sanctum', \App\Http\Middleware\CheckRole::c
         Route::patch('/{user}/role', [UserManagementController::class, 'updateRole'])->name('update-role');
         Route::patch('/{user}/grade', [UserManagementController::class, 'updateGrade'])->name('update-grade');
     });
+});
+
+/*
+|--------------------------------------------------------------------------
+| AI Assistant Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('ai-assistant')->group(function () {
+    Route::post('/get-response', [AIAssistantController::class, 'getResponse']);
+    Route::get('/help-topics', [AIAssistantController::class, 'getHelpTopics']);
 });
