@@ -12,7 +12,8 @@ class Answer extends Model
     protected $fillable = [
         'assignment_user_id',
         'question_id',
-        'selected_option_id'
+        'selected_option_id',
+        'is_correct' 
     ];
 
     public function assignmentSubmission()

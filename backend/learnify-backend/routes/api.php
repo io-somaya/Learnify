@@ -22,7 +22,7 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Teacher\Assignment\TeacherAssignmentController;
 use App\Http\Controllers\Teacher\UserManagement\UserManagementController;
 use App\Http\Controllers\AIAssistantController;
-
+use App\Http\Controllers\Student\StudentAssignmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -177,10 +177,20 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     // Student routes with subscription check
-    Route::middleware(['auth:sanctum', CheckSubscription::class])->prefix('student')->group(function () {
-        Route::get('lectures', [StudentLectureController::class, 'index']);
-        Route::get('lectures/{lecture}', [StudentLectureController::class, 'show']);
+    Route::middleware(['auth:sanctum', CheckSubscription::class])->prefix('student')->group(function () 
+    {
+            // lectures routes
+            Route::get('lectures', [StudentLectureController::class, 'index']);
+            Route::get('lectures/{lecture}', [StudentLectureController::class, 'show']);
+
+            // assignments routes
+            Route::prefix('assignments')->group(function () {
+                Route::get('/{assignmentId}', [StudentAssignmentController::class, 'show']);
+                Route::post('/{assignmentId}/submit', [StudentAssignmentController::class, 'submit']);
+            });
     });
+
+
 
 
 
@@ -213,10 +223,8 @@ Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
 });
 // Protected routes
 Route::prefix('lessons')->group(function () {
-    Route::get('/', [LessonsController::class, 'index'])->middleware('auth:sanctum');
-    ;
-    Route::get('/{id}', [LessonsController::class, 'show'])->middleware('auth:sanctum');
-    ;
+    Route::get('/', [LessonsController::class, 'index'])->middleware('auth:sanctum');;
+    Route::get('/{id}', [LessonsController::class, 'show'])->middleware('auth:sanctum');;
 });
 
 /*
