@@ -1,0 +1,87 @@
+<div class="ai-chat-container">
+  <!-- Chat Button -->
+  <button class="ai-chat-button" [class.open]="isOpen" (click)="toggleChat()" aria-label="AI Assistant">
+    <svg *ngIf="!isOpen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+    <svg *ngIf="isOpen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+
+  <!-- Chat Window -->
+  <div class="ai-chat-window" *ngIf="isOpen">
+    <div class="ai-chat-header">
+      <div class="ai-chat-title">
+        <div class="ai-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a5 5 0 0 0-5 5v2a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5Z"></path>
+            <path d="M19 11a7 7 0 0 1-7 7"></path>
+            <path d="M12 18a7 7 0 0 1-7-7"></path>
+            <path d="M12 18v4"></path>
+            <path d="M8 22h8"></path>
+          </svg>
+        </div>
+        <h3>AI Learning Assistant</h3>
+      </div>
+      <div class="ai-chat-actions">
+        <button class="clear-btn" (click)="clearChat()" aria-label="Clear chat">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6h18"></path>
+            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+          </svg>
+        </button>
+        <button class="close-btn" (click)="toggleChat()" aria-label="Close chat">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="ai-chat-messages">
+      <div *ngFor="let message of messages" class="ai-message"
+        [ngClass]="{'user-message': message.isUser, 'ai-message': !message.isUser}">
+        <div class="message-content">{{ message.content }}</div>
+        <div class="message-time">{{ message.timestamp | date:'shortTime' }}</div>
+      </div>
+
+      <div *ngIf="isLoading" class="ai-message typing">
+        <div class="typing-indicator">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <!-- Help Topics Section -->
+      <div *ngIf="showTopics && !isLoading" class="help-topics">
+        <div class="topics-header">Quick Help Topics:</div>
+        <div class="topics-list">
+          <button *ngFor="let topic of helpTopics" class="topic-button" (click)="selectTopic(topic)">
+            {{ topic.name }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-chat-input">
+      <input type="text" placeholder="Ask me anything..." [(ngModel)]="userInput" (keyup.enter)="sendMessage()"
+        [disabled]="isLoading">
+      <button class="send-button" [disabled]="!userInput.trim() || isLoading" (click)="sendMessage()"
+        aria-label="Send message">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
