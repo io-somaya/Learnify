@@ -26,6 +26,7 @@ class UpdateAssignmentRequest extends FormRequest
             'title' => 'sometimes|required|string|max:255',
             'description' => 'sometimes|nullable|string',
             'grade' => 'sometimes|required|in:1,2,3',
+            'due_date' => 'sometimes|nullable|date|after:today', // Ensure the due date is in the future
 
             // --- New Rules for Updating Questions ---
             'questions' => 'sometimes|array', 
