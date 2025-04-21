@@ -101,6 +101,28 @@ export class AssignmentService {
   }
 
   // Student methods  
+
+
+  getAssignmentsForStudent(): Observable<IAssignment[]> {
+    return this.http.get<{
+      status: number,
+      message: string,
+      data: IAssignment[]
+    }>(`${this.apiUrl}/student/assignments`, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      map(response => response.data),
+      catchError(this.handleError)
+    );
+  }
+  getAssignmentsSubmissionsForStudent(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/student/submissions`, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      map(response => response.data),
+      catchError(this.handleError)
+    );
+  }
   // Updated to return a single assignment with questions for student view
   getAssignmentsWithOutCorrectAnswer(assignmentId: number): Observable<IAssignment> {
     return this.http.get<{

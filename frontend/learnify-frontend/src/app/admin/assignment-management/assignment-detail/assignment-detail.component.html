@@ -16,6 +16,8 @@
         @if (assignmentDetail.assignment.lesson) {
           <span>Lesson: {{assignmentDetail.assignment.lesson.title}}</span>
         }
+        <span>Deadline: {{assignmentDetail.assignment.due_date | date : 'yyyy-MM-dd hh:mm a '}}</span>
+        <span> Total Questions:  {{assignmentDetail.questions.total}}</span>
       </div>
     </div>
 

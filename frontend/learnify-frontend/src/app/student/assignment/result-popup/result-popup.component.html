@@ -1,0 +1,9 @@
+<div class="result-popup">
+  <h2>Assignment Results</h2>
+  <div class="result-content">
+    <p>Score: {{ result.score }}%</p>
+    <p>Correct Answers: {{ result.correctAnswers }}/{{ result.totalQuestions }}</p>
+    <p>Time Taken: {{ result.timeTaken }} minutes</p>
+  </div>
+  <button class="btn-close" (click)="onClose()">Close</button>
+</div>

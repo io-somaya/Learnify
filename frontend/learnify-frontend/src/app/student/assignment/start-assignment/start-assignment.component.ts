@@ -5,11 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AssignmentService } from '../../../services/assignment.service';
 import { IAssignment } from '../../../Interfaces/IAssignment';
 import { ToastService } from '../../../services/toast.service';
+import { ResultPopupComponent } from '../result-popup/result-popup.component';
 
 @Component({
   selector: 'app-start-assignment',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ResultPopupComponent],
   templateUrl: './start-assignment.component.html',
   styleUrl: './start-assignment.component.css'
 })
@@ -20,6 +21,8 @@ export class StartAssignmentComponent implements OnInit {
   loading = false;
   error = '';
   submitting = false;
+  showResultPopup = false;
+  submissionResult: any = null;
 
   constructor(
     private assignmentService: AssignmentService,
@@ -112,17 +115,35 @@ export class StartAssignmentComponent implements OnInit {
           this.loading = false;
           this.submitting = false;
           console.log('Submission successful:', response);
-          this.toastService.success(`Correct answers!${response.correct_answers}`);
-          this.toastService.info(`Assignment score!${response.grade}`);
-          this.toastService.error(`Total questions!${response.total_questions}`);
-          // this.router.navigate(['/student/assignments/results', this.assignment?.id]);
+          
+          if (response.status === 200) {
+            this.submissionResult = response;
+            this.showResultPopup = true;
+            this.toastService.success('Assignment submitted successfully.');
+          } else if (response.status === 409 || response.status === 500) {
+            this.toastService.error(response.errors || 'You have already submitted this assignment.');
+          }
         },
         error: (error) => {
           this.loading = false;
           this.submitting = false;
-          this.error = error.message || 'Failed to submit assignment';
+          if (error.status === 409) {
+            this.error = error.error.errors || 'You have already submitted this assignment';
+            this.toastService.error(this.error);
+            setTimeout(() => {
+              // this.router.navigate(['/student/assignments/results', this.assignment?.id]);
+            }, 2000); // Wait 2 seconds before redirecting
+          } else {
+            this.error = error.error.message || 'Failed to submit assignment';
+            this.toastService.error(this.error);
+          }
           console.error('Submission error:', error);
         }
       });
+  }
+
+  closeResultPopup() {
+    this.showResultPopup = false;
+    this.router.navigate(['/student/dashboard/assignment-submissions']);
   }
 }

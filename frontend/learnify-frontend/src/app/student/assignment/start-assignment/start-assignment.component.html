@@ -1,70 +1,82 @@
 <div class="container">
-    <div *ngIf="loading" class="loading-spinner">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
     </div>
-  
-    <div *ngIf="error" class="alert alert-danger mt-3">
-      {{ error }}
-    </div>
-  
-    <div *ngIf="assignment && !loading" class="assignment-container">
-      <h2 class="mb-4">{{ assignment.title }}</h2>
-      
-      <div class="card mb-4">
-        <div class="card-body">
-          <h5 class="card-title">Description</h5>
-          <p class="card-text">{{ assignment.description }}</p>
-          <div *ngIf="assignment.lesson">
-            <p class="mb-0"><strong>Lesson:</strong> {{ assignment.lesson.title }}</p>
-          </div>
-          <p class="mb-0"><strong>Grade:</strong> {{ assignment.grade }}</p>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger mt-3">
+    {{ error }}
+  </div>
+
+  <div *ngIf="assignment && !loading" class="assignment-container">
+    <h2 class="mb-4">{{ assignment.title }}</h2>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Description</h5>
+        <p class="card-text">{{ assignment.description }}</p>
+        <div *ngIf="assignment.lesson">
+          <p class="mb-0"><strong>Lesson:</strong> {{ assignment.lesson.title }}</p>
         </div>
+        <p class="mb-0"><strong>Grade:</strong> {{ assignment.grade }}</p>
       </div>
-  
-      <div *ngIf="questions.length > 0" class="questions-container">
-        <h3 class="mb-3">Questions</h3>
-        
-        <div *ngFor="let question of questions; let i = index" class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title">Question {{ i + 1 }}</h5>
-            <p class="card-text">{{ question.question_text }}</p>
-            
-            <div class="options-container">
-              <div *ngFor="let option of question.options" class="form-check mb-2">
+    </div>
+
+    <div *ngIf="questions.length > 0" class="questions-container">
+      <h3 class="mb-3">Questions</h3>
+
+      <div *ngFor="let question of questions; let i = index" class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Question {{ i + 1 }}</h5>
+          <p class="card-text">{{ question.question_text }}</p>
+
+          <div class="options-container toggle-style">
+            <div class="options-row">
+              <div *ngFor="let option of question.options" class="radio-option">
                 <input 
-                  class="form-check-input" 
+                  class="radio-input" 
                   type="radio" 
                   name="question-{{ question.id }}" 
                   id="option-{{ option.id }}" 
                   [checked]="isOptionSelected(question.id, option.id)"
                   (change)="selectAnswer(question.id, option.id)"
                 >
-                <label class="form-check-label" for="option-{{ option.id }}">
-                  {{ option.option_text }}
+                <label class="radio-label" for="option-{{ option.id }}">
+                    <ng-container *ngIf="isOptionSelected(question.id, option.id); else notSelected">
+                      <i class="fa-regular fa-circle-check"></i>
+                      {{ option.option_text }}
+                    </ng-container>
+                    <ng-template #notSelected>
+                      <i class="fa-regular fa-circle"></i>
+                      {{ option.option_text }}
+                    </ng-template>
+                  
+
                 </label>
               </div>
             </div>
           </div>
-        </div>
-  
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-          <button 
-            class="btn btn-primary" 
-            (click)="submitAssignment()" 
-            [disabled]="submitting || selectedAnswers.size === 0">
-            {{ submitting ? 'Submitting...' : 'Submit Assignment' }}
-          </button>
+
         </div>
       </div>
-  
-      <div *ngIf="questions.length === 0 && !loading" class="alert alert-info">
-        No questions found for this assignment.
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+        <button 
+          class="btn btn-primary" 
+          (click)="submitAssignment()" 
+          [disabled]="submitting || selectedAnswers.size === 0">
+          {{ submitting ? 'Submitting...' : 'Submit Assignment' }}
+        </button>
       </div>
     </div>
-  
-    <div *ngIf="!assignment && !loading" class="alert alert-warning">
-      Assignment not found.
+
+    <div *ngIf="questions.length === 0 && !loading" class="alert alert-info">
+      No questions found for this assignment.
     </div>
   </div>
+
+  <div *ngIf="!assignment && !loading" class="alert alert-warning">
+    Assignment not found.
+  </div>
+</div>

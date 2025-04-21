@@ -1,0 +1,49 @@
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.result-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 1000;
+    width: 300px;
+}
+
+.result-popup h2 {
+    color: #5b3e96;
+    margin-bottom: 15px;
+}
+
+.result-popup p {
+    margin: 10px 0;
+    color: #444;
+}
+
+.result-popup .btn-close {
+    background-color: #7951cb;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.result-popup .btn-close:hover {
+    background-color: #9c72e0;
+}

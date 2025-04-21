@@ -63,6 +63,7 @@ export class EditAssignmentComponent implements OnInit {
     this.assignmentForm = this.fb.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
+      due_date: ['', [Validators.required]],
       grade: ['', [Validators.required]],
       lesson_id: [null],
       questions: this.fb.array([])
@@ -77,7 +78,9 @@ export class EditAssignmentComponent implements OnInit {
         next: (assignmentDetail) => {
           this.assignment = assignmentDetail;
           this.populateForm(assignmentDetail);
+          console.log('Loaded assignment:', assignmentDetail);
         },
+
         error: (error) => {
           this.errorMessage = 'Failed to load assignment: ' + error.message;
           setTimeout(() => this.errorMessage = null, 5000);
@@ -91,6 +94,7 @@ export class EditAssignmentComponent implements OnInit {
       title: assignmentDetail.assignment.title,
       description: assignmentDetail.assignment.description,
       grade: assignmentDetail.assignment.grade,
+      due_date: assignmentDetail.assignment.due_date,
       lesson_id: assignmentDetail.assignment.lesson?.id || null
     });
 
@@ -220,6 +224,7 @@ export class EditAssignmentComponent implements OnInit {
             this.lessons = [...this.lessons, ...response.data.data];
             this.totalLessons = response.data.total;
             this.currentPage = response.data.current_page;
+            // console.log('Loaded lessons:', this.lessons);
             
             // Load more lessons if available
             if (response.data.current_page < response.data.last_page) {
@@ -249,6 +254,7 @@ export class EditAssignmentComponent implements OnInit {
       title: this.assignmentForm.get('title')?.value,
       description: this.assignmentForm.get('description')?.value,
       grade: this.assignmentForm.get('grade')?.value,
+      due_date: this.assignmentForm.get('due_date')?.value,
       lesson_id: this.assignmentForm.get('lesson_id')?.value
     };
     
