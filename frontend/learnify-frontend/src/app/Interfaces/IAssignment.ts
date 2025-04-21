@@ -26,6 +26,7 @@ export interface IAssignment {
   id: number;
   title: string;
   description: string;
+  due_date: string;
   grade: string;
   lesson: {
     id: number;

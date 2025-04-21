@@ -91,7 +91,7 @@
           <th><i class="fas fa-align-left me-2"></i>Description</th>
           <th><i class="fas fa-graduation-cap me-2"></i>Grade</th>
           <th><i class="fas fa-book me-2"></i>Lesson</th>
-          <th><i class="fas fa-question-circle me-2"></i>Questions</th>
+          <th><i class="fas fa-question-circle me-2"></i>Deadline</th>
           <th class="text-center"><i class="fas fa-cogs  me-2"></i>Actions</th>
         </tr>
       </thead>
@@ -101,7 +101,7 @@
           <td class="management__table-cell">{{ assignment.description | truncate:50 }}</td>
           <td class="management__table-cell">{{ assignment.grade }}</td>
           <td class="management__table-cell">{{ assignment.lesson?.title }}</td>
-          <td class="management__table-cell">{{ assignment.questions_count }}</td>
+          <td class="management__table-cell text-nowrap">{{ assignment.due_date | date:'dd-MM-yyyy hh:mm a' }}</td>
           <td class="management__table-cell">
             <div class="management__actions">
             
