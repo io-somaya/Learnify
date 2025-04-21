@@ -1,0 +1,74 @@
+<div class="submissions-container">
+  <div class="header-section">
+    <h2>My Assignment Submissions</h2>
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm"
+        (input)="onSearch($event)"
+        placeholder="Search submissions..."
+        class="search-input"
+      >
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="loading">Loading submissions...</div>
+  } @else if (error) {
+    <div class="error">{{ error }}</div>
+  } @else if (filteredSubmissions.length === 0) {
+    <div class="no-submissions">No submissions found.</div>
+  } @else {
+    <div class="submissions-grid">
+      @for (submission of paginatedSubmissions; track submission.id) {
+        <div class="submission-card">
+          <h3>{{ submission.assignment.title }}</h3>
+          <p class="description">{{ submission.assignment.description }}</p>
+          <div class="submission-details">
+            <div class="performance-indicator">
+              <div class="score-circle" [class]="getPerformanceClass(submission.score)">
+                <span class="score-value">{{ submission.score }}%</span>
+                <span class="score-label">{{ getPerformanceLabel(submission.score) }}</span>
+              </div>
+            </div>
+            <div class="details-text">
+              <p><strong>Submitted:</strong> {{ submission.submit_time | date:'medium' }}</p>
+              <p><strong>Due Date:</strong> {{ submission.assignment.due_date | date:'medium' }}</p>
+              <span class="status-badge" [class]="getStatusClass(submission.status)">
+                {{ submission.status }}
+              </span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="pagination" *ngIf="totalPages.length > 1">
+      <button 
+        class="page-button" 
+        [disabled]="currentPage === 1"
+        (click)="changePage(currentPage - 1)"
+      >
+        Previous
+      </button>
+
+      @for (page of totalPages; track page) {
+        <button 
+          class="page-button" 
+          [class.active]="currentPage === page"
+          (click)="changePage(page)"
+        >
+          {{ page }}
+        </button>
+      }
+
+      <button 
+        class="page-button" 
+        [disabled]="currentPage === totalPages.length"
+        (click)="changePage(currentPage + 1)"
+      >
+        Next
+      </button>
+    </div>
+  }
+</div>

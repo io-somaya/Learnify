@@ -52,6 +52,8 @@ import { CurrentSubscriptionComponent } from './student/current-subscription/cur
 import { EditAssignmentComponent } from './admin/assignment-management/edit-assignment/edit-assignment.component';
 import { AssignmentSubmissionsComponent } from './admin/assignment-submissions-list/assignment-submissions/assignment-submissions.component';
 import { StartAssignmentComponent } from './student/assignment/start-assignment/start-assignment.component';
+import { AssignmentListComponent } from './student/assignment/assignment-list/assignment-list.component';
+import { SubmissionsAssignmentListComponent } from './student/assignment/submissions-assignment-list/submissions-assignment-list.component';
 
 export function route(name: string): string {
   const routes = {
@@ -347,9 +349,18 @@ export const routes: Routes = [
     component: CurrentSubscriptionComponent,
       title: "Current Subscription"},
       {
+        path:"assignments-list",
+        component:AssignmentListComponent,
+        title:"Assignments List"
+      },
+      {
         path:"start-assignment/:id",
         component:StartAssignmentComponent,
         title:"Start Assignment"
+      },{
+        path:"assignment-submissions",
+        component:SubmissionsAssignmentListComponent,
+        title:"Assignment Submissions"
       }
     
     ]

@@ -1,0 +1,84 @@
+<div class="assignments-container">
+  <div class="header-section">
+    <h2 class="section-title">Assignments</h2>
+    <div class="search-filters">
+      <div class="search-bar">
+        <input 
+          type="text" 
+          class="search-input" 
+          placeholder="Search assignments..."
+          (input)="onSearch($event)"
+          [(ngModel)]="searchTerm">
+        <button class="search-btn">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      <!-- <select class="grade-filter" (change)="onGradeChange($event)" [(ngModel)]="selectedGrade">
+        <option value="">All Grades</option>
+        <option value="6">Grade 6</option>
+        <option value="7">Grade 7</option>
+        <option value="8">Grade 8</option>
+        <option value="9">Grade 9</option>
+        <option value="10">Grade 10</option>
+        <option value="11">Grade 11</option>
+        <option value="12">Grade 12</option>
+      </select> -->
+    </div>
+  </div>
+  
+  <div *ngIf="isLoading" class="loading-spinner">
+    Loading...
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!isLoading && !error && filteredAssignments.length === 0" class="no-results">
+    <div class="no-results-content">
+      <i class="fas fa-search"></i>
+      <p>No assignments found for "{{searchTerm}}"</p>
+      <button class="reset-search-btn" (click)="resetSearch()">Reset Search</button>
+    </div>
+  </div>
+  
+  <!-- Assignments Grid -->
+  <div class="assignments-grid">
+    <div class="assignment-card" *ngFor="let assignment of getCurrentPageItems()">
+      <div class="assignment-icon-wrapper">
+        <div class="assignment-icon">
+          <i class="fas fa-clipboard-list"></i>
+        </div>
+      </div>
+      <div class="assignment-content">
+        <h3 class="assignment-title">{{ assignment.title }}</h3>
+        <div class="assignment-metadata">
+          <span class="grade-badge">Grade - {{ assignment.grade }}</span>
+          <span class=" grade-badge"> Deadline - {{ assignment.due_date | date : 'MM/dd/yyyy hh:mm a' }}</span>
+        </div>
+        <p class="assignment-description">{{ assignment.description }}</p>
+        <div class="assignment-footer">
+          <button class="start-assignment-btn" [routerLink]="['/student/dashboard/start-assignment', assignment.id]">
+            <i class="fa-solid fa-folder-open"></i>            Start Assignment
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagination-wrapper" *ngIf="filteredAssignments.length > 0">
+    <button 
+      class="pagination-btn" 
+      [disabled]="currentPage === 1"
+      (click)="previousPage()">
+      Previous
+    </button>
+    <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+    <button 
+      class="pagination-btn" 
+      [disabled]="currentPage === totalPages"
+      (click)="nextPage()">
+      Next
+    </button>
+  </div>
+</div>
