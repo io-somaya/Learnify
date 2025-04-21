@@ -12,6 +12,7 @@ use App\Exceptions\SubmissionDeadlineExceededException; // Custom exception for 
 use App\Exceptions\AlreadySubmittedException; //  Custom exception for duplicate submission
 use Illuminate\Support\Facades\Auth; // Import Auth facade
 use Illuminate\Database\Eloquent\Collection; // Import Collection
+use Illuminate\Support\Facades\Log;
 
 class AssignmentService
 {
@@ -65,15 +66,20 @@ class AssignmentService
             $correctAnswers = $this->getCorrectAnswers($assignment->id);
             $grade = $this->calculateGrade($studentAnswers, $correctAnswers);
 
-            $submission = AssignmentUser::create(
-                [
-                    'assignment_id' => $assignment->id,
-                    'user_id' => $studentId,
-                    'score' => $grade,
-                    'status' => 'graded',
-                    'submitted_at' => now() // Use the current time as submission time
-                ]
-            );
+       
+            $submissionData = [
+                'assignment_id' => $assignment->id,
+                'user_id' => $studentId,
+                'score' => $grade,
+                'status' => 'graded',
+                'submit_time' => now() // Changed submitted_at to submit_time
+            ];
+
+      
+            $submission = AssignmentUser::create($submissionData);
+
+          
+
 
             foreach ($studentAnswers as $answer) {
                 Answer::create([
