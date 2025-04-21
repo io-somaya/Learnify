@@ -9,6 +9,7 @@ use App\Models\Question;
 use App\Models\Option;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\SubmissionDeadlineExceededException; // Custom exception for submission deadline
+use App\Exceptions\AlreadySubmittedException; //  Custom exception for duplicate submission
 
 class AssignmentService
 {
@@ -27,6 +28,16 @@ class AssignmentService
      */
     public function submitAssignment($assignmentId, $studentAnswers, $studentId)
     {
+        // Check if the student has already submitted this assignment
+        $existingSubmission = AssignmentUser::where('assignment_id', $assignmentId)
+                                            ->where('user_id', $studentId)
+                                            ->first();
+
+        if ($existingSubmission) {
+            // Throw an exception if a submission already exists
+            throw new AlreadySubmittedException("You have already submitted this assignment.");
+        }
+
         // Fetch the assignment first to check its details, including the due date
         $assignment = Assignment::findOrFail($assignmentId);
 
@@ -36,23 +47,19 @@ class AssignmentService
         }
 
         // Start a database transaction
-        return DB::transaction(function () use ($assignmentId, $studentAnswers, $studentId) {
-            $correctAnswers = $this->getCorrectAnswers($assignmentId);
+        return DB::transaction(function () use ($assignment, $studentAnswers, $studentId) {
+            $correctAnswers = $this->getCorrectAnswers($assignment->id);
             $grade = $this->calculateGrade($studentAnswers, $correctAnswers);
 
-            $submission = AssignmentUser::updateOrCreate(
+            $submission = AssignmentUser::create(
                 [
-                    'assignment_id' => $assignmentId,
-                    'user_id' => $studentId
-                ],
-                [
+                    'assignment_id' => $assignment->id,
+                    'user_id' => $studentId,
                     'score' => $grade,
                     'status' => 'graded',
                     'submitted_at' => now() // Use the current time as submission time
                 ]
             );
-
-     
 
             foreach ($studentAnswers as $answer) {
                 Answer::create([
@@ -68,7 +75,7 @@ class AssignmentService
                 'total_questions' => count($correctAnswers),
                 'correct_answers' => $this->countCorrectAnswers($studentAnswers, $correctAnswers),
             ];
-        }); 
+        });
     }
 
     /**
