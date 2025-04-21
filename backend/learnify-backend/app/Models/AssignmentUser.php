@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model; 
 
-class AssignmentUser extends Pivot
+
+class AssignmentUser extends Model 
 {
     use HasFactory;
+
+    public $incrementing = true;
 
     protected $table = 'assignment_user';
 
@@ -19,7 +22,7 @@ class AssignmentUser extends Pivot
         'user_id',
         'assignment_id',
         'score',
-        'submit_time',
+        'submit_time', 
         'status'
     ];
 
