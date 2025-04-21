@@ -223,6 +223,36 @@ h2::after {
   text-transform: uppercase;
 }
 
+.view-details {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.view-details-btn {
+  width: 100%;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--medium-purple), var(--light-purple));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(91, 62, 150, 0.2);
+}
+
+.view-details-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(91, 62, 150, 0.3);
+  background: linear-gradient(135deg, var(--light-purple), var(--medium-purple));
+}
+
+.view-details-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(91, 62, 150, 0.2);
+}
+
 .excellent {
   background: linear-gradient(135deg, #49cf81, #27ae60);
   box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2);

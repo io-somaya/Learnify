@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { AssignmentService } from '../../../services/assignment.service';
 import { ISubmissionStudent } from '../../../Interfaces/ISubmission';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-submissions-assignment-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,RouterLink],
   templateUrl: './submissions-assignment-list.component.html',
   styleUrl: './submissions-assignment-list.component.css'
 })

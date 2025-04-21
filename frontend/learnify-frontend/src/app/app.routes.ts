@@ -54,6 +54,7 @@ import { AssignmentSubmissionsComponent } from './admin/assignment-submissions-l
 import { StartAssignmentComponent } from './student/assignment/start-assignment/start-assignment.component';
 import { AssignmentListComponent } from './student/assignment/assignment-list/assignment-list.component';
 import { SubmissionsAssignmentListComponent } from './student/assignment/submissions-assignment-list/submissions-assignment-list.component';
+import { AssignmemtSubmissionDetailComponent } from './student/assignment/assignmemt-submission-detail/assignmemt-submission-detail.component';
 
 export function route(name: string): string {
   const routes = {
@@ -361,6 +362,11 @@ export const routes: Routes = [
         path:"assignment-submissions",
         component:SubmissionsAssignmentListComponent,
         title:"Assignment Submissions"
+      },
+      {
+        path:"submission-detail/:id",
+        component:AssignmemtSubmissionDetailComponent,
+        title:"Assignment Submission Detail"
       }
     
     ]

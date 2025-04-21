@@ -123,6 +123,17 @@ export class AssignmentService {
       catchError(this.handleError)
     );
   }
+
+  getAssignmentsSubmissionsForStudentByAssignmentId(assignmentId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/student/submissions/${assignmentId}`, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      map(response => response.data),
+      catchError(this.handleError)
+    );
+
+  }
+  
   // Updated to return a single assignment with questions for student view
   getAssignmentsWithOutCorrectAnswer(assignmentId: number): Observable<IAssignment> {
     return this.http.get<{
