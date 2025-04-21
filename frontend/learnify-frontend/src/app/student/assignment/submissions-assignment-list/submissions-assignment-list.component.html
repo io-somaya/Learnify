@@ -38,6 +38,11 @@
                 {{ submission.status }}
               </span>
             </div>
+            <div class="view-details">
+              <button class="view-details-btn" [routerLink]="['/student/dashboard/submission-detail', submission.id]">
+                View Details
+              </button>
+            </div>
           </div>
         </div>
       }

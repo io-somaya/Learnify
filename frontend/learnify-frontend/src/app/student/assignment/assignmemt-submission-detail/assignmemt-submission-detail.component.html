@@ -1,0 +1,48 @@
+<div class="assignment-detail-container">
+  <button class="back-button" (click)="goBack()">
+    <i class="fas fa-arrow-left me-2"></i>
+    Back to Assignments
+  </button>
+
+  <div class="submission-container" *ngIf="!loading && !error">
+    <div class="submission-header">
+      <h2>{{submissionDetail?.assignment_title}}</h2>
+      <p>Score: {{submissionDetail?.score}}% | Status: {{submissionDetail?.status}}</p>
+    </div>
+
+    <div class="questions-container">
+      <div class="question-card" *ngFor="let question of submissionDetail?.questions; let i = index">
+        <h3>Question {{i + 1}}</h3>
+        <p class="question-text">{{question.question_text}}</p>
+        
+        <div class="options-list">
+          <div *ngFor="let option of question.options" 
+               class="option"
+               [class.selected]="option.id === question.student_answer.selected_option_id"
+               [class.correct]="question.correct_options[0].id === option.id">
+            <span>{{option.option_text}}</span>
+            <i class="fa-regular fa-circle" *ngIf="option.id !== question.student_answer.selected_option_id"></i>
+
+            <i class="fa-regular fa-circle-check" *ngIf="option.id === question.student_answer.selected_option_id"></i>
+           </div>
+        </div>
+
+        <div class="feedback" *ngIf="!question.student_answer.is_correct">
+          <p class="correct-answer">
+            
+            Correct answer: {{question.correct_options[0].option_text}}
+              
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    Loading submission details...
+  </div>
+
+  <div class="error" *ngIf="error">
+    {{error}}
+  </div>
+</div>
