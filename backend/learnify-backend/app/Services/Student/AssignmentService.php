@@ -97,41 +97,68 @@ class AssignmentService
      */
     public function getSubmissionsForStudent(int $studentId): Collection
     {
-        // Implementation needed:
-        // 1. Fetch AssignmentUser records for the given studentId.
-        // 2. Eager load related Assignment details (like title, total points/questions).
-        // 3. Return the collection of submissions.
         return AssignmentUser::where('user_id', $studentId)
-            ->with('assignment:id,title') // Load assignment title
-            ->orderBy('submitted_at', 'desc')
+            ->with('assignment:id,title,description,due_date') // Load assignment title
+            ->orderBy('submit_time', 'desc')
             ->get();
     }
 
     /**
      * Get detailed results for a specific submission.
-     * Ensures the submission belongs to the requesting student.
+     * Structures the response to include student answers and correctness per question.
      */
     public function getSubmissionDetails(int $submissionId, int $studentId)
     {
-        // Implementation needed:
-        // 1. Fetch the AssignmentUser record by submissionId.
-        // 2. Verify that the user_id matches the studentId. Throw exception if not.
-        // 3. Eager load the related Assignment, Questions, Options, and the student's Answers.
-        // 4. Include information about correct options for comparison.
-        // 5. Return the detailed submission data.
-
+        // Fetch the submission with related data
         $submission = AssignmentUser::with([
-            'assignment.questions.options', // Load assignment, questions, and all options
-            'answers.selectedOption', // Load the student's answers and their selected options
-            'answers.question.options' => function ($query) { // Load correct options for comparison
-                $query->where('is_correct', true);
-            }
-        ])->where('user_id', $studentId) // Ensure it belongs to the student
+            'assignment:id,title,description,grade',
+            'assignment.questions.options:id,question_id,option_text,is_correct',
+            'answers:id,assignment_user_id,question_id,selected_option_id,is_correct',
+            'answers.selectedOption:id,option_text'
+        ])->where('user_id', $studentId) 
           ->findOrFail($submissionId);
 
-        // You might want to structure the response further here
-        // e.g., map questions to include student answer and correctness
-        return $submission;
+        // Prepare student answers keyed by question_id for easy lookup
+        $studentAnswers = $submission->answers->keyBy('question_id');
+
+        // Map through the assignment questions to structure the response
+        $structuredQuestions = $submission->assignment->questions->map(function ($question) use ($studentAnswers) {
+            $studentAnswer = $studentAnswers->get($question->id);
+            $correctOptions = $question->options->where('is_correct', true);
+
+            return [
+                'id' => $question->id,
+                'question_text' => $question->question_text, 
+                'options' => $question->options->map(function ($option) {
+                    return [
+                        'id' => $option->id,
+                        'option_text' => $option->option_text,
+                    ];
+                })->all(), 
+                'student_answer' => $studentAnswer ? [
+                    'selected_option_id' => $studentAnswer->selected_option_id,
+                    'selected_option_text' => $studentAnswer->selectedOption ? $studentAnswer->selectedOption->option_text : null,
+                    'is_correct' => (bool) $studentAnswer->is_correct,
+                ] : null, // Handle case where student might not have answered a question
+                'correct_options' => $correctOptions->map(function ($option) {
+                     return [
+                         'id' => $option->id,
+                         'option_text' => $option->option_text,
+                     ];
+                })->values()->all(), // Get as plain array, re-indexed
+            ];
+        });
+
+        // Construct the final response object
+        return [
+            'submission_id' => $submission->id,
+            'assignment_id' => $submission->assignment->id,
+            'assignment_title' => $submission->assignment->title,
+            'score' => $submission->score,
+            'status' => $submission->status,
+            'submitted_at' => $submission->submitted_at,
+            'questions' => $structuredQuestions,
+        ];
     }
 
 

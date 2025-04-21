@@ -100,7 +100,7 @@ class StudentAssignmentController extends Controller
             $submissions = $this->assignmentService->getSubmissionsForStudent(Auth::id());
             return $this->apiResponse(200, 'Submissions retrieved successfully', null, $submissions);
         } catch (\Exception $e) {
-            // Log::error('Error retrieving submissions for student ' . Auth::id() . ': ' . $e->getMessage());
+            Log::error('Error retrieving submissions for student ' . Auth::id() . ': ' . $e->getMessage());
             return $this->apiResponse(500, 'Error retrieving submissions', $e->getMessage());
         }
     }
@@ -119,7 +119,7 @@ class StudentAssignmentController extends Controller
         } catch (ModelNotFoundException $e) {
             return $this->apiResponse(404, 'Submission not found or does not belong to the user.');
         } catch (\Exception $e) {
-            // Log::error('Error retrieving submission details ' . $submissionId . ' for student ' . Auth::id() . ': ' . $e->getMessage());
+            Log::error('Error retrieving submission details ' . $submissionId . ' for student ' . Auth::id() . ': ' . $e->getMessage());
             return $this->apiResponse(500, 'Error retrieving submission details', $e->getMessage());
         }
     }
