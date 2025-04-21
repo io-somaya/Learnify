@@ -10,9 +10,23 @@ use App\Models\Option;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\SubmissionDeadlineExceededException; // Custom exception for submission deadline
 use App\Exceptions\AlreadySubmittedException; //  Custom exception for duplicate submission
+use Illuminate\Support\Facades\Auth; // Import Auth facade
+use Illuminate\Database\Eloquent\Collection; // Import Collection
 
 class AssignmentService
 {
+    /**
+     * Get assignments available for the student based on their grade.
+     */
+    public function getAssignmentsForStudent(int $studentId, string $studentGrade): Collection
+    {
+        // Fetch assignments matching the studentGrade.
+        return Assignment::query()
+            ->select(['id', 'title', 'description', 'due_date', 'grade', "lesson_id"]) 
+            ->where('grade', $studentGrade)
+            ->get();
+    }
+
     /**
      * Get assignment details without correct answers
      */
@@ -77,6 +91,49 @@ class AssignmentService
             ];
         });
     }
+
+    /**
+     * Get a list of submissions for a specific student.
+     */
+    public function getSubmissionsForStudent(int $studentId): Collection
+    {
+        // Implementation needed:
+        // 1. Fetch AssignmentUser records for the given studentId.
+        // 2. Eager load related Assignment details (like title, total points/questions).
+        // 3. Return the collection of submissions.
+        return AssignmentUser::where('user_id', $studentId)
+            ->with('assignment:id,title') // Load assignment title
+            ->orderBy('submitted_at', 'desc')
+            ->get();
+    }
+
+    /**
+     * Get detailed results for a specific submission.
+     * Ensures the submission belongs to the requesting student.
+     */
+    public function getSubmissionDetails(int $submissionId, int $studentId)
+    {
+        // Implementation needed:
+        // 1. Fetch the AssignmentUser record by submissionId.
+        // 2. Verify that the user_id matches the studentId. Throw exception if not.
+        // 3. Eager load the related Assignment, Questions, Options, and the student's Answers.
+        // 4. Include information about correct options for comparison.
+        // 5. Return the detailed submission data.
+
+        $submission = AssignmentUser::with([
+            'assignment.questions.options', // Load assignment, questions, and all options
+            'answers.selectedOption', // Load the student's answers and their selected options
+            'answers.question.options' => function ($query) { // Load correct options for comparison
+                $query->where('is_correct', true);
+            }
+        ])->where('user_id', $studentId) // Ensure it belongs to the student
+          ->findOrFail($submissionId);
+
+        // You might want to structure the response further here
+        // e.g., map questions to include student answer and correctness
+        return $submission;
+    }
+
 
     /**
      * Get all correct answers for an assignment

@@ -177,7 +177,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     // Student routes with subscription check
-    Route::middleware(['auth:sanctum', CheckSubscription::class])->prefix('student')->group(function () 
+    Route::middleware(['auth:sanctum', CheckSubscription::class])->prefix('student')->group(function ()
     {
             // lectures routes
             Route::get('lectures', [StudentLectureController::class, 'index']);
@@ -185,8 +185,20 @@ Route::middleware('auth:sanctum')->group(function () {
 
             // assignments routes
             Route::prefix('assignments')->group(function () {
+                //  List assignments for the student's grade
+                Route::get('/', [StudentAssignmentController::class, 'index']);
+                //  Show details of a specific assignment before submission
                 Route::get('/{assignmentId}', [StudentAssignmentController::class, 'show']);
+                // Submit answers
                 Route::post('/{assignmentId}/submit', [StudentAssignmentController::class, 'submit']);
+            });
+
+            // Submission routes
+            Route::prefix('submissions')->group(function () {
+                // List all past submissions for the student
+                Route::get('/', [StudentAssignmentController::class, 'listSubmissions']);
+                // Show detailed results of a specific submission
+                Route::get('/{submissionId}', [StudentAssignmentController::class, 'showSubmission']);
             });
     });
 
