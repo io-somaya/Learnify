@@ -58,12 +58,12 @@
           <line x1="12" y1="8" x2="12" y2="12"></line>
           <line x1="12" y1="16" x2="12.01" y2="16"></line>
         </svg>
-        <p class="error-message">{{ submissionResult?.message || 'No results available' }}</p>
+        <p class="ERROR-message erroring">{{ submissionResult?.errors || 'No results available' }}</p>
       </div>
     }
   </div>
   
   <div class="popup-footer">
-    <button class="btn-review" (click)="onClose()">Return to Assignments</button>
+    <button class="btn-review" (click)="onGoToAssignment()">Return to Assignments</button>
   </div>
 </div>

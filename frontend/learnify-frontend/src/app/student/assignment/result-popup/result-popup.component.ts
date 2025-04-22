@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 export class ResultPopupComponent implements OnInit {
   @Input() submissionResult: any;
   @Output() close = new EventEmitter<void>();
-  
+  @Output() goToAssignment = new EventEmitter<void>();
   ngOnInit() {
     console.log('Submission Result received:', this.submissionResult);
   }
@@ -26,10 +26,14 @@ export class ResultPopupComponent implements OnInit {
       return this.submissionResult;
     }
     
+    
     return null;
   }
 
   onClose() {
     this.close.emit();
+  }
+  onGoToAssignment() {
+    this.goToAssignment.emit();
   }
 }

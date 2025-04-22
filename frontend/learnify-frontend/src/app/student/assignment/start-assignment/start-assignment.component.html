@@ -82,6 +82,7 @@
   <app-result-popup 
     *ngIf="showResultPopup" 
     [submissionResult]="submissionResult" 
-    (close)="closeResultPopup()">
+    (close)="closeResultPopup()"
+    (goToAssignment)="goToAssignment()">
   </app-result-popup>
 </div>

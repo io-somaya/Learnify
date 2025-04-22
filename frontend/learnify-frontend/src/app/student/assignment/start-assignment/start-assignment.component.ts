@@ -145,6 +145,9 @@ export class StartAssignmentComponent implements OnInit {
 
   closeResultPopup() {
     this.showResultPopup = false;
-    this.router.navigate(['/student/dashboard/assignment-submissions']);
+  }
+  goToAssignment() {
+    this.showResultPopup = false;
+    this.router.navigate(['/student/dashboard/assignments-list']);
   }
 }
