@@ -105,6 +105,7 @@
   flex-direction: column;
   gap: 12px;
   margin-bottom: 1rem;
+  
 }
 
 .option {
@@ -119,11 +120,15 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   margin-bottom: 10px;
   position: relative;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .option.selected {
   background-color: rgba(120, 134, 199, 0.1);
   border-left: 3px solid var(--medium-purple);
+  
 }
 
 .option.correct {

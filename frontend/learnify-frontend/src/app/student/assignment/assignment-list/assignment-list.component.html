@@ -56,9 +56,9 @@
           <span class="grade-badge">Grade - {{ assignment.grade }}</span>
           <span class=" grade-badge"> Deadline - {{ assignment.due_date | date : 'MM/dd/yyyy hh:mm a' }}</span>
         </div>
-        <p class="assignment-description">{{ assignment.description }}</p>
+        <p class="assignment-description pb-2">{{ assignment.description }}</p>
         <div class="assignment-footer">
-          <button class="start-assignment-btn" [routerLink]="['/student/dashboard/start-assignment', assignment.id]">
+          <button class="start-assignment-btn " [routerLink]="['/student/dashboard/start-assignment', assignment.id]">
             <i class="fa-solid fa-folder-open"></i>            Start Assignment
           </button>
         </div>

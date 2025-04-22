@@ -22,7 +22,7 @@ export class StartAssignmentComponent implements OnInit {
   error = '';
   submitting = false;
   showResultPopup = false;
-  submissionResult: any = null;
+  submissionResult: any ;
 
   constructor(
     private assignmentService: AssignmentService,
@@ -90,23 +90,23 @@ export class StartAssignmentComponent implements OnInit {
       this.error = 'Please answer at least one question before submitting';
       return;
     }
-
+  
     if (this.selectedAnswers.size !== this.questions.length) {
       this.error = 'Please answer all questions before submitting';
       return;
     }
-
+  
     this.error = '';
     if (this.submitting) return;
     
     this.submitting = true;
     this.loading = true;
-
+  
     const answers = Array.from(this.selectedAnswers.entries()).map(([question_id, option_id]) => ({
       question_id,
       option_id
     }));
-
+  
     console.log('Submitting answers:', answers);
     
     this.assignmentService.submitAssignment(this.assignment.id, answers)
@@ -114,25 +114,26 @@ export class StartAssignmentComponent implements OnInit {
         next: (response) => {
           this.loading = false;
           this.submitting = false;
-          console.log('Submission successful:', response);
-          
-          if (response.status === 200) {
-            this.submissionResult = response;
-            this.showResultPopup = true;
-            this.toastService.success('Assignment submitted successfully.');
-          } else if (response.status === 409 || response.status === 500) {
-            this.toastService.error(response.errors || 'You have already submitted this assignment.');
-          }
+          this.submissionResult = response;  // Pass the entire response
+          this.showResultPopup = true;
+          this.toastService.success('Assignment submitted successfully.');
         },
         error: (error) => {
           this.loading = false;
           this.submitting = false;
+          
           if (error.status === 409) {
-            this.error = error.error.errors || 'You have already submitted this assignment';
-            this.toastService.error(this.error);
+            // Create a submission result object for the already submitted case
+            this.submissionResult = {
+              status: error.status,
+              message: error.error.message || 'Submission Error',
+              data: null
+            };
+            this.toastService.warning('You have already submitted this assignment');
+            // Navigate to submissions page after a short delay
             setTimeout(() => {
-              // this.router.navigate(['/student/assignments/results', this.assignment?.id]);
-            }, 2000); // Wait 2 seconds before redirecting
+              this.router.navigate(['/student/dashboard/assignment-submissions']);
+            }, 1500);
           } else {
             this.error = error.error.message || 'Failed to submit assignment';
             this.toastService.error(this.error);

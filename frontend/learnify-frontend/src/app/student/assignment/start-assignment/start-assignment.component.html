@@ -51,8 +51,6 @@
                       <i class="fa-regular fa-circle"></i>
                       {{ option.option_text }}
                     </ng-template>
-                  
-
                 </label>
               </div>
             </div>
@@ -79,4 +77,11 @@
   <div *ngIf="!assignment && !loading" class="alert alert-warning">
     Assignment not found.
   </div>
+  
+  <!-- Add the result popup component -->
+  <app-result-popup 
+    *ngIf="showResultPopup" 
+    [submissionResult]="submissionResult" 
+    (close)="closeResultPopup()">
+  </app-result-popup>
 </div>

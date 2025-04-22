@@ -1,9 +1,69 @@
 <div class="result-popup">
-  <h2>Assignment Results</h2>
-  <div class="result-content">
-    <p>Score: {{ result.score }}%</p>
-    <p>Correct Answers: {{ result.correctAnswers }}/{{ result.totalQuestions }}</p>
-    <p>Time Taken: {{ result.timeTaken }} minutes</p>
+  <div class="popup-header">
+    <h2>Assignment Results</h2>
+    <button class="btn-close" (click)="onClose()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <path fill="none" d="M0 0h24v24H0z"/>
+        <path fill="currentColor" d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/>
+      </svg>
+    </button>
   </div>
-  <button class="btn-close" (click)="onClose()">Close</button>
+  
+  <div class="result-content">
+    @if (getResultData()) {
+      <div class="result-main">
+        <div class="score-circle" [style.--percentage]="getResultData().grade / 100">
+          <svg class="circle-chart" viewBox="0 0 36 36">
+            <path class="circle-bg"
+              d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <path class="circle-fill"
+              d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831"
+              stroke-dasharray="{{getResultData().grade}}, 100"
+            />
+          </svg>
+          <div class="score-value">{{ getResultData().grade }}%</div>
+        </div>
+        
+        <div class="result-details">
+          <div class="detail-box correct">
+            <span class="detail-label">Correct</span>
+            <span class="detail-value">{{ getResultData().correct_answers }}</span>
+          </div>
+          
+          <div class="detail-box total">
+            <span class="detail-label">Total</span>
+            <span class="detail-value">{{ getResultData().total_questions }}</span>
+          </div>
+          
+          <div class="performance-message">
+            @if (getResultData().grade >= 80) {
+              <p>Excellent work! You've mastered this material.</p>
+            } @else if (getResultData().grade >= 50) {
+              <p>Good effort! Review the material to improve.</p>
+            } @else {
+              <p>Keep practicing! You'll get better with more study.</p>
+            }
+          </div>
+        </div>
+      </div>
+    } @else {
+      <div class="error-state">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <p class="error-message">{{ submissionResult?.message || 'No results available' }}</p>
+      </div>
+    }
+  </div>
+  
+  <div class="popup-footer">
+    <button class="btn-review" (click)="onClose()">Return to Assignments</button>
+  </div>
 </div>
