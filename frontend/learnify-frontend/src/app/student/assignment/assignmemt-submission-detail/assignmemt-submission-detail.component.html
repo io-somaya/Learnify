@@ -20,7 +20,7 @@
                class="option"
                [class.selected]="option.id === question.student_answer.selected_option_id"
                [class.correct]="question.correct_options[0].id === option.id">
-            <span>{{option.option_text}}</span>
+            <span>{{option.option_text }}</span>
             <i class="fa-regular fa-circle" *ngIf="option.id !== question.student_answer.selected_option_id"></i>
 
             <i class="fa-regular fa-circle-check" *ngIf="option.id === question.student_answer.selected_option_id"></i>

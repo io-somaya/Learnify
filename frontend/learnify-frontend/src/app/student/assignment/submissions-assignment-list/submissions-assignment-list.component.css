@@ -70,6 +70,9 @@ h2::after {
   margin-bottom: 15px;
   font-size: 0.95rem;
   line-height: 1.5;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .submission-details {
