@@ -81,6 +81,17 @@ class TeacherLectureController extends Controller
                 'zoom_start_url' => $zoomMeeting['start_url']
             ]);
 
+            // Create and broadcast notification
+            $notification = \App\Models\Notification::create([
+                'grade' => $data['grade'],
+                'title' => 'New Lecture: ' . $data['title'],
+                'message' => 'A new lecture has been scheduled for ' . $data['day_of_week'] . ' at ' . $data['start_time'],
+                'type' => 'lecture',
+                'link' => '/lectures/' . $lecture->id
+            ]);
+
+            event(new \App\Events\LectureNotificationEvent($notification, $data['grade']));
+
             // Commit transaction if everything succeeded
             DB::commit();
 
@@ -127,6 +138,17 @@ class TeacherLectureController extends Controller
 
             $lecture->update($data);
 
+            // Create notification for schedule change
+            $notification = \App\Models\Notification::create([
+                'grade' => $lecture->grade,
+                'title' => 'Lecture Schedule Updated: ' . $lecture->title,
+                'message' => "The schedule for lecture '{$lecture->title}' has been updated to {$data['day_of_week']} at {$data['start_time']}",
+                'type' => 'lecture',
+                'link' => '/lectures/' . $lecture->id
+            ]);
+
+            event(new \App\Events\LectureNotificationEvent($notification, $lecture->grade));
+
             // Commit transaction if everything succeeded
             DB::commit();
 
@@ -148,6 +170,17 @@ class TeacherLectureController extends Controller
         DB::beginTransaction();
 
         try {
+            // Create cancellation notification before deleting
+            $notification = \App\Models\Notification::create([
+                'grade' => $lecture->grade,
+                'title' => 'Lecture Cancelled: ' . $lecture->title,
+                'message' => "The lecture '{$lecture->title}' scheduled for {$lecture->day_of_week} at {$lecture->start_time} has been cancelled",
+                'type' => 'lecture',
+                'link' => null
+            ]);
+
+            event(new \App\Events\LectureNotificationEvent($notification, $lecture->grade));
+
             // Delete the Zoom meeting
             if ($lecture->zoom_meeting_id) {
                 try {

@@ -23,6 +23,7 @@ use App\Http\Controllers\Teacher\Assignment\TeacherAssignmentController;
 use App\Http\Controllers\Teacher\UserManagement\UserManagementController;
 use App\Http\Controllers\AIAssistantController;
 use App\Http\Controllers\Student\StudentAssignmentController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -287,4 +288,22 @@ Route::group(['middleware' => ['auth:sanctum', \App\Http\Middleware\CheckRole::c
 Route::prefix('ai-assistant')->group(function () {
     Route::post('/get-response', [AIAssistantController::class, 'getResponse']);
     Route::get('/help-topics', [AIAssistantController::class, 'getHelpTopics']);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Notification Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth:sanctum')->group(function () {
+    // Student notification routes
+    Route::get('/notifications/student', [NotificationController::class, 'getStudentNotifications']);
+    
+    // Teacher notification routes
+    Route::get('/notifications/teacher', [NotificationController::class, 'getTeacherNotifications']);
+    
+    // Common notification routes
+    Route::post('/notifications/mark-read/{notification}', [NotificationController::class, 'markAsRead']);
+    
 });
