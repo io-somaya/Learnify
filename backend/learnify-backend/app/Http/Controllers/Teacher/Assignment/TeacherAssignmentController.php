@@ -96,6 +96,18 @@ class TeacherAssignmentController extends Controller
             // Call the service to create the assignment
             $assignment = $this->assignmentService->createAssignment($validatedData);
 
+            // Create and broadcast notification
+            $notification = \App\Models\Notification::create([
+                'grade' => $validatedData['grade'],
+                'title' => 'New Assignment: ' . $validatedData['title'],
+                'message' => 'A new assignment has been posted' . 
+                    ($validatedData['due_date'] ? '. Due: ' . $validatedData['due_date'] : ''),
+                'type' => 'assignment',
+                'link' => '/assignments/' . $assignment->id
+            ]);
+
+            event(new \App\Events\AssignmentNotificationEvent($notification, $validatedData['grade']));
+
             // Return a success response
             return $this->apiResponse(
                 201,
@@ -190,6 +202,20 @@ class TeacherAssignmentController extends Controller
             $submissions = $submissionsQuery->latest('submit_time')
                 ->paginate($perPage);
 
+            // Create notification for teacher when a new submission is made
+            if ($statusFilter === 'submitted') {
+                foreach ($submissions as $submission) {
+                    $notification = \App\Models\Notification::create([
+                        'title' => 'New Assignment Submission',
+                        'message' => "Student {$submission->user->first_name} {$submission->user->last_name} has submitted assignment '{$assignment->title}'",
+                        'type' => 'submission',
+                        'link' => "/admin/assignments/{$assignment->id}/submissions"
+                    ]);
+
+                    event(new \App\Events\PaymentNotificationEvent($notification));
+                }
+            }
+
             return $this->apiResponse(
                 200,
                 "Submissions for assignment '{$assignment->title}' retrieved successfully.",
@@ -199,6 +225,38 @@ class TeacherAssignmentController extends Controller
         } catch (Exception $e) {
             Log::error("Error retrieving submissions for assignment {$assignment->id}: " . $e->getMessage());
             return $this->apiResponse(500, 'Error retrieving assignment submissions', 'An unexpected error occurred.');
+        }
+    }
+
+    public function gradeSubmission(Request $request, Assignment $assignment, AssignmentUser $submission)
+    {
+        try {
+            $validated = $request->validate([
+                'score' => 'required|numeric|min:0|max:100'
+            ]);
+
+            DB::transaction(function () use ($submission, $validated, $assignment) {
+                $submission->update([
+                    'score' => $validated['score'],
+                    'status' => 'graded'
+                ]);
+
+                // Create notification for the student
+                $notification = \App\Models\Notification::create([
+                    'user_id' => $submission->user_id,
+                    'title' => 'Assignment Graded',
+                    'message' => "Your submission for '{$assignment->title}' has been graded. Score: {$validated['score']}%",
+                    'type' => 'submission',
+                    'link' => "/assignments/{$assignment->id}/submissions/{$submission->id}"
+                ]);
+
+                event(new \App\Events\GradedNotificationEvent($notification));
+            });
+
+            return $this->apiResponse(200, 'Submission graded successfully');
+        } catch (Exception $e) {
+            Log::error("Error grading submission: " . $e->getMessage());
+            return $this->apiResponse(500, 'Error grading submission', 'An unexpected error occurred.');
         }
     }
 }

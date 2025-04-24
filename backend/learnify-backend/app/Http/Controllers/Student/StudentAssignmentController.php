@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\SubmitAssignmentRequest;
 use App\Http\traits\ApiTrait;
+use App\Models\Assignment;
 use App\Services\Student\AssignmentService;
 use Illuminate\Support\Facades\Auth; // Import Auth facade
 use Illuminate\Database\Eloquent\ModelNotFoundException; // Import ModelNotFoundException
@@ -75,6 +76,19 @@ class StudentAssignmentController extends Controller
         try {
             $data = $request->validated();
             $result = $this->assignmentService->submitAssignment($assignmentId, $data['answers'], Auth::id());
+
+            // Create notification for teachers about the submission
+            $student = Auth::user();
+            $assignment = Assignment::find($assignmentId);
+            
+            $notification = \App\Models\Notification::create([
+                'title' => 'New Assignment Submission',
+                'message' => "{$student->first_name} {$student->last_name} has submitted assignment '{$assignment->title}'",
+                'type' => 'submission',
+                'link' => "/admin/assignments/{$assignmentId}/submissions"
+            ]);
+
+            event(new \App\Events\PaymentNotificationEvent($notification));
 
             return $this->apiResponse(200, 'Assignment submitted successfully', null, $result);
         } catch (ModelNotFoundException $e) {
