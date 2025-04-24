@@ -55,6 +55,8 @@ import { StartAssignmentComponent } from './student/assignment/start-assignment/
 import { AssignmentListComponent } from './student/assignment/assignment-list/assignment-list.component';
 import { SubmissionsAssignmentListComponent } from './student/assignment/submissions-assignment-list/submissions-assignment-list.component';
 import { AssignmemtSubmissionDetailComponent } from './student/assignment/assignmemt-submission-detail/assignmemt-submission-detail.component';
+import { StudentManagementComponent } from './admin/student-management/student-management.component';
+import { StudentDetailComponent } from './admin/student-management/student-detail/student-detail.component';
 
 export function route(name: string): string {
   const routes = {
@@ -233,6 +235,16 @@ export const routes: Routes = [
       path: 'assignments-management/submissions/:id',
       component: AssignmentSubmissionsComponent,
       title: 'Assignment Submissions'
+    },
+    {
+      path:"student-management",
+      component:StudentManagementComponent,
+      title:"Student Management"
+    },
+    {
+      path:"student-management/:id",
+      component:StudentDetailComponent,
+      title:"Student Management"
     },
     // Admin Profile Routes
     {
