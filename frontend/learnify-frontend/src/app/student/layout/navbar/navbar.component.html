@@ -3,7 +3,7 @@
   <div class="container-fluid navbar-container">
     <!-- Logo -->
     <a class="navbar-brand" href="#">Learn<span>ify</span></a>
-    
+
     <!-- Search Bar -->
     <div class="search-container d-none d-md-flex">
       <div class="search-box">
@@ -11,15 +11,13 @@
         <input type="text" placeholder="Search for courses..." class="search-input">
       </div>
     </div>
-    
+
     <!-- Right Side Navigation Items -->
     <div class="nav-right">
       <!-- Notification Icon -->
-      <div class="nav-icon-container">
-        <i class="fas fa-bell notification-icon"></i>
-        <span class="notification-badge">3</span>
-      </div>
-      
+      <!-- Notification Dropdown Component -->
+      <app-notification-dropdown></app-notification-dropdown>
+
       <!-- Profile Dropdown -->
       <div class="profile-dropdown">
         <div class="profile-trigger">
@@ -29,19 +27,25 @@
         </div>
         <div class="profile-dropdown-content">
           <div class="dropdown-header">
-            <img [src]="user.profile_picture || 'assets/images/default-avatar.png'" alt="Profile" class="dropdown-profile-img">
+            <img [src]="user.profile_picture || 'assets/images/default-avatar.png'" alt="Profile"
+              class="dropdown-profile-img">
             <div>
               <p class="dropdown-name">{{ user?.first_name || 'Guest User' }} {{ user?.last_name || '' }}</p>
               <p class="dropdown-email">{{ user?.email || 'No email' }}</p>
             </div>
           </div>
           <div class="dropdown-divider"></div>
-          <a routerLink="/student/dashboard/profile" class="dropdown-item"><i class="fas fa-user me-2"></i> My Profile</a>
-          <a routerLink="/student/dashboard" class="dropdown-item"><i class="fas fa-graduation-cap me-2"></i> My Dashboard</a>
-          <a routerLink="/student/dashboard/lessons-list" class="dropdown-item"> <i class="fa-solid fa-person-chalkboard me-2"></i> My Lessons</a>
-          <a routerLink="/student/dashboard/lectures-list" class="dropdown-item"> <i class="fas fa-chalkboard-teacher me-2"></i> My Lectures</a>
+          <a routerLink="/student/dashboard/profile" class="dropdown-item"><i class="fas fa-user me-2"></i> My
+            Profile</a>
+          <a routerLink="/student/dashboard" class="dropdown-item"><i class="fas fa-graduation-cap me-2"></i> My
+            Dashboard</a>
+          <a routerLink="/student/dashboard/lessons-list" class="dropdown-item"> <i
+              class="fa-solid fa-person-chalkboard me-2"></i> My Lessons</a>
+          <a routerLink="/student/dashboard/lectures-list" class="dropdown-item"> <i
+              class="fas fa-chalkboard-teacher me-2"></i> My Lectures</a>
           <div class="dropdown-divider"></div>
-          <button  class="dropdown-item text-danger" (click)="logout()"><i class="fas fa-sign-out-alt me-2"></i> Logout</button>
+          <button class="dropdown-item text-danger" (click)="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+            Logout</button>
         </div>
       </div>
     </div>

@@ -1,0 +1,45 @@
+<div class="nav-icon-container" (click)="toggleDropdown()" (clickOutside)="closeDropdown()">
+  <i class="fas fa-bell notification-icon"></i>
+  <span class="notification-badge" *ngIf="unreadCount > 0">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
+
+  <!-- Notification Dropdown -->
+  <div class="notifications-dropdown" *ngIf="isOpen">
+    <div class="notifications-header">
+      <h6>Notifications</h6>
+      <span class="notifications-count">{{ unreadCount }} new</span>
+    </div>
+
+    <div class="notifications-content">
+      <ng-container *ngIf="notifications.length > 0; else noNotifications">
+        <div *ngFor="let notification of notifications" class="notification-item"
+          [ngClass]="{'unread': !notification.read_at}" (click)="onNotificationClick(notification)">
+          <div class="notification-icon" [ngClass]="notification.type">
+            <i class="fas" [ngClass]="{
+                 'fa-book-open': notification.type === 'assignment',
+                 'fa-chalkboard-teacher': notification.type === 'lecture',
+                 'fa-money-bill': notification.type === 'payment',
+                 'fa-clipboard-check': notification.type === 'submission'
+               }"></i>
+          </div>
+          <div class="notification-content">
+            <div class="notification-title">{{ notification.title }}</div>
+            <div class="notification-message">{{ notification.message }}</div>
+            <div class="notification-time">{{ formatDate(notification.created_at) }}</div>
+          </div>
+          <div class="notification-dot" *ngIf="!notification.read_at"></div>
+        </div>
+      </ng-container>
+
+      <ng-template #noNotifications>
+        <div class="no-notifications">
+          <i class="far fa-bell-slash"></i>
+          <p>No notifications yet</p>
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="notifications-footer">
+      <button class="btn-view-all" (click)="viewAllNotifications()">View All</button>
+    </div>
+  </div>
+</div>
