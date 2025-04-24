@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { IUserProfile } from '../../../Interfaces/IUserProfile';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { NotificationDropdownComponent } from '../notification-dropdown/notification-dropdown.component'; // Update path as needed
+import { SharedModule } from '../../../shared/shared.module';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule, RouterLink, NotificationDropdownComponent, SharedModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -15,7 +17,7 @@ export class NavbarComponent implements OnInit {
   @Input() user: IUserProfile | null = null;
   isScrolled = false;
 
-  constructor( 
+  constructor(
     private AuthService: AuthService
   ) { }
 

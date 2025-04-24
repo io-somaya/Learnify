@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { ToastComponent } from './toast/toast.component';
 import { ThemeService } from './services/theme.service';
 import { AiChatWidgetComponent } from './ai-assistant/ai-chat-widget/ai-chat-widget.component';
+import { NotificationService } from '../app/services/notification.service';
 
 
 @Component({
