@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../services/toast.service';
+import { NotificationService } from '../../../services/notification.service'; // Import notification service
+import { AuthService } from '../../../services/auth.service'; // Import auth service if needed
 
 @Component({
   selector: 'app-payment-result',
@@ -22,7 +24,9 @@ export class PaymentResultComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private toster: ToastService
+    private toster: ToastService,
+    private notificationService: NotificationService, // Add notification service
+    private authService: AuthService // Add auth service if needed
   ) { }
 
   ngOnInit(): void {

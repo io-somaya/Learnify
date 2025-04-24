@@ -4,7 +4,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
-import { environment } from '../../.environments/environment';
+import { environment } from '../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
 @Injectable({
   providedIn: 'root'
@@ -289,5 +289,8 @@ export class AuthService {
           return throwError(() => new Error(error.error?.message || 'Failed to refresh token. Please log in again.'));
         })
       );
+  }
+  isTeacher(): boolean {
+    return this.currentUserValue?.role === 'teacher'; // Adjust based on your user role property
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { environment } from '../../.environments/environment';
+import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class ProfileService {
   constructor(
     private http: HttpClient,
     private authService: AuthService
-  ) {}
+  ) { }
 
   private getAuthHeaders(): HttpHeaders {
     const token = this.authService.currentUserValue?.token;
@@ -38,16 +38,16 @@ export class ProfileService {
   // Helper method to format profile picture URLs
   formatProfilePictureUrl(path: string | null): string {
     if (!path) return 'assets/images/default-avatar.png';
-    
+
     // If the path already starts with http, it's already a full URL
     if (path.startsWith('http')) return path;
-    
+
     // Otherwise, append the path to the storage URL
     return `${this.baseUrl}/storage/${path}`;
   }
 
   getProfile(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/profile`, { 
+    return this.http.get(`${this.apiUrl}/profile`, {
       headers: this.getAuthHeaders(),
       withCredentials: true
     }).pipe(
@@ -59,12 +59,12 @@ export class ProfileService {
             data: response.errors // Move errors to data property
           };
         }
-        
+
         // Format the profile picture URL if there's data
         if (response.data && response.data.profile_picture) {
           response.data.profile_picture = this.formatProfilePictureUrl(response.data.profile_picture);
         }
-        
+
         // Store user data for reuse
         this.userdata = response.data;
         return response;
@@ -74,7 +74,7 @@ export class ProfileService {
   }
 
   getProfilePicture(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/profile/photo`, { 
+    return this.http.get(`${this.apiUrl}/profile/photo`, {
       headers: this.getAuthHeaders(),
       withCredentials: true
     }).pipe(
@@ -96,9 +96,9 @@ export class ProfileService {
     phone_number?: string;
   }): Observable<any> {
     return this.http.put(
-      `${this.apiUrl}/profile`, 
+      `${this.apiUrl}/profile`,
       profileData,
-      { 
+      {
         headers: this.getAuthHeaders(),
         withCredentials: true
       }
@@ -113,9 +113,9 @@ export class ProfileService {
     new_password_confirmation: string;
   }): Observable<any> {
     return this.http.post(
-      `${this.apiUrl}/profile/password`, 
+      `${this.apiUrl}/profile/password`,
       data,
-      { 
+      {
         headers: this.getAuthHeaders(),
         withCredentials: true
       }

@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map , switchMap, tap} from 'rxjs/operators';
-import { environment } from '../../.environments/environment';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 import { IAssignment, IAssignmentDetail, ISubmissionAnswer, ISubmissionPayload } from '../Interfaces/IAssignment';
 import { ISubmissionResponse } from '../Interfaces/ISubmission';
 
@@ -12,7 +12,7 @@ import { ISubmissionResponse } from '../Interfaces/ISubmission';
 export class AssignmentService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getAuthHeaders() {
     const currentUser = localStorage.getItem('currentUser');
@@ -81,12 +81,12 @@ export class AssignmentService {
 
   getSubmissions(assignmentId: number, page: number = 1, perPage: number = 5, status?: string): Observable<ISubmissionResponse> {
     let url = `${this.apiUrl}/admin/assignments/${assignmentId}/submissions?page=${page}&per_page=${perPage}`;
-    
+
     // Add status filter parameter if provided
     if (status) {
       url += `&status=${status}`;
     }
-    
+
     return this.http.get<{
       status: number,
       message: string,
@@ -100,7 +100,7 @@ export class AssignmentService {
     );
   }
 
-  // Student methods  
+  // Student methods
 
 
   getAssignmentsForStudent(): Observable<IAssignment[]> {
@@ -133,7 +133,7 @@ export class AssignmentService {
     );
 
   }
-  
+
   // Updated to return a single assignment with questions for student view
   getAssignmentsWithOutCorrectAnswer(assignmentId: number): Observable<IAssignment> {
     return this.http.get<{
@@ -158,18 +158,18 @@ export class AssignmentService {
     }
 
     console.log('Submitting assignment:', assignmentId, 'with answers:', answers);
-    
+
     const payload: ISubmissionPayload = {
       answers: answers.map(answer => ({
         question_id: answer.question_id,
         option_id: answer.option_id
       }))
     };
-    
+
     return this.http.post<any>(
       `${this.apiUrl}/student/assignments/${assignmentId}/submit`,
       payload,
-      { 
+      {
         headers: {
           ...this.getAuthHeaders(),
           'Content-Type': 'application/json'
@@ -190,7 +190,7 @@ export class AssignmentService {
   private handleError(error: HttpErrorResponse | Error) {
     console.error('API Error:', error);
     let errorMessage = 'An unknown error occurred';
-    
+
     if (error instanceof HttpErrorResponse) {
       if (error.error instanceof ErrorEvent) {
         errorMessage = `Client error: ${error.error.message}`;
@@ -201,7 +201,7 @@ export class AssignmentService {
         } else {
           errorMessage = `Server Error (${error.status}): ${error.error || error.message}`;
         }
-        
+
         if (error.status === 401) {
           errorMessage = 'Session expired. Please login again.';
         }

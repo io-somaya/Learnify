@@ -15,10 +15,15 @@ import { NotificationService } from '../app/services/notification.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  constructor(private themeService: ThemeService) { }
+  constructor(
+    private themeService: ThemeService,
+    private notificationService: NotificationService
+  ) { }
 
   ngOnInit(): void {
     // Apply new color theme
     this.themeService.applyNewColors();
+    // Initialize notifications
+    this.notificationService.loadNotifications();
   }
 }

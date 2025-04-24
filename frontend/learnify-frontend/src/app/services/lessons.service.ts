@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { environment } from '../../.environments/environment';
+import { environment } from '../../environments/environment';
 import { ILesson, IPaginatedLessons } from '../Interfaces/ILesson';
 
 @Injectable({
@@ -11,7 +11,7 @@ import { ILesson, IPaginatedLessons } from '../Interfaces/ILesson';
 export class LessonService {
   private apiUrl = environment.apiUrl || 'http://localhost:8000/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getAuthHeaders() {
     const token = this.getToken();
@@ -22,22 +22,22 @@ export class LessonService {
     const currentUser = localStorage.getItem('currentUser');
     return currentUser ? JSON.parse(currentUser).token : null;
   }
-// GET all lessons student 
+  // GET all lessons student
   getLessons(page: number = 1, grade?: string, search?: string, perPage: number = 10): Observable<{ data: ILesson[], total: number }> {
     const params = new URLSearchParams();
     params.append('page', page.toString());
     if (grade) params.append('grade', grade);
     if (search) params.append('search', search);
     params.append('per_page', perPage.toString());
-  
-    return this.http.get<{ 
-      data: { 
+
+    return this.http.get<{
+      data: {
         current_page: number,
         data: ILesson[],
         total: number,
         per_page: number,
-        last_page: number 
-      } 
+        last_page: number
+      }
     }>(
       `${this.apiUrl}/lessons?${params.toString()}`,
       { headers: this.getAuthHeaders() }
@@ -53,7 +53,7 @@ export class LessonService {
       catchError(this.handleError)
     );
   }
-// GET lessons for student and teacher by ID
+  // GET lessons for student and teacher by ID
   getLessonById(id: number): Observable<ILesson> {
     return this.http.get<{ data: ILesson }>(
       `${this.apiUrl}/lessons/${id}`,
@@ -64,7 +64,7 @@ export class LessonService {
       catchError(this.handleError)
     );
   }
-// GET all lessons for teacher
+  // GET all lessons for teacher
   getManagedLessons(
     page: number = 1,
     grade?: string,
@@ -76,11 +76,11 @@ export class LessonService {
     if (grade) params.append('grade', grade);
     if (search) params.append('search', search);
     params.append('per_page', perPage.toString());
-  
-    return this.http.get<{ 
-      status: string, 
-      data: IPaginatedLessons, 
-      message: string 
+
+    return this.http.get<{
+      status: string,
+      data: IPaginatedLessons,
+      message: string
     }>(
       `${this.apiUrl}/admin/lessons?${params.toString()}`,
       { headers: this.getAuthHeaders() }
@@ -102,7 +102,7 @@ export class LessonService {
     );
   }
   //DELETE lesson by ID if u admin and assistant
-deleteLesson(lessonId: number): Observable<any> {
+  deleteLesson(lessonId: number): Observable<any> {
     return this.http.delete(
       `${this.apiUrl}/admin/lessons/${lessonId}`,
       { headers: this.getAuthHeaders() }
@@ -121,7 +121,7 @@ deleteLesson(lessonId: number): Observable<any> {
       catchError(this.handleError)
     );
   }
-  
+
   updateLesson(lessonId: number, lessonData: any): Observable<ILesson> {
     return this.http.put<{ data: ILesson }>(
       `${this.apiUrl}/admin/lessons/${lessonId}`,

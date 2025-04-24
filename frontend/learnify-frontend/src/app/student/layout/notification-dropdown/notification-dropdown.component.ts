@@ -1,19 +1,21 @@
 // src/app/shared/components/notification-dropdown/notification-dropdown.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NotificationService } from '../../../services/notification.service';
 import { NotificationModel } from '../../../core/models/notification.model';
 import { Subscription } from 'rxjs';
+import { SharedModule } from '../../../shared/shared.module';
 
 @Component({
   selector: 'app-notification-dropdown',
   templateUrl: './notification-dropdown.component.html',
   styleUrls: ['./notification-dropdown.component.scss'],
-  standalone: true, // Add this line
+  standalone: true,
   imports: [
     CommonModule,
-    // Add other modules you need
+    RouterModule,
+    SharedModule
   ]
 })
 export class NotificationDropdownComponent implements OnInit, OnDestroy {

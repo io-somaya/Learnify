@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { environment } from '../../.environments/environment';
+import { environment } from '../../environments/environment';
 import { IMaterial } from '../Interfaces/IMaterial';
 
 @Injectable({
@@ -11,7 +11,7 @@ import { IMaterial } from '../Interfaces/IMaterial';
 export class MaterialService {
   private apiUrl = environment.apiUrl || 'http://localhost:8000/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getAuthHeaders() {
     const token = this.getToken();

@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../.environments/environment';
+import { environment } from '../../environments/environment';
 import { ILecture } from "../Interfaces/ILecture";
 import { Observable, throwError } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { tap, map, catchError } from 'rxjs/operators';
 export class LectureService {
   private apiUrl = environment.apiUrl || 'http://localhost:8000/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getToken(): string | null {
     const currentUser = localStorage.getItem('currentUser');
@@ -48,7 +48,7 @@ export class LectureService {
 
   // GET lecture by ID
   getLectureById(id: number): Observable<ILecture> {
-    return this.http.get<{data: ILecture}>(
+    return this.http.get<{ data: ILecture }>(
       `${this.apiUrl}/admin/lectures/${id}`,
       { headers: this.getAuthHeaders() }
     ).pipe(
@@ -70,7 +70,7 @@ export class LectureService {
 
   // PUT update lecture
   updateLecture(id: number, lecture: ILecture): Observable<ILecture> {
-    return this.http.put<{data: ILecture, status: number, message: string}>(
+    return this.http.put<{ data: ILecture, status: number, message: string }>(
       `${this.apiUrl}/admin/lectures/${id}`,
       lecture,
       { headers: this.getAuthHeaders() }

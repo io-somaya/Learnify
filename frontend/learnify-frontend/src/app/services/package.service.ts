@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { environment } from '../../.environments/environment';
+import { environment } from '../../environments/environment';
 import { IPackage } from '../Interfaces/IPackage';
 import { catchError, tap, map } from 'rxjs/operators';
 
@@ -11,7 +11,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 export class PackageService {
   private apiUrl = environment.apiUrl || 'http://localhost:8000/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getAuthHeaders() {
     const token = this.getToken();
@@ -33,7 +33,7 @@ export class PackageService {
       catchError(this.handleError)
     );
   }
-  
+
   getPackageById(id: number): Observable<IPackage> {
     return this.http.get<{ data: IPackage }>(
       `${this.apiUrl}/admin/packages/${id}`,  // Changed to admin endpoint
@@ -81,7 +81,7 @@ export class PackageService {
 
   private handleError(error: HttpErrorResponse) {
     console.error('API Error:', error);
-    
+
     let errorMessage = 'An unknown error occurred';
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Client error: ${error.error.message}`;
@@ -91,7 +91,7 @@ export class PackageService {
         errorMessage = 'Session expired. Please login again.';
       }
     }
-    
+
     return throwError(() => new Error(errorMessage));
   }
 }

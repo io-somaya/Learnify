@@ -5,12 +5,22 @@ import { provideHttpClient, withInterceptors, HttpClientModule } from '@angular/
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { AiAssistantModule } from './ai-assistant/ai-assistant.module';
 import { RouterModule } from '@angular/router';
+import { NotificationService } from './services/notification.service';
+import { SharedModule } from './shared/shared.module';
+
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, HttpClientModule, AiAssistantModule],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AiAssistantModule,
+    RouterModule.forRoot([]),
+    SharedModule
+  ],
   providers: [
-    provideHttpClient(withInterceptors([authInterceptor]))
+    provideHttpClient(withInterceptors([authInterceptor])),
+    NotificationService
   ],
   bootstrap: [AppComponent]
 })

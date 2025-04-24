@@ -6,10 +6,11 @@ import { AiChatWidgetComponent } from './ai-chat-widget/ai-chat-widget.component
 
 @NgModule({
   declarations: [
-    AiChatWidgetComponent
+
   ],
   imports: [
     CommonModule,
+    AiChatWidgetComponent,
     FormsModule,
     HttpClientModule
   ],

@@ -2,8 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { environment } from '../../.environments/environment';
-import { ISubscription ,ISubscriptionDetail} from '../Interfaces/ISubscription';
+import { environment } from '../../environments/environment';
+import { ISubscription, ISubscriptionDetail } from '../Interfaces/ISubscription';
 
 
 @Injectable({
@@ -12,7 +12,7 @@ import { ISubscription ,ISubscriptionDetail} from '../Interfaces/ISubscription';
 export class SubscriptionService {
   private apiUrl = environment.apiUrl || 'http://localhost:8000/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getAuthHeaders() {
     const token = this.getToken();
@@ -37,12 +37,12 @@ export class SubscriptionService {
 
 
   getCurrentSubscription(): Observable<ISubscriptionDetail> {
-    
+
     return this.http.get<{ data: ISubscriptionDetail }>(
       `${this.apiUrl}/subscriptions/current`,
       { headers: this.getAuthHeaders() }
     ).pipe(
-        
+
       tap(res => console.log('GET Current Subscription Response:', res)),
       map(res => res.data),
       catchError(this.handleError)
