@@ -125,7 +125,6 @@ export class StudentManagementComponent implements OnInit {
         }
       });
   }
-  // Add this method to your component class
   getPaginationArray(): number[] {
     const paginationArray: number[] = [];
     const maxVisiblePages = 5; 
