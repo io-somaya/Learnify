@@ -1,0 +1,111 @@
+.payment-result-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
+
+.result-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.result-card.success {
+  border-top: 5px solid #28a745;
+}
+
+.result-card.error {
+  border-top: 5px solid #dc3545;
+}
+
+.icon {
+  margin-bottom: 1.5rem;
+}
+
+.icon .fas {
+  font-size: 4rem;
+}
+
+.fa-check-circle {
+  color: #28a745;
+}
+
+.fa-times-circle {
+  color: #dc3545;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.details {
+  margin-bottom: 2rem;
+}
+
+.details p {
+  margin-bottom: 0.8rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.transaction-details {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.transaction-details p {
+  margin-bottom: 0.5rem;
+}
+
+.actions {
+  margin-top: 1.5rem;
+}
+
+.primary-button {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.primary-button:hover {
+  background-color: #0069d9;
+}
+
+.primary-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+}
+
+@media (max-width: 576px) {
+  .result-card {
+    padding: 1.5rem;
+  }
+
+  .icon .fas {
+    font-size: 3rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
