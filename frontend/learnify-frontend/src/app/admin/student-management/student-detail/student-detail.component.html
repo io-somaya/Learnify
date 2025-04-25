@@ -1,0 +1,93 @@
+<div class="management__details">
+    <!-- Loading and Error States -->
+    <div *ngIf="loading" class="management__loader">
+      <div class="management__spinner"></div>
+      <p class="mt-3"><i class="fas fa-circle-notch fa-spin me-2"></i>Loading student data...</p>
+    </div>
+    
+    <div *ngIf="error" class="management__error">
+      <span>
+        <i class="fas fa-exclamation-circle me-2"></i>
+        {{ error }}
+      </span>
+      <button class="management__button management__button--danger-outline" (click)="loadStudentDetails()">
+        <i class="fas fa-sync-alt me-2"></i>
+        Retry
+      </button>
+    </div>
+  
+    <!-- Back Button -->
+    <div class="management__header mb-4">
+      <button class="management__button management__button--back" (click)="goBack()">
+        <i class="fas fa-arrow-left me-2"></i>
+        Back to Students
+      </button>
+    </div>
+  
+    <!-- Student Details Card -->
+    <div *ngIf="user && !loading && !error" class="management__details-card">
+      <h2 class="management__details-title">
+        <i class="fas fa-user-graduate me-2"></i>
+        Student Details
+      </h2>
+  
+      <div class="management__details-grid">
+        <div class="management__details-item">
+          <label class="management__details-label"><i class="fas fa-id-card me-2"></i>Name:</label>
+          <p class="management__details-value">{{ user.first_name }} {{ user.last_name }}</p>
+        </div>
+        
+        <div class="management__details-item">
+          <label class="management__details-label"><i class="fas fa-envelope me-2"></i>Email:</label>
+          <p class="management__details-value">{{ user.email }}</p>
+        </div>
+        
+        <div class="management__details-item">
+          <label class="management__details-label"><i class="fas fa-phone me-2"></i>Phone:</label>
+          <p class="management__details-value">{{ user.phone_number || 'Not provided' }}</p>
+        </div>
+        
+        <div class="management__details-item">
+          <label class="management__details-label"><i class="fas fa-users me-2"></i>Parent Phone:</label>
+          <p class="management__details-value">{{ user.parent_phone || 'Not provided' }}</p>
+        </div>
+  
+        <div class="management__details-item">
+          <label class="management__details-label"><i class="fas fa-user-tag me-2"></i>Role:</label>
+          <p class="management__details-value">
+            <span class="management__badge" [ngClass]="user.role === 'student' ? 'management__badge--student' : 'management__badge--assistant'">
+              <i [ngClass]="user.role === 'student' ? 'fas fa-user-graduate me-1' : 'fas fa-hands-helping me-1'"></i>
+              {{ user.role }}
+            </span>
+          </p>
+        </div>
+        
+        <div class="management__details-item">
+          <label class="management__details-label"><i class="fas fa-graduation-cap me-2"></i>Grade:</label>
+          <p class="management__details-value">Grade {{ user.grade }}</p>
+        </div>
+        
+        <div class="management__details-item">
+          <label class="management__details-label"><i class="fas fa-info-circle me-2"></i>Status:</label>
+          <p class="management__details-value">
+            <span class="management__badge" [ngClass]="user.status === 'active' ? 'management__badge--active' : 'management__badge--inactive'">
+              <i [ngClass]="user.status === 'active' ? 'fas fa-check-circle me-1' : 'fas fa-times-circle me-1'"></i>
+              {{ user.status }}
+            </span>
+          </p>
+        </div>
+      </div>
+  
+      <!-- Actions -->
+      <div class="management__details-actions">
+        <button 
+          class="management__button" 
+          [ngClass]="user.status === 'active' ? 'management__button--danger-outline' : 'management__button--edit'"
+          (click)="changeStatus()"
+        >
+          <i class="fas" [ngClass]="user.status === 'active' ? 'fa-user-slash' : 'fa-user-check'"></i>
+          {{ user.status === 'active' ? 'Deactivate' : 'Activate' }}
+        </button>
+      </div>
+    </div>
+  </div>
