@@ -305,5 +305,6 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Common notification routes
     Route::post('/notifications/mark-read/{notification}', [NotificationController::class, 'markAsRead']);
+    Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
     
 });

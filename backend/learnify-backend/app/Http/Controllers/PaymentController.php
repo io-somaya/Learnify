@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use App\Models\{Payment, Package, PackageUser, User};
+use App\Models\{Payment, Package, PackageUser, User, Notification};
+use App\Events\PaymentNotificationEvent;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -296,7 +297,7 @@ class PaymentController extends Controller
             $success = filter_var($transactionStatus, FILTER_VALIDATE_BOOLEAN);
 
             // Find corresponding payment
-            $payment = Payment::where('transaction_reference', $orderId)->first();
+            $payment = Payment::with('packageUser.user', 'packageUser.package')->where('transaction_reference', $orderId)->first();
 
             if (!$payment) {
                 Log::error('Payment not found for order', ['order_id' => $orderId]);
@@ -319,6 +320,27 @@ class PaymentController extends Controller
                             'start_date' => now(),
                             'end_date' => now()->addDays($payment->packageUser->package->duration_days)
                         ]);
+
+                        // Create notification for teachers about new payment
+                        $teacherNotification = Notification::create([
+                            'title' => 'New Payment Received',
+                            'message' => "New payment received for {$payment->packageUser->package->name} package. Amount: EGP {$payment->amount_paid}",
+                            'type' => 'payment',
+                            'link' => '/admin/subscriptions'
+                        ]);
+
+                        event(new PaymentNotificationEvent($teacherNotification));
+
+                        // Create notification for student about successful subscription
+                        $studentNotification = Notification::create([
+                            'user_id' => $payment->packageUser->user_id,
+                            'title' => 'Subscription Activated',
+                            'message' => "Your subscription to {$payment->packageUser->package->name} has been activated successfully.",
+                            'type' => 'subscription',
+                            'link' => '/student/subscription'
+                        ]);
+
+                        event(new \App\Events\SubscriptionNotificationEvent($studentNotification));
                     }
                 });
 
