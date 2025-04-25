@@ -60,6 +60,26 @@ class NotificationController extends Controller
     }
 
     /**
+     * Mark all notifications as read for the authenticated user
+     */
+    public function markAllAsRead()
+    {
+        $user = Auth::user();
+        
+        Notification::where(function($query) use ($user) {
+            $query->where('grade', $user->grade)
+                  ->orWhere('user_id', $user->id);
+        })
+        ->whereNull('read_at')
+        ->update(['read_at' => now()]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'All notifications marked as read'
+        ]);
+    }
+
+    /**
      * Create a new notification
      * Example: When creating an assignment
      */

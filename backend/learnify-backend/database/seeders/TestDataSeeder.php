@@ -14,6 +14,7 @@ use App\Models\Question;
 use App\Models\Option;
 use App\Models\AssignmentUser;
 use App\Models\Answer;
+use App\Models\Notification;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -318,5 +319,92 @@ class TestDataSeeder extends Seeder
             }
         }
         Answer::insert($answers);
+
+        // Create notifications for different scenarios
+        $notifications = [];
+
+        // Assignment notifications for each grade
+        foreach ($grades as $grade) {
+            $notifications[] = [
+                'user_id' => null,
+                'grade' => $grade,
+                'title' => "New Math Assignment Available",
+                'message' => "A new math assignment has been posted for Grade {$grade}",
+                'type' => 'assignment',
+                'link' => "/student/assignments/1",
+                'read_at' => null,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+        }
+
+        // Lecture notifications for each grade
+        foreach ($grades as $grade) {
+            $notifications[] = [
+                'user_id' => null,
+                'grade' => $grade,
+                'title' => "New Science Lecture Scheduled",
+                'message' => "A new science lecture has been scheduled for Grade {$grade}",
+                'type' => 'lecture',
+                'link' => "/student/lectures/1",
+                'read_at' => null,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+        }
+
+        // Payment notifications for teachers
+        $notifications[] = [
+            'user_id' => null,
+            'grade' => null,
+            'title' => "New Payment Received",
+            'message' => "Payment received for Monthly Package subscription",
+            'type' => 'payment',
+            'link' => "/admin/subscriptions",
+            'read_at' => null,
+            'created_at' => now(),
+            'updated_at' => now()
+        ];
+
+        // Submission notifications for teachers
+        $notifications[] = [
+            'user_id' => null,
+            'grade' => null,
+            'title' => "New Assignment Submission",
+            'message' => "A student from Grade 1 has submitted their math assignment",
+            'type' => 'submission',
+            'link' => "/admin/assignments/1/submissions",
+            'read_at' => null,
+            'created_at' => now(),
+            'updated_at' => now()
+        ];
+
+        // Personal subscription notifications for students
+        foreach (User::where('role', 'student')->where('status', 'active')->get() as $student) {
+            $notifications[] = [
+                'user_id' => $student->id,
+                'grade' => $student->grade,
+                'title' => "Subscription Status",
+                'message' => "Your subscription will expire in 5 days",
+                'type' => 'subscription',
+                'link' => "/student/subscription",
+                'read_at' => null,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+        }
+
+        // Some notifications should be marked as read
+        foreach ($notifications as $key => $notification) {
+            // Mark every other notification as read
+            if ($key % 2 == 0) {
+                $notifications[$key]['read_at'] = now();
+            }
+        }
+
+        // Insert notifications in smaller chunks to prevent any potential issues
+        foreach (array_chunk($notifications, 50) as $chunk) {
+            Notification::insert($chunk);
+        }
     }
 }

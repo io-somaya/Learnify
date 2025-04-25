@@ -1,0 +1,140 @@
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: var(--component-background);
+  border-bottom: 1px solid rgba(169, 181, 223, 0.1);
+  margin-bottom: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.header-left {
+  .page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.admin-profile {
+  position: relative;
+  
+  .profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+    
+    &:hover {
+      background-color: rgba(169, 181, 223, 0.05);
+    }
+    
+    .profile-image {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--medium-purple);
+    }
+    
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+      
+      .admin-name {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      
+      .admin-role {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+      }
+    }
+    
+    i {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-left: 5px;
+    }
+  }
+  
+  .profile-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 200px;
+    background-color: var(--component-background);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    margin-top: 10px;
+    overflow: hidden;
+    
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      
+      i {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        width: 20px;
+        text-align: center;
+      }
+      
+      span {
+        font-size: 0.9rem;
+        color: var(--text-primary);
+      }
+      
+      &:hover {
+        background-color: rgba(169, 181, 223, 0.05);
+      }
+      
+      &:last-child {
+        border-top: 1px solid rgba(169, 181, 223, 0.1);
+        
+        i, span {
+          color: #dc3545;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-header {
+    padding: 12px 16px;
+  }
+  
+  .header-left {
+    .page-title {
+      font-size: 1.2rem;
+    }
+  }
+  
+  .admin-profile {
+    .profile-trigger {
+      .profile-info {
+        display: none;
+      }
+    }
+  }
+}

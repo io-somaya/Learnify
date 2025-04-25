@@ -10,7 +10,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './student-management.component.html',
-  styleUrl: './student-management.component.css'
+  styleUrl: './student-management.component.css',
+  providers: [StudentManagementService]
 })
 export class StudentManagementComponent implements OnInit {
   users: IUserProfile[] = [];
@@ -41,7 +42,7 @@ export class StudentManagementComponent implements OnInit {
     this.filterForm.valueChanges
       .pipe(debounceTime(500))
       .subscribe(() => {
-        this.currentPage = 1; 
+        this.currentPage = 1;
         this.loadUsers();
       });
   }
@@ -125,9 +126,10 @@ export class StudentManagementComponent implements OnInit {
         }
       });
   }
+  // Add this method to your component class
   getPaginationArray(): number[] {
     const paginationArray: number[] = [];
-    const maxVisiblePages = 5; 
+    const maxVisiblePages = 5;
     if (this.totalPages <= maxVisiblePages) {
       for (let i = 1; i <= this.totalPages; i++) {
         paginationArray.push(i);

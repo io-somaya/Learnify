@@ -3,7 +3,7 @@
   <div class="container-fluid navbar-container">
     <!-- Logo -->
     <a class="navbar-brand" href="#">Learn<span>ify</span></a>
-    
+
     <!-- Search Bar -->
     <div class="search-container d-none d-md-flex">
       <div class="search-box">
@@ -11,15 +11,12 @@
         <input type="text" placeholder="Search for courses..." class="search-input">
       </div>
     </div>
-    
+
     <!-- Right Side Navigation Items -->
     <div class="nav-right">
-      <!-- Notification Icon -->
-      <div class="nav-icon-container">
-        <i class="fas fa-bell notification-icon"></i>
-        <span class="notification-badge">3</span>
-      </div>
-      
+      <!-- Notification Dropdown -->
+      <app-notification-dropdown></app-notification-dropdown>
+
       <!-- Profile Dropdown -->
       <div class="profile-dropdown">
         <div class="profile-trigger">

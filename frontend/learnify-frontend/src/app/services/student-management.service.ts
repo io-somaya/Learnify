@@ -2,8 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { environment } from '../../.environments/environment';
-import { IUserProfile , IPaginatedUsers} from '../Interfaces/IUserProfile';
+import { environment } from '../../environments/environment';
+import { IUserProfile } from '../Interfaces/IUserProfile';
 
 
 @Injectable({
@@ -26,10 +26,10 @@ export class StudentManagementService {
 
   // GET all users with filtering and pagination
   getUsers(
-    page: number = 1, 
-    search?: string, 
-    status?: string, 
-    grade?: string, 
+    page: number = 1,
+    search?: string,
+    status?: string,
+    grade?: string,
     perPage: number = 15
   ): Observable<{ data: IUserProfile[], total: number, currentPage: number, perPage: number, lastPage: number }> {
     const params = new URLSearchParams();
@@ -38,15 +38,15 @@ export class StudentManagementService {
     if (search) params.append('search', search);
     if (status) params.append('status', status);
     if (grade) params.append('grade', grade);
-  
-    return this.http.get<{ 
-      data: { 
+
+    return this.http.get<{
+      data: {
         current_page: number,
         data: IUserProfile[],
         total: number,
         per_page: number ,
-        last_page: number 
-      } 
+        last_page: number
+      }
     }>(
       `${this.apiUrl}/admin/users?${params.toString()}`,
       { headers: this.getAuthHeaders() }
@@ -76,7 +76,7 @@ export class StudentManagementService {
   }
 
 
-  
+
   // PUT update existing user
   updateUser(userId: number, userData: any): Observable<IUserProfile> {
     return this.http.put<{ data: IUserProfile }>(
@@ -132,7 +132,7 @@ export class StudentManagementService {
       catchError(this.handleError)
     );
   }
-  
+
 
   private handleError(error: HttpErrorResponse) {
     console.error('API Error:', error);

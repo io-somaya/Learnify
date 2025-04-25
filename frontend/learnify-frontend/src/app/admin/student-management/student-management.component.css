@@ -1,4 +1,8 @@
+/* student-management.component.css */
 
+/* You can use the existing CSS variables and styles from lecture-management.component.css */
+
+/* Root Variables - Matching Dashboard Style */
 :root {
     --light-purple: #e9ecff;
     --medium-purple: #7886C7;
@@ -279,7 +283,7 @@
     margin-right: 8px;
     transition: all 0.3s ease;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-
+    
   }
   
   .management__badge--active::before {
