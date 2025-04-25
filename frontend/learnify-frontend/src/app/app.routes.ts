@@ -55,6 +55,7 @@ import { StartAssignmentComponent } from './student/assignment/start-assignment/
 import { AssignmentListComponent } from './student/assignment/assignment-list/assignment-list.component';
 import { SubmissionsAssignmentListComponent } from './student/assignment/submissions-assignment-list/submissions-assignment-list.component';
 import { AssignmemtSubmissionDetailComponent } from './student/assignment/assignmemt-submission-detail/assignmemt-submission-detail.component';
+import { AdminNotificationsComponent } from './admin/notifications/admin-notifications.component';
 
 export function route(name: string): string {
   const routes = {
@@ -254,6 +255,12 @@ export const routes: Routes = [
       path: 'profile/photo',
       component: PhotoUploadComponent,
       title: 'Update Profile Photo'
+    },
+    // Admin Notifications
+    {
+      path: 'notifications',
+      component: AdminNotificationsComponent,
+      title: 'Notifications'
     }
     ]
   }, {
@@ -313,7 +320,7 @@ export const routes: Routes = [
       component: StudentPhotoUploadComponent,
       title: "Update Profile Photo"
     },
-    
+
     // Other student routes
     {
       path: "lectures-list",
@@ -368,7 +375,7 @@ export const routes: Routes = [
         component:AssignmemtSubmissionDetailComponent,
         title:"Assignment Submission Detail"
       }
-    
+
     ]
   },
 

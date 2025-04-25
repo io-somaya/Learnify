@@ -48,7 +48,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a routerLink="/admin/students" [routerLinkActiveOptions]="{exact:true}" 
+          <a routerLink="/admin/students" [routerLinkActiveOptions]="{exact:true}"
             routerLinkActive="active-link" title="Students Management">
             <div class="icon-box">
               <i class="fa-solid fa-graduation-cap"></i>
@@ -103,6 +103,16 @@
       </div>
       <ul class="nav-items">
         <li class="nav-item">
+          <a routerLink="/admin/dashboard/notifications" [routerLinkActiveOptions]="{exact:true}"
+            routerLinkActive="active-link" title="Notifications">
+            <div class="icon-box">
+              <i class="fa-solid fa-bell"></i>
+            </div>
+            <span class="link-name">Notifications</span>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+          </a>
+        </li>
+        <li class="nav-item">
           <a routerLink="/admin/dashboard/profile" [routerLinkActiveOptions]="{exact:true}"
             routerLinkActive="active-link" title="Profile Settings">
             <div class="icon-box">
@@ -131,6 +141,9 @@
   <!-- Page Content -->
   <div id="page-content-wrapper">
     <div class="content-container">
+      <!-- Admin Header with Notifications -->
+      <app-admin-header></app-admin-header>
+
       <router-outlet></router-outlet>
     </div>
   </div>
