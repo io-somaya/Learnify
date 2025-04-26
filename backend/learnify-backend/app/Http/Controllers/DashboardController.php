@@ -168,7 +168,7 @@ class DashboardController extends Controller
                 ]
             ];
 
-            return $this->apiResponse(200, 'Teacher dashboard data retrieved successfully', $data);
+            return $this->apiResponse(200, 'Teacher dashboard data retrieved successfully',null, $data);
         } catch (\Exception $e) {
             return $this->apiResponse(500, 'Error retrieving dashboard data', $e->getMessage());
         }
