@@ -1,4 +1,3 @@
-//frontend\learnify-frontend\src\app\services\auth.service.ts
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError, of } from 'rxjs';
@@ -6,6 +5,8 @@ import { catchError, tap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
+import { NotificationService } from './notification.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,6 +23,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private notificationService: NotificationService,
     private route: ActivatedRoute,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
@@ -115,6 +117,7 @@ export class AuthService {
             console.log(user);
             this.studentData = response.user;
             console.log('eluserrr', this.userRole);
+            this.notificationService.initializeNotifications();
           }
           return response;
         }),

@@ -1,10 +1,12 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationService } from '../../services/notification.service';
+import { EchoService } from '../../services/echo.service';
 import { INotification } from '../../Interfaces/INotification';
 import { ToastService } from '../../services/toast.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin-notifications',
@@ -13,7 +15,7 @@ import { ToastService } from '../../services/toast.service';
   templateUrl: './admin-notifications.component.html',
   styleUrls: ['./admin-notifications.component.scss']
 })
-export class AdminNotificationsComponent implements OnInit {
+export class AdminNotificationsComponent implements OnInit, OnDestroy {
   notifications: INotification[] = [];
   filteredNotifications: INotification[] = [];
   loading = true;
@@ -21,6 +23,9 @@ export class AdminNotificationsComponent implements OnInit {
   selectedType: string = 'all';
   searchTerm: string = '';
   isBrowser: boolean;
+  
+  // Subscriptions
+  private notificationSubscription?: Subscription;
 
   // Pagination
   currentPage = 1;
@@ -29,6 +34,7 @@ export class AdminNotificationsComponent implements OnInit {
 
   constructor(
     private notificationService: NotificationService,
+    private echoService: EchoService,
     private toastService: ToastService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
@@ -37,20 +43,26 @@ export class AdminNotificationsComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.isBrowser) {
+      // Make sure Echo is initialized
+      if (!this.echoService.isEchoInitialized) {
+        this.echoService.initializeEcho();
+        this.notificationService.setupRealTimeListeners();
+      }
+      
       this.loadNotifications();
-
-      // Subscribe to real-time notifications
-      this.notificationService.notifications$.subscribe(notifications => {
-        this.notifications = notifications;
-        this.applyFilters();
-      });
+    }
+  }
+  
+  ngOnDestroy(): void {
+    if (this.notificationSubscription) {
+      this.notificationSubscription.unsubscribe();
     }
   }
 
   loadNotifications(): void {
     this.loading = true;
     this.notificationService.loadNotifications();
-    this.notificationService.notifications$.subscribe({
+    this.notificationSubscription = this.notificationService.notifications$.subscribe({
       next: (notifications) => {
         this.notifications = notifications;
         this.applyFilters();
@@ -186,5 +198,11 @@ export class AdminNotificationsComponent implements OnInit {
   // Helper method to check if there are any unread notifications
   hasUnreadNotifications(): boolean {
     return this.filteredNotifications.some(n => !n.read_at);
+  }
+  
+  getUniqueNotificationTypes(): string[] {
+    const types = new Set<string>();
+    this.notifications.forEach(n => types.add(n.type));
+    return Array.from(types);
   }
 }
