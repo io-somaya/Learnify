@@ -1,10 +1,10 @@
 import { Injectable, PLATFORM_ID, Inject, NgZone } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, interval, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, interval, Subscription, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { INotification } from '../Interfaces/INotification';
-import { tap, switchMap, catchError } from 'rxjs/operators';
+import { tap, switchMap, catchError, map } from 'rxjs/operators';
 import { EchoService } from './echo.service';
 
 @Injectable({
@@ -83,26 +83,36 @@ export class NotificationService {
     }
   }
 
-  loadNotifications(): void {
-    if (!this.currentUser.token) return;
+  loadNotifications(): Observable<INotification[]> {
+    if (!this.currentUser.token) {
+      return of([]);
+    }
 
     let endpoint = '/notifications/student';
     if (['teacher', 'assistant', 'admin'].includes(this.currentUser.role)) {
       endpoint = '/notifications/teacher';
     }
 
-    this.http.get<{ status: string, data: INotification[] }>(`${this.apiUrl}${endpoint}`, {
+    return this.http.get<{ status: string, data: INotification[] }>(`${this.apiUrl}${endpoint}`, {
       headers: this.getAuthHeaders()
-    }).subscribe({
-      next: (res) => {
-        if (res.status === 'success') {
-          this.notificationsSubject.next(res.data);
+    }).pipe(
+      tap({
+        next: (res) => {
+          if (res.status === 'success') {
+            console.log('Loaded notifications:', res.data.length);
+            this.notificationsSubject.next(res.data);
+          }
+        },
+        error: (err) => {
+          console.error('Error loading notifications:', err);
         }
-      },
-      error: (err) => {
-        console.error('Error loading notifications:', err);
-      }
-    });
+      }),
+      map(res => res.data),
+      catchError(error => {
+        console.error('Error in loadNotifications:', error);
+        return of([]);
+      })
+    );
   }
 
   markAsRead(notificationId: number): Observable<any> {
@@ -137,70 +147,109 @@ export class NotificationService {
   }
 
   setupRealTimeListeners(): void {
-    if (!this.isBrowser || !this.currentUser.token) return;
+    if (!this.isBrowser || !this.currentUser.token) {
+      console.log('Cannot set up listeners: Browser not available or user not logged in');
+      return;
+    }
 
     const Echo = this.echoService.echo;
     if (!Echo) {
       console.error('Laravel Echo is not initialized');
       // Try again after a delay
+      console.log('Will retry setting up listeners in 2 seconds...');
       setTimeout(() => this.setupRealTimeListeners(), 2000);
       return;
     }
 
     console.log('Setting up real-time notification listeners...');
 
-    // Disconnect any existing connections to avoid duplicates
-    Echo.disconnect();
+    try {
+      // Disconnect any existing connections to avoid duplicates
+      Echo.disconnect();
 
+      // Reconnect after disconnecting
+      this.echoService.reconnect().then(() => {
+        console.log('Echo reconnected successfully, now setting up listeners');
+        this.setupChannelListeners(Echo);
+      }).catch(error => {
+        console.error('Failed to reconnect Echo:', error);
+      });
+    } catch (error) {
+      console.error('Error in setupRealTimeListeners:', error);
+      // Try again after a delay
+      setTimeout(() => this.setupRealTimeListeners(), 5000);
+    }
+  }
+
+  private setupChannelListeners(Echo: any): void {
     // User-specific notifications
     if (this.currentUser.id) {
-      const privateChannel = Echo.private(`user.${this.currentUser.id}.notifications`);
+      try {
+        const privateChannel = Echo.private(`user.${this.currentUser.id}.notifications`);
 
-      privateChannel
-        .listen('.subscription.expiring', (e: { notification: INotification }) => {
-          console.log('Received subscription.expiring notification:', e);
-          this.zone.run(() => this.addNotification(e.notification));
-        })
-        .listen('.assignment.graded', (e: { notification: INotification }) => {
-          console.log('Received assignment.graded notification:', e);
-          this.zone.run(() => this.addNotification(e.notification));
-        });
+        privateChannel
+          .listen('.subscription.expiring', (e: { notification: INotification }) => {
+            console.log('Received subscription.expiring notification:', e);
+            this.addNotification(e.notification);
+          })
+          .listen('.assignment.graded', (e: { notification: INotification }) => {
+            console.log('Received assignment.graded notification:', e);
+            this.addNotification(e.notification);
+          });
 
-      console.log(`Subscribed to private user.${this.currentUser.id}.notifications`);
+        console.log(`Subscribed to private user.${this.currentUser.id}.notifications`);
+      } catch (error) {
+        console.error('Error setting up private channel:', error);
+      }
     }
 
     // Grade-specific (students)
     if (this.currentUser.role === 'student' && this.currentUser.grade) {
-      const gradeChannel = Echo.channel(`grade.${this.currentUser.grade}.notifications`);
+      try {
+        const gradeChannel = Echo.channel(`grade.${this.currentUser.grade}.notifications`);
 
-      gradeChannel
-        .listen('.new.assignment', (e: { notification: INotification }) => {
-          console.log('Received new.assignment notification:', e);
-          this.zone.run(() => this.addNotification(e.notification));
-        })
-        .listen('.new.lecture', (e: { notification: INotification }) => {
-          console.log('Received new.lecture notification:', e);
-          this.zone.run(() => this.addNotification(e.notification));
-        });
+        gradeChannel
+          .listen('.new.assignment', (e: { notification: INotification }) => {
+            console.log('Received new.assignment notification:', e);
+            this.addNotification(e.notification);
+          })
+          .listen('.new.lecture', (e: { notification: INotification }) => {
+            console.log('Received new.lecture notification:', e);
+            this.addNotification(e.notification);
+          })
+          .listen('.new.lesson', (e: { notification: INotification }) => {
+            console.log('Received new.lesson notification:', e);
+            this.addNotification(e.notification);
+          });
 
-      console.log(`Subscribed to grade.${this.currentUser.grade}.notifications`);
+        console.log(`Subscribed to grade.${this.currentUser.grade}.notifications`);
+
+        // Test that the channel is working
+        console.log('Grade channel subscription status:', gradeChannel.subscribed);
+      } catch (error) {
+        console.error('Error setting up grade channel:', error);
+      }
     }
 
     // Teacher/admin
     if (['teacher', 'assistant', 'admin'].includes(this.currentUser.role)) {
-      const teacherChannel = Echo.channel('teacher.notifications');
+      try {
+        const teacherChannel = Echo.channel('teacher.notifications');
 
-      teacherChannel
-        .listen('.new.payment', (e: { notification: INotification }) => {
-          console.log('Received new.payment notification:', e);
-          this.zone.run(() => this.addNotification(e.notification));
-        })
-        .listen('.new.submission', (e: { notification: INotification }) => {
-          console.log('Received new.submission notification:', e);
-          this.zone.run(() => this.addNotification(e.notification));
-        });
+        teacherChannel
+          .listen('.new.payment', (e: { notification: INotification }) => {
+            console.log('Received new.payment notification:', e);
+            this.addNotification(e.notification);
+          })
+          .listen('.new.submission', (e: { notification: INotification }) => {
+            console.log('Received new.submission notification:', e);
+            this.addNotification(e.notification);
+          });
 
-      console.log('Subscribed to teacher.notifications');
+        console.log('Subscribed to teacher.notifications');
+      } catch (error) {
+        console.error('Error setting up teacher channel:', error);
+      }
     }
   }
 
@@ -212,13 +261,23 @@ export class NotificationService {
       const existing = this.notificationsSubject.value.some(n => n.id === notification.id);
       if (!existing) {
         console.log('Adding new notification');
+
+        // Create a new array with the notification at the beginning
         const updated = [notification, ...this.notificationsSubject.value];
-        this.notificationsSubject.next(updated);
+
+        // Force Angular change detection by emitting a new value
+        this.notificationsSubject.next([...updated]);
 
         // Show browser notification if supported
         this.showBrowserNotification(notification);
 
         console.log('Current notifications:', updated);
+
+        // Force another update after a short delay to ensure UI updates
+        setTimeout(() => {
+          console.log('Forcing UI update for notification');
+          this.notificationsSubject.next([...updated]);
+        }, 100);
       } else {
         console.log('Notification already exists');
       }
@@ -247,7 +306,14 @@ export class NotificationService {
 
   public initializeNotifications(): void {
     this.checkAndInitializeEcho();
-    this.loadNotifications();
+    this.loadNotifications().subscribe({
+      next: (notifications) => {
+        console.log('Initialized notifications:', notifications.length);
+      },
+      error: (error) => {
+        console.error('Error initializing notifications:', error);
+      }
+    });
   }
 
   // Start polling for notifications as a fallback

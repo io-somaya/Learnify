@@ -16,6 +16,8 @@ import { Subscription } from 'rxjs';
 export class NotificationDropdownComponent implements OnInit, OnDestroy {
   isOpen = false;
   private notificationSubscription?: Subscription;
+  private refreshInterval?: any;
+  isRefreshing = false;
 
   constructor(
     public notificationService: NotificationService,
@@ -24,19 +26,39 @@ export class NotificationDropdownComponent implements OnInit, OnDestroy {
     private elementRef: ElementRef
   ) {}
 
+  notifications: INotification[] = [];
+
   ngOnInit() {
-    // Subscribe to notifications
+    // Subscribe to notifications with improved handling
     this.notificationSubscription = this.notificationService.notifications$.subscribe(notifications => {
       console.log('Notification dropdown received updated notifications:', notifications.length);
+      this.notifications = [...notifications]; // Create a new array reference to trigger change detection
+
+      // Force UI update if needed
+      setTimeout(() => {
+        if (this.isOpen) {
+          // If dropdown is open, make sure it reflects the latest notifications
+          this.isOpen = false;
+          setTimeout(() => this.isOpen = true, 10);
+        }
+      }, 100);
     });
 
-    // Subscribe to Echo connection status
-    this.echoService.connectionStatus$.subscribe(status => {
-      console.log('Notification dropdown received connection status:', status);
+    // Subscribe to Echo connection status with improved error handling
+    this.echoService.connectionStatus$.subscribe({
+      next: (status) => {
+        console.log('Notification dropdown received connection status:', status);
 
-      // If connection is established, make sure listeners are set up
-      if (status === 'connected') {
-        this.notificationService.setupRealTimeListeners();
+        // If connection is established, make sure listeners are set up
+        if (status === 'connected') {
+          console.log('Connection established, setting up real-time listeners');
+          this.notificationService.setupRealTimeListeners();
+        } else if (status === 'disconnected' || status === 'error') {
+          console.log('Connection lost or error, will rely on polling');
+        }
+      },
+      error: (err) => {
+        console.error('Error in connection status subscription:', err);
       }
     });
 
@@ -45,18 +67,22 @@ export class NotificationDropdownComponent implements OnInit, OnDestroy {
       console.log('Echo not initialized, initializing from notification dropdown');
       this.echoService.initializeEcho().then(() => {
         console.log('Echo initialized from notification dropdown');
+        // Explicitly set up listeners after initialization
+        this.notificationService.setupRealTimeListeners();
       }).catch(error => {
         console.error('Failed to initialize Echo from notification dropdown:', error);
       });
     } else {
-      console.log('Echo already initialized');
+      console.log('Echo already initialized, setting up listeners');
+      this.notificationService.setupRealTimeListeners();
     }
-
-    // Load notifications
-    this.notificationService.loadNotifications();
 
     // Request notification permission if not already granted
     this.requestNotificationPermission();
+
+    // Set up periodic refresh (includes immediate first refresh)
+    // This will load notifications immediately and then every 30 seconds
+    this.startRefreshInterval();
   }
 
   private requestNotificationPermission(): void {
@@ -71,6 +97,9 @@ export class NotificationDropdownComponent implements OnInit, OnDestroy {
       this.notificationSubscription.unsubscribe();
       this.notificationSubscription = undefined;
     }
+
+    // Clear the refresh interval
+    this.stopRefreshInterval();
   }
 
   toggleDropdown() {
@@ -134,5 +163,80 @@ export class NotificationDropdownComponent implements OnInit, OnDestroy {
       case 'subscription': return 'fa-calendar-check';
       default: return 'fa-bell';
     }
+  }
+
+  // Track notifications by ID for better performance
+  trackByNotificationId(index: number, notification: INotification): number {
+    return notification.id;
+  }
+
+  // Start the refresh interval
+  private startRefreshInterval(): void {
+    // Clear any existing interval first
+    this.stopRefreshInterval();
+
+    // Perform an immediate refresh first
+    const now = new Date();
+    console.log(`[${now.toLocaleTimeString()}] Performing immediate refresh before starting interval`);
+    this.performRefresh(false); // Silent refresh
+
+    // Set up a new interval - exactly every 30 seconds
+    this.refreshInterval = setInterval(() => {
+      const timestamp = new Date().toLocaleTimeString();
+      console.log(`[${timestamp}] Periodic notification refresh (30s interval)`);
+      this.performRefresh(false); // Silent refresh
+    }, 30000);
+
+    console.log('Notification refresh interval started');
+  }
+
+  // Stop the refresh interval
+  private stopRefreshInterval(): void {
+    if (this.refreshInterval) {
+      clearInterval(this.refreshInterval);
+      this.refreshInterval = undefined;
+      console.log('Notification refresh interval stopped');
+    }
+  }
+
+  // Perform the actual refresh operation
+  private performRefresh(showIndicator: boolean = true): void {
+    if (this.isRefreshing) return; // Prevent multiple simultaneous refreshes
+
+    if (showIndicator) {
+      this.isRefreshing = true;
+    }
+
+    const timestamp = new Date().toLocaleTimeString();
+    console.log(`[${timestamp}] Refreshing notifications...`);
+
+    this.notificationService.loadNotifications().subscribe({
+      next: (notifications) => {
+        const completeTime = new Date().toLocaleTimeString();
+        console.log(`[${completeTime}] Notifications refreshed successfully (${notifications.length} notifications)`);
+        if (showIndicator) {
+          // Reset the refreshing state after a short delay to show the animation
+          setTimeout(() => {
+            this.isRefreshing = false;
+          }, 500);
+        } else {
+          this.isRefreshing = false;
+        }
+      },
+      error: (error) => {
+        console.error(`[${new Date().toLocaleTimeString()}] Error refreshing notifications:`, error);
+        this.isRefreshing = false;
+      }
+    });
+  }
+
+  // Force refresh notifications (manual trigger from button)
+  refreshNotifications(): void {
+    const timestamp = new Date().toLocaleTimeString();
+    console.log(`[${timestamp}] Manually refreshing notifications (button click)`);
+    this.performRefresh(true);
+
+    // Reset the interval timer after manual refresh
+    this.startRefreshInterval();
   }
 }

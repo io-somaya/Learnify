@@ -79,6 +79,12 @@
   color: #333;
 }
 
+.notification-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .mark-all-read {
   background: none;
   border: none;
@@ -86,6 +92,43 @@
   font-size: 0.8rem;
   cursor: pointer;
   padding: 0;
+}
+
+.refresh-btn {
+  background: none;
+  border: none;
+  color: #6c757d;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.refresh-btn:hover {
+  color: var(--medium-purple);
+}
+
+.refresh-btn:hover i {
+  transform: rotate(180deg);
+}
+
+.refresh-btn i {
+  transition: transform 0.5s ease;
+}
+
+.refresh-btn.refreshing i {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .notification-list {
