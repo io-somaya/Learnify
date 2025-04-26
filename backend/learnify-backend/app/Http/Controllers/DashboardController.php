@@ -161,10 +161,14 @@ class DashboardController extends Controller
                 'grade_distribution' => $this->getGradeDistribution(),
                 'subscription_stats' => $this->getSubscriptionStats(),
                 'recent_activities' => $this->getTeacherRecentActivities(),
-                'upcoming_schedule' => $this->getUpcomingSchedule()
+                'upcoming_schedule' => $this->getUpcomingSchedule(),
+                'trends' => [
+                    'student_growth' => $this->getStudentGrowthTrend(),
+                    'subscriptions' => $this->getSubscriptionTrends()
+                ]
             ];
 
-            return $this->apiResponse(200, 'Teacher dashboard data retrieved successfully',null, $data);
+            return $this->apiResponse(200, 'Teacher dashboard data retrieved successfully', $data);
         } catch (\Exception $e) {
             return $this->apiResponse(500, 'Error retrieving dashboard data', $e->getMessage());
         }
@@ -353,75 +357,71 @@ class DashboardController extends Controller
     }
 
     /**
-     * Get scheduled lectures
+     * Get student growth trend data
      */
-    public function scheduledLectures()
+    private function getStudentGrowthTrend($period = 'month')
     {
-        $currentDay = now()->format('l');
-        $currentTime = now()->format('H:i:s');
+        $query = User::where('role', 'student');
         
-        $lectures = Lecture::where('is_active', true)
-            ->where(function($query) use ($currentDay, $currentTime) {
-                $query->where(function($q) use ($currentDay, $currentTime) {
-                    $q->where('day_of_week', $currentDay)
-                       ->where('start_time', '>', $currentTime);
-                })->orWhere(function($q) use ($currentDay) {
-                    $q->whereIn('day_of_week', $this->getFutureDays($currentDay));
-                });
-            })
-            ->orderBy('day_of_week', 'asc')
-            ->orderBy('start_time', 'asc')
-            ->select(['id', 'title', 'day_of_week', 'start_time', 'end_time', 'is_active'])
-            ->limit(10)
-            ->get();
+        switch ($period) {
+            case 'week':
+                $startDate = now()->subWeek();
+                $groupFormat = 'Y-m-d';
+                break;
+            case 'year':
+                $startDate = now()->subYear();
+                $groupFormat = 'Y-m';
+                break;
+            default: // month
+                $startDate = now()->subMonth();
+                $groupFormat = 'Y-m-d';
+        }
 
-        return $this->apiResponse(200, 'Scheduled lectures retrieved successfully',null, $lectures);
+        return $query->where('created_at', '>=', $startDate)
+            ->selectRaw('DATE_FORMAT(created_at, ?) as date, COUNT(*) as count', [$groupFormat])
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'date' => $item->date,
+                    'count' => $item->count
+                ];
+            });
     }
 
     /**
-     * Get exams created by teacher
+     * Get subscription trends data
      */
-    public function createdExams()
+    private function getSubscriptionTrends($period = 'month')
     {
-        $exams = Exam::where('creator_id', Auth::id())
-            ->orderByDesc('created_at')
-            ->select(['id', 'title', 'exam_type', 'start_time', 'status'])
-            ->limit(10)
-            ->get();
+        $query = PackageUser::where('status', 'active');
+        
+        switch ($period) {
+            case 'week':
+                $startDate = now()->subWeek();
+                $groupFormat = 'Y-m-d';
+                break;
+            case 'year':
+                $startDate = now()->subYear();
+                $groupFormat = 'Y-m';
+                break;
+            default: // month
+                $startDate = now()->subMonth();
+                $groupFormat = 'Y-m-d';
+        }
 
-        return $this->apiResponse(200, 'Created exams retrieved successfully',null, $exams);
-    }
-
-    /**
-     * Get students performance analytics
-     */
-    public function studentsPerformance()
-    {
-        return Cache::remember('students_performance_' . Auth::id(), now()->addHours(6), function () {
-            $performance = User::where('role', 'student')
-                ->whereHas('examAttempts', function ($q) {
-                    $q->where('status', 'graded');
-                })
-                ->with([
-                    'examAttempts' => function ($q) {
-                        $q->select('id', 'user_id', 'exam_id', 'score')
-                            ->where('status', 'graded');
-                    }
-                ])
-                ->get()
-                ->groupBy('grade')
-                ->map(function ($students, $grade) {
-                    return [
-                        'grade' => $grade,
-                        'average_score' => $students->avg(function ($student) {
-                            return $student->examAttempts->avg('score');
-                        }),
-                        'student_count' => $students->count()
-                    ];
-                })->values();
-
-            return $this->apiResponse(200, 'Students performance retrieved successfully',null, $performance);
-        });
+        return $query->where('created_at', '>=', $startDate)
+            ->selectRaw('DATE_FORMAT(created_at, ?) as date, COUNT(*) as count', [$groupFormat])
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'date' => $item->date,
+                    'count' => $item->count
+                ];
+            });
     }
 
     /****************************
