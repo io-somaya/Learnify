@@ -1,8 +1,10 @@
-import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../services/notification.service';
 import { INotification } from '../../Interfaces/INotification';
+import { EchoService } from '../../services/echo.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-notification-dropdown',
@@ -11,57 +13,103 @@ import { INotification } from '../../Interfaces/INotification';
   templateUrl: './notification-dropdown.component.html',
   styleUrls: ['./notification-dropdown.component.scss']
 })
-export class NotificationDropdownComponent implements OnInit {
+export class NotificationDropdownComponent implements OnInit, OnDestroy {
   isOpen = false;
-  
+  private notificationSubscription?: Subscription;
+
   constructor(
     public notificationService: NotificationService,
+    private echoService: EchoService,
     private router: Router,
     private elementRef: ElementRef
   ) {}
-  
+
   ngOnInit() {
-    // Setup real-time listeners when component initializes
-    this.notificationService.setupRealTimeListeners();
+    // Subscribe to notifications
+    this.notificationSubscription = this.notificationService.notifications$.subscribe(notifications => {
+      console.log('Notification dropdown received updated notifications:', notifications.length);
+    });
+
+    // Subscribe to Echo connection status
+    this.echoService.connectionStatus$.subscribe(status => {
+      console.log('Notification dropdown received connection status:', status);
+
+      // If connection is established, make sure listeners are set up
+      if (status === 'connected') {
+        this.notificationService.setupRealTimeListeners();
+      }
+    });
+
+    // Make sure Echo is initialized before setting up listeners
+    if (!this.echoService.isEchoInitialized) {
+      console.log('Echo not initialized, initializing from notification dropdown');
+      this.echoService.initializeEcho().then(() => {
+        console.log('Echo initialized from notification dropdown');
+      }).catch(error => {
+        console.error('Failed to initialize Echo from notification dropdown:', error);
+      });
+    } else {
+      console.log('Echo already initialized');
+    }
+
+    // Load notifications
+    this.notificationService.loadNotifications();
+
+    // Request notification permission if not already granted
+    this.requestNotificationPermission();
   }
-  
+
+  private requestNotificationPermission(): void {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  }
+
+  ngOnDestroy() {
+    // Clean up all subscriptions
+    if (this.notificationSubscription) {
+      this.notificationSubscription.unsubscribe();
+      this.notificationSubscription = undefined;
+    }
+  }
+
   toggleDropdown() {
     this.isOpen = !this.isOpen;
   }
-  
+
   closeDropdown() {
     this.isOpen = false;
   }
-  
+
   @HostListener('document:click', ['$event'])
   clickOutside(event: Event) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.isOpen = false;
     }
   }
-  
+
   markAsRead(notification: INotification, event: Event) {
     event.stopPropagation();
     this.notificationService.markAsRead(notification.id).subscribe();
   }
-  
+
   markAllAsRead(event: Event) {
     event.stopPropagation();
     this.notificationService.markAllAsRead().subscribe();
   }
-  
+
   navigateTo(notification: INotification) {
     if (notification.link) {
       this.router.navigateByUrl(notification.link);
       this.closeDropdown();
-      
+
       // Mark as read when clicked
       if (!notification.read_at) {
         this.notificationService.markAsRead(notification.id).subscribe();
       }
     }
   }
-  
+
   getTimeAgo(dateString: string): string {
     const date = new Date(dateString);
     const now = new Date();
@@ -70,13 +118,13 @@ export class NotificationDropdownComponent implements OnInit {
     const diffMin = Math.round(diffSec / 60);
     const diffHour = Math.round(diffMin / 60);
     const diffDay = Math.round(diffHour / 24);
-    
+
     if (diffSec < 60) return `${diffSec} sec ago`;
     if (diffMin < 60) return `${diffMin} min ago`;
     if (diffHour < 24) return `${diffHour} hr ago`;
     return `${diffDay} day${diffDay > 1 ? 's' : ''} ago`;
   }
-  
+
   getNotificationIcon(type: string): string {
     switch(type) {
       case 'assignment': return 'fa-book-open';
