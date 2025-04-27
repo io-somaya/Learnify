@@ -87,7 +87,7 @@ class TeacherLectureController extends Controller
                 'title' => 'New Lecture: ' . $data['title'],
                 'message' => 'A new lecture has been scheduled for ' . $data['day_of_week'] . ' at ' . $data['start_time'],
                 'type' => 'lecture',
-                'link' => '/lectures/' . $lecture->id
+                'link' => '/student/dashboard/lectures-list'
             ]);
 
             event(new \App\Events\LectureNotificationEvent($notification, $data['grade']));
@@ -144,7 +144,7 @@ class TeacherLectureController extends Controller
                 'title' => 'Lecture Schedule Updated: ' . $lecture->title,
                 'message' => "The schedule for lecture '{$lecture->title}' has been updated to {$data['day_of_week']} at {$data['start_time']}",
                 'type' => 'lecture',
-                'link' => '/lectures/' . $lecture->id
+                'link' => '/student/dashboard/lectures-list'
             ]);
 
             event(new \App\Events\LectureNotificationEvent($notification, $lecture->grade));

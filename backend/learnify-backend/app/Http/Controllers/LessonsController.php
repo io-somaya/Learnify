@@ -113,7 +113,7 @@ class LessonsController extends Controller
             'title' => 'New Lesson Available',
             'message' => "A new lesson '{$lesson->title}' has been added to your grade.",
             'type' => 'lecture',
-            'link' => "/student/lessons/{$lesson->id}"
+            'link' => "/lessons/{$lesson->id}"
         ]);
 
         event(new LessonNotificationEvent($notification, $request->grade));

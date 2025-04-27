@@ -34,11 +34,11 @@ class CheckSubscriptionDeadlines extends Command
         foreach ($nearingExpiry as $subscription) {
             // Calculate days remaining and round to whole number
             $daysRemaining = round(Carbon::now()->diffInDays($subscription->end_date, false));
-            
+
             $this->info("Processing subscription for user: {$subscription->user->email}");
             $this->info("Package: {$subscription->package->name}");
             $this->info("Days remaining: {$daysRemaining}");
-            
+
             try {
                 // Create notification for the user
                 $notification = Notification::create([
@@ -46,7 +46,7 @@ class CheckSubscriptionDeadlines extends Command
                     'title' => 'Subscription Expiring Soon',
                     'message' => "Your subscription to {$subscription->package->name} will expire in {$daysRemaining} days. Please renew to maintain access to our services.",
                     'type' => 'subscription',
-                    'link' => '/student/subscription'
+                    'link' => '/student/dashboard/current-subscription'
                 ]);
 
                 // Fire subscription notification event

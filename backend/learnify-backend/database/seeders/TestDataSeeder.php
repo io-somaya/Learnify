@@ -25,7 +25,7 @@ class TestDataSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create users - using first_name and last_name 
+        // Create users - using first_name and last_name
         $teacher = User::create([
             'first_name' => 'Teacher',
             'last_name' => 'User',
@@ -179,12 +179,12 @@ class TestDataSeeder extends Seeder
                 }
             }
         }
-        
+
         // Create weekly lectures for all grades
         $days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
         $grades = ['1', '2', '3'];
         $subjects = ['Math', 'Science', 'Arabic'];
-        
+
         foreach ($grades as $grade) {
             foreach ($days as $day) {
                 // Morning lectures (core subjects)
@@ -200,7 +200,7 @@ class TestDataSeeder extends Seeder
                         'is_active' => true
                     ]);
                 }
-        
+
                 // Afternoon activity session
                 Lecture::create([
                     'title' => "Grade {$grade} Activity Session - {$day}",
@@ -214,7 +214,7 @@ class TestDataSeeder extends Seeder
                 ]);
             }
         }
-        
+
         // Special Friday lectures (different format)
         foreach ($grades as $grade) {
             Lecture::create([
@@ -240,7 +240,7 @@ class TestDataSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
-        
+
             $assignments[] = [
                 'lesson_id' => null, // Add this for general assignments
                 'title' => "General Assignment for Grade {$grade}",
@@ -251,7 +251,7 @@ class TestDataSeeder extends Seeder
             ];
         }
         Assignment::insert($assignments);
-    
+
         // Create questions for assignments
         $questions = [];
         foreach (Assignment::all() as $assignment) {
@@ -266,7 +266,7 @@ class TestDataSeeder extends Seeder
             }
         }
         Question::insert($questions);
-    
+
         // Create options for questions
         $options = [];
         foreach (Question::all() as $question) {
@@ -281,7 +281,7 @@ class TestDataSeeder extends Seeder
             }
         }
         Option::insert($options);
-    
+
         // Create assignment submissions
         $submissions = [];
         foreach (User::where('role', 'student')->get() as $student) {
@@ -299,16 +299,16 @@ class TestDataSeeder extends Seeder
             }
         }
         AssignmentUser::insert($submissions);
-    
+
         // Create answers for submissions
         $answers = [];
         foreach (AssignmentUser::where('status', '!=', 'not_started')->get() as $submission) {
             $assignmentQuestions = Question::where('assignment_id', $submission->assignment_id)->get();
-            
+
             foreach ($assignmentQuestions as $question) {
                 $options = Option::where('question_id', $question->id)->get();
                 $selectedOption = rand(0, 1) ? $options->firstWhere('is_correct', true) : $options->random();
-                
+
                 $answers[] = [
                     'assignment_user_id' => $submission->id,
                     'question_id' => $question->id,
@@ -331,7 +331,7 @@ class TestDataSeeder extends Seeder
                 'title' => "New Math Assignment Available",
                 'message' => "A new math assignment has been posted for Grade {$grade}",
                 'type' => 'assignment',
-                'link' => "/student/assignments/1",
+                'link' => "/student/dashboard/assignments-list",
                 'read_at' => null,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -346,7 +346,7 @@ class TestDataSeeder extends Seeder
                 'title' => "New Science Lecture Scheduled",
                 'message' => "A new science lecture has been scheduled for Grade {$grade}",
                 'type' => 'lecture',
-                'link' => "/student/lectures/1",
+                'link' => "/student/dashboard/lectures-list",
                 'read_at' => null,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -360,7 +360,7 @@ class TestDataSeeder extends Seeder
             'title' => "New Payment Received",
             'message' => "Payment received for Monthly Package subscription",
             'type' => 'payment',
-            'link' => "/admin/subscriptions",
+            'link' => "/admin/dashboard/subscriptions-list",
             'read_at' => null,
             'created_at' => now(),
             'updated_at' => now()
@@ -373,7 +373,7 @@ class TestDataSeeder extends Seeder
             'title' => "New Assignment Submission",
             'message' => "A student from Grade 1 has submitted their math assignment",
             'type' => 'submission',
-            'link' => "/admin/assignments/1/submissions",
+            'link' => "/admin/dashboard/assignments-management/submissions/1",
             'read_at' => null,
             'created_at' => now(),
             'updated_at' => now()
@@ -387,7 +387,7 @@ class TestDataSeeder extends Seeder
                 'title' => "Subscription Status",
                 'message' => "Your subscription will expire in 5 days",
                 'type' => 'subscription',
-                'link' => "/student/subscription",
+                'link' => "/student/dashboard/current-subscription",
                 'read_at' => null,
                 'created_at' => now(),
                 'updated_at' => now()

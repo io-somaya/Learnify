@@ -24,14 +24,14 @@ class TeacherAssignmentController extends Controller
 {
     use ApiTrait;
 
-    protected AssignmentService $assignmentService; 
+    protected AssignmentService $assignmentService;
 
     /**
      * Inject the AssignmentService.via constructor
      *
      * @param AssignmentService $assignmentService
      */
-    public function __construct(AssignmentService $assignmentService) 
+    public function __construct(AssignmentService $assignmentService)
     {
         $this->assignmentService = $assignmentService;
     }
@@ -100,10 +100,10 @@ class TeacherAssignmentController extends Controller
             $notification = \App\Models\Notification::create([
                 'grade' => $validatedData['grade'],
                 'title' => 'New Assignment: ' . $validatedData['title'],
-                'message' => 'A new assignment has been posted' . 
+                'message' => 'A new assignment has been posted' .
                     ($validatedData['due_date'] ? '. Due: ' . $validatedData['due_date'] : ''),
                 'type' => 'assignment',
-                'link' => '/assignments/' . $assignment->id
+                'link' => '/student/dashboard/assignments-list'
             ]);
 
             event(new \App\Events\AssignmentNotificationEvent($notification, $validatedData['grade']));
@@ -160,9 +160,9 @@ class TeacherAssignmentController extends Controller
      */
     public function destroy(Assignment $assignment): JsonResponse
     {
-        DB::beginTransaction(); 
+        DB::beginTransaction();
         try {
-            $assignment->delete(); 
+            $assignment->delete();
 
             DB::commit();
 
@@ -209,7 +209,7 @@ class TeacherAssignmentController extends Controller
                         'title' => 'New Assignment Submission',
                         'message' => "Student {$submission->user->first_name} {$submission->user->last_name} has submitted assignment '{$assignment->title}'",
                         'type' => 'submission',
-                        'link' => "/admin/assignments/{$assignment->id}/submissions"
+                        'link' => "/admin/dashboard/assignments-management/submissions/{$assignment->id}"
                     ]);
 
                     event(new \App\Events\PaymentNotificationEvent($notification));
@@ -247,7 +247,7 @@ class TeacherAssignmentController extends Controller
                     'title' => 'Assignment Graded',
                     'message' => "Your submission for '{$assignment->title}' has been graded. Score: {$validated['score']}%",
                     'type' => 'submission',
-                    'link' => "/assignments/{$assignment->id}/submissions/{$submission->id}"
+                    'link' => "/student/dashboard/assignments-list"
                 ]);
 
                 event(new \App\Events\GradedNotificationEvent($notification));

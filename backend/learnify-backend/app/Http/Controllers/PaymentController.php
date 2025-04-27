@@ -326,7 +326,7 @@ class PaymentController extends Controller
                             'title' => 'New Payment Received',
                             'message' => "New payment received for {$payment->packageUser->package->name} package. Amount: EGP {$payment->amount_paid}",
                             'type' => 'payment',
-                            'link' => '/admin/subscriptions'
+                            'link' => '/admin/dashboard/subscriptions-list'
                         ]);
 
                         event(new PaymentNotificationEvent($teacherNotification));
@@ -337,7 +337,7 @@ class PaymentController extends Controller
                             'title' => 'Subscription Activated',
                             'message' => "Your subscription to {$payment->packageUser->package->name} has been activated successfully.",
                             'type' => 'subscription',
-                            'link' => '/student/subscription'
+                            'link' => '/student/dashboard/current-subscription'
                         ]);
 
                         event(new \App\Events\SubscriptionNotificationEvent($studentNotification));
