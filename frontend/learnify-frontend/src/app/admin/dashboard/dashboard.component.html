@@ -149,7 +149,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button class="view-all-btn">View all students <i class="fa-solid fa-arrow-right"></i></button>
+                        <button class="view-all-btn" [routerLink]="['/admin/dashboard/student-management']">View all students <i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                 </section>
 
@@ -181,7 +181,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button class="view-all-btn">Manage schedule <i class="fa-solid fa-arrow-right"></i></button>
+                        <button class="view-all-btn" [routerLink]="['/admin/dashboard/lectures-management']">Manage schedule <i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                 </section>
             </div>
@@ -239,7 +239,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button class="view-all-btn">View subscription details <i
+                        <button class="view-all-btn" [routerLink]="['/admin/dashboard/subscriptions-list']">View subscription details <i
                                 class="fa-solid fa-arrow-right"></i></button>
                     </div>
                 </section>
@@ -271,9 +271,9 @@
                             </ng-container>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <button class="view-all-btn">View all activities <i
-                                class="fa-solid fa-arrow-right"></i></button>
+                    <div class="card-footer my-4">
+                        <!-- <button class="view-all-btn">View all activities <i
+                                class="fa-solid fa-arrow-right"></i></button> -->
                     </div>
                 </section>
             </div>
