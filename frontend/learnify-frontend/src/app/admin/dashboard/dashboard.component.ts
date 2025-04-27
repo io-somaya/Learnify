@@ -1,5 +1,7 @@
 import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { TeacherDashboardService } from '../../services/teacher-dashboard.service';
+import { ITeacherDashboard } from '../../Interfaces/ITeacherDashboard';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,22 +12,45 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private teacherDashboardService: TeacherDashboardService
+  ) {}
+
+  dashboardData: ITeacherDashboard | null = null;
+  loading = true;
+  error = '';
 
   ngOnInit(): void {
-    // Initialize any data or services here
+    this.fetchDashboardData();
   }
 
   ngAfterViewInit(): void {
-    // Start animations after view is initialized and only if we're in a browser
-    if (isPlatformBrowser(this.platformId)) {
-      this.animateCounters();
-    }
+    // We'll initialize animations after data is loaded
   }
 
   /**
-   * Animates the counter elements to count up to their target values
+   * Fetches dashboard data from the API
    */
+  fetchDashboardData(): void {
+    this.loading = true;
+    this.teacherDashboardService.getTeacherDashboard().subscribe({
+      next: (data) => {
+        this.dashboardData = data;
+        this.loading = false;
+        
+        // Initialize chart animations after data is loaded (in browser only)
+        if (isPlatformBrowser(this.platformId)) {
+          setTimeout(() => this.animateCounters(), 300);
+        }
+      },
+      error: (err) => {
+        this.error = err.message;
+        this.loading = false;
+      }
+    });
+  }
+
   private animateCounters(): void {
     // Only run in browser environment
     if (!isPlatformBrowser(this.platformId)) {
@@ -33,32 +58,99 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
     
     const counters = document.querySelectorAll('.counter');
-    const speed = 200; // The lower the faster
-    
+    const speed = 200; 
+
     counters.forEach(counter => {
       const htmlElement = counter as HTMLElement;
       const target = +(htmlElement.getAttribute('data-target') || '0');
-      const count = 0;
       
-      const inc = Math.ceil(target / speed);
-      
-      // Use a self-executing function to handle each counter independently
       const updateCount = () => {
         const currentCount = +htmlElement.innerText;
         
-        // If the current count is less than the target, continue incrementing
         if (currentCount < target) {
+          const inc = Math.ceil(target / speed);
           htmlElement.innerText = (currentCount + inc).toString();
-          // Call updateCount again after a short delay
           setTimeout(updateCount, 25);
         } else {
-          // Ensure we end exactly at the target value
           htmlElement.innerText = target.toString();
         }
       };
       
-      // Start the counter animation
       updateCount();
     });
+  }
+
+
+  getGradeKeys(): string[] {
+    if (!this.dashboardData?.grade_distribution) return [];
+    return Object.keys(this.dashboardData.grade_distribution);
+  }
+
+  getGradePercentage(grade: string): number {
+    if (!this.dashboardData?.grade_distribution) return 0;
+    
+    const totalStudents = this.dashboardData.stats.total_students;
+    if (totalStudents === 0) return 0;
+    
+    const gradeStudents = this.dashboardData.grade_distribution[grade] || 0;
+    return Math.round((gradeStudents / totalStudents) * 100);
+  }
+
+  
+  getLowercaseGrade(grade: string): string {
+    return grade.toLowerCase();
+  }
+
+  getSubscriptionPercentage(type: 'active' | 'expiring_soon' | 'expired'): number {
+    if (!this.dashboardData?.subscription_stats) return 0;
+    
+    const total = this.dashboardData.subscription_stats.active + 
+                  this.dashboardData.subscription_stats.expiring_soon + 
+                  this.dashboardData.subscription_stats.expired;
+    
+    if (total === 0) return 0;
+    
+    return Math.round((this.dashboardData.subscription_stats[type] / total) * 100);
+  }
+
+  formatTimeAgo(timestamp: string): string {
+    const now = new Date();
+    const time = new Date(timestamp);
+    const diff = Math.floor((now.getTime() - time.getTime()) / 1000); // difference in seconds
+    
+    if (diff < 60) {
+      return `${diff} seconds ago`;
+    } else if (diff < 3600) {
+      return `${Math.floor(diff / 60)} minutes ago`;
+    } else if (diff < 86400) {
+      return `${Math.floor(diff / 3600)} hours ago`;
+    } else {
+      return `${Math.floor(diff / 86400)} days ago`;
+    }
+  }
+
+  getMaxStudentCount(): number {
+    if (!this.dashboardData?.trends?.student_growth?.length) {
+      return 10;
+    }
+    
+    return Math.max(
+      ...this.dashboardData.trends.student_growth.map(item => item.count),
+      5 );
+  }
+
+  getMaxSubscriptionCount(): number {
+    if (!this.dashboardData?.trends?.subscriptions?.length) {
+      return 10; 
+    }
+    
+    return Math.max(
+      ...this.dashboardData.trends.subscriptions.map(item => item.count),
+      5 
+    );
+  }
+
+  calculateBarHeight(value: number, max: number): number {
+    return (value / max) * 100;
   }
 }

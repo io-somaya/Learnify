@@ -5,18 +5,18 @@
   <div class="header-right">
     <!-- Notification Dropdown -->
     <app-notification-dropdown></app-notification-dropdown>
-
+    
     <!-- Admin Profile -->
     <div class="admin-profile" clickOutside (clickOutside)="closeProfileDropdown()">
       <div class="profile-trigger" (click)="profileDropdown = !profileDropdown">
-        <img [src]="user?.profile_picture || 'assets/images/default-avatar.png'" alt="Admin Profile" class="profile-image">
+        <img [src]="getProfilePicture()" alt="Admin Profile" class="profile-image">
         <div class="profile-info">
           <span class="admin-name">{{ user?.first_name || 'Admin' }} {{ user?.last_name || 'User' }}</span>
           <span class="admin-role">Administrator</span>
         </div>
         <i class="fas fa-chevron-down"></i>
       </div>
-
+      
       <!-- Profile Dropdown -->
       <div class="profile-dropdown" *ngIf="profileDropdown">
         <div class="dropdown-item" routerLink="/admin/dashboard/profile">

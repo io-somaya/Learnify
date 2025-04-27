@@ -4,262 +4,298 @@
         <h2 class="dashboard-title">Dashboard Overview</h2>
     </header>
 
-    <!-- Summary Cards Row -->
-    <section class="summary-cards">
-        <div class="summary-card">
-            <div class="summary-icon">
-                <i class="fa-solid fa-graduation-cap"></i>
-            </div>
-            <div class="summary-content">
-                <h3 class="counter" data-target="105">0</h3>
-                <p>Total Students</p>
-                <span class="trend-indicator positive">+12% <i class="fa-solid fa-arrow-up"></i></span>
-            </div>
-        </div>
-        <div class="summary-card">
-            <div class="summary-icon">
-                <i class="fa-solid fa-person-chalkboard"></i>
-            </div>
-            <div class="summary-content">
-                <h3 class="counter" data-target="30">0</h3>
-                <p>Total Lessons</p>
-                <span class="trend-indicator positive">+5% <i class="fa-solid fa-arrow-up"></i></span>
-            </div>
-        </div>
-        <div class="summary-card">
-            <div class="summary-icon">
-                <i class="fa-solid fa-file-signature"></i>
-            </div>
-            <div class="summary-content">
-                <h3 class="counter" data-target="80">0</h3>
-                <p>Total Subscriptions</p>
-                <span class="trend-indicator positive">+8% <i class="fa-solid fa-arrow-up"></i></span>
-            </div>
-        </div>
-        <div class="summary-card">
-            <div class="summary-icon">
-                <i class="fa-solid fa-money-bill-wave"></i>
-            </div>
-            <div class="summary-content">
-                <h3 class="counter" data-target="40">0</h3>
-                <p>Monthly Subscriptions</p>
-                <span class="trend-indicator neutral">0% <i class="fa-solid fa-minus"></i></span>
-            </div>
-        </div>
-    </section>
+    <!-- Loading indicator -->
+    <div *ngIf="loading" class="loading-spinner">
+        Loading dashboard data...
+    </div>
 
-    <!-- Two Column Layout for Details -->
-    <main class="dashboard-main">
-        <!-- Left Column -->
-        <div class="dashboard-column">
-            <!-- Students Section -->
-            <section class="dashboard-card">
-                <div class="card-header">
-                    <h3><i class="fa-solid fa-graduation-cap"></i> Students Distribution</h3>
-                    <div class="card-actions">
-                        <button class="action-btn" title="More options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="data-grid">
-                        <div class="data-item">
-                            <div class="data-label">
-                                <span>Grade A</span>
-                                <span>25%</span>
-                            </div>
-                            <div class="data-value">25 <small>students</small></div>
-                            <div class="progress-bar">
-                                <div class="progress" style="--progress-width: 25%"></div>
-                            </div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">
-                                <span>Grade B</span>
-                                <span>35%</span>
-                            </div>
-                            <div class="data-value">35 <small>students</small></div>
-                            <div class="progress-bar">
-                                <div class="progress" style="--progress-width: 35%"></div>
-                            </div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">
-                                <span>Grade C</span>
-                                <span>45%</span>
-                            </div>
-                            <div class="data-value">45 <small>students</small></div>
-                            <div class="progress-bar">
-                                <div class="progress" style="--progress-width: 45%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="view-all-btn">View all students <i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-            </section>
+    <!-- Error message -->
+    <div *ngIf="error" class="error-message">
+        {{ error }}
+    </div>
 
-            <!-- Lessons Section -->
-            <section class="dashboard-card">
-                <div class="card-header">
-                    <h3><i class="fa-solid fa-person-chalkboard"></i> Lessons by Grade</h3>
-                    <div class="card-actions">
-                        <button class="action-btn" title="More options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+    <!-- Dashboard content only shown when data is loaded -->
+    <ng-container *ngIf="dashboardData && !loading">
+        <!-- Summary Cards Row -->
+        <section class="summary-cards">
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="summary-content">
+                    <h3 class="counter" [attr.data-target]="dashboardData.stats.total_students">0</h3>
+                    <p>Total Students</p>
+                    <!-- <span class="trend-indicator positive">+12% <i class="fa-solid fa-arrow-up"></i></span> -->
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fa-solid fa-person-chalkboard"></i>
+                </div>
+                <div class="summary-content">
+                    <h3 class="counter" [attr.data-target]="dashboardData.stats.total_lessons">0</h3>
+                    <p>Total Lessons</p>
+                    <!-- <span class="trend-indicator positive">+5% <i class="fa-solid fa-arrow-up"></i></span> -->
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fa-solid fa-file-signature"></i>
+                </div>
+                <div class="summary-content">
+                    <h3 class="counter" [attr.data-target]="dashboardData.stats.active_subscriptions">0</h3>
+                    <p>Total Subscriptions</p>
+                    <!-- <span class="trend-indicator positive">+8% <i class="fa-solid fa-arrow-up"></i></span> -->
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                </div>
+                <div class="summary-content">
+                    <h3 class="counter" [attr.data-target]="dashboardData.subscription_stats.active">0</h3>
+                    <p>Active Subscriptions</p>
+                    <!-- <span class="trend-indicator neutral">0% <i class="fa-solid fa-minus"></i></span> -->
+                </div>
+            </div>
+        </section>
+        <!-- trends -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Trends</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- No data message -->
+                        <div *ngIf="!dashboardData?.trends?.student_growth?.length && !dashboardData?.trends?.subscriptions?.length"
+                            class="alert alert-info">
+                            No trend data available.
+                        </div>
+
+                        <!-- Trends visualization -->
+                        <div *ngIf="dashboardData?.trends?.student_growth?.length || dashboardData?.trends?.subscriptions?.length"
+                            class="trends-container">
+                            <div class="row">
+                                <!-- Student Growth Chart -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="trend-card">
+                                        <h6 class="text-muted mb-3">Student Growth</h6>
+                                        <div class="trend-chart">
+                                            <div *ngFor="let item of dashboardData.trends.student_growth"
+                                                class="chart-bar-container">
+                                                <div class="chart-date">{{ item.date | date:'MMM d' }}</div>
+                                                <div class="chart-bar student-bar"
+                                                    [style.height.%]="calculateBarHeight(item.count, getMaxStudentCount())">
+                                                    <span class="chart-value">{{ item.count }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Subscriptions Chart -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="trend-card">
+                                        <h6 class="text-muted mb-3">Subscriptions</h6>
+                                        <div class="trend-chart">
+                                            <div *ngFor="let item of dashboardData.trends.subscriptions"
+                                                class="chart-bar-container">
+                                                <div class="chart-date">{{ item.date | date:'MMM d' }}</div>
+                                                <div class="chart-bar subscription-bar"
+                                                    [style.height.%]="calculateBarHeight(item.count, getMaxSubscriptionCount())">
+                                                    <span class="chart-value">{{ item.count }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="data-grid">
-                        <div class="data-item">
-                            <div class="data-label">
-                                <span>Grade A Lessons</span>
-                                <span>27%</span>
-                            </div>
-                            <div class="data-value">8 <small>lessons</small></div>
-                            <div class="progress-bar">
-                                <div class="progress grade-a" style="--progress-width: 27%"></div>
-                            </div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">
-                                <span>Grade B Lessons</span>
-                                <span>40%</span>
-                            </div>
-                            <div class="data-value">12 <small>lessons</small></div>
-                            <div class="progress-bar">
-                                <div class="progress grade-b" style="--progress-width: 40%"></div>
-                            </div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">
-                                <span>Grade C Lessons</span>
-                                <span>33%</span>
-                            </div>
-                            <div class="data-value">10 <small>lessons</small></div>
-                            <div class="progress-bar">
-                                <div class="progress grade-c" style="--progress-width: 33%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="view-all-btn">Manage lessons <i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-            </section>
+            </div>
         </div>
 
-        <!-- Right Column -->
-        <div class="dashboard-column">
-            <!-- Yearly Subscriptions -->
-            <section class="dashboard-card">
-                <div class="card-header">
-                    <h3><i class="fa-solid fa-calendar-check"></i> Yearly Subscriptions</h3>
-                    <div class="card-actions">
-                        <button class="action-btn" title="More options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="data-grid">
-                        <div class="data-item">
-                            <div class="data-label">
-                                <span>Grade A</span>
-                                <span>12%</span>
-                            </div>
-                            <div class="data-value">5 <small>subscriptions</small></div>
-                            <div class="progress-bar">
-                                <div class="progress yearly" style="--progress-width: 12%"></div>
-                            </div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">
-                                <span>Grade B</span>
-                                <span>25%</span>
-                            </div>
-                            <div class="data-value">10 <small>subscriptions</small></div>
-                            <div class="progress-bar">
-                                <div class="progress yearly" style="--progress-width: 25%"></div>
-                            </div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">
-                                <span>Grade C</span>
-                                <span>63%</span>
-                            </div>
-                            <div class="data-value">25 <small>subscriptions</small></div>
-                            <div class="progress-bar">
-                                <div class="progress yearly" style="--progress-width: 63%"></div>
-                            </div>
+        <!-- Two Column Layout for Details -->
+        <main class="dashboard-main">
+            <!-- Left Column -->
+            <div class="dashboard-column">
+                <!-- Students Section -->
+                <section class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-graduation-cap"></i> Students Distribution</h3>
+                        <div class="card-actions">
+                            <button class="action-btn" title="More options"><i
+                                    class="fa-solid fa-ellipsis-vertical"></i></button>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <button class="view-all-btn">View subscription details <i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-            </section>
+                    <div class="card-body">
+                        <div class="data-grid">
+                            <ng-container *ngFor="let grade of getGradeKeys(); let i = index">
+                                <div class="data-item">
+                                    <div class="data-label">
+                                        <span>Grade {{grade}}</span>
+                                        <span>{{getGradePercentage(grade)}}%</span>
+                                    </div>
+                                    <div class="data-value">{{dashboardData.grade_distribution[grade]}}
+                                        <small>students</small></div>
+                                    <div class="progress-bar">
+                                        <div class="progress"
+                                            [style.--progress-width]="getGradePercentage(grade) + '%'"></div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="view-all-btn">View all students <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </section>
 
-            <!-- Monthly Subscriptions -->
-            <section class="dashboard-card">
-                <div class="card-header">
-                    <h3><i class="fa-solid fa-calendar-days"></i> Monthly Subscriptions</h3>
-                    <div class="card-actions">
-                        <button class="action-btn" title="More options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="data-grid">
-                        <div class="data-item">
-                            <div class="data-label">
-                                <span>Grade A</span>
-                                <span>31%</span>
-                            </div>
-                            <div class="data-value">20 <small>subscriptions</small></div>
-                            <div class="progress-bar">
-                                <div class="progress monthly" style="--progress-width: 31%"></div>
-                            </div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">
-                                <span>Grade B</span>
-                                <span>38%</span>
-                            </div>
-                            <div class="data-value">25 <small>subscriptions</small></div>
-                            <div class="progress-bar">
-                                <div class="progress monthly" style="--progress-width: 38%"></div>
-                            </div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">
-                                <span>Grade C</span>
-                                <span>31%</span>
-                            </div>
-                            <div class="data-value">20 <small>subscriptions</small></div>
-                            <div class="progress-bar">
-                                <div class="progress monthly" style="--progress-width: 31%"></div>
-                            </div>
+                <!-- Lessons Section -->
+                <section class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-person-chalkboard"></i> Upcoming Schedule</h3>
+                        <div class="card-actions">
+                            <button class="action-btn" title="More options"><i
+                                    class="fa-solid fa-ellipsis-vertical"></i></button>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <button class="view-all-btn">View subscription details <i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-            </section>
-        </div>
-    </main>
+                    <div class="card-body">
+                        <div class="data-grid">
+                            <ng-container
+                                *ngFor="let schedule of dashboardData.upcoming_schedule.slice(0, 3); let i = index">
+                                <div class="data-item">
+                                    <div class="data-label">
+                                        <span>{{schedule.title}}</span>
+                                        <span>Grade {{schedule.grade}}</span>
+                                    </div>
+                                    <div class="data-value">{{schedule.day}} <small>{{schedule.time}}</small></div>
+                                    <div class="progress-bar">
+                                        <div class="progress" [ngClass]="'grade-' + getLowercaseGrade(schedule.grade)"
+                                            [style.--progress-width]="(100 - i*30) + '%'"></div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="view-all-btn">Manage schedule <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </section>
+            </div>
 
-    <!-- Quick Info Section -->
-    <section class="quick-info">
-        <div class="info-card">
-            <i class="fa-solid fa-bell"></i>
-            <div class="info-content">
-                <h4>Recent Activity</h4>
-                <p>5 new students enrolled today</p>
+            <!-- Right Column -->
+            <div class="dashboard-column">
+                <!-- Subscription Stats -->
+                <section class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-calendar-check"></i> Subscription Status</h3>
+                        <div class="card-actions">
+                            <button class="action-btn" title="More options"><i
+                                    class="fa-solid fa-ellipsis-vertical"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="data-grid">
+                            <div class="data-item">
+                                <div class="data-label">
+                                    <span>Active</span>
+                                    <span>{{getSubscriptionPercentage('active')}}%</span>
+                                </div>
+                                <div class="data-value">{{dashboardData.subscription_stats.active}}
+                                    <small>subscriptions</small></div>
+                                <div class="progress-bar">
+                                    <div class="progress yearly"
+                                        [style.--progress-width]="getSubscriptionPercentage('active') + '%'"></div>
+                                </div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">
+                                    <span>Expiring Soon</span>
+                                    <span>{{getSubscriptionPercentage('expiring_soon')}}%</span>
+                                </div>
+                                <div class="data-value">{{dashboardData.subscription_stats.expiring_soon}}
+                                    <small>subscriptions</small></div>
+                                <div class="progress-bar">
+                                    <div class="progress yearly"
+                                        [style.--progress-width]="getSubscriptionPercentage('expiring_soon') + '%'">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">
+                                    <span>Expired</span>
+                                    <span>{{getSubscriptionPercentage('expired')}}%</span>
+                                </div>
+                                <div class="data-value">{{dashboardData.subscription_stats.expired}}
+                                    <small>subscriptions</small></div>
+                                <div class="progress-bar">
+                                    <div class="progress yearly"
+                                        [style.--progress-width]="getSubscriptionPercentage('expired') + '%'"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="view-all-btn">View subscription details <i
+                                class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </section>
+
+                <!-- Recent Activities -->
+                <section class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-calendar-days"></i> Recent Activities</h3>
+                        <div class="card-actions">
+                            <button class="action-btn" title="More options"><i
+                                    class="fa-solid fa-ellipsis-vertical"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="data-grid">
+                            <ng-container
+                                *ngFor="let activity of dashboardData.recent_activities.slice(0, 3); let i = index">
+                                <div class="data-item">
+                                    <div class="data-label">
+                                        <span>{{activity.type}}</span>
+                                        <span>{{formatTimeAgo(activity.time)}}</span>
+                                    </div>
+                                    <div class="data-value" style="font-size: 16px;">{{activity.message}}</div>
+                                    <div class="progress-bar">
+                                        <div class="progress monthly" [style.--progress-width]="(100 - i*30) + '%'">
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="view-all-btn">View all activities <i
+                                class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </section>
             </div>
-        </div>
-        <div class="info-card">
-            <i class="fa-solid fa-lightbulb"></i>
-            <div class="info-content">
-                <h4>Did you know?</h4>
-                <p>You can export your dashboard data as CSV</p>
+        </main>
+
+         <h5 class="quick-info-title">Quick Info</h5>
+        <!-- Quick Info Section -->
+        <section class="quick-info">
+            <div class="info-card">
+                <i class="fa-solid fa-bell"></i>
+                <div class="info-content">
+                    <h4>Recent Activity</h4>
+                    <p>{{dashboardData.stats.new_registrations}} new students enrolled recently</p>
+                </div>
             </div>
-        </div>
-    </section>
+            <div class="info-card">
+                <i class="fa-solid fa-lightbulb"></i>
+                <div class="info-content">
+                    <h4>Did you know?</h4>
+                    <p>You have {{dashboardData.stats.pending_assignments}} pending assignments to review</p>
+                </div>
+            </div>
+        </section>
+    </ng-container>
 </div>

@@ -659,3 +659,121 @@
         grid-template-columns: 1fr;
     }
 }
+/* Loading Spinner */
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    color: var(--medium-purple);
+    font-size: 18px;
+    animation: pulse 1.5s infinite;
+  }
+  
+  /* Error Message */
+  .error-message {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    text-align: center;
+    border: 1px solid rgba(231, 76, 60, 0.2);
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes pulse {
+    0% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.6;
+    }
+  }
+
+  /* Add these styles to your dashboard.component.css */
+
+/* Trends visualization */
+.trends-container {
+    padding: 10px 0;
+  }
+  
+  .trend-card {
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    height: 100%;
+  }
+  
+  .trend-chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 200px;
+    padding-top: 20px;
+  }
+  
+  .chart-bar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50px;
+  }
+  
+  .chart-date {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 5px;
+    margin-top:50px;
+  }
+  
+  .chart-bar {
+    width: 40px;
+    min-height: 30px;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    transition: height 1s ease-in-out;
+  }
+  
+  .student-bar {
+    background-color: var(--dark-purple);
+  }
+  
+  .subscription-bar {
+    background-color: var(--dark-purple);
+  }
+  
+  .chart-value {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-weight: bold;
+    color: #495057;
+  }
+  
+  /* Animation for charts */
+  @keyframes growUp {
+    from { 
+      height: 0; 
+      opacity: 0; 
+    }
+    to { 
+      opacity: 1; 
+    }
+  }
+  
+  .chart-bar {
+    animation: growUp 1.5s ease-out forwards;
+  }
+  .quick-info-title {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--dark-purple);
+  }
