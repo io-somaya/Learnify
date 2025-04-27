@@ -770,3 +770,10 @@
   .chart-bar {
     animation: growUp 1.5s ease-out forwards;
   }
+  .quick-info-title {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--dark-purple);
+  }
