@@ -541,4 +541,58 @@ class DashboardController extends Controller
             });
     }
 
+    /**************************
+     * PUBLIC LEADERBOARD METHODS
+     **************************/
+
+    /**
+     * Get top student for each grade based on assignment scores
+     * This is used for the public leaderboard on the landing page
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function topStudentsLeaderboard()
+    {
+        try {
+            $grades = ['1', '2', '3'];
+            $leaderboard = [];
+
+            foreach ($grades as $grade) {
+                // First get all students in this grade
+                $students = User::where('role', 'student')
+                    ->where('grade', $grade)
+                    ->where('status', 'active')
+                    ->select(['id', 'first_name', 'last_name', 'profile_picture', 'grade'])
+                    ->get();
+
+                // Calculate average scores for each student
+                $studentsWithScores = [];
+                foreach ($students as $student) {
+                    // Get average score from assignment submissions
+                    $avgScore = AssignmentUser::where('user_id', $student->id)
+                        ->whereNotNull('score')
+                        ->avg('score');
+
+                    if ($avgScore !== null) {
+                        $student->average_score = round($avgScore, 2);
+                        $studentsWithScores[] = $student;
+                    }
+                }
+
+                // Sort students by average score (descending)
+                usort($studentsWithScores, function($a, $b) {
+                    return $b->average_score <=> $a->average_score;
+                });
+
+                // Get the top student (if any)
+                if (!empty($studentsWithScores)) {
+                    $leaderboard[] = $studentsWithScores[0];
+                }
+            }
+
+            return $this->apiResponse(200, 'Top students leaderboard retrieved successfully', null, $leaderboard);
+        } catch (\Exception $e) {
+            return $this->apiResponse(500, 'Error retrieving leaderboard data', $e->getMessage());
+        }
+    }
 }

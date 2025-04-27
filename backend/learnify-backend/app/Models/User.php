@@ -49,18 +49,8 @@ class User extends Authenticatable implements MustVerifyEmail
             ->withPivot('start_date', 'end_date');
     }
 
-    // Many-to-Many relationship with Exam (M:M)
-    public function exams()
-    {
-        return $this->belongsToMany(Exam::class, 'exam_user')
-            ->withPivot('start_time', 'submit_time', 'score', 'status');
-    }
 
-    // One-to-Many relationship with Feedback (1:M)
-    public function feedbacks()
-    {
-        return $this->hasMany(Feedback::class);
-    }
+
 
     // One-to-Many relationship with Chat (1:M)
     public function chats()
@@ -73,13 +63,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Notification::class);
     }
-  /**
-     * Get the exam attempts for the user
-     */
-    public function examAttempts(): HasMany
-    {
-        return $this->hasMany(ExamUser::class);
-    }
+
 
     /**
      * Get the package subscriptions for the user
@@ -87,5 +71,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function subscriptions()
     {
         return $this->hasMany(PackageUser::class);
+    }
+
+    /**
+     * Get the assignment submissions for the user
+     */
+    public function assignmentSubmissions()
+    {
+        return $this->hasMany(AssignmentUser::class);
     }
 }

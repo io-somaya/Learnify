@@ -43,3 +43,12 @@ Thumbs.db
 
 # Environment variables
 .environments
+.environments/
+environments/
+environment.*
+.env
+.env.*
+
+# Ignore files
+*.ignore
+.ignore

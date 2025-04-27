@@ -47,6 +47,9 @@ Route::post('/email/resend-verification', [AuthVerificationController::class, 'r
 // Public packages listing
 Route::get('/packages', [PackageController::class, 'index']);
 
+// Public leaderboard
+Route::get('/leaderboard', [DashboardController::class, 'topStudentsLeaderboard']);
+
 
 // Admin routes
 Route::post('/admin/login', [AuthController::class, 'adminLogin'])

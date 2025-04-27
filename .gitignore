@@ -5,6 +5,7 @@
 /vendor
 .env
 .env.backup
+.env.*
 .phpunit.result.cache
 docker-compose.override.yml
 Homestead.json
@@ -18,3 +19,15 @@ yarn-error.log
 frontend/.vscode/
 .cursor
 .DS_Store
+
+# Ignore .ignore files
+*.ignore
+.ignore
+**/.ignore
+
+# Environment files
+**/.environments
+**/.env
+**/.env.*
+**/environments/
+**/environment.*
