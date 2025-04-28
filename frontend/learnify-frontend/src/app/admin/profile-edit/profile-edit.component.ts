@@ -30,7 +30,7 @@ export class ProfileEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private profileService: ProfileService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -42,14 +42,14 @@ export class ProfileEditComponent implements OnInit {
       first_name: ['', [Validators.required, Validators.minLength(2)]],
       last_name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      phone_number: ['', [Validators.pattern(/^(\+\d{1,3})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]]
+      phone_number: ['', [Validators.pattern(/^(01)[0-2,5][0-9]{8}$/)]]
     });
   }
 
   fetchProfile(): void {
     this.isLoading = true;
     this.error = '';
-    
+
     this.profileService.getProfile().subscribe({
       next: (response: ApiResponse) => {
         if (response.status === 200) {
@@ -75,7 +75,7 @@ export class ProfileEditComponent implements OnInit {
         email: this.user.email,
         phone_number: this.user.phone_number
       });
-      
+
       // Mark the form as pristine after initial population
       this.profileForm.markAsPristine();
     }
@@ -123,11 +123,11 @@ export class ProfileEditComponent implements OnInit {
 
     return 'Invalid value';
   }
-  
+
   navigateToPasswordChange(): void {
     this.router.navigate(['/admin/dashboard/profile/password']);
   }
-  
+
   navigateToPhotoUpload(): void {
     this.router.navigate(['/admin/dashboard/profile/photo']);
   }
@@ -135,4 +135,4 @@ export class ProfileEditComponent implements OnInit {
   goBack(): void {
     this.router.navigate(['/admin/dashboard/profile']);
   }
-} 
+}
