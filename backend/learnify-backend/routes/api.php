@@ -53,13 +53,13 @@ Route::get('/leaderboard', [DashboardController::class, 'topStudentsLeaderboard'
 
 // Admin routes
 Route::post('/admin/login', [AuthController::class, 'adminLogin'])
-    ->middleware('role:teacher,assistant');
+    ->middleware(\App\Http\Middleware\CheckRole::class . ':teacher,assistant');
 
-Route::middleware(['auth:sanctum', 'role:teacher,assistant'])->group(function () {
+Route::middleware(['auth:sanctum', \App\Http\Middleware\CheckRole::class . ':teacher,assistant'])->group(function () {
     Route::post('/admin/change-password', [AuthController::class, 'changePassword']);
 });
 
-Route::middleware(['auth:sanctum', 'role:student,assistant'])->group(function () {
+Route::middleware(['auth:sanctum', \App\Http\Middleware\CheckRole::class . ':student,assistant'])->group(function () {
     Route::put('/user/update', [AuthController::class, 'updateUser']);
 });
 
@@ -69,7 +69,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/login', [AuthController::class, 'adminLogin']);
 
     // Other admin routes protected by teacher role
-    Route::middleware(['auth:sanctum', 'role:teacher'])->group(function () {
+    Route::middleware(['auth:sanctum', \App\Http\Middleware\CheckRole::class . ':teacher'])->group(function () {
         // Add your admin routes here
     });
 });
@@ -134,12 +134,12 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
 
+    // Routes shared between teachers and assistants
     Route::middleware(\App\Http\Middleware\CheckRole::class . ':teacher,assistant')->prefix('admin')->group(function () {
         Route::post('/change-password', [AuthController::class, 'changePassword']);
 
-        // Dashboard
+        // Dashboard (except teacher dashboard)
         Route::prefix('dashboard')->group(function () {
-            Route::get('/teacher', [DashboardController::class, 'teacherDashboard']);
             Route::get('/teacher/lectures', [DashboardController::class, 'scheduledLectures']);
             Route::get('/teacher/exams', [DashboardController::class, 'createdExams']);
             Route::get('/teacher/performance', [DashboardController::class, 'studentsPerformance']);
@@ -147,13 +147,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
         //package
         Route::apiResource('packages', PackageController::class);
-
-        //Subscription
-        Route::prefix("subscription")->controller(TeacherSubscriptionController::class)
-            ->group(function () {
-                Route::get("/", "index");
-                Route::get("/export", "export");
-            });
 
         //lectures
         Route::apiResource('lectures', TeacherLectureController::class);
@@ -163,6 +156,19 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // submissions for a specific assignment
         Route::get('/assignments/{assignment}/submissions', [TeacherAssignmentController::class, 'submissions']);
+    });
+
+    // Teacher-only routes
+    Route::middleware(\App\Http\Middleware\CheckRole::class . ':teacher')->prefix('admin')->group(function () {
+        // Teacher-specific dashboard
+        Route::get('/dashboard/teacher', [DashboardController::class, 'teacherDashboard']);
+
+        // Subscription management
+        Route::prefix("subscription")->controller(TeacherSubscriptionController::class)
+            ->group(function () {
+                Route::get("/", "index");
+                Route::get("/export", "export");
+            });
     });
 
     /*
@@ -214,14 +220,14 @@ Route::middleware('auth:sanctum')->group(function () {
     | Assistant Routes
     |--------------------------------------------------------------------------
     */
-    Route::middleware('role:assistant')->prefix('dashboard')->group(function () {
+    Route::middleware(\App\Http\Middleware\CheckRole::class . ':assistant')->prefix('dashboard')->group(function () {
         Route::get('/assistant', [DashboardController::class, 'assistantDashboard']);
         Route::get('/assistant/tasks', [DashboardController::class, 'assignedTasks']);
         Route::get('/assistant/inquiries', [DashboardController::class, 'studentInquiries']);
     });
 
     // Shared routes between student and assistant
-    Route::middleware('role:student,assistant')->group(function () {
+    Route::middleware(\App\Http\Middleware\CheckRole::class . ':student,assistant')->group(function () {
         Route::put('/user/update', [AuthController::class, 'updateUser']);
     });
 });
@@ -309,3 +315,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/notifications/mark-read/{notification}', [NotificationController::class, 'markAsRead']);
     Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
 });
+
