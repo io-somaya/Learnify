@@ -52,7 +52,6 @@ export class AuthService {
             },
             error: (error) => {
               console.error('Error fetching user data:', error);
-              this.router.navigate(['/student/dashboard']);
             }
           });
         }

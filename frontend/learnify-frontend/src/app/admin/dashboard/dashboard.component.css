@@ -771,9 +771,108 @@
     animation: growUp 1.5s ease-out forwards;
   }
   .quick-info-title {
-    margin-top: 30px;
-    margin-bottom: 10px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--dark-purple);
+    margin: 0 0 0 30px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 5px;
   }
+
+  .quick-info-title::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 3px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(90deg, var(--medium-purple), var(--light-purple));
+    border-radius: 3px;
+  }
+
+  .quick-actions {
+    padding: 0 25px 25px;
+  }
+  
+  .quick-actions-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark-purple);
+    margin: 0 0 15px 0;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 5px;
+  }
+  
+  .quick-actions-title::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 3px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(90deg, var(--medium-purple), var(--light-purple));
+    border-radius: 3px;
+  }
+  
+  .quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+  }
+  
+  .quick-action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 10px;
+    border-radius: 10px;
+    background-color: var(--component-background);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(169, 181, 223, 0.1);
+    transition: all 0.3s ease;
+
+  }
+  
+  .quick-action-item:hover {
+    background-color: var(--medium-purple);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(120, 134, 199, 0.2);
+  }
+  
+  .quick-action-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFF2F2;
+    color: var(--medium-purple);
+    font-size: 22px;
+    transition: all 0.3s ease;
+  }
+  
+  .quick-action-item:hover .quick-action-icon {
+    color: var(--dark-purple);
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .quick-action-item span {
+    color: var(--dark-purple);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .quick-action-item:hover span {
+    color: white;
+  }
+  
