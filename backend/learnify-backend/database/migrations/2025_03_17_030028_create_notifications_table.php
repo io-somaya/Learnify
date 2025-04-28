@@ -17,7 +17,7 @@ return new class extends Migration
             $table->enum('grade', ['1', '2', '3'])->nullable();
             $table->string('title');
             $table->text('message');
-            $table->enum('type', ['assignment', 'lecture', 'payment', 'submission']);
+            $table->enum('type', ['assignment', 'lecture', 'payment', 'submission', 'subscription']);
             $table->string('link')->nullable();
             $table->timestamp('read_at')->nullable();
             $table->timestamps();

@@ -47,6 +47,9 @@ Route::post('/email/resend-verification', [AuthVerificationController::class, 'r
 // Public packages listing
 Route::get('/packages', [PackageController::class, 'index']);
 
+// Public leaderboard
+Route::get('/leaderboard', [DashboardController::class, 'topStudentsLeaderboard']);
+
 
 // Admin routes
 Route::post('/admin/login', [AuthController::class, 'adminLogin'])
@@ -167,7 +170,8 @@ Route::middleware('auth:sanctum')->group(function () {
     | Student Routes
     |--------------------------------------------------------------------------
     */
-    Route::middleware('role:student')->prefix('dashboard')->group(function () {
+    // Dashboard
+    Route::middleware(\App\Http\Middleware\CheckRole::class . ':student')->prefix('dashboard')->group(function () {
         Route::get('/student', [DashboardController::class, 'studentDashboard']);
         Route::get('/student/packages', [DashboardController::class, 'enrolledPackages']);
         Route::get('/student/lectures', [DashboardController::class, 'upcomingLectures']);
@@ -176,31 +180,29 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
 
-
     // Student routes with subscription check
-    Route::middleware(['auth:sanctum', CheckSubscription::class])->prefix('student')->group(function ()
-    {
-            // lectures routes
-            Route::get('lectures', [StudentLectureController::class, 'index']);
-            Route::get('lectures/{lecture}', [StudentLectureController::class, 'show']);
+    Route::middleware(['auth:sanctum', CheckSubscription::class])->prefix('student')->group(function () {
+        // lectures routes
+        Route::get('lectures', [StudentLectureController::class, 'index']);
+        Route::get('lectures/{lecture}', [StudentLectureController::class, 'show']);
 
-            // assignments routes
-            Route::prefix('assignments')->group(function () {
-                //  List assignments for the student's grade
-                Route::get('/', [StudentAssignmentController::class, 'index']);
-                //  Show details of a specific assignment before submission
-                Route::get('/{assignmentId}', [StudentAssignmentController::class, 'show']);
-                // Submit answers
-                Route::post('/{assignmentId}/submit', [StudentAssignmentController::class, 'submit']);
-            });
+        // assignments routes
+        Route::prefix('assignments')->group(function () {
+            //  List assignments for the student's grade
+            Route::get('/', [StudentAssignmentController::class, 'index']);
+            //  Show details of a specific assignment before submission
+            Route::get('/{assignmentId}', [StudentAssignmentController::class, 'show']);
+            // Submit answers
+            Route::post('/{assignmentId}/submit', [StudentAssignmentController::class, 'submit']);
+        });
 
-            // Submission routes
-            Route::prefix('submissions')->group(function () {
-                // List all past submissions for the student
-                Route::get('/', [StudentAssignmentController::class, 'listSubmissions']);
-                // Show detailed results of a specific submission
-                Route::get('/{submissionId}', [StudentAssignmentController::class, 'showSubmission']);
-            });
+        // Submission routes
+        Route::prefix('submissions')->group(function () {
+            // List all past submissions for the student
+            Route::get('/', [StudentAssignmentController::class, 'listSubmissions']);
+            // Show detailed results of a specific submission
+            Route::get('/{submissionId}', [StudentAssignmentController::class, 'showSubmission']);
+        });
     });
 
 
@@ -299,11 +301,11 @@ Route::prefix('ai-assistant')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     // Student notification routes
     Route::get('/notifications/student', [NotificationController::class, 'getStudentNotifications']);
-    
+
     // Teacher notification routes
     Route::get('/notifications/teacher', [NotificationController::class, 'getTeacherNotifications']);
-    
+
     // Common notification routes
     Route::post('/notifications/mark-read/{notification}', [NotificationController::class, 'markAsRead']);
-    
+    Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
 });

@@ -1,0 +1,120 @@
+<div class="notifications-container">
+  <div class="notifications-header">
+    <h1>Notifications</h1>
+    <div class="actions">
+      <button class="mark-all-btn" (click)="markAllAsRead()" *ngIf="hasUnreadNotifications()">
+        <i class="fas fa-check-double"></i> Mark All as Read
+      </button>
+    </div>
+  </div>
+
+  <div class="filters-container">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input
+        type="text"
+        placeholder="Search notifications..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="applyFilters()"
+      >
+    </div>
+
+    <div class="filter-options">
+      <div class="filter-group">
+        <label>Status:</label>
+        <select [(ngModel)]="selectedFilter" (change)="applyFilters()">
+          <option value="all">All</option>
+          <option value="unread">Unread</option>
+          <option value="read">Read</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Type:</label>
+        <select [(ngModel)]="selectedType" (change)="applyFilters()">
+          <option value="all">All Types</option>
+          <option value="assignment">Assignment</option>
+          <option value="lecture">Lecture</option>
+          <option value="payment">Payment</option>
+          <option value="submission">Submission</option>
+          <option value="subscription">Subscription</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading notifications...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && filteredNotifications.length === 0">
+    <i class="fas fa-bell-slash"></i>
+    <h3>No notifications found</h3>
+    <p>There are no notifications matching your filters.</p>
+  </div>
+
+  <!-- Notifications List -->
+  <div class="notifications-list" *ngIf="!loading && filteredNotifications.length > 0">
+    <div
+      class="notification-item"
+      *ngFor="let notification of paginatedNotifications"
+      [class.unread]="!notification.read_at"
+      (click)="markAsRead(notification)"
+    >
+      <div class="notification-icon" [ngClass]="notification.type">
+        <i class="fas" [ngClass]="getNotificationIcon(notification.type)"></i>
+      </div>
+
+      <div class="notification-content">
+        <div class="notification-header">
+          <h3>{{ notification.title }}</h3>
+          <span class="notification-time">{{ getTimeAgo(notification.created_at) }}</span>
+        </div>
+        <p class="notification-message">{{ notification.message }}</p>
+        <div class="notification-footer">
+          <span class="notification-type">{{ getNotificationTypeLabel(notification.type) }}</span>
+          <a *ngIf="notification.link" [routerLink]="notification.link" class="view-link">
+            View Details <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="notification-status">
+        <span class="status-indicator" [class.read]="notification.read_at"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button
+      class="pagination-btn"
+      [disabled]="currentPage === 1"
+      (click)="changePage(currentPage - 1)"
+    >
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <div class="page-numbers">
+      <button
+        *ngFor="let page of pageNumbers"
+        class="page-number"
+        [class.active]="page === currentPage"
+        (click)="changePage(page)"
+      >
+        {{ page }}
+      </button>
+    </div>
+
+    <button
+      class="pagination-btn"
+      [disabled]="currentPage === totalPages"
+      (click)="changePage(currentPage + 1)"
+    >
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+</div>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Lesson;
 use App\Models\PackageUser;
+use App\Models\Notification;
+use App\Events\LessonNotificationEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -104,6 +106,17 @@ class LessonsController extends Controller
 
         // Create the lesson
         $lesson = Lesson::create($request->all());
+
+        // Create and broadcast notification for new lesson
+        $notification = Notification::create([
+            'grade' => $request->grade,
+            'title' => 'New Lesson Available',
+            'message' => "A new lesson '{$lesson->title}' has been added to your grade.",
+            'type' => 'lecture',
+            'link' => "/lessons/{$lesson->id}"
+        ]);
+
+        event(new LessonNotificationEvent($notification, $request->grade));
 
         return response()->json([
             'status' => 'success',

@@ -80,12 +80,12 @@ class StudentAssignmentController extends Controller
             // Create notification for teachers about the submission
             $student = Auth::user();
             $assignment = Assignment::find($assignmentId);
-            
+
             $notification = \App\Models\Notification::create([
                 'title' => 'New Assignment Submission',
                 'message' => "{$student->first_name} {$student->last_name} has submitted assignment '{$assignment->title}'",
                 'type' => 'submission',
-                'link' => "/admin/assignments/{$assignmentId}/submissions"
+                'link' => "/admin/dashboard/assignments-management/submissions/{$assignmentId}"
             ]);
 
             event(new \App\Events\PaymentNotificationEvent($notification));
