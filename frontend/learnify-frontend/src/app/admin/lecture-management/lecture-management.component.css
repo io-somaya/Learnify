@@ -174,7 +174,7 @@
 
 .management__button--zoom:hover {
   background-color: var(--success-color);
-  color: white !important;
+  color: rgb(18, 255, 125) !important;
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
 }
