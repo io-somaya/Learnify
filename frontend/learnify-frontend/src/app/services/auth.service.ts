@@ -48,6 +48,7 @@ export class AuthService {
               }));
 
               this.currentUserSubject.next(userData);
+              this.router.navigate(['/student/dashboard']);
             },
             error: (error) => {
               console.error('Error fetching user data:', error);
