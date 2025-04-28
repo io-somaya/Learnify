@@ -321,6 +321,10 @@ class PaymentController extends Controller
                             'end_date' => now()->addDays($payment->packageUser->package->duration_days)
                         ]);
 
+                        // Update user status to active
+                        $user = User::find($payment->packageUser->user_id);
+                        $user->updateSubscriptionStatus();
+
                         // Create notification for teachers about new payment
                         $teacherNotification = Notification::create([
                             'title' => 'New Payment Received',

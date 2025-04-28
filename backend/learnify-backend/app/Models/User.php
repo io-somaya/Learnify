@@ -48,10 +48,23 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Package::class, 'package_user')
             ->withPivot('start_date', 'end_date');
     }
+    public function hasActiveSubscription()
+    {
+        $today = now()->format('Y-m-d');
+        return $this->packages()
+            ->wherePivot('start_date', '<=', $today)
+            ->wherePivot('end_date', '>=', $today)
+            ->exists();
+    }
 
-
-
-
+    public function updateSubscriptionStatus()
+    {
+        $hasActiveSubscription = $this->hasActiveSubscription();
+        $this->status = $hasActiveSubscription ? 'active' : 'inactive';
+        $this->save();
+        
+        return $this->status;
+    }
     // One-to-Many relationship with Chat (1:M)
     public function chats()
     {
@@ -81,3 +94,5 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(AssignmentUser::class);
     }
 }
+
+

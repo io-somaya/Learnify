@@ -18,18 +18,33 @@ class CheckSubscription
     public function handle(Request $request, Closure $next)
     {
         $user = Auth::user();
-
+        
         // Teachers and assistants don't need subscriptions
         if (in_array($user->role, ['teacher', 'assistant'])) {
             return $next($request);
         }
 
+        // Allow access to specific routes even without subscription
+        $allowedRoutes = [
+            'profile',
+            'packages',
+            'subscriptions/purchase',
+            'subscriptions/current',
+            'subscriptions/renew',
+            'logout'
+        ];
+
+        foreach ($allowedRoutes as $route) {
+            if ($request->is("api/*/$route*")) {
+                return $next($request);
+            }
+        }
+
         // Check if student has active subscription
-        $today = now()->format('Y-m-d');
-        $hasActiveSubscription = \App\Models\PackageUser::where('user_id', $user->id)
-            ->where('start_date', '<=', $today)
-            ->where('end_date', '>=', $today)
-            ->exists();
+        $hasActiveSubscription = $user->hasActiveSubscription();
+        
+        // Update user status based on subscription
+        $user->updateSubscriptionStatus();
 
         if (!$hasActiveSubscription) {
             return response()->json([
@@ -41,3 +56,6 @@ class CheckSubscription
         return $next($request);
     }
 }
+
+
+

@@ -177,7 +177,7 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
     // Dashboard
-    Route::middleware(\App\Http\Middleware\CheckRole::class . ':student')->prefix('dashboard')->group(function () {
+    Route::middleware(\App\Http\Middleware\CheckRole::class . ':student', CheckSubscription::class)->prefix('dashboard')->group(function () {
         Route::get('/student', [DashboardController::class, 'studentDashboard']);
         Route::get('/student/packages', [DashboardController::class, 'enrolledPackages']);
         Route::get('/student/lectures', [DashboardController::class, 'upcomingLectures']);
@@ -315,4 +315,3 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/notifications/mark-read/{notification}', [NotificationController::class, 'markAsRead']);
     Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
 });
-
