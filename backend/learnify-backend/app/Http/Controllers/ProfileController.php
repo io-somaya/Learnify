@@ -20,20 +20,26 @@ class ProfileController extends Controller
         return $this->apiResponse(200, 'Profile retrieved successfully', $user);
     }
 
+
     public function update(Request $request)
     {
         /** @var User $user */
         $user = Auth::user();
 
         $validated = $request->validate([
-            'name' => 'sometimes|string|max:255',
+            'first_name' => 'sometimes|string|max:255',
+            'last_name' => 'sometimes|string|max:255',
             'email' => 'sometimes|email|unique:users,email,' . $user->id,
-            'phone' => 'sometimes|string|max:20',
+            'phone_number' => 'sometimes|nullable|string|max:20',
             'grade' => 'sometimes|nullable|in:1,2,3',
             'parent_phone' => 'sometimes|nullable|string|max:20',
         ]);
 
-        $user->fill($validated)->save();
+        // Copy all validated data to user model
+        $user->fill($validated);
+
+        // Save the changes
+        $user->save();
 
         return $this->apiResponse(200, 'Profile updated successfully', $user);
     }
