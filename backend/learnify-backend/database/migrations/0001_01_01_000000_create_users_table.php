@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('parent_phone')->nullable();
             $table->enum('grade', ['1', '2', '3'])->nullable();
             $table->enum('role', ['student', 'teacher', 'assistant'])->default('student');
-            $table->enum('status', ['active', 'inactive', 'suspended'])->default('active');
+            $table->enum('status', ['active', 'inactive', 'suspended'])->default('inactive');
             $table->string('profile_picture')->nullable();
             $table->string('google_id')->nullable()->unique();
             $table->rememberToken();
