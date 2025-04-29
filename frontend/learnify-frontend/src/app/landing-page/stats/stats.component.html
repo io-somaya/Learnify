@@ -1,7 +1,8 @@
 <section id="stats" class="stats-section">
+  <!-- Background shapes are added via CSS -->
   <div class="container">
     <div class="row">
-      <div class="col-md-3 col-sm-6 mb-4" *ngFor="let stat of stats">
+      <div class="col-md-3 col-sm-6 mb-4" *ngFor="let stat of stats; let i = index">
         <div class="stat-card">
           <div class="stat-icon">
             <i [class]="stat.icon"></i>

@@ -1,85 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modern Pricing Section</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
-</head>
-<body>
-  <section id="pricing" class="pricing-section">
-    <div class="container">
-      <div class="section-title">
-        <h2>Choose Your Plan</h2>
-        <p>Select the perfect plan that fits your educational needs and budget.</p>
-      </div>
-      
-      <div class="row">
-        <!-- Basic Plan -->
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="pricing-card">
+<section id="pricing" class="pricing-section">
+  <!-- Background Shapes -->
+  <div class="pricing-bg">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+  </div>
+
+  <div class="container">
+    <div class="section-title">
+      <h2>Choose Your Perfect Plan</h2>
+      <p>Select the ideal learning package that fits your educational journey and goals</p>
+    </div>
+    
+    <div class="row pricing-cards-container">
+      <!-- Basic Plan -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="pricing-card">
+          <div class="card-header">
             <h3 class="plan-name">Basic</h3>
             <div class="price">
               <span class="currency">$</span>
-              <span class="amount">29</span>
+              <span class="amount">9.99</span>
               <span class="period">per month</span>
             </div>
-            <ul class="features-list">
-              <li><i class="bi bi-check-circle-fill"></i> Access to 50+ courses</li>
-              <li><i class="bi bi-check-circle-fill"></i> Basic course materials</li>
-              <li><i class="bi bi-check-circle-fill"></i> 1 certificate per month</li>
-              <li><i class="bi bi-check-circle-fill"></i> Email support</li>
-              <li><i class="bi bi-check-circle-fill"></i> 30-day money back</li>
-            </ul>
+          </div>
+          <ul class="features-list">
+            <li><i class="bi bi-check-circle-fill"></i> Access to basic courses</li>
+            <li><i class="bi bi-check-circle-fill"></i> Limited interactive lessons</li>
+            <li><i class="bi bi-check-circle-fill"></i> Email support</li>
+            <li><i class="bi bi-check-circle-fill"></i> Progress tracking</li>
+            <li><i class="bi bi-check-circle-fill"></i> Mobile access</li>
+          </ul>
+          <div class="card-footer">
             <a href="#" class="btn btn-outline">Get Started</a>
           </div>
         </div>
-        
-        <!-- Pro Plan (Recommended) -->
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="pricing-card recommended">
-            <div class="ribbon">Popular</div>
-            <h3 class="plan-name">Pro</h3>
+      </div>
+      
+      <!-- Standard Plan (Recommended) -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="pricing-card recommended">
+          <div class="ribbon">Most Popular</div>
+          <div class="card-header">
+            <h3 class="plan-name">Standard</h3>
             <div class="price">
               <span class="currency">$</span>
-              <span class="amount">59</span>
+              <span class="amount">19.99</span>
               <span class="period">per month</span>
             </div>
-            <ul class="features-list">
-              <li><i class="bi bi-check-circle-fill"></i> Access to all courses</li>
-              <li><i class="bi bi-check-circle-fill"></i> Advanced course materials</li>
-              <li><i class="bi bi-check-circle-fill"></i> Unlimited certificates</li>
-              <li><i class="bi bi-check-circle-fill"></i> Priority email support</li>
-              <li><i class="bi bi-check-circle-fill"></i> Access to community forums</li>
-              <li><i class="bi bi-check-circle-fill"></i> 30-day money back</li>
-            </ul>
+          </div>
+          <ul class="features-list">
+            <li><i class="bi bi-check-circle-fill"></i> Access to all courses</li>
+            <li><i class="bi bi-check-circle-fill"></i> Unlimited interactive lessons</li>
+            <li><i class="bi bi-check-circle-fill"></i> Priority email support</li>
+            <li><i class="bi bi-check-circle-fill"></i> Advanced progress analytics</li>
+            <li><i class="bi bi-check-circle-fill"></i> Mobile access</li>
+            <li><i class="bi bi-check-circle-fill"></i> Live sessions (2 per week)</li>
+          </ul>
+          <div class="card-footer">
             <a href="#" class="btn btn-recommended">Get Started</a>
           </div>
         </div>
-        
-        <!-- Enterprise Plan -->
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="pricing-card">
-            <h3 class="plan-name">Enterprise</h3>
+      </div>
+      
+      <!-- Premium Plan -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="pricing-card">
+          <div class="card-header">
+            <h3 class="plan-name">Premium</h3>
             <div class="price">
               <span class="currency">$</span>
-              <span class="amount">99</span>
+              <span class="amount">29.99</span>
               <span class="period">per month</span>
             </div>
-            <ul class="features-list">
-              <li><i class="bi bi-check-circle-fill"></i> Access to all courses</li>
-              <li><i class="bi bi-check-circle-fill"></i> Premium course materials</li>
-              <li><i class="bi bi-check-circle-fill"></i> Unlimited certificates</li>
-              <li><i class="bi bi-check-circle-fill"></i> 24/7 phone support</li>
-              <li><i class="bi bi-check-circle-fill"></i> Dedicated account manager</li>
-              <li><i class="bi bi-check-circle-fill"></i> Custom learning paths</li>
-              <li><i class="bi bi-check-circle-fill"></i> 30-day money back</li>
-            </ul>
-            <a href="#" class="btn btn-primary">Get Started</a>
+          </div>
+          <ul class="features-list">
+            <li><i class="bi bi-check-circle-fill"></i> Access to all courses</li>
+            <li><i class="bi bi-check-circle-fill"></i> Unlimited interactive lessons</li>
+            <li><i class="bi bi-check-circle-fill"></i> 24/7 phone support</li>
+            <li><i class="bi bi-check-circle-fill"></i> Advanced progress analytics</li>
+            <li><i class="bi bi-check-circle-fill"></i> Mobile access</li>
+            <li><i class="bi bi-check-circle-fill"></i> Unlimited live sessions</li>
+            <li><i class="bi bi-check-circle-fill"></i> Personalized learning path</li>
+            <li><i class="bi bi-check-circle-fill"></i> Parent dashboard</li>
+          </ul>
+          <div class="card-footer">
+            <a href="#" class="btn btn-outline">Get Started</a>
           </div>
         </div>
       </div>
     </div>
-  </section>
-</body>
-</html>
+  </div>
+</section>

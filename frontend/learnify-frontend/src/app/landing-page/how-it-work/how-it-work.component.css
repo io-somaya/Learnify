@@ -14,7 +14,7 @@ body {
   padding: 120px 0;
   position: relative;
   overflow: hidden;
-  background-color: whitesmoke;
+  background-color: white;
 }
 
 .section-title {
@@ -35,7 +35,7 @@ body {
   position: absolute;
   width: 60px;
   height: 4px;
-  background: var(--medium-purple);
+  background: linear-gradient(135deg, var(--light-purple), var(--medium-purple));
   left: 50%;
   bottom: -15px;
   transform: translateX(-50%);
@@ -76,7 +76,7 @@ body {
   bottom: 0;
   width: 5px;
   height: 0;
-  background: var(--medium-purple);
+  background: linear-gradient(135deg, var(--light-purple), var(--medium-purple));
   transition: all 0.4s ease;
 }
 
@@ -150,7 +150,7 @@ body {
   content: '';
   position: absolute;
   border-radius: 50%;
-  background: var(--medium-purple);
+  background: linear-gradient(135deg, var(--light-purple), var(--medium-purple));
   opacity: 0.05;
   z-index: 0;
 }
