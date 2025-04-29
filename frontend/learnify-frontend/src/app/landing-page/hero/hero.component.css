@@ -5,19 +5,23 @@
   --dark-purple: #2D336B;
 }
 
-.hero-section {
-  background-color: var(--dark-purple);
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  padding-top: 80px; /* Add padding for navbar */
-  box-sizing: border-box;
-  color: white; /* Ensure text is visible on dark background */
+body {
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
 }
 
-/* Animated background pattern */
+.hero-section {
+  background-color: var(--dark-purple);
+  padding-top: 120px;
+  padding-bottom: 60px;
+  min-height: 90vh;
+  width: 100%;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background shapes */
 .hero-bg {
   position: absolute;
   top: 0;
@@ -26,16 +30,15 @@
   height: 100%;
   opacity: 0.07;
   z-index: 0;
-  pointer-events: none; /* Prevent interaction with background elements */
 }
 
-.hero-bg .shape {
+.shape {
   position: absolute;
   border-radius: 50%;
   background: var(--medium-purple);
 }
 
-.hero-bg .shape-1 {
+.shape-1 {
   width: 500px;
   height: 500px;
   top: -250px;
@@ -43,7 +46,7 @@
   animation: float 15s ease-in-out infinite;
 }
 
-.hero-bg .shape-2 {
+.shape-2 {
   width: 300px;
   height: 300px;
   bottom: -150px;
@@ -51,7 +54,7 @@
   animation: float 18s ease-in-out infinite reverse;
 }
 
-.hero-bg .shape-3 {
+.shape-3 {
   width: 200px;
   height: 200px;
   top: 40%;
@@ -59,124 +62,7 @@
   animation: float 12s ease-in-out infinite;
 }
 
-@keyframes float {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  33% { transform: translate(30px, -20px) rotate(5deg); }
-  66% { transform: translate(-20px, 20px) rotate(-5deg); }
-  100% { transform: translate(0, 0) rotate(0deg); }
-}
-
-.container {
-  position: relative;
-  z-index: 5;
-  padding: 2rem 0;
-}
-
-.hero-title {
-  color: white;
-  font-weight: 700;
-  font-size: 3.5rem;
-  margin-bottom: 1.5rem;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.hero-subtitle {
-  color: var(--light-purple);
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
-  max-width: 600px;
-}
-
-.hero-buttons .btn {
-  padding: 12px 30px;
-  border-radius: 50px;
-  font-weight: 500;
-  margin-right: 15px;
-  margin-bottom: 15px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.btn-primary {
-  background-color: var(--medium-purple);
-  border-color: var(--medium-purple);
-}
-
-.btn-primary:hover, .btn-primary:focus {
-  background-color: var(--light-purple);
-  border-color: var(--light-purple);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.btn-outline-light:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.feature-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 15px;
-  margin-bottom: 1rem;
-  background: rgba(169, 181, 223, 0.1);
-  color: var(--light-purple);
-  font-size: 1.5rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.feature-item:hover .feature-icon {
-  background: var(--light-purple);
-  color: var(--dark-purple);
-  transform: translateY(-5px);
-}
-
-.feature-item {
-  padding: 1.5rem;
-  border-radius: 15px;
-  background: rgba(169, 181, 223, 0.05);
-  transition: all 0.3s ease;
-  height: 100%;
-  color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.feature-item:hover {
-  background: rgba(169, 181, 223, 0.1);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
-
-.feature-title {
-  color: white;
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.feature-text {
-  color: var(--light-purple);
-  font-size: 0.9rem;
-}
-
-/* Logo Styling */
-.site-logo {
-  color: white;
-  font-weight: 700;
-  font-size: 2.2rem;
-  margin-bottom: 1.5rem;
-  display: inline-block;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.site-logo span {
-  color: var(--light-purple);
-}
-
+/* Floating icons */
 .floating-objects {
   position: absolute;
   top: 0;
@@ -185,7 +71,6 @@
   height: 100%;
   overflow: hidden;
   z-index: 1;
-  pointer-events: none; /* Prevent interaction with floating elements */
 }
 
 .floating-icon {
@@ -212,62 +97,186 @@
 .icon-3 {
   font-size: 35px;
   top: 25%;
-  right: 25%;
-  animation: floating 9s infinite ease-in-out 1s;
+  right: 15%;
+  animation: floating 10s infinite ease-in-out;
 }
 
 .icon-4 {
-  font-size: 28px;
-  top: 60%;
-  right: 15%;
-  animation: floating 10s infinite ease-in-out 2s;
+  font-size: 20px;
+  bottom: 20%;
+  left: 15%;
+  animation: floating 14s infinite ease-in-out;
 }
 
 .icon-5 {
-  font-size: 22px;
-  bottom: 15%;
-  left: 30%;
-  animation: floating 11s infinite ease-in-out 0.5s;
+  font-size: 25px;
+  bottom: 30%;
+  right: 20%;
+  animation: floating 9s infinite ease-in-out;
 }
 
 .icon-6 {
-  font-size: 32px;
-  bottom: 30%;
-  left: 15%;
-  animation: floating 7s infinite ease-in-out 1.5s;
+  font-size: 30px;
+  bottom: 10%;
+  right: 10%;
+  animation: floating 11s infinite ease-in-out;
+}
+
+/* Hero content */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.hero-title {
+  color: white;
+  font-weight: 700;
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-subtitle {
+  color: var(--light-purple);
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.hero-buttons {
+  margin-bottom: 2rem;
+}
+
+.hero-buttons .btn {
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: 500;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: var(--medium-purple);
+  border-color: var(--medium-purple);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: var(--light-purple);
+  border-color: var(--light-purple);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.btn-outline-light:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Feature items */
+.feature-item {
+  padding: 1.5rem;
+  border-radius: 15px;
+  background: rgba(169, 181, 223, 0.05);
+  transition: all 0.3s ease;
+  height: 100%;
+  margin-bottom: 1rem;
+}
+
+.feature-item:hover {
+  background: rgba(169, 181, 223, 0.1);
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+  background: rgba(169, 181, 223, 0.1);
+  color: var(--light-purple);
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover .feature-icon {
+  background: var(--light-purple);
+  color: var(--dark-purple);
+  transform: translateY(-5px);
+}
+
+.feature-title {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.feature-text {
+  color: var(--light-purple);
+  font-size: 0.9rem;
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(30px, -20px) rotate(5deg); }
+  66% { transform: translate(-20px, 20px) rotate(-5deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
 }
 
 @keyframes floating {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  25% {
-    transform: translateY(-15px) rotate(5deg);
-  }
-  50% {
-    transform: translateY(0) rotate(0deg);
-  }
-  75% {
-    transform: translateY(15px) rotate(-5deg);
-  }
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(10px, -15px) rotate(5deg); }
+  50% { transform: translate(15px, 10px) rotate(0deg); }
+  75% { transform: translate(-10px, 15px) rotate(-5deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
 }
 
+/* Responsive styles */
 @media (max-width: 992px) {
   .hero-title {
-    font-size: 2.8rem;
+    font-size: 2.5rem;
   }
   
-  .hero-subtitle {
-    font-size: 1.1rem;
+  .hero-section {
+    padding-top: 100px;
   }
 }
 
 @media (max-width: 768px) {
   .hero-title {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
-  
-  .site-logo {
+}
+
+@media (max-width: 576px) {
+  .hero-title {
     font-size: 1.8rem;
   }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .hero-buttons .btn {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+/* Logo Styling */
+.site-logo {
+  color: white;
+  font-weight: 700;
+  font-size: 2.2rem;
+  margin-bottom: 0;
+  display: inline-block;
+}
+
+.site-logo span {
+  color: var(--light-purple);
 }
