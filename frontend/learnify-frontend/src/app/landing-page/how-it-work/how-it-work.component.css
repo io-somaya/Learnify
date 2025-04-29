@@ -1,4 +1,5 @@
 :root {
+  --light-pink: #FFF2F2;
   --light-purple: #A9B5DF;
   --medium-purple: #7886C7;
   --dark-purple: #2D336B;
@@ -10,62 +11,77 @@ body {
 }
 
 .how-it-works {
-  padding: 100px 0;
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+  background-color: whitesmoke;
 }
 
 .section-title {
-  margin-bottom: 60px;
+  margin-bottom: 80px;
 }
 
 .section-title h2 {
   color: var(--dark-purple);
   font-weight: 700;
-  font-size: 40px;
+  font-size: 42px;
   position: relative;
   display: inline-block;
+  margin-bottom: 30px;
 }
 
 .section-title h2:after {
   content: '';
   position: absolute;
-  width: 50%;
+  width: 60px;
   height: 4px;
   background: var(--medium-purple);
-  left: 25%;
+  left: 50%;
   bottom: -15px;
+  transform: translateX(-50%);
   border-radius: 2px;
+}
+
+.section-subtitle {
+  color: #555;
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 25px;
 }
 
 .step-box {
   padding: 40px 30px;
   border-radius: 20px;
   background: white;
-  box-shadow: 0 10px 30px rgba(169, 181, 223, 0.15);
+  box-shadow: 0 15px 35px rgba(120, 134, 199, 0.15);
   height: 100%;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
   position: relative;
   overflow: hidden;
   z-index: 1;
+  border: 1px solid rgba(169, 181, 223, 0.1);
 }
 
 .step-box:hover {
   transform: translateY(-10px);
-  box-shadow: 0 15px 35px rgba(120, 134, 199, 0.2);
+  box-shadow: 0 20px 40px rgba(120, 134, 199, 0.2);
+  border-color: var(--light-purple);
 }
 
 .step-box:before {
   content: '';
   position: absolute;
   left: 0;
-  top: 0;
+  bottom: 0;
   width: 5px;
-  height: 100%;
+  height: 0;
   background: var(--medium-purple);
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
 }
 
 .step-box:hover:before {
-  width: 100%;
+  height: 100%;
   z-index: -1;
   opacity: 0.1;
 }
@@ -79,6 +95,12 @@ body {
   top: 10px;
   right: 20px;
   line-height: 1;
+  transition: all 0.4s ease;
+}
+
+.step-box:hover .step-number {
+  transform: scale(1.2);
+  opacity: 0.4;
 }
 
 .step-icon {
@@ -92,20 +114,28 @@ body {
   border-radius: 50%;
   font-size: 28px;
   margin-bottom: 25px;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .step-box:hover .step-icon {
   background: var(--dark-purple);
   color: white;
   transform: rotateY(180deg);
+  box-shadow: 0 10px 20px rgba(45, 51, 107, 0.2);
 }
 
 .step-title {
   font-size: 22px;
   font-weight: 700;
   color: var(--dark-purple);
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.step-box:hover .step-title {
+  color: var(--medium-purple);
 }
 
 .step-description {
@@ -114,16 +144,73 @@ body {
   line-height: 1.6;
 }
 
-@media (max-width: 767px) {
+/* Add some decorative elements */
+.how-it-works:before,
+.how-it-works:after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: var(--medium-purple);
+  opacity: 0.05;
+  z-index: 0;
+}
+
+.how-it-works:before {
+  width: 300px;
+  height: 300px;
+  top: -150px;
+  left: -100px;
+}
+
+.how-it-works:after {
+  width: 200px;
+  height: 200px;
+  bottom: -100px;
+  right: -50px;
+}
+
+@media (max-width: 991px) {
   .how-it-works {
-      padding: 60px 0;
+    padding: 80px 0;
   }
   
   .section-title h2 {
-      font-size: 32px;
+    font-size: 36px;
   }
   
   .step-box {
-      margin-bottom: 30px;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .how-it-works {
+    padding: 60px 0;
+  }
+  
+  .section-title {
+    margin-bottom: 50px;
+  }
+  
+  .section-title h2 {
+    font-size: 32px;
+  }
+  
+  .step-box {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .section-title h2 {
+    font-size: 28px;
+  }
+  
+  .section-subtitle {
+    font-size: 16px;
+  }
+  
+  .step-title {
+    font-size: 20px;
   }
 }
