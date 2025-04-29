@@ -1,0 +1,15 @@
+<section id="stats" class="stats-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-sm-6 mb-4" *ngFor="let stat of stats">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i [class]="stat.icon"></i>
+          </div>
+          <h3 class="stat-value">{{stat.value}}</h3>
+          <p class="stat-label">{{stat.label}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,129 @@
+:root {
+  --light-purple: #A9B5DF;
+  --medium-purple: #7886C7;
+  --dark-purple: #2D336B;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: white;
+}
+
+.how-it-works {
+  padding: 100px 0;
+}
+
+.section-title {
+  margin-bottom: 60px;
+}
+
+.section-title h2 {
+  color: var(--dark-purple);
+  font-weight: 700;
+  font-size: 40px;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title h2:after {
+  content: '';
+  position: absolute;
+  width: 50%;
+  height: 4px;
+  background: var(--medium-purple);
+  left: 25%;
+  bottom: -15px;
+  border-radius: 2px;
+}
+
+.step-box {
+  padding: 40px 30px;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 10px 30px rgba(169, 181, 223, 0.15);
+  height: 100%;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.step-box:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(120, 134, 199, 0.2);
+}
+
+.step-box:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 5px;
+  height: 100%;
+  background: var(--medium-purple);
+  transition: all 0.3s ease;
+}
+
+.step-box:hover:before {
+  width: 100%;
+  z-index: -1;
+  opacity: 0.1;
+}
+
+.step-number {
+  font-size: 72px;
+  font-weight: 800;
+  color: var(--light-purple);
+  opacity: 0.3;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  line-height: 1;
+}
+
+.step-icon {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--light-purple);
+  color: var(--dark-purple);
+  border-radius: 50%;
+  font-size: 28px;
+  margin-bottom: 25px;
+  transition: all 0.3s ease;
+}
+
+.step-box:hover .step-icon {
+  background: var(--dark-purple);
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.step-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--dark-purple);
+  margin-bottom: 15px;
+}
+
+.step-description {
+  color: #555;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (max-width: 767px) {
+  .how-it-works {
+      padding: 60px 0;
+  }
+  
+  .section-title h2 {
+      font-size: 32px;
+  }
+  
+  .step-box {
+      margin-bottom: 30px;
+  }
+}

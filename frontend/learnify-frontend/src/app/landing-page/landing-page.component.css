@@ -1,0 +1,72 @@
+/* Global styles for the landing page */
+:root {
+  --light-pink: #FFF2F2;
+  --light-purple: #A9B5DF;
+  --medium-purple: #7886C7;
+  --dark-purple: #2D336B;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  overflow-x: hidden;
+}
+
+section {
+  padding: 80px 0;
+}
+
+.section-title {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.section-title h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--dark-purple);
+  margin-bottom: 15px;
+}
+
+.section-title p {
+  font-size: 1.1rem;
+  color: #666;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.btn-primary {
+  background-color: var(--medium-purple);
+  border-color: var(--medium-purple);
+}
+
+.btn-primary:hover {
+  background-color: var(--dark-purple);
+  border-color: var(--dark-purple);
+}
+
+.btn-outline-primary {
+  color: var(--medium-purple);
+  border-color: var(--medium-purple);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--medium-purple);
+  border-color: var(--medium-purple);
+}
+
+.bg-light-pink {
+  background-color: var(--light-pink);
+}
+
+.bg-light-purple {
+  background-color: var(--light-purple);
+}
+
+.text-medium-purple {
+  color: var(--medium-purple);
+}
+
+.text-dark-purple {
+  color: var(--dark-purple);
+}

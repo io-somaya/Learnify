@@ -11,6 +11,7 @@ import { VerifyEmailComponent } from './formes/verify-email/verify-email.compone
 import { CheckEmailComponent } from './formes/check-email/check-email.component';
 import { ToastComponent } from './toast/toast.component';
 import { PackagesComponent } from './packages&payments/packages/packages/packages.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 // import { ProfileComponent } from './student/profile/profile.component';
 // import { EditProfileComponent } from './student/edit-profile/edit-profile.component';
 import { AdminLoginComponent } from './formes/admin-login/admin-login.component';
@@ -66,9 +67,15 @@ export function route(name: string): string {
   return routes[name] || '#';
 }
 export const routes: Routes = [
-  // Auth routes
+  // Landing page route
   {
     path: "",
+    component: LandingPageComponent,
+    title: "Learnify - Next-Gen E-Learning Platform",
+  },
+  // Auth routes
+  {
+    path: "login",
     component: LoginComponent,
     title: "Login",
   },
@@ -246,7 +253,7 @@ export const routes: Routes = [
       component:StudentDetailComponent,
       title:"Student Management"
     },
-    
+
     // Admin Profile Routes
     {
       path: 'profile',

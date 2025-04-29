@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <span class="logo-text">Learnify</span>
+    </a>
+    <button class="navbar-toggler" type="button" (click)="toggleMenu()" aria-controls="navbarNav" 
+      [attr.aria-expanded]="!isMenuCollapsed" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" [class.show]="!isMenuCollapsed" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#features">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#how-it-works">How It Works</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#pricing">Pricing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#testimonials">Testimonials</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/formes/login" class="nav-link login-btn">Log In</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/formes/register" class="nav-link signup-btn">Sign Up</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

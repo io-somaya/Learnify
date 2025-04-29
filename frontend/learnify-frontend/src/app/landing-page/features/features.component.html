@@ -1,0 +1,20 @@
+<section id="features" class="features-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Our Features</h2>
+      <p>Discover the powerful tools and features that make Learnify the perfect platform for educational success.</p>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let feature of features">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i [class]="feature.icon"></i>
+          </div>
+          <h3>{{feature.title}}</h3>
+          <p>{{feature.description}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

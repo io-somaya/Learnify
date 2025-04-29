@@ -1,0 +1,36 @@
+.stats-section {
+  padding: 80px 0;
+  background-color: #2D336B;
+  color: white;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #A9B5DF;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.stat-label {
+  font-size: 1.1rem;
+  color: #A9B5DF;
+  margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+  .stat-card {
+    margin-bottom: 30px;
+  }
+}
