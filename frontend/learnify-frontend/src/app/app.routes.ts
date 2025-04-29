@@ -58,6 +58,7 @@ import { StudentManagementComponent } from './admin/student-management/student-m
 import { StudentDetailComponent } from './admin/student-management/student-detail/student-detail.component';
 import { AdminGuard } from './guards/admin.guard';
 import { WelcomePageComponent } from './admin/welcome-page/welcome-page.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 export function route(name: string): string {
   const routes = {
@@ -375,6 +376,7 @@ export const routes: Routes = [
   // Other routes
   {
     path: '**',
-    redirectTo: ''
-  }
+    component: NotFoundComponent,
+    title: 'Not Found Page'
+ }
 ];
