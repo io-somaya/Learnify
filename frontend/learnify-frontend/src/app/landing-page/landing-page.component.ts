@@ -7,6 +7,7 @@ import { StatsComponent } from './stats/stats.component';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
 import { PricingComponent } from './pricing/pricing.component';
 import { FooterComponent } from './footer/footer.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-landing-page',
@@ -14,6 +15,7 @@ import { FooterComponent } from './footer/footer.component';
   styleUrls: ['./landing-page.component.css'],
   standalone: true,
   imports: [
+    CommonModule,
     NavbarComponent,
     HeroComponent,
     FeaturesComponent,
