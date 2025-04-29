@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { ScrollService } from '../../services/scroll.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,7 @@ export class NavbarComponent {
   isMenuCollapsed = true;
   hasScrolled = false;
 
-  constructor() { }
+  constructor(private scrollService: ScrollService) { }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -26,9 +27,6 @@ export class NavbarComponent {
 
   scrollToSection(sectionId: string) {
     this.isMenuCollapsed = true;
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    this.scrollService.scrollToElement(sectionId);
   }
 }

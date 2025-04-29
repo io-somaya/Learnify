@@ -15,6 +15,66 @@
         <li class="nav-item">
           <a class="nav-link" href="#how-it-works" (click)="scrollToSection('how-it-works')">How It Works</a>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="leaderboardDropdown" role="button" 
+             data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-trophy"></i> Leaderboard
+          </a>
+          <div class="dropdown-menu leaderboard-dropdown" aria-labelledby="leaderboardDropdown">
+            <div class="leaderboard-header">
+              <h6>Top Students</h6>
+            </div>
+            <div class="leaderboard-list">
+              <!-- Top 5 students -->
+              <a class="dropdown-item student-item" href="#">
+                <span class="rank">1</span>
+                <img src="https://robohash.org/student1?set=set4" alt="Student 1" class="student-avatar">
+                <div class="student-info">
+                  <span class="student-name">Ahmed Mohamed</span>
+                  <span class="student-score">98 points</span>
+                </div>
+              </a>
+              <a class="dropdown-item student-item" href="#">
+                <span class="rank">2</span>
+                <img src="https://robohash.org/student2?set=set4" alt="Student 2" class="student-avatar">
+                <div class="student-info">
+                  <span class="student-name">Sara Ahmed</span>
+                  <span class="student-score">95 points</span>
+                </div>
+              </a>
+              <a class="dropdown-item student-item" href="#">
+                <span class="rank">3</span>
+                <img src="https://robohash.org/student3?set=set4" alt="Student 3" class="student-avatar">
+                <div class="student-info">
+                  <span class="student-name">Omar Hassan</span>
+                  <span class="student-score">92 points</span>
+                </div>
+              </a>
+              <a class="dropdown-item student-item" href="#">
+                <span class="rank">4</span>
+                <img src="https://robohash.org/student4?set=set4" alt="Student 4" class="student-avatar">
+                <div class="student-info">
+                  <span class="student-name">Nour Ali</span>
+                  <span class="student-score">90 points</span>
+                </div>
+              </a>
+              <a class="dropdown-item student-item" href="#">
+                <span class="rank">5</span>
+                <img src="https://robohash.org/student5?set=set4" alt="Student 5" class="student-avatar">
+                <div class="student-info">
+                  <span class="student-name">Youssef Ibrahim</span>
+                  <span class="student-score">88 points</span>
+                </div>
+              </a>
+            </div>
+            <div class="leaderboard-footer">
+              <a href="#leaderboard-section" class="view-all" (click)="scrollToSection('leaderboard-section'); $event.preventDefault();">View Full Leaderboard</a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#leaderboard-section" (click)="scrollToSection('leaderboard-section'); $event.preventDefault();">Leaderboard</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" (click)="scrollToSection('testimonials')">Testimonials</a>
         </li>

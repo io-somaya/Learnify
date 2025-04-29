@@ -17,6 +17,7 @@ use App\Models\Answer;
 use App\Models\Notification;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class TestDataSeeder extends Seeder
 {
@@ -25,6 +26,12 @@ class TestDataSeeder extends Seeder
      */
     public function run(): void
     {
+        // Check if data already exists
+        if (User::where('email', 'teacher@example.com')->exists()) {
+            $this->command->info('Test data already exists. Skipping seeding.');
+            return;
+        }
+
         // Create users - using first_name and last_name
         $teacher = User::create([
             'first_name' => 'Teacher',

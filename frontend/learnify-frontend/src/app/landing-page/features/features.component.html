@@ -1,18 +1,94 @@
 <section id="features" class="features-section">
+  <div class="features-overlay"></div>
+  <!-- Modern geometric shapes -->
+  <div class="shape-container">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+
   <div class="container">
     <div class="section-title">
-      <h2>Our Features</h2>
-      <p>Discover the powerful tools and features that make Learnify the perfect platform for educational success.</p>
+      <h2>Empowering Your Learning Journey</h2>
+      <p>Discover how Learnify's innovative features transform education into an engaging and effective experience.</p>
     </div>
     
-    <div class="row g-4">
-      <div class="col-md-4" *ngFor="let feature of features">
+    <div class="row g-4 features-grid">
+      <!-- AI-Powered Learning -->
+      <div class="col-lg-4 col-md-6">
         <div class="feature-card">
           <div class="feature-icon">
-            <i [class]="feature.icon"></i>
+            <i class="bi bi-robot"></i>
           </div>
-          <h3>{{feature.title}}</h3>
-          <p>{{feature.description}}</p>
+          <div class="feature-content">
+            <h3>AI-Powered Learning</h3>
+            <p>Experience personalized learning with our advanced AI system that adapts to your unique learning style and pace.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Lessons -->
+      <div class="col-lg-4 col-md-6">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-laptop"></i>
+          </div>
+          <div class="feature-content">
+            <h3>Interactive Lessons</h3>
+            <p>Engage with dynamic content and interactive exercises that make learning both fun and effective.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expert Teachers -->
+      <div class="col-lg-4 col-md-6">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-person-check"></i>
+          </div>
+          <div class="feature-content">
+            <h3>Expert Teachers</h3>
+            <p>Learn from qualified educators who bring real-world experience and expertise to every lesson.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Tracking -->
+      <div class="col-lg-4 col-md-6">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-graph-up"></i>
+          </div>
+          <div class="feature-content">
+            <h3>Progress Tracking</h3>
+            <p>Monitor your learning journey with detailed analytics and personalized progress reports.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flexible Learning -->
+      <div class="col-lg-4 col-md-6">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-clock"></i>
+          </div>
+          <div class="feature-content">
+            <h3>Flexible Learning</h3>
+            <p>Study at your own pace with 24/7 access to course materials and resources.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Community Support -->
+      <div class="col-lg-4 col-md-6">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-people"></i>
+          </div>
+          <div class="feature-content">
+            <h3>Community Support</h3>
+            <p>Join a vibrant learning community where you can collaborate and grow together.</p>
+          </div>
         </div>
       </div>
     </div>

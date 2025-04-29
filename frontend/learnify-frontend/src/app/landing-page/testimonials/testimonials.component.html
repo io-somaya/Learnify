@@ -1,41 +1,130 @@
-
 <section id="testimonials" class="testimonials-section">
-  <!-- Background shapes -->
-  <div class="shape shape-1"></div>
-  <div class="shape shape-2"></div>
-  <div class="shape shape-3"></div>
+  <div class="testimonials-overlay"></div>
+  <!-- Modern geometric shapes -->
+  <div class="shape-container">
+    <div class="geometric-shape circle"></div>
+    <div class="geometric-shape square"></div>
+    <div class="geometric-shape triangle"></div>
+    <div class="geometric-shape dots"></div>
+  </div>
+
   <div class="container">
     <div class="section-title">
-      <h2>What Our Users Say</h2>
+
+      <h2>What Our Students Say</h2>
       <div class="title-underline"></div>
-      <p>Hear from students, teachers, and parents who have experienced the Learnify difference.</p>
+      <p>Discover how Learnify has transformed the learning journey of our students</p>
     </div>
     
     <div class="row testimonials-container">
-      <!-- Testimonials from component -->
-      <div class="col-lg-4 col-md-6 mb-4" *ngFor="let testimonial of testimonials">
+      <!-- Somaya Hassan -->
+      <div class="col-lg-3 col-md-6 mb-4">
         <div class="testimonial-card">
-          <div class="quote-icon">
-            <i class="bi bi-quote"></i>
-          </div>
-          <div class="testimonial-content">
-            <div class="rating">
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-            </div>
-            <p>"{{ testimonial.content }}"</p>
-          </div>
-          <div class="testimonial-user">
+          <div class="card-header">
             <div class="testimonial-image">
-              <img [src]="testimonial.image" [alt]="testimonial.name" class="img-fluid">
+              <img src="https://robohash.org/somayahassann?set=set4" alt="Somaya Hassan">
             </div>
             <div class="testimonial-info">
-              <h4>{{ testimonial.name }}</h4>
-              <p>{{ testimonial.role }}</p>
+              <h4>Somaya Hassan</h4>
+              <p>Computer Science Student</p>
+              <div class="rating">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+              </div>
             </div>
+          </div>
+          <div class="testimonial-content">
+            <svg class="quote-icon" viewBox="0 0 24 24">
+              <path d="M10 7L8 11L11 11L9 15M15 7L13 11L16 11L14 15"/>
+            </svg>
+            <p>"Learnify's interactive approach to learning has completely transformed my educational experience. The AI-powered assistance and personalized feedback have helped me excel beyond my expectations."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Abdo Hassan -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="testimonial-card">
+          <div class="card-header">
+            <div class="testimonial-image">
+              <img src="https://robohash.org/abdohassan?set=set4" alt="Abdo Hassan">
+            </div>
+            <div class="testimonial-info">
+              <h4>Abdo Hassan</h4>
+              <p>Engineering Student</p>
+              <div class="rating">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-content">
+            <svg class="quote-icon" viewBox="0 0 24 24">
+              <path d="M10 7L8 11L11 11L9 15M15 7L13 11L16 11L14 15"/>
+            </svg>
+            <p>"The platform's comprehensive study materials and innovative learning tools have made complex topics easier to understand. It's like having a personal tutor available 24/7."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mahmoud Eid -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="testimonial-card">
+          <div class="card-header">
+            <div class="testimonial-image">
+              <img src="https://robohash.org/mahmoudeid?set=set4" alt="Mahmoud Eid">
+            </div>
+            <div class="testimonial-info">
+              <h4>Mahmoud Eid</h4>
+              <p>Medical Student</p>
+              <div class="rating">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-content">
+            <svg class="quote-icon" viewBox="0 0 24 24">
+              <path d="M10 7L8 11L11 11L9 15M15 7L13 11L16 11L14 15"/>
+            </svg>
+            <p>"Learnify's flexible learning environment and diverse resource library have been instrumental in my academic success. The platform adapts to my learning style perfectly."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Omar Rizk -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="testimonial-card">
+          <div class="card-header">
+            <div class="testimonial-image">
+              <img src="https://robohash.org/omarrizk?set=set4" alt="Omar Rizk">
+            </div>
+            <div class="testimonial-info">
+              <h4>Omar Rizk</h4>
+              <p>Business Student</p>
+              <div class="rating">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-content">
+            <svg class="quote-icon" viewBox="0 0 24 24">
+              <path d="M10 7L8 11L11 11L9 15M15 7L13 11L16 11L14 15"/>
+            </svg>
+            <p>"The collaborative features and expert guidance have enhanced my learning experience significantly. Learnify has made education more engaging and accessible."</p>
           </div>
         </div>
       </div>

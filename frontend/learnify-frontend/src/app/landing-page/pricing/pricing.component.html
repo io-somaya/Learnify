@@ -11,80 +11,36 @@
       <p>Select the ideal learning package that fits your educational journey and goals</p>
     </div>
     
-    <div class="row pricing-cards-container">
-      <!-- Basic Plan -->
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="pricing-card">
-          <div class="card-header">
-            <h3 class="plan-name">Basic</h3>
-            <div class="price">
-              <span class="currency">$</span>
-              <span class="amount">9.99</span>
-              <span class="period">per month</span>
-            </div>
-          </div>
-          <ul class="features-list">
-            <li><i class="bi bi-check-circle-fill"></i> Access to basic courses</li>
-            <li><i class="bi bi-check-circle-fill"></i> Limited interactive lessons</li>
-            <li><i class="bi bi-check-circle-fill"></i> Email support</li>
-            <li><i class="bi bi-check-circle-fill"></i> Progress tracking</li>
-            <li><i class="bi bi-check-circle-fill"></i> Mobile access</li>
-          </ul>
-          <div class="card-footer">
-            <a href="#" class="btn btn-outline">Get Started</a>
-          </div>
-        </div>
+    <div *ngIf="loading" class="text-center my-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
-      
-      <!-- Standard Plan (Recommended) -->
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="pricing-card recommended">
-          <div class="ribbon">Most Popular</div>
+    </div>
+    <div *ngIf="error" class="alert alert-danger text-center my-4">
+      {{ error }}
+    </div>
+    <div class="row pricing-cards-container" *ngIf="!loading && !error">
+      <div class="col-lg-4 col-md-6 mb-4" *ngFor="let plan of plans">
+        <div class="pricing-card" [ngClass]="{'recommended': plan.recommended}">
+          <div *ngIf="plan.recommended" class="ribbon">Most Popular</div>
           <div class="card-header">
-            <h3 class="plan-name">Standard</h3>
+            <h3 class="plan-name">{{ plan.name }}</h3>
             <div class="price">
               <span class="currency">$</span>
-              <span class="amount">19.99</span>
-              <span class="period">per month</span>
+              <span class="amount">{{ plan.price }}</span>
+              <span class="period">/ {{ plan.duration_days || 'month' }}</span>
             </div>
           </div>
           <ul class="features-list">
-            <li><i class="bi bi-check-circle-fill"></i> Access to all courses</li>
-            <li><i class="bi bi-check-circle-fill"></i> Unlimited interactive lessons</li>
-            <li><i class="bi bi-check-circle-fill"></i> Priority email support</li>
-            <li><i class="bi bi-check-circle-fill"></i> Advanced progress analytics</li>
-            <li><i class="bi bi-check-circle-fill"></i> Mobile access</li>
-            <li><i class="bi bi-check-circle-fill"></i> Live sessions (2 per week)</li>
+            <li *ngIf="plan.description">
+              <i class="bi bi-check-circle-fill"></i> {{ plan.description }}
+            </li>
+            <li *ngFor="let feature of plan.features">
+              <i class="bi bi-check-circle-fill"></i> {{ feature }}
+            </li>
           </ul>
           <div class="card-footer">
-            <a href="#" class="btn btn-recommended">Get Started</a>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Premium Plan -->
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="pricing-card">
-          <div class="card-header">
-            <h3 class="plan-name">Premium</h3>
-            <div class="price">
-              <span class="currency">$</span>
-              <span class="amount">29.99</span>
-              <span class="period">per month</span>
-            </div>
-          </div>
-          <ul class="features-list">
-            <li><i class="bi bi-check-circle-fill"></i> Access to all courses</li>
-            <li><i class="bi bi-check-circle-fill"></i> Unlimited interactive lessons</li>
-            <li><i class="bi bi-check-circle-fill"></i> 24/7 phone support</li>
-            <li><i class="bi bi-check-circle-fill"></i> Advanced progress analytics</li>
-            <li><i class="bi bi-check-circle-fill"></i> Mobile access</li>
-            <li><i class="bi bi-check-circle-fill"></i> Unlimited live sessions</li>
-            <li><i class="bi bi-check-circle-fill"></i> Personalized learning path</li>
-            <li><i class="bi bi-check-circle-fill"></i> Parent dashboard</li>
-          </ul>
-          <div class="card-footer">
-            <a href="#" class="btn btn-outline">Get Started</a>
+            <a href="#" class="btn" [ngClass]="plan.btnClass || 'btn-outline'">Get Started</a>
           </div>
         </div>
       </div>

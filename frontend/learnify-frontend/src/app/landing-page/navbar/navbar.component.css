@@ -137,3 +137,146 @@
     margin-left: 0;
   }
 }
+
+/* Leaderboard Dropdown Styles */
+.leaderboard-dropdown {
+  min-width: 320px;
+  padding: 0;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-top: 15px;
+}
+
+.leaderboard-header {
+  background: linear-gradient(135deg, var(--medium-purple), var(--dark-purple));
+  color: white;
+  padding: 15px 20px;
+}
+
+.leaderboard-header h6 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.leaderboard-list {
+  padding: 10px 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.student-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.student-item:hover {
+  background-color: rgba(120, 134, 199, 0.1);
+}
+
+.rank {
+  width: 24px;
+  height: 24px;
+  background: var(--light-purple);
+  color: var(--dark-purple);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-right: 12px;
+}
+
+.student-avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 12px;
+  border: 2px solid var(--light-purple);
+}
+
+.student-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.student-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--dark-purple);
+}
+
+.student-score {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.leaderboard-footer {
+  padding: 12px 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.view-all {
+  color: var(--medium-purple);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.view-all:hover {
+  color: var(--dark-purple);
+  text-decoration: none;
+}
+
+/* Custom Scrollbar for Leaderboard */
+.leaderboard-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.leaderboard-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.leaderboard-list::-webkit-scrollbar-thumb {
+  background: var(--light-purple);
+  border-radius: 3px;
+}
+
+.leaderboard-list::-webkit-scrollbar-thumb:hover {
+  background: var(--medium-purple);
+}
+
+/* Trophy Icon */
+.nav-link .bi-trophy {
+  margin-right: 5px;
+  color: #FFD700;
+}
+
+/* Responsive adjustments for leaderboard */
+@media (max-width: 991px) {
+  .leaderboard-dropdown {
+    position: static !important;
+    width: 100%;
+    margin-top: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  
+  .student-item {
+    padding: 8px 15px;
+  }
+  
+  .leaderboard-header,
+  .leaderboard-footer {
+    padding: 12px 15px;
+  }
+}
