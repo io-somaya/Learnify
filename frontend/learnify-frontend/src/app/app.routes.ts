@@ -6,13 +6,11 @@ import { RegisterComponent } from './formes/register/register.component';
 import { LoginComponent } from './formes/login/login.component';
 import { ForgotPasswordComponent } from './formes/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './formes/reset-password/reset-password.component';
-import { authGuard } from './guards/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { VerifyEmailComponent } from './formes/verify-email/verify-email.component';
 import { CheckEmailComponent } from './formes/check-email/check-email.component';
 import { ToastComponent } from './toast/toast.component';
 import { PackagesComponent } from './packages&payments/packages/packages/packages.component';
-// import { ProfileComponent } from './student/profile/profile.component';
-// import { EditProfileComponent } from './student/edit-profile/edit-profile.component';
 import { AdminLoginComponent } from './formes/admin-login/admin-login.component';
 import { PaymentResultComponent } from './packages&payments/payments/payment-result/payment-result.component';
 import { MakePackagesComponent } from './packages&payments/packages/make-packages/make-packages.component';
@@ -58,6 +56,8 @@ import { AssignmemtSubmissionDetailComponent } from './student/assignment/assign
 import { AdminNotificationsComponent } from './admin/notifications/admin-notifications.component';
 import { StudentManagementComponent } from './admin/student-management/student-management.component';
 import { StudentDetailComponent } from './admin/student-management/student-detail/student-detail.component';
+import { AdminGuard } from './guards/admin.guard';
+import { WelcomePageComponent } from './admin/welcome-page/welcome-page.component';
 
 export function route(name: string): string {
   const routes = {
@@ -134,11 +134,18 @@ export const routes: Routes = [
     path: "admin/dashboard",
     component: LayoutComponent,
     title: "Dashboard",
-    // canActivate: [authGuard],
-    children: [{
-      path: "",
+    canActivate: [AuthGuard], 
+    children: [
+      {
+        path: "",
+        component: WelcomePageComponent,
+        title: "Dashboard"
+      }
+      ,{
+      path: "statistics",
       component: AdminDashboard,
-      title: "Dashboard"
+      title: "Dashboard",
+        canActivate: [AdminGuard]
     },
     {
       path: "create-package",
@@ -152,12 +159,14 @@ export const routes: Routes = [
     {
       path: "packages-list",
       component: PackageListComponent,
-      title: "Packages List"
+      title: "Packages List",
+      canActivate: [AdminGuard]
     },
     {
       path: "subscriptions-list",
       component: SubscriptionListComponent,
-      title: "Subscriptions List"
+      title: "Subscriptions List",
+      canActivate: [AdminGuard]
     },
     {
       path: "lessons-management",
@@ -239,12 +248,14 @@ export const routes: Routes = [
     }, {
       path:"student-management",
       component:StudentManagementComponent,
-      title:"Student Management"
+      title:"Student Management",
+      canActivate: [AdminGuard]
     },
     {
       path:"student-management/:id",
       component:StudentDetailComponent,
-      title:"Student Management"
+      title:"Student Management",
+      canActivate: [AdminGuard]
     },
     
     // Admin Profile Routes
@@ -280,31 +291,11 @@ export const routes: Routes = [
     component: AdminLoginComponent,
     title: "Admin Login"
   },
-  //User routes
-  // {
-  //     path: "profile",
-  //     component: LayoutComponent,
-  //     title: "Profile",
-  //     children: [{
-  //         path: "",
-  //         component: ProfileComponent,
-  //         title: "Profile"
-  //     },
-  //     {
-  //         path: "edit",
-  //         component: EditProfileComponent,
-  //         title: "Edit Profile"
-  //     }
-  //     ]
-
-
-  // },
-
-  // Student routes (protected)
   {
     path: "student/dashboard",
     component: StudentDashboard,
     title: "Student Portal",
+    canActivate: [AuthGuard],
     children: [{
       path: "",
       component: DashboardHomeComponent,
@@ -348,16 +339,6 @@ export const routes: Routes = [
       path: "lessons-list",
       component: LessonListComponent,
       title: "Lessons List"
-    },
-    {
-      path: "quiz-attempts",
-      component: OrderHistoryComponent, // Temporary - replace with actual component when available
-      title: "Quiz Attempts"
-    },
-    {
-      path: "q-and-a",
-      component: OrderHistoryComponent, // Temporary - replace with actual component when available
-      title: "Question & Answer"
     },
     {
       path: "payment-result",

@@ -9,6 +9,27 @@
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }
+.learnify-branding {
+  color: var(--medium-purple);
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+  cursor: pointer; 
+  text-shadow: 1px 1px 0 #ff005d2b, 10px 10px 0 #00d5ff32;
+  animation: shadow-dance 2s infinite;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+
+}
+
+@keyframes shadow-dance {
+  0%, 100% {
+      text-shadow: 1px 1px 0 #ff005d32, 2px 2px 0 #00d5ff31;
+  }
+  50% {
+      text-shadow: -1px -1px 0 #00d5ff31, -2px -2px 0 #ff005d36;
+  }
+}
 
 .header-left {
   .page-title {

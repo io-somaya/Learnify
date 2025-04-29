@@ -133,7 +133,7 @@ export class AuthService {
         tap(response => {
           if (response && response.token && this.isBrowser) {
             const user = {
-              email: email,
+              ...response.user, // Include all user properties from the backend
               token: response.token,
               expiresIn: response.expires_in || 3600 // Default: 1 hour
             };
