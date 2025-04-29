@@ -54,6 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->packages()
             ->wherePivot('start_date', '<=', $today)
             ->wherePivot('end_date', '>=', $today)
+            ->wherePivot("status", "=" , "active")
             ->exists();
     }
 

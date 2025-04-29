@@ -243,9 +243,9 @@ Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
     Route::apiResource('lessons', LessonsController::class);
 });
 // Protected routes
-Route::prefix('lessons')->group(function () {
-    Route::get('/', [LessonsController::class, 'index'])->middleware('auth:sanctum');;
-    Route::get('/{id}', [LessonsController::class, 'show'])->middleware('auth:sanctum');;
+Route::prefix('lessons')->middleware(['auth:sanctum', CheckSubscription::class])->group(function () {
+    Route::get('/', [LessonsController::class, 'index']);
+    Route::get('/{id}', [LessonsController::class, 'show']);
 });
 
 /*
