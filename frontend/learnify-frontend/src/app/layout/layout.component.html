@@ -13,7 +13,7 @@
     <nav class="sidebar-nav">
       <ul class="nav-items">
         <li class="nav-item">
-          <a routerLink="/admin/dashboard" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link" title="Dashboard">
+          <a routerLink="/admin/dashboard/statistics" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active-link" title="Dashboard">
             <div class="icon-box">
               <i class="fa-solid fa-chart-pie"></i>
             </div>
@@ -27,16 +27,7 @@
         <span>Management</span>
       </div>
       <ul class="nav-items">
-        <li class="nav-item">
-          <a routerLink="/admin/dashboard/subscriptions-list" [routerLinkActiveOptions]="{exact:true}"
-            routerLinkActive="active-link" title="Subscriptions Management">
-            <div class="icon-box">
-              <i class="fa-solid fa-file-signature"></i>
-            </div>
-            <span class="link-name">Subscriptions</span>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-          </a>
-        </li>
+
         <li class="nav-item">
           <a routerLink="/admin/dashboard/materials-management" [routerLinkActiveOptions]="{exact:true}"
             routerLinkActive="active-link" title="Materials Management">
@@ -44,26 +35,6 @@
               <i class="fa-solid fa-file-lines"></i>
             </div>
             <span class="link-name">Material</span>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/admin/dashboard/student-management" [routerLinkActiveOptions]="{exact:true}" 
-            routerLinkActive="active-link" title="Students Management">
-            <div class="icon-box">
-              <i class="fa-solid fa-graduation-cap"></i>
-            </div>
-            <span class="link-name">Students</span>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/admin/dashboard/packages-list" [routerLinkActiveOptions]="{exact:true}"
-            routerLinkActive="active-link" title="Packages Management">
-            <div class="icon-box">
-              <i class="fas fa-box-open"></i>
-            </div>
-            <span class="link-name">Packages</span>
             <i class="fa-solid fa-chevron-right arrow"></i>
           </a>
         </li>
@@ -96,6 +67,41 @@
             <span class="link-name">Assignments</span>
             <i class="fa-solid fa-chevron-right arrow"></i>
           </a>
+          </li>
+          <div class="nav-category">
+            <span>Controlling</span>
+          </div>
+          <li class="nav-item">
+            <a routerLink="/admin/dashboard/subscriptions-list" [routerLinkActiveOptions]="{exact:true}"
+              routerLinkActive="active-link" title="Subscriptions Management">
+              <div class="icon-box">
+                <i class="fa-solid fa-file-signature"></i>
+              </div>
+              <span class="link-name">Subscriptions</span>
+              <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/admin/dashboard/student-management" [routerLinkActiveOptions]="{exact:true}" 
+              routerLinkActive="active-link" title="Students Management">
+              <div class="icon-box">
+                <i class="fa-solid fa-graduation-cap"></i>
+              </div>
+              <span class="link-name">Students</span>
+              <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/admin/dashboard/packages-list" [routerLinkActiveOptions]="{exact:true}"
+              routerLinkActive="active-link" title="Packages Management">
+              <div class="icon-box">
+                <i class="fas fa-box-open"></i>
+              </div>
+              <span class="link-name">Packages</span>
+              <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+          </li>
+  
       </ul>
 
       <div class="nav-category">

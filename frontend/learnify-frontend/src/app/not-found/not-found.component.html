@@ -1,0 +1,38 @@
+<!-- <nav class="navbar">
+    <a href="#" class="logo" (click)="navigateToHome(); $event.preventDefault()">
+      <div class="logo-icon">
+        <i class="fas fa-graduation-cap"></i>
+      </div>
+      Learnify  
+    </a>
+  </nav> -->
+  
+  <div class="container">
+    <div class="error-container">
+      <div #illustration class="illustration" 
+           (mousemove)="onIllustrationMouseMove($event)" 
+           (mouseleave)="onIllustrationMouseLeave()">
+        <div class="lost-book"></div>
+        <i class="fas fa-question question-mark"></i>
+        <i class="fas fa-question question-mark"></i>
+        <i class="fas fa-question question-mark"></i>
+        <i class="fas fa-search magnify-glass"></i>
+      </div>
+      
+      <h1 class="error-number">404</h1>
+      <h2 class="error-title">Page Not Found</h2>
+      <p class="error-messagee">
+        We can't seem to find the page you're looking for. The page might have been moved, 
+        deleted, or never existed in the first place.
+      </p>
+  
+  
+  
+      <div class="action-buttons">
+        <a class="btn btn-primary" (click)="navigateToHome(); $event.preventDefault()">
+          <i class="fas fa-arrow-alt-circle-left"></i> Back 
+        </a>
+    
+      </div>
+    </div>
+  </div>

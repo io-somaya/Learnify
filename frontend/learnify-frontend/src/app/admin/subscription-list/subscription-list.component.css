@@ -361,13 +361,14 @@ th.sortable i {
   border-radius: 12px;
   border: 1px solid rgba(239, 68, 68, 0.2);
   animation: fadeIn 0.5s ease;
-  color: var(--danger-color);
+  color: rgba(128, 46, 46, 0.81);
 }
 
-.error-message {
+.error-messagee {
   margin: 0.75rem 0;
   font-size: 15px;
   font-weight: 500;
+  color: rgba(128, 46, 46, 0.81);
 }
 
 /* Pagination */
