@@ -136,13 +136,6 @@ class AuthController extends Controller
 
         $user = $request->user();
 
-        // Check if user is a teacher
-        if ($user->role !== 'teacher' && $user->role !== 'assistant') {
-            Auth::logout(); // Logout the user with invalid role
-            return response()->json([
-                'message' => 'Unauthorized - Only teachers and assistants can access this route'
-            ], 403);
-        }
 
         // Create token with 'admin' abilities
         $token = $user->createToken('admin_token', ['admin'])->plainTextToken;

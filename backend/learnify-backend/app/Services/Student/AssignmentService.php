@@ -63,6 +63,8 @@ class AssignmentService
 
         // Start a database transaction
         return DB::transaction(function () use ($assignment, $studentAnswers, $studentId) {
+            $startTime = now(); // Record the start time of the assignment
+
             $correctAnswers = $this->getCorrectAnswers($assignment->id);
             $grade = $this->calculateGrade($studentAnswers, $correctAnswers);
 
@@ -94,6 +96,10 @@ class AssignmentService
                 'grade' => $grade,
                 'total_questions' => count($correctAnswers),
                 'correct_answers' => $this->countCorrectAnswers($studentAnswers, $correctAnswers),
+                'timer' => [
+                    'start_time' => $startTime,
+                    'end_time' => now(), // Record the end time of the assignment
+                ],
             ];
         });
     }
