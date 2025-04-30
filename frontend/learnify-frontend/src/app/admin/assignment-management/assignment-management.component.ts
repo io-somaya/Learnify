@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-assignment-management',
@@ -35,7 +36,8 @@ export class AssignmentManagementComponent implements OnInit {
   constructor(
     private assignmentService: AssignmentService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: ToastService
   ) {
     this.searchForm = this.fb.group({
       search: [''],
@@ -146,9 +148,11 @@ export class AssignmentManagementComponent implements OnInit {
       this.assignmentService.deleteAssignment(id).subscribe({
         next: () => {
           this.loadAssignments();
+          this.toastr.success('Assignment deleted successfully');
         },
         error: (error) => {
           this.errorMessage = error.message;
+          this.toastr.error('Failed to delete assignment');
         }
       });
     }
