@@ -55,7 +55,7 @@
       <i class="fas fa-info-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
       <p>No lessons found matching your criteria.</p>
       <p *ngIf="searchForm.get('grade')?.value || searchForm.get('search')?.value">
-        Try adjusting your search filters or <a (click)="resetFilters()" style="color: var(--medium-purple); cursor: pointer; text-decoration: underline;">clear all filters</a>.
+        Try adjusting your search filters or <a routerLink="/admin/dashboard/lessons/add" style="color: var(--medium-purple); cursor: pointer; text-decoration: underline;">Create a new lesson</a>.
       </p>
     </div>
     
