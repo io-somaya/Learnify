@@ -89,6 +89,11 @@ class UserManagementController extends Controller
             ], 422);
         }
 
+        if (in_array($request->status, ['inactive', 'suspended'])) {
+            // Update the user's subscription to pending
+            $user->subscriptions()->update(['status' => 'pending']);
+        }
+
         $updated = $this->userRepository->updateUserStatus($user, $request->status);
 
         return response()->json([
