@@ -94,6 +94,13 @@ class UserManagementController extends Controller
             $user->subscriptions()->update(['status' => 'pending']);
         }
 
+        // Update subscription status based on user status
+        if ($request->status === 'inactive' || $request->status === 'suspended') {
+            $user->subscriptions()->update(['status' => 'pending']);
+        } elseif ($request->status === 'active') {
+            $user->subscriptions()->update(['status' => 'active']);
+        }
+
         $updated = $this->userRepository->updateUserStatus($user, $request->status);
 
         return response()->json([
