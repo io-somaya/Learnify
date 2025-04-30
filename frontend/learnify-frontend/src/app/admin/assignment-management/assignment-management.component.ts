@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AssignmentService } from '../../services/assignment.service';
 import { IAssignment } from '../../Interfaces/IAssignment';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
@@ -9,7 +9,7 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
 @Component({
   selector: 'app-assignment-management',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, TruncatePipe],
+  imports: [ReactiveFormsModule, CommonModule, TruncatePipe,RouterLink],
   templateUrl: './assignment-management.component.html',
   styleUrls: ['./assignment-management.component.css']
 })
