@@ -84,7 +84,7 @@ export const routes: Routes = [
     title: "Register",
   },
   {
-    path: 'email/verify/:userId/:token',
+    path: 'email/verify',
     component: VerifyEmailComponent,
     title: 'Verify Email'
   },
@@ -376,6 +376,7 @@ export const routes: Routes = [
   // Other routes
   {
     path: '**',
+    pathMatch: 'full',
     component: NotFoundComponent,
     title: 'Not Found Page'
  }

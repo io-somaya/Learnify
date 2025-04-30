@@ -1,63 +1,81 @@
 <div class="sidebar">
-  <div class="welcome-section mb-4">
-    <h6 class="text-uppercase text-muted small mb-3">WELCOME</h6>
-    <ul class="sidebar-menu">
-      <li>
-        <a routerLink="/student/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fas fa-tachometer-alt"></i> Dashboard
-        </a>
-      </li>
-
-      <li>
-        <a routerLink="/student/dashboard/lessons-list" routerLinkActive="active-link" 
-           [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fa-solid fa-person-chalkboard"></i>
-          My Lessons</a>
-      </li>
-
-      <li>
-      <a routerLink="/student/dashboard/lectures-list" 
-        routerLinkActive="active-link" 
-        [routerLinkActiveOptions]="{ exact: true }"><i class="fas fa-chalkboard-teacher"></i> My Lectures</a>
-      </li>
-      <li>
-        <a routerLink="/student/dashboard/assignments-list" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fas fa-pen"></i> My Assignments 
-        </a>
-      </li>
-      <li>
-        <a routerLink="/student/dashboard/assignment-submissions" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fas fa-question-circle"></i> Assignment Submissions
-        </a>
-      </li>
-    </ul>
+  <!-- Loading indicator -->
+  <div *ngIf="isLoading" class="text-center p-3">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    <span class="ms-2">Loading...</span>
   </div>
-  
-  <div class="user-section mb-4">
-    <h6 class="text-uppercase text-muted small mb-3">USER</h6>
-    <ul class="sidebar-menu">
-      <li>
-        <a routerLink="/student/dashboard/profile" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fas fa-user-graduate"></i> My Profile
-        </a>
-      </li>
-      <li>
-        <a routerLink="/student/dashboard/packages" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fas fa-box-open"></i> Packages
-        </a>
-      </li> 
+
+  <!-- Content when loaded -->
+  <ng-container *ngIf="!isLoading">
+    <!-- Dashboard section - only visible with active subscription -->
+    <div class="welcome-section mb-4" *ngIf="hasActiveSubscription">
+      <h6 class="text-uppercase text-muted small mb-3">WELCOME</h6>
+      <ul class="sidebar-menu">
         <li>
-        <a routerLink="/student/dashboard/current-subscription" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fa-solid fa-file-signature"></i>
-          Current Subscription
-        </a>
-      </li>
-      <li>
-        <a (click)="logout()" class="logout-link">
-          <i class="fas fa-sign-out-alt"></i> Logout
-        </a>
-      </li>
-    </ul>
-  </div>
-  
+          <a routerLink="/student/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+          </a>
+        </li>
+        <li>
+          <a routerLink="/student/dashboard/lessons-list" routerLinkActive="active-link" 
+             [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa-solid fa-person-chalkboard"></i>
+            My Lessons
+          </a>
+        </li>
+        <li>
+          <a routerLink="/student/dashboard/lectures-list" 
+            routerLinkActive="active-link" 
+            [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-chalkboard-teacher"></i> My Lectures
+          </a>
+        </li>
+        <li>
+          <a routerLink="/student/dashboard/assignments-list" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-pen"></i> My Assignments 
+          </a>
+        </li>
+        <li>
+          <a routerLink="/student/dashboard/assignment-submissions" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-question-circle"></i> Assignment Submissions
+          </a>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- User section - always visible -->
+    <div class="user-section mb-4">
+      <h6 class="text-uppercase text-muted small mb-3">USER</h6>
+      <ul class="sidebar-menu">
+        <li>
+          <a routerLink="/student/dashboard/profile" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-user-graduate"></i> My Profile
+          </a>
+        </li>
+        <li>
+          <a routerLink="/student/dashboard/packages" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fas fa-box-open"></i> Packages
+          </a>
+        </li> 
+        <li>
+          <a routerLink="/student/dashboard/current-subscription" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa-solid fa-file-signature"></i>
+            Current Subscription
+          </a>
+        </li>
+        <li>
+          <a (click)="logout()" class="logout-link">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- No subscription message -->
+    <div *ngIf="!hasActiveSubscription" class="alert alert-warning m-3">
+      <i class="fas fa-exclamation-triangle me-2"></i>
+      <strong>No active subscription found.</strong>
+      <p class="small mt-2 mb-0">Please subscribe to access all features.</p>
+    </div>
+  </ng-container>
 </div>

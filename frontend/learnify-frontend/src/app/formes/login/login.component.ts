@@ -1,7 +1,7 @@
 import { Component, PLATFORM_ID, Inject, OnInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastService } from '../../services/toast.service';
@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private toastService: ToastService,
     private authService: AuthService,
+    private route: ActivatedRoute,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -48,12 +49,18 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Carousel disabled since we're using a static image
-    /*
+    // Check for error messages in URL
     if (this.isBrowser) {
-      this.startCarousel();
+      this.route.queryParams.subscribe(params => {
+        if (params['error'] === 'not_registered') {
+          this.errorMessage = 'Please register an account first before using Google login.';
+          this.toastService.warning(this.errorMessage);
+        } else if (params['error'] === 'google_auth_failed') {
+          this.errorMessage = 'Google authentication failed. Please try again.';
+          this.toastService.error(this.errorMessage);
+        }
+      });
     }
-    */
   }
 
   ngOnDestroy() {

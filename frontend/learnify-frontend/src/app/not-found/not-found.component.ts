@@ -1,4 +1,4 @@
-import { Component, HostListener, ElementRef, ViewChild } from '@angular/core';
+import { Component, HostListener, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -10,29 +10,25 @@ import { CommonModule } from '@angular/common';
   templateUrl: './not-found.component.html',
   styleUrls: ['./not-found.component.scss']
 })
-export class NotFoundComponent {
-  searchQuery: string = '';
+export class NotFoundComponent  implements OnInit  {
   
   @ViewChild('illustration') illustration!: ElementRef;
   
   constructor(private router: Router) {}
+  ngOnInit(): void {
+    const currentPath = this.router.url;
+    if (currentPath === '/some-invalid-path') {
+      this.router.navigate(['']);
+    }
+  }
   
   navigateToHome(): void {
     window.history.back();
   }
   
-  navigateToHelp(): void {
-    this.router.navigate(['/help']);
-  }
+
   
-  search(): void {
-    if (this.searchQuery.trim()) {
-      // Implement your search functionality here
-      this.router.navigate(['/search'], { 
-        queryParams: { q: this.searchQuery } 
-      });
-    }
-  }
+
   
   onIllustrationMouseMove(event: MouseEvent): void {
     const element = this.illustration.nativeElement;
@@ -55,4 +51,5 @@ export class NotFoundComponent {
     const element = this.illustration.nativeElement;
     element.style.transform = 'perspective(800px) rotateX(0) rotateY(0)';
   }
+
 }

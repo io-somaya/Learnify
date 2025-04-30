@@ -1,65 +1,61 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-verify-email',
-  standalone:true,
-  imports:[NgClass],
+  standalone: true,
+  imports: [NgClass],
   templateUrl: './verify-email.component.html',
   styleUrls: ['./verify-email.component.css']
 })
 export class VerifyEmailComponent implements OnInit {
+  status: string = '';
   userId: string = '';
-  token: string = '';
-  expires: string = '';
-  signature: string = '';
   message: string = '';
   isError: boolean = false;
   isLoading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
-    private authService: AuthService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    // Extract path parameters
-    this.userId = this.route.snapshot.paramMap.get('userId') || '';
-    this.token = this.route.snapshot.paramMap.get('token') || '';
-
     // Extract query parameters
     this.route.queryParams.subscribe(params => {
-      this.expires = params['expires'];
-      this.signature = params['signature'];
+      this.status = params['status'];
+      this.userId = params['userId'];
 
-      // Call the API to verify the email
-      if (this.userId && this.token && this.expires && this.signature) {
-        this.authService.verifyEmail(this.userId, this.token, this.expires, this.signature).subscribe({
-          next: (response) => {
-            this.message = response.message; // Set the success message
-            this.isLoading = false;
-            // setTimeout(() => {
-            //   this.router.navigate(['/login']); // Redirect to login after 3 seconds
-            // }, 3000);
-          },
-          error: (error) => {
-            this.message = error.error?.message || 'Failed to verify email. Please try again.'; // Set the error message
-            this.isError = true;
-            this.isLoading = false;
-          }
-        });
-      } else {
-        // Invalid link
-        this.message = 'Invalid verification link.';
-        this.isError = true;
+      // Add a slight delay to show loading animation
+      setTimeout(() => {
+        // Process based on status parameter
+        if (this.status === 'success') {
+          this.message = 'Your email has been successfully verified! You can now enjoy full access to your account.';
+          this.isError = false;
+          
+          setTimeout(() => {
+            this.goToLogin();
+          }, 5000);
+        } 
+        else if (this.status === 'error') {
+          this.message = 'There was an error verifying your email. Please try again later.';
+          this.isError = true;
+        } 
+        else if (this.status === 'already_verified') {
+          this.message = 'Your email is already verified. You can log in now.';
+          this.isError = false;
+        }
+        else {
+          this.message = 'We couldn\'t verify your email address. The verification link may have expired or is invalid. Please try requesting a new verification link. Or this email is already verified.';
+          this.isError = true;
+        }
         this.isLoading = false;
-      }
+      }, 1500); // Longer delay to showcase the loading animation
     });
   }
+
   goToLogin(): void {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 }

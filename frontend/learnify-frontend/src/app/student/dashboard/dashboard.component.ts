@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../layout/navbar/navbar.component';
@@ -10,11 +10,7 @@ import { RouterOutlet } from '@angular/router';
 import { ProfileService } from '../../services/profile.service';
 import { IUserProfile } from '../../Interfaces/IUserProfile';
 import { environment } from '../../../.environments/environment';
-interface ApiResponse {
-  status: number;
-  message: string;
-  data: IUserProfile;
-}
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -30,56 +26,49 @@ interface ApiResponse {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   showBackToTop = false;
   user: IUserProfile | null = null;
   isLoading = true;
   error = '';
-  baseUrl = environment.apiUrl.replace('/api', '') ||'http://localhost:8000'; // Get base URL without /api
-  
+  baseUrl = environment.apiUrl.replace('/api', '') || 'http://localhost:8000';
 
   constructor(
     private profileService: ProfileService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.fetchProfile();
-  }
-
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    if (window.pageYOffset > 300) {
-      this.showBackToTop = true;
-    } else {
-      this.showBackToTop = false;
-    }
-  }
-
-
-  fetchProfile(): void {
-    this.profileService.getProfile().subscribe({
-      next: (response: ApiResponse) => {
-        if (response.status === 200) {
-          this.user = response.data;
-          // Format the profile picture URL if it exists
-          if (this.user && this.user.profile_picture) {
-            // Check if the URL is already absolute
-            if (!this.user.profile_picture.startsWith('http')) {
-              this.user.profile_picture = `${this.baseUrl}/storage/${this.user.profile_picture}`;
-            }
-          }
-        } else {
-          this.error = response.message || 'Unexpected response format';
+    this.profileService.userProfile$.subscribe({
+      next: (updatedProfile) => {
+        if (updatedProfile) {
+          this.user = { ...updatedProfile };
+          this.isLoading = false;
+          this.cdr.detectChanges();
         }
-        this.isLoading = false;
       },
-      error: (err) => {
-        this.error = err.message || 'Failed to load profile';
+      error: (error) => {
+        console.error('Error in profile subscription:', error);
+        this.error = 'Failed to load profile';
         this.isLoading = false;
       }
     });
   }
+
+  ngAfterViewInit() {
+    this.refreshProfile();
+  }
+
+  refreshProfile(): void {
+    this.profileService.refreshProfile();
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.showBackToTop = window.pageYOffset > 300;
+  }
+
   scrollToTop(): void {
     window.scrollTo({
       top: 0,

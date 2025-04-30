@@ -27,7 +27,6 @@
         <span>Management</span>
       </div>
       <ul class="nav-items">
-
         <li class="nav-item">
           <a routerLink="/admin/dashboard/materials-management" [routerLinkActiveOptions]="{exact:true}"
             routerLinkActive="active-link" title="Materials Management">
@@ -67,10 +66,15 @@
             <span class="link-name">Assignments</span>
             <i class="fa-solid fa-chevron-right arrow"></i>
           </a>
-          </li>
-          <div class="nav-category">
-            <span>Controlling</span>
-          </div>
+        </li>
+      </ul>
+
+      <!-- Controlling section - only visible for admin role -->
+      <ng-container *ngIf="isAdmin()">
+        <div class="nav-category">
+          <span>Controlling</span>
+        </div>
+        <ul class="nav-items">
           <li class="nav-item">
             <a routerLink="/admin/dashboard/subscriptions-list" [routerLinkActiveOptions]="{exact:true}"
               routerLinkActive="active-link" title="Subscriptions Management">
@@ -101,8 +105,8 @@
               <i class="fa-solid fa-chevron-right arrow"></i>
             </a>
           </li>
-  
-      </ul>
+        </ul>
+      </ng-container>
 
       <div class="nav-category">
         <span>Settings</span>

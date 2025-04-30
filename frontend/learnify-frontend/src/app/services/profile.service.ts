@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../.environments/environment';
 import { AuthService } from './auth.service';
+import { IUserProfile } from '../Interfaces/IUserProfile';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,20 @@ export class ProfileService {
   private baseUrl = environment.apiUrl ? environment.apiUrl.replace('/api', '') : 'http://localhost:8000';
   public userdata: any;
 
+  // Initialize with null; it will be populated when getProfile is called
+  private userProfileSubject = new BehaviorSubject<IUserProfile | null>(null);
+  public userProfile$: Observable<IUserProfile | null> = this.userProfileSubject.asObservable();
+  
   constructor(
     private http: HttpClient,
     private authService: AuthService
-  ) {}
-
+  ) {
+    // Initialize profile data if user is authenticated
+    if (this.authService.isAuthenticated()) {
+      this.refreshProfile();
+    }
+  }
+  
   private getAuthHeaders(): HttpHeaders {
     const token = this.authService.currentUserValue?.token;
     return new HttpHeaders({
@@ -51,7 +61,7 @@ export class ProfileService {
       headers: this.getAuthHeaders(),
       withCredentials: true
     }).pipe(
-      map((response: any) => {
+      map((response: any) => {  
         // Handle the unusual response structure
         if (response.errors && typeof response.errors === 'object') {
           return {
@@ -65,14 +75,35 @@ export class ProfileService {
           response.data.profile_picture = this.formatProfilePictureUrl(response.data.profile_picture);
         }
         
-        // Store user data for reuse
+        // Store user data for reuse and update the subject
         this.userdata = response.data;
+        this.userProfileSubject.next(response.data);
+
         return response;
       }),
       catchError(this.handleError)
     );
   }
 
+  refreshProfile(): void {
+    this.getProfile().subscribe({
+      next: (response) => {
+        if (response.data) {
+          this.userdata = {
+            ...response.data,
+            profile_picture: this.formatProfilePictureUrl(response.data.profile_picture)
+          };
+          
+          this.userProfileSubject.next(this.userdata);
+        }
+      },
+      error: (err) => {
+        console.error('Failed to refresh profile:', err);
+        // Don't set to null here to avoid losing data on errors
+      }
+    });
+  }
+  
   getProfilePicture(): Observable<any> {
     return this.http.get(`${this.apiUrl}/profile/photo`, { 
       headers: this.getAuthHeaders(),
@@ -103,6 +134,11 @@ export class ProfileService {
         withCredentials: true
       }
     ).pipe(
+      tap(response => {
+        // After successful update, refresh the profile data
+        this.refreshProfile();
+        return response;
+      }),
       catchError(this.handleError)
     );
   }
@@ -134,15 +170,30 @@ export class ProfileService {
       {
         headers: new HttpHeaders({
           'Authorization': `Bearer ${this.authService.currentUserValue?.token}`
-          // Don't set Content-Type - let browser set it with boundary
         }),
         withCredentials: true
       }
     ).pipe(
       map(response => {
-        // Format the returned photo URL
         if (response && response.photo_url) {
-          response.photo_url = this.formatProfilePictureUrl(response.photo_url);
+          const formattedUrl = this.formatProfilePictureUrl(response.photo_url);
+          
+          // After successful photo upload, update the user profile data 
+          // with the new photo URL and notify all subscribers
+          if (this.userdata) {
+            this.userdata = {
+              ...this.userdata,
+              profile_picture: formattedUrl
+            };
+            
+            // Update the subject with the new data
+            this.userProfileSubject.next(this.userdata);
+          } else {
+            // If somehow we don't have user data yet, refresh the whole profile
+            this.refreshProfile();
+          }
+          
+          response.photo_url = formattedUrl;
         }
         return response;
       }),
