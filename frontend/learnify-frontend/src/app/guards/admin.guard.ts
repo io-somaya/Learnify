@@ -24,7 +24,7 @@ export class AdminGuard implements CanActivate {
       return false;
     } else {
         this.toastr.warning('Only teachers can access this page !');
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
       return false;
     }
   }

@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-check-email',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf,RouterLink],
   templateUrl: './check-email.component.html',
   styleUrls: ['./check-email.component.css']
 })
 export class CheckEmailComponent {
-  email: string = '';
+  email: string ;
   resendLoading: boolean = false;
   resendSuccess: boolean = false;
   resendError: string = '';

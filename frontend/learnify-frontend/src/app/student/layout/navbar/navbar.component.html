@@ -15,18 +15,21 @@
     <!-- Right Side Navigation Items -->
     <div class="nav-right">
       <!-- Notification Dropdown -->
-      <app-notification-dropdown></app-notification-dropdown>
-
+        <!-- Notification Icon -->
+         @if (hasActiveSubscription) {
+           
+           <app-notification-dropdown></app-notification-dropdown>
+     
       <!-- Profile Dropdown -->
       <div class="profile-dropdown">
         <div class="profile-trigger">
-          <img [src]="user.profile_picture || 'assets/images/default-avatar.png'" alt="Profile" class="user-profile">
+          <img [src]="getProfileImage()" alt="Profile" class="user-profile">
           <span class="d-none d-md-inline-block ms-2"></span>
           <i class="fas fa-chevron-down ms-2 d-none d-md-inline-block"></i>
         </div>
         <div class="profile-dropdown-content">
           <div class="dropdown-header">
-            <img [src]="user.profile_picture || 'assets/images/default-avatar.png'" alt="Profile" class="dropdown-profile-img">
+            <img [src]="getProfileImage()" alt="Profile" class="dropdown-profile-img">
             <div>
               <p class="dropdown-name">{{ user?.first_name || 'Guest User' }} {{ user?.last_name || '' }}</p>
               <p class="dropdown-email">{{ user?.email || 'No email' }}</p>
@@ -38,9 +41,10 @@
           <a routerLink="/student/dashboard/lessons-list" class="dropdown-item"> <i class="fa-solid fa-person-chalkboard me-2"></i> My Lessons</a>
           <a routerLink="/student/dashboard/lectures-list" class="dropdown-item"> <i class="fas fa-chalkboard-teacher me-2"></i> My Lectures</a>
           <div class="dropdown-divider"></div>
-          <button  class="dropdown-item text-danger" (click)="logout()"><i class="fas fa-sign-out-alt me-2"></i> Logout</button>
+          <button class="dropdown-item text-danger" (click)="logout()"><i class="fas fa-sign-out-alt me-2"></i> Logout</button>
         </div>
       </div>
+    }
     </div>
   </div>
 </nav>

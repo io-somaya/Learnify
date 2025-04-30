@@ -20,5 +20,5 @@
   </div>
   
   <!-- Profile image positioned mostly outside the hero section -->
-  <img [src]="user.profile_picture || 'assets/images/default-avatar.png'" alt="Profile" class="profile-img">
+  <img [src]="getProfileImage()" alt="Profile" class="profile-img">
 </div>

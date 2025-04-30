@@ -1,11 +1,12 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject, OnDestroy } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { NotificationDropdownComponent } from '../../../components/notification-dropdown/notification-dropdown.component';
 import { AuthService } from '../../../services/auth.service';
+import { ProfileService } from '../../../services/profile.service';
 import { IUserProfile } from '../../../Interfaces/IUserProfile';
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
-import { environment } from '../../../../.environments/environment';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-admin-header',
@@ -14,14 +15,16 @@ import { environment } from '../../../../.environments/environment';
   templateUrl: './admin-header.component.html',
   styleUrls: ['./admin-header.component.scss']
 })
-export class AdminHeaderComponent implements OnInit {
+export class AdminHeaderComponent implements OnInit, OnDestroy {
   user: IUserProfile | null = null;
   isBrowser: boolean;
   profileDropdown = false;
-  baseUrl = environment.apiUrl.replace('/api', '') || 'http://localhost:8000';
+  isLoading = true;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private authService: AuthService,
+    private profileService: ProfileService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -29,40 +32,25 @@ export class AdminHeaderComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.isBrowser) {
+      // Immediately fetch fresh profile data
+      this.profileService.refreshProfile();
       this.loadUserProfile();
     }
   }
 
-  loadUserProfile(): void {
-    const currentUser = localStorage.getItem('currentUser');
-    if (currentUser) {
-      this.user = JSON.parse(currentUser);
-      
-      // Format the profile picture URL if it exists
-      this.formatProfilePicture();
-
-      // If we only have basic user info, fetch the full profile
-      if (!this.user.first_name) {
-        this.authService.getUserData().subscribe({
-          next: (userData) => {
-            this.user = userData;
-            this.formatProfilePicture();
-          },
-          error: (error) => {
-            console.error('Error fetching user data:', error);
-          }
-        });
-      }
-    }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  formatProfilePicture(): void {
-    if (this.user && this.user.profile_picture) {
-      // Check if the URL is already absolute
-      if (!this.user.profile_picture.startsWith('http')) {
-        this.user.profile_picture = `${this.baseUrl}/storage/${this.user.profile_picture}`;
-      }
-    }
+  loadUserProfile(): void {
+    // Subscribe to the userProfile observable from ProfileService
+    this.profileService.userProfile$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(profile => {
+        this.user = profile;
+        this.isLoading = false;
+      });
   }
 
   getProfilePicture(): string {

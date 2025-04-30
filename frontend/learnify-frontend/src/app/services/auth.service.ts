@@ -17,6 +17,7 @@ export class AuthService {
   private tokenExpirationTimer: any;
   private isBrowser: boolean;
   public registerEmail: string;
+
   public userRole: string;
   public studentData: any;
 
@@ -48,17 +49,24 @@ export class AuthService {
               }));
 
               this.currentUserSubject.next(userData);
+              
               this.router.navigate(['/student/dashboard']);
             },
             error: (error) => {
               console.error('Error fetching user data:', error);
+              this.router.navigate(['/']);
             }
           });
+        } else if (params['error'] === 'not_registered') {
+          // Redirect to register page if user needs to register first
+          this.router.navigate(['/register']);
+        } else if (params['error'] === 'google_auth_failed') {
+          // Handle failed Google authentication
+          this.router.navigate(['/']);
         }
       });
     }
   }
-
 
   private getStoredUser(): any {
     if (this.isBrowser) {
@@ -91,6 +99,8 @@ export class AuthService {
 
   loginWithGoogle(): void {
     if (this.isBrowser) {
+      // Save the current URL to redirect back after registration if needed
+      localStorage.setItem('redirectAfterRegister', '/student/dashboard');
       window.location.href = `${environment.backendUrl}/login/google`;
     }
   }
@@ -161,7 +171,9 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/register`, userData)
       .pipe(
         tap(response => {
-          this.registerEmail = userData.email;
+          this.registerEmail = userData.email || localStorage.getItem('registerEmail');
+          //save email in local storage
+          localStorage.setItem('registerEmail',JSON.stringify(this.registerEmail));
           return response;
         }),
         catchError(error => {

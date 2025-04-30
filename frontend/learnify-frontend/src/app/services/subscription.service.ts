@@ -37,17 +37,21 @@ export class SubscriptionService {
 
 
   getCurrentSubscription(): Observable<ISubscriptionDetail> {
-    
     return this.http.get<{ data: ISubscriptionDetail }>(
       `${this.apiUrl}/subscriptions/current`,
       { headers: this.getAuthHeaders() }
     ).pipe(
-        
       tap(res => console.log('GET Current Subscription Response:', res)),
-      map(res => res.data),
+      map(res => {
+        if (!res.data) {
+          throw new Error('No active subscription found');
+        }
+        return res.data;
+      }),
       catchError(this.handleError)
     );
   }
+  
 
   private handleError(error: HttpErrorResponse) {
     console.error('API Error:', error);
