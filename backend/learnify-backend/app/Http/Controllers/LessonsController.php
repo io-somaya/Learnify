@@ -205,6 +205,17 @@ class LessonsController extends Controller
         $lesson = Lesson::findOrFail($id);
         $lesson->update($request->all());
 
+        // Create and broadcast notification for updated lesson
+        $notification = Notification::create([
+            'grade' => $lesson->grade,
+            'title' => 'Lesson Updated',
+            'message' => "The lesson '{$lesson->title}' has been updated.",
+            'type' => 'lecture',
+            'link' => "/lessons/{$lesson->id}"
+        ]);
+
+        event(new LessonNotificationEvent($notification, $lesson->grade));
+
         return response()->json([
             'status' => 'success',
             'data' => $lesson,
@@ -235,6 +246,17 @@ class LessonsController extends Controller
         // Delete associated materials and exams
         // Note: Consider using database cascading deletes instead or adjusting this based on your needs
         $lesson->materials()->delete();
+
+        // Create and broadcast notification for deleted lesson
+        $notification = Notification::create([
+            'grade' => $lesson->grade,
+            'title' => 'Lesson Deleted',
+            'message' => "The lesson '{$lesson->title}' has been deleted.",
+            'type' => 'lecture',
+            'link' => null
+        ]);
+
+        event(new LessonNotificationEvent($notification, $lesson->grade));
 
         $lesson->delete();
 
