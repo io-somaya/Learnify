@@ -97,7 +97,7 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',
-            'expire' => 1440, // Expiration time in minutes
+            'expire' => 15, // Expiration time in minutes
             'throttle' => 0, // Allow requests every 10 seconds
         ],
     ],
