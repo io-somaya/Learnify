@@ -223,3 +223,14 @@ button[type="button"]:hover {
     width: 100%;
   }
 }
+
+.error-messagee {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.error-messagee span {
+  display: block;
+  margin-bottom: 2px;
+}

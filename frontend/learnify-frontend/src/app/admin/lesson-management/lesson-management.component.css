@@ -351,7 +351,6 @@
 
 .actions-cell {
   white-space: nowrap;
-  display: flex;
   gap: 8px;
 }
 
@@ -364,6 +363,7 @@
   border: none;
   transition: all 0.3s ease;
   font-weight: 500;
+  gap: 6px;
 }
 
 .actions-cell .btn i {
@@ -463,6 +463,81 @@
   }
   
   .actions-cell .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+/* Add these new styles for the management__actions and management__button classes */
+
+.management__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.management__button {
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  border: none;
+}
+
+.management__button i {
+  margin-right: 5px;
+}
+
+.management__button--view {
+  background-color: rgba(120, 134, 199, 0.1);
+  border: 1px solid rgba(120, 134, 199, 0.2);
+  color: var(--medium-purple);
+}
+
+.management__button--view:hover {
+  background-color: var(--medium-purple);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(120, 134, 199, 0.2);
+}
+
+.management__button--edit {
+  background-color: rgba(120, 134, 199, 0.1);
+  border: 1px solid rgba(120, 134, 199, 0.2);
+  color: var(--medium-purple);
+}
+
+.management__button--edit:hover {
+  background-color: var(--medium-purple);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(120, 134, 199, 0.2);
+}
+
+.management__button--delete {
+  background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.2);
+  color: #dc3545;
+}
+
+.management__button--delete:hover {
+  background-color: #dc3545;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(220, 53, 69, 0.2);
+}
+
+/* Media query for responsive design */
+@media (max-width: 768px) {
+  .management__actions {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .management__button {
     width: 100%;
     justify-content: center;
   }

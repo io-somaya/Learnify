@@ -22,7 +22,7 @@
     <div class="form-group">
       <label>
         <i class="fas fa-book-open me-2"></i>
-        Select Lesson
+        Select Lesson <span class="text-danger">*</span>
       </label>
       <div class="max-h-48">
         <label
@@ -34,38 +34,54 @@
             name="lesson"
             [value]="lesson.id"
             [(ngModel)]="material.lesson_id"
+            (change)="markAsTouched('lesson_id')"
           />
           {{ lesson.title }}
         </label>
+      </div>
+      <div class="error-messagee" *ngIf="(touched.lesson_id || formSubmitted) && validationErrors.lesson_id">
+        This field is required and must be a valid lesson
       </div>
     </div>
 
     <div class="form-group">
       <label for="fileName">
         <i class="fas fa-file-alt me-2"></i>
-        Material Name
+        Material Name <span class="text-danger">*</span>
       </label>
       <input
         id="fileName"
         type="text"
         [(ngModel)]="material.file_name"
         name="file_name"
-        placeholder="Enter material name"
+        placeholder="Enter material name (minimum 3 characters)"
+        [ngClass]="{'is-invalid': (touched.file_name || formSubmitted) && validationErrors.file_name}"
+        minlength="3"
+        (blur)="markAsTouched('file_name')"
       />
+      <div class="error-messagee" *ngIf="(touched.file_name || formSubmitted) && validationErrors.file_name">
+        This field is required and must be a valid material name minimum 3 characters
+      </div>
     </div>
 
     <div class="form-group">
       <label for="fileUrl">
         <i class="fas fa-link me-2"></i>
-        Material File URL
+        Material File URL <span class="text-danger">*</span>
       </label>
       <input
         id="fileUrl"
         type="text"
         [(ngModel)]="material.file_url"
         name="file_url"
-        placeholder="Paste file URL"
+        placeholder="Paste file URL (minimum 8 characters)"
+        [ngClass]="{'is-invalid': (touched.file_url || formSubmitted) && validationErrors.file_url}"
+        minlength="8"
+        (blur)="markAsTouched('file_url')"
       />
+      <div class="error-messagee" *ngIf="(touched.file_url || formSubmitted) && validationErrors.file_url">
+        This field is required and must be a valid file URL minimum 8 characters
+      </div>
     </div>
 
     <div class="d-flex justify-content-between mt-4">

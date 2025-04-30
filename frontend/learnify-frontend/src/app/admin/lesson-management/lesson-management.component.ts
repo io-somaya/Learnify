@@ -79,8 +79,16 @@ export class LessonManagementComponent implements OnInit {
           this.isLoading = false;
         },
         error: (error) => {
+          
+          if(error.message === 'Server Error (0): Failed to fetch'){
+            this.errorMessage = 'Failed to load Lessons data. Please try again later.';
+            this.isLoading = false;
+          }else{
+  
+          
           this.errorMessage = error.message;
           this.isLoading = false;
+        }
         }
       });
   }

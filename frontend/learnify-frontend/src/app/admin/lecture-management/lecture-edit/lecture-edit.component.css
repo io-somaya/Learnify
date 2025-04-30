@@ -200,12 +200,12 @@
   border: 1px solid rgba(220, 53, 69, 0.2);
 }
 
-.invalid-feedback {
+.invalid-feed-back {
   display: block;
   width: 100%;
   margin-top: 5px;
   font-size: 13px;
-  color: var(--danger-color);
+  color:  #ef4444;
   animation: fadeIn 0.3s ease;
 }
 

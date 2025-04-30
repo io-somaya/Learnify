@@ -22,6 +22,21 @@ export class AddMaterialComponent implements OnInit {
 
   lessons: ILesson[] = [];
   lessonSearch: string = '';
+  
+  // Validation fields
+  formSubmitted = false;
+  validationErrors = {
+    file_name: false,
+    file_url: false,
+    lesson_id: false
+  };
+  
+  // Track touched state for each field
+  touched = {
+    file_name: false,
+    file_url: false,
+    lesson_id: false
+  };
 
   constructor(
     private materialService: MaterialService,
@@ -34,12 +49,11 @@ export class AddMaterialComponent implements OnInit {
   }
 
   fetchAllLessons(): void {
-    // نعمل لوب على الصفحات كلها لحد ما نجيب كل الداتا
     let currentPage = 1;
     const allLessons: ILesson[] = [];
 
     const loadNextPage = () => {
-      this.lessonService.getManagedLessons(currentPage, undefined, undefined, 100).subscribe({
+      this.lessonService.getManagedLessons(currentPage, undefined, undefined, 1000).subscribe({
         next: (res) => {
           allLessons.push(...res.data.data);
           if (currentPage < res.data.last_page) {
@@ -65,9 +79,48 @@ export class AddMaterialComponent implements OnInit {
     );
   }
 
+  validateForm(): boolean {
+    const fileName = this.material.file_name.trim();
+    const fileUrl = this.material.file_url.trim();
+    
+    this.validationErrors = {
+      file_name: !fileName || fileName.length < 3,
+      file_url: !fileUrl || fileUrl.length < 8,
+      lesson_id: !this.material.lesson_id
+    };
+
+    return !this.validationErrors.file_name && 
+           !this.validationErrors.file_url && 
+           !this.validationErrors.lesson_id;
+  }
+
+  markAsTouched(field: string): void {
+    this.touched[field] = true;
+    this.validateField(field);
+  }
+
+  validateField(field: string): void {
+    if (field === 'file_name') {
+      const fileName = this.material.file_name.trim();
+      this.validationErrors.file_name = !fileName || fileName.length < 3;
+    } else if (field === 'file_url') {
+      const fileUrl = this.material.file_url.trim();
+      this.validationErrors.file_url = !fileUrl || fileUrl.length < 3;
+    } else if (field === 'lesson_id') {
+      this.validationErrors.lesson_id = !this.material.lesson_id;
+    }
+  }
+
   onSubmit(): void {
-    if (!this.material.lesson_id || !this.material.file_name || !this.material.file_url) {
-      console.log('All fields required');
+    this.formSubmitted = true;
+    // Mark all fields as touched
+    this.touched = {
+      file_name: true,
+      file_url: true,
+      lesson_id: true
+    };
+    
+    if (!this.validateForm()) {
       return;
     }
 
@@ -81,6 +134,7 @@ export class AddMaterialComponent implements OnInit {
       }
     });
   }
+  
   navigateToMaterialsManagement(): void {
     this.router.navigate(['admin/dashboard/materials-management']);
   }

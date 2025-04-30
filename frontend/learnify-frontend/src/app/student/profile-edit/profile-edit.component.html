@@ -63,7 +63,7 @@
             [class.is-invalid]="profileForm.get('first_name')?.invalid && profileForm.get('first_name')?.touched"
           >
         </div>
-        <div class="error-message" *ngIf="profileForm.get('first_name')?.invalid && profileForm.get('first_name')?.touched">
+        <div class="error-messagee" *ngIf="profileForm.get('first_name')?.invalid && profileForm.get('first_name')?.touched">
           {{ getFieldError('first_name') }}
         </div>
       </div>
@@ -80,7 +80,7 @@
             [class.is-invalid]="profileForm.get('last_name')?.invalid && profileForm.get('last_name')?.touched"
           >
         </div>
-        <div class="error-message" *ngIf="profileForm.get('last_name')?.invalid && profileForm.get('last_name')?.touched">
+        <div class="error-messagee" *ngIf="profileForm.get('last_name')?.invalid && profileForm.get('last_name')?.touched">
           {{ getFieldError('last_name') }}
         </div>
       </div>
@@ -97,7 +97,7 @@
             [class.is-invalid]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched"
           >
         </div>
-        <div class="error-message" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+        <div class="error-messagee" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
           {{ getFieldError('email') }}
         </div>
       </div>
@@ -115,7 +115,7 @@
             placeholder="e.g. 1234567890"
           >
         </div>
-        <div class="error-message" *ngIf="profileForm.get('phone_number')?.invalid && profileForm.get('phone_number')?.touched">
+        <div class="error-messagee" *ngIf="profileForm.get('phone_number')?.invalid && profileForm.get('phone_number')?.touched">
           {{ getFieldError('phone_number') }}
         </div>
       </div>

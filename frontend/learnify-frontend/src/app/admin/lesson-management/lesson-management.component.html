@@ -98,15 +98,20 @@
               </span>
             </td>
             <td class="actions-cell">
-              <button (click)="viewLesson(lesson.id)" class="btn btn-view">
-                <i class="fas fa-eye"></i> View
-              </button>
-              <button (click)="editLesson(lesson.id)" class="btn btn-edit">
-                <i class="fas fa-edit"></i> Edit
-              </button>
-              <button (click)="deleteLesson(lesson.id)" class="btn btn-delete">
-                <i class="fas fa-trash"></i> Delete
-              </button>
+              <div class="management__actions">
+                <a (click)="viewLesson(lesson.id)" class="management__button management__button--view">
+                  <i class="fas fa-eye me-1"></i>
+                  View
+                </a>
+                <a (click)="editLesson(lesson.id)" class="management__button management__button--edit">
+                  <i class="fas fa-edit me-1"></i>
+                  Edit
+                </a>
+                <button (click)="deleteLesson(lesson.id)" class="management__button management__button--delete">
+                  <i class="fas fa-trash me-1"></i>
+                  Delete
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>

@@ -46,8 +46,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
       },
       error: (err) => {
+        if(err.message === 'Server Error (0): Failed to fetch'){
+          this.error = 'Failed to load dashboard data. Please try again later.';
+          this.loading = false;
+        }else{
+
+        
         this.error = err.message;
         this.loading = false;
+      }
       }
     });
   }

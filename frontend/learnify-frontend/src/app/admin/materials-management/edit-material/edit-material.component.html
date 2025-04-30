@@ -4,41 +4,82 @@
     Edit Material
   </h2>
   
-  <form (ngSubmit)="onSubmit()">
-    <div>
+  <form (ngSubmit)="onSubmit()" #materialForm="ngForm" novalidate>
+    <div class="form-group">
       <label for="fileName">
         <i class="fas fa-file-alt me-2"></i>
         File Name
       </label>
-      <input type="text" id="fileName" [(ngModel)]="material.file_name" name="file_name" required>
+      <input 
+        type="text" 
+        id="fileName" 
+        [(ngModel)]="material.file_name" 
+        name="file_name" 
+        #fileNameInput="ngModel"
+        required
+        minlength="3"
+        (blur)="onFieldTouched('file_name')"
+      >
+      <div class="error-messagee" *ngIf="formErrors.file_name.touched">
+        <span *ngIf="formErrors.file_name.required">File name is required</span>
+        <span *ngIf="formErrors.file_name.minlength">File name must be at least 3 characters long</span>
+      </div>
     </div>
   
-    <div>
+    <div class="form-group">
       <label for="fileUrl">
         <i class="fas fa-link me-2"></i>
         File URL
       </label>
-      <input type="text" id="fileUrl" [(ngModel)]="material.file_url" name="file_url" required>
+      <input 
+        type="text" 
+        id="fileUrl" 
+        [(ngModel)]="material.file_url" 
+        name="file_url" 
+        #fileUrlInput="ngModel"
+        required
+        minlength="8"
+        (blur)="onFieldTouched('file_url')"
+      >
+      <div class="error-messagee" *ngIf="formErrors.file_url.touched">
+        <span *ngIf="formErrors.file_url.required">File URL is required</span>
+        <span *ngIf="formErrors.file_url.minlength">File URL must be at least 8 characters long</span>
+      </div>
     </div>
   
-    <div>
+    <div class="form-group">
       <label for="lessonSearch">
         <i class="fas fa-search me-2"></i>
         Search Lesson
       </label>
-      <input type="text" id="lessonSearch" [(ngModel)]="lessonSearch" name="lessonSearch" placeholder="Search by title">
+      <input 
+        type="text" 
+        id="lessonSearch" 
+        [(ngModel)]="lessonSearch" 
+        name="lessonSearch" 
+        placeholder="Search by title"
+      >
     </div>
   
-    <div>
+    <div class="form-group">
       <label>
         <i class="fas fa-book-open me-2"></i>
         Select Lesson
       </label>
       <div class="lesson-selector">
         <label *ngFor="let lesson of filteredLessons()" class="lesson-option">
-          <input type="radio" name="lesson" [value]="lesson.id" [(ngModel)]="material.lesson_id">
+          <input 
+            type="radio" 
+            name="lesson" 
+            [value]="lesson.id" 
+            [(ngModel)]="material.lesson_id"
+            (change)="onFieldTouched('lesson_id')"
+          >
           {{ lesson.title }}
         </label>
+      </div>
+      <div class="error-messagee" *ngIf="formErrors.lesson_id.touched && formErrors.lesson_id.required">
+        Please select a lesson
       </div>
     </div>
   

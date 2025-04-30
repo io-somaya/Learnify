@@ -24,7 +24,7 @@
             [ngClass]="{'is-invalid': f['title'].touched && f['title'].invalid}"
             placeholder="Enter a descriptive title for the lecture"
           >
-          <div *ngIf="f['title'].touched && f['title'].errors" class="invalid-feedback">
+          <div *ngIf="f['title'].touched && f['title'].errors" class="invalid-feed-back">
             <i class="fas fa-exclamation-circle me-2"></i>
             <span *ngIf="f['title'].errors['required']">Title is required</span>
             <span *ngIf="f['title'].errors['minlength']">Title must be at least 3 characters</span>
@@ -44,7 +44,7 @@
             [ngClass]="{'is-invalid': f['description'].touched && f['description'].invalid}"
             placeholder="Describe what students will learn in this lecture"
           ></textarea>
-          <div *ngIf="f['description'].touched && f['description'].errors" class="invalid-feedback">
+          <div *ngIf="f['description'].touched && f['description'].errors" class="invalid-feed-back">
             <i class="fas fa-exclamation-circle me-2"></i>
             <span *ngIf="f['description'].errors['required']">Description is required</span>
             <span *ngIf="f['description'].errors['minlength']">Description must be at least 10 characters</span>
@@ -65,7 +65,7 @@
             <option value="" disabled>Select day</option>
             <option *ngFor="let day of daysOfWeek" [value]="day">{{ day }}</option>
           </select>
-          <div *ngIf="f['day_of_week'].touched && f['day_of_week'].errors" class="invalid-feedback">
+          <div *ngIf="f['day_of_week'].touched && f['day_of_week'].errors" class="invalid-feed-back">
             <i class="fas fa-exclamation-circle me-2"></i>
             <span *ngIf="f['day_of_week'].errors['required']">Day of week is required</span>
           </div>
@@ -84,7 +84,7 @@
               formControlName="start_time"
               [ngClass]="{'is-invalid': f['start_time'].touched && f['start_time'].invalid}"
             >
-            <div *ngIf="f['start_time'].touched && f['start_time'].errors" class="invalid-feedback">
+            <div *ngIf="f['start_time'].touched && f['start_time'].errors" class="invalid-feed-back">
               <i class="fas fa-exclamation-circle me-2"></i>
               <span *ngIf="f['start_time'].errors['invalidTime']">Invalid time format (HH:MM)</span>
               <span *ngIf="f['start_time'].errors['required']">Start time is required</span>
@@ -101,7 +101,7 @@
               formControlName="end_time"
               [ngClass]="{'is-invalid': f['end_time'].touched && f['end_time'].invalid}"
             >
-            <div *ngIf="f['end_time'].touched && f['end_time'].errors" class="invalid-feedback">
+            <div *ngIf="f['end_time'].touched && f['end_time'].errors" class="invalid-feed-back">
               <i class="fas fa-exclamation-circle me-2"></i>
               <span *ngIf="f['end_time'].errors['invalidTime']">Invalid time format (HH:MM)</span>
               <span *ngIf="f['end_time'].errors['required']">End time is required</span>
@@ -123,14 +123,14 @@
             <option value="" disabled selected>Select grade</option>
             <option *ngFor="let grade of grades" [value]="grade">Grade {{ grade }}</option>
           </select>
-          <div *ngIf="f['grade'].touched && f['grade'].errors" class="invalid-feedback">
+          <div *ngIf="f['grade'].touched && f['grade'].errors" class="invalid-feed-back">
             <i class="fas fa-exclamation-circle me-2"></i>
             <span *ngIf="f['grade'].errors['required']">Grade is required</span>
           </div>
         </div>
 
         <!-- Active Status -->
-        <div class="mb-3 form-check">
+        <!-- <div class="mb-3 form-check">
           <input type="checkbox" class="form-check-input" id="is_active" formControlName="is_active">
           <label class="form-check-label" for="is_active">
             <i class="fas fa-toggle-on me-2"></i>Active
@@ -139,7 +139,7 @@
             <i class="fas fa-info-circle me-1"></i>
             Inactive lectures won't be visible to students
           </small>
-        </div>
+        </div> -->
 
         <!-- Action Buttons -->
         <div class="d-flex justify-content-between" style="margin-top: 30px;">

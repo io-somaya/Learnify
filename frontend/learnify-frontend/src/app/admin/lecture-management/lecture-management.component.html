@@ -97,7 +97,7 @@
               <th><i class="fas fa-clock me-2"></i>Time</th>
               <th><i class="fas fa-align-left me-2"></i>Description</th>
               <th><i class="fas fa-graduation-cap me-2"></i>Grade</th>
-              <th><i class="fas fa-toggle-on me-2"></i>Status</th>
+              <!-- <th><i class="fas fa-toggle-on me-2"></i>Status</th> -->
               <th><i class="fas fa-video me-2"></i>Zoom</th>
               <th><i class="fas fa-cogs me-2"></i>Actions</th>
             </tr>
@@ -117,13 +117,13 @@
                 <td class="management__table-cell">{{ lecture.description | truncate:50 }}</td>
                 <td class="management__table-cell">{{ lecture.grade }}</td>
 
-                <td class="management__table-cell">
+                <!-- <td class="management__table-cell">
                   <span class="management__badge" 
                         [class.management__badge--active]="lecture.active"
                         [class.management__badge--inactive]="!lecture.active">
                     {{ lecture.active ? 'Active' : 'Inactive' }}
                   </span>
-                </td>
+                </td> -->
                 <td class="management__table-cell">
                   @if (lecture.zoom_start_url) {
                     <a [href]="lecture.zoom_start_url" 

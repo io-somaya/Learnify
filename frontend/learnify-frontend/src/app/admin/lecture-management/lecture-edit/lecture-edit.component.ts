@@ -131,7 +131,7 @@ export class LectureEditComponent implements OnInit {
         } else {
           this.errorMessage = error.message || 'Failed to update lecture';
         }
-        this.toaster.error(this.errorMessage);
+        this.toaster.error("Failed to update lecture check Start time and End time ");
       }
     });
   }

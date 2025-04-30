@@ -399,9 +399,9 @@
 
 /* Responsive Behavior */
 @media (max-width: 992px) {
-    #sidebar-wrapper {
+    /* #sidebar-wrapper {
         transform: translateX(-280px);
-    }
+    } */
     
     #page-content-wrapper {
         margin-left: 0;

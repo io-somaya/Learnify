@@ -48,7 +48,7 @@
                   [class.is-invalid]="profileForm.get('first_name')?.invalid && profileForm.get('first_name')?.touched"
                 >
               </div>
-              <div class="error-message" *ngIf="profileForm.get('first_name')?.invalid && profileForm.get('first_name')?.touched">
+              <div class="error-messagee" *ngIf="profileForm.get('first_name')?.invalid && profileForm.get('first_name')?.touched">
                 {{ getFieldError('first_name') }}
               </div>
             </div>
@@ -66,7 +66,7 @@
                   [class.is-invalid]="profileForm.get('last_name')?.invalid && profileForm.get('last_name')?.touched"
                 >
               </div>
-              <div class="error-message" *ngIf="profileForm.get('last_name')?.invalid && profileForm.get('last_name')?.touched">
+              <div class="error-messagee" *ngIf="profileForm.get('last_name')?.invalid && profileForm.get('last_name')?.touched">
                 {{ getFieldError('last_name') }}
               </div>
             </div>
@@ -88,7 +88,7 @@
                 [class.is-invalid]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched"
               >
             </div>
-            <div class="error-message" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+            <div class="error-messagee" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
               {{ getFieldError('email') }}
             </div>
             <div class="field-info" *ngIf="profileForm.get('email')?.valid">
@@ -106,12 +106,12 @@
                 id="phone_number" 
                 formControlName="phone_number"
                 class="form-control"
-                placeholder="+1 (555) 123-4567"
+                placeholder="01(0-1-2-5)-xxxxxxxx "
                 [class.is-invalid]="profileForm.get('phone_number')?.invalid && profileForm.get('phone_number')?.touched"
               >
             </div>
-            <div class="error-message" *ngIf="profileForm.get('phone_number')?.invalid && profileForm.get('phone_number')?.touched">
-              {{ getFieldError('phone_number') }}
+            <div class="error-messagee" *ngIf="profileForm.get('phone_number')?.invalid && profileForm.get('phone_number')?.touched">
+              Format must be  like 01xxxxxxxxx  start wit 010/011/012/015 and be 11 digits
             </div>
           </div>
         </div>

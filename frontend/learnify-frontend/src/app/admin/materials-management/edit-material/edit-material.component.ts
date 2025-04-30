@@ -24,13 +24,21 @@ export class EditMaterialComponent implements OnInit {
   lessons: ILesson[] = [];
   lessonSearch: string = '';
   materialId!: number;
+  
+  // Form validation states
+  formSubmitted = false;
+  formErrors = {
+    file_name: { required: false, minlength: false, touched: false },
+    file_url: { required: false, minlength: false, touched: false },
+    lesson_id: { required: false, touched: false }
+  };
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private materialService: MaterialService,
     private lessonService: LessonService,
-    private tostr : ToastService
+    private tostr: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -84,16 +92,62 @@ export class EditMaterialComponent implements OnInit {
       lesson.title.toLowerCase().includes(search)
     );
   }
+  
+  // Field touch handlers
+  onFieldTouched(field: 'file_name' | 'file_url' | 'lesson_id'): void {
+    this.formErrors[field].touched = true;
+    this.validateField(field);
+  }
+  
+  // Field validation
+  validateField(field: 'file_name' | 'file_url' | 'lesson_id'): void {
+    const value = field === 'lesson_id' 
+      ? this.material[field] 
+      : this.material[field as 'file_name' | 'file_url'];
+      
+    if (field === 'file_name') {
+      this.formErrors[field].required = !value;
+      this.formErrors[field].minlength = value.length < 3;
+    } else if (field === 'file_url') {
+      this.formErrors[field].required = !value;
+      this.formErrors[field].minlength = value.length < 8;
+    } else if (field === 'lesson_id') {
+      this.formErrors[field].required = !value;
+    }
+  }
+  
+  // Validate all fields
+  validateForm(): boolean {
+    // Mark all fields as touched
+    this.formErrors.file_name.touched = true;
+    this.formErrors.file_url.touched = true;
+    this.formErrors.lesson_id.touched = true;
+    
+    // Validate each field
+    this.validateField('file_name');
+    this.validateField('file_url');
+    this.validateField('lesson_id');
+    
+    // Check if there are any errors
+    return !(
+      this.formErrors.file_name.required || 
+      this.formErrors.file_name.minlength || 
+      this.formErrors.file_url.required || 
+      this.formErrors.file_url.minlength || 
+      this.formErrors.lesson_id.required
+    );
+  }
 
   onSubmit(): void {
-    if (!this.material.lesson_id || !this.material.file_name || !this.material.file_url) {
-      console.log('All fields required');
+    this.formSubmitted = true;
+    
+    if (!this.validateForm()) {
+      this.tostr.error('Please correct the errors in the form');
       return;
     }
 
     this.materialService.updateMaterial(this.materialId, this.material).subscribe({
       next: () => {
-        console.log('Material updated successfully');
         this.tostr.success('Material updated successfully');
         this.router.navigate(['admin/dashboard/materials-management']);
       },
@@ -103,6 +157,7 @@ export class EditMaterialComponent implements OnInit {
       }
     });
   }
+  
   navigateToMaterialsManagement(): void {
     this.router.navigate(['admin/dashboard/materials-management']);
   }
