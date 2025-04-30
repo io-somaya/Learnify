@@ -138,6 +138,17 @@ class TeacherAssignmentController extends Controller
             // Call the service to update the assignment
             $updatedAssignment = $this->assignmentService->updateAssignment($assignment, $validatedData);
 
+            // Create and broadcast notification for updated assignment
+            $notification = \App\Models\Notification::create([
+                'grade' => $updatedAssignment->grade,
+                'title' => 'Assignment Updated',
+                'message' => "The assignment '{$updatedAssignment->title}' has been updated.",
+                'type' => 'assignment',
+                'link' => '/student/dashboard/assignments-list'
+            ]);
+
+            event(new \App\Events\AssignmentNotificationEvent($notification, $updatedAssignment->grade));
+
             // Return a success response
             return $this->apiResponse(
                 200,
@@ -163,6 +174,17 @@ class TeacherAssignmentController extends Controller
         DB::beginTransaction();
         try {
             $assignment->delete();
+
+            // Create and broadcast notification for deleted assignment
+            $notification = \App\Models\Notification::create([
+                'grade' => $assignment->grade,
+                'title' => 'Assignment Deleted',
+                'message' => "The assignment '{$assignment->title}' has been deleted.",
+                'type' => 'assignment',
+                'link' => null
+            ]);
+
+            event(new \App\Events\AssignmentNotificationEvent($notification, $assignment->grade));
 
             DB::commit();
 
