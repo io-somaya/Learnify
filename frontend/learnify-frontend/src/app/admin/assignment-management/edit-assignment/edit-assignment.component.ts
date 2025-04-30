@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { AssignmentService } from '../../../services/assignment.service';
@@ -59,11 +59,29 @@ export class EditAssignmentComponent implements OnInit {
     });
   }
 
+  // Custom validator function to check if date is in the past
+  futureDateValidator(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      if (!control.value) {
+        return null; // Let required validator handle empty value
+      }
+      
+      const selectedDate = new Date(control.value);
+      const today = new Date();
+      
+      // Reset hours, minutes, seconds to do a fair date comparison
+      today.setHours(0, 0, 0, 0);
+      selectedDate.setHours(0, 0, 0, 0);
+      
+      return selectedDate < today ? { 'pastDate': true } : null;
+    };
+  }
+
   initEmptyForm(): void {
     this.assignmentForm = this.fb.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      due_date: ['', [Validators.required]],
+      due_date: ['', [Validators.required, this.futureDateValidator()]],
       grade: ['', [Validators.required]],
       lesson_id: [null],
       questions: this.fb.array([])
@@ -341,6 +359,9 @@ export class EditAssignmentComponent implements OnInit {
     const control = formGroup.get(controlName);
     if (control?.hasError('required')) {
       return 'This field is required';
+    }
+    if (control?.hasError('pastDate')) {
+      return 'Due date cannot be in the past';
     }
     return '';
   }

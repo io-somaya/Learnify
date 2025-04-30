@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { AssignmentService } from '../../../services/assignment.service';
@@ -24,6 +24,7 @@ export class CreateAssignmentComponent implements OnInit {
   grades: string[] = ['1', '2', '3'];
   questionTypes: string[] = ['mcq'];
   // questionTypes: string[] = ['mcq', 'essay', 'short_answer'];
+  minDate: string; // Minimum date for the due_date field
 
   isSubmitting = false;
   isLoadingLessons = false;
@@ -39,11 +40,30 @@ export class CreateAssignmentComponent implements OnInit {
     private lessonService: LessonService,
     private router: Router,
     private toastService: ToastService
-  ) {}
+  ) {
+    // Set minimum date to current date and time
+    const now = new Date();
+    // Format to YYYY-MM-DDThh:mm
+    this.minDate = now.toISOString().slice(0, 16);
+  }
 
   ngOnInit(): void {
     this.initForm();
     this.loadLessons();
+  }
+
+  // Custom validator for past date
+  validateDateNotInPast(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const selectedDate = new Date(control.value);
+      const now = new Date();
+      
+      if (selectedDate < now) {
+        return { pastDate: true };
+      }
+      
+      return null;
+    };
   }
 
   initForm(): void {
@@ -52,7 +72,7 @@ export class CreateAssignmentComponent implements OnInit {
       description: ['', [Validators.required]],
       grade: ['', [Validators.required]],
       lesson_id: [null],
-      due_date: ['', [Validators.required]],
+      due_date: ['', [Validators.required, this.validateDateNotInPast()]],
       questions: this.fb.array([this.createQuestionFormGroup()])
     });
   }
@@ -145,7 +165,15 @@ export class CreateAssignmentComponent implements OnInit {
   onSubmit(): void {
     if (this.assignmentForm.invalid) {
       this.markFormGroupTouched(this.assignmentForm);
-      this.errorMessage = 'Please fill all required fields correctly';
+      
+      // Check specifically for past date error
+      const dueDateControl = this.assignmentForm.get('due_date');
+      if (dueDateControl?.hasError('pastDate')) {
+        this.errorMessage = 'Deadline cannot be set in the past';
+      } else {
+        this.errorMessage = 'Please fill all required fields correctly';
+      }
+      
       setTimeout(() => this.errorMessage = null, 5000);
       return;
     }
@@ -198,8 +226,12 @@ export class CreateAssignmentComponent implements OnInit {
     if (control?.hasError('required')) {
       return 'This field is required';
     }
+    if (control?.hasError('pastDate')) {
+      return 'Date cannot be in the past';
+    }
     return '';
   }
+  
   goBack(): void {
     const confirmBack = confirm('Are you sure you want to go back?');
     if (confirmBack) {
