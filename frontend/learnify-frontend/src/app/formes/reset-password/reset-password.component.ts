@@ -68,7 +68,7 @@ export class ResetPasswordComponent implements OnInit {
    */
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.token = params['token'] || '';
+      this.token = params['ResetPasswordToken'] || '';
       this.email = params['email'] || '';
       
       // Show error if parameters are missing
