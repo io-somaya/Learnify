@@ -3,24 +3,29 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProfileService } from '../../services/profile.service';
 import { IUserProfile } from '../../Interfaces/IUserProfile';
+import { StudentDashboardService } from '../../services/student-dashboard.service';
+import { IStudentDashboard, ILecture, IGradedAssignment } from '../../Interfaces/IStudentDashboard';
+import { NotificationDropdownComponent } from '../../components/notification-dropdown/notification-dropdown.component';
 
 @Component({
   selector: 'app-dashboard-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule,NotificationDropdownComponent],
   templateUrl: './dashboard-home.component.html',
   styleUrls: ['./dashboard-home.component.css']
 })
 export class DashboardHomeComponent implements OnInit {
   user: IUserProfile | null = null;
+  studentDashboard: IStudentDashboard | null = null;
   isLoading = true;
   error: string | null = null;
   
   // Dashboard statistics
   enrolledCourses = 0;
-  completedCourses = 0;
+  completedAssignments = 0;
   upcomingLectures = 0;
-  quizzesTaken = 0;
+  completedLectures = 0;
+  averageScore = 0;
   
   // Sample data for analytics
   selectedTimeRange = 'week';
@@ -56,93 +61,85 @@ export class DashboardHomeComponent implements OnInit {
     level: Math.floor(Math.random() * 5)
   }));
 
-  // Upcoming events data
-  upcomingEvents = [
-    {
-      title: 'Advanced JavaScript Lecture',
-      day: '15',
-      month: 'Jun',
-      time: '14:00 - 15:30',
-      type: 'lecture',
-      canJoin: false
-    },
-    {
-      title: 'Angular Components Quiz',
-      day: '18',
-      month: 'Jun',
-      time: '10:00 - 11:00',
-      type: 'quiz',
-      canJoin: false
-    },
-    {
-      title: 'React State Management',
-      day: '20',
-      month: 'Jun',
-      time: '09:30 - 11:00',
-      type: 'lecture',
-      canJoin: true
-    }
-  ];
+  // Upcoming lectures from API
+  upcomingLecturesList: ILecture[] = [];
 
-  // Sample recent activities - this would come from an API in a real app
-  recentActivities = [
-    { type: 'course', action: 'enrolled', title: 'React Advanced Guide', date: new Date() },
-    { type: 'lecture', action: 'attended', title: 'JavaScript Fundamentals', date: new Date(Date.now() - 86400000) },
-    { type: 'quiz', action: 'completed', title: 'CSS Grid Quiz', date: new Date(Date.now() - 172800000) }
-  ];
-  
-  // Sample recommended courses with progress
-  recommendedCourses = [
-    { 
-      id: 1, 
-      title: 'Vue.js for Beginners', 
-      progress: 35, 
-      image: 'assets/images/vue.jpg' 
-    },
-    { 
-      id: 2, 
-      title: 'Advanced TypeScript', 
-      progress: 0, 
-      image: 'assets/images/typescript.jpg' 
-    },
-    { 
-      id: 3, 
-      title: 'Node.js Backend Development', 
-      progress: 72, 
-      image: 'assets/images/nodejs.jpg' 
-    }
-  ];
+  // Recent grades from API
+  recentGrades: IGradedAssignment[] = [];
 
-  constructor(private profileService: ProfileService) {}
+  // Notifications from API
+  notificationsList: any[] = [];
+
+  constructor(
+    private profileService: ProfileService,
+    private studentDashboardService: StudentDashboardService
+  ) {}
 
   ngOnInit(): void {
     this.fetchUserData();
-    this.fetchDashboardStats();
+    this.fetchStudentDashboardData();
   }
 
   fetchUserData(): void {
     this.profileService.getProfile().subscribe({
       next: (response) => {
         this.user = response;
-        this.isLoading = false;
       },
       error: (err) => {
         console.error('Error fetching profile:', err);
         this.error = err.message || 'Failed to load profile data';
+      }
+    });
+  }
+
+  fetchStudentDashboardData(): void {
+    this.studentDashboardService.getStudentDashboard().subscribe({
+      next: (dashboardData) => {
+        this.studentDashboard = dashboardData;
+        this.isLoading = false;
+        
+        // Update component properties with API data
+        this.updateDashboardStats();
+        this.updateUpcomingLectures();
+        this.updateRecentGrades();
+        this.updateNotifications();
+      },
+      error: (err) => {
+        console.error('Error fetching student dashboard:', err);
+        this.error = err.message || 'Failed to load dashboard data';
         this.isLoading = false;
       }
     });
   }
 
-  fetchDashboardStats(): void {
-    // This would be an API call in a real app
-    // For now, we'll use mock data
-    setTimeout(() => {
-      this.enrolledCourses = 5;
-      this.completedCourses = 2;
-      this.upcomingLectures = 3;
-      this.quizzesTaken = 8;
-    }, 1000);
+  updateDashboardStats(): void {
+    if (this.studentDashboard) {
+      const stats = this.studentDashboard.quick_stats;
+      this.completedAssignments = stats.completed_assignments;
+      this.completedLectures = stats.completed_lectures;
+      this.averageScore = parseFloat(stats.average_score);
+      
+      // Count upcoming lectures
+      this.upcomingLectures = this.studentDashboard.upcoming.lectures.length;
+    }
+  }
+
+  updateUpcomingLectures(): void {
+    if (this.studentDashboard) {
+      this.upcomingLecturesList = this.studentDashboard.upcoming.lectures;
+    }
+  }
+
+  updateRecentGrades(): void {
+    if (this.studentDashboard) {
+      this.recentGrades = this.studentDashboard.academic.recent_grades;
+    }
+  }
+
+  updateNotifications(): void {
+    if (this.studentDashboard) {
+      this.notificationsList = this.studentDashboard.notifications;
+    }
   }
 
   changeTimeRange(range: string): void {
@@ -150,7 +147,8 @@ export class DashboardHomeComponent implements OnInit {
     // In a real app, you would fetch new data based on the range
   }
 
-  getTimeAgo(date: Date): string {
+  getTimeAgo(dateString: string): string {
+    const date = new Date(dateString);
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
     
     if (seconds < 60) return `${seconds} seconds ago`;
@@ -169,4 +167,42 @@ export class DashboardHomeComponent implements OnInit {
     
     return `${Math.floor(months / 12)} years ago`;
   }
-} 
+
+  // Helper method to get student name
+  getStudentName(): string {
+    if (this.studentDashboard?.profile?.user) {
+      const { first_name, last_name } = this.studentDashboard.profile.user;
+      return `${first_name} ${last_name}`;
+    }
+    return this.user ? `${this.user.first_name} ${this.user.last_name}` : 'Student';
+  }
+
+  // Helper method to format time (e.g., "09:00 AM - 10:00 AM")
+  formatLectureTime(startTime: string, endTime: string): string {
+    const formatTime = (timeStr: string) => {
+      const [hours, minutes] = timeStr.split(':');
+      const hour = parseInt(hours, 10);
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+      const formattedHour = hour % 12 || 12;
+      return `${formattedHour}:${minutes} ${ampm}`;
+    };
+    
+    return `${formatTime(startTime)} - ${formatTime(endTime)}`;
+  }
+
+  // Helper method to get the subscription status
+  getSubscriptionStatus(): string {
+    if (this.studentDashboard?.profile?.subscription_status) {
+      const { is_active, package: subscriptionPackage, end_date } = this.studentDashboard.profile.subscription_status;
+      
+      if (is_active) {
+        const endDate = new Date(end_date);
+        const formattedDate = endDate.toLocaleDateString();
+        return `Active (${subscriptionPackage.name}) - Expires on ${formattedDate}`;
+      } else {
+        return 'Inactive';
+      }
+    }
+    return 'Unknown';
+  }
+}
