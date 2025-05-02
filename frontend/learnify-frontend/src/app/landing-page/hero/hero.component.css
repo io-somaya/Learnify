@@ -220,6 +220,25 @@ body {
   font-size: 0.9rem;
 }
 
+.feature-item .feature-icon {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: var(--medium-purple);
+}
+
+.feature-item .feature-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--dark-purple);
+}
+
+.feature-item .feature-text {
+  font-size: 14px;
+  color: #6c757d;
+  line-height: 1.5;
+}
+
 /* Animations */
 @keyframes float {
   0% { transform: translate(0, 0) rotate(0deg); }

@@ -151,6 +151,21 @@
   margin: 0;
 }
 
+.feature-card .feature-icon i {
+  font-size: 24px;
+  color: var(--medium-purple);
+}
+
+.feature-card .feature-content h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.feature-card .feature-content p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 /* Animation for features */
 @keyframes fadeInUp {
   from {
