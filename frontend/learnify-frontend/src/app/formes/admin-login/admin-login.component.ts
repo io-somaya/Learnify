@@ -110,6 +110,7 @@ export class AdminLoginComponent implements OnInit {
           console.error('Login error', error);
           // show toast message
           this.toastService.error("Login failed. Please check your credentials and try again.");
+          this.router.navigate(['/admin/login']);
         }
       });
     }

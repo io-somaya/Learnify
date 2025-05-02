@@ -117,6 +117,7 @@ export class LoginComponent implements OnInit {
           console.error('Login error', error);
           // show toast message
           this.toastService.error(this.errorMessage);
+          this.router.navigate(['/login']);
         }
       });
     }

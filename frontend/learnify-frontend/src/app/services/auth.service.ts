@@ -62,7 +62,7 @@ export class AuthService {
           this.router.navigate(['/register']);
         } else if (params['error'] === 'google_auth_failed') {
           // Handle failed Google authentication
-          this.router.navigate(['/']);
+          this.router.navigate(['/login']);
         }
       });
     }
