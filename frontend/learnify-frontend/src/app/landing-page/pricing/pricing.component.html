@@ -1,0 +1,49 @@
+<section id="pricing" class="pricing-section">
+  <!-- Background Shapes -->
+  <div class="pricing-bg">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+  </div>
+
+  <div class="container">
+    <div class="section-title">
+      <h2>Choose Your Perfect Plan</h2>
+      <p>Select the ideal learning package that fits your educational journey and goals</p>
+    </div>
+    
+    <div *ngIf="loading" class="text-center my-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div *ngIf="error" class="alert alert-danger text-center my-4">
+      {{ error }}
+    </div>
+    <div class="row pricing-cards-container" *ngIf="!loading && !error">
+      <div class="col-lg-4 col-md-6 mb-4" *ngFor="let plan of plans">
+        <div class="pricing-card" [ngClass]="{'recommended': plan.recommended}">
+          <div *ngIf="plan.recommended" class="ribbon">Most Popular</div>
+          <div class="card-header">
+            <h3 class="plan-name">{{ plan.name }}</h3>
+            <div class="price">
+              <span class="currency">$</span>
+              <span class="amount">{{ plan.price }}</span>
+              <span class="period">{{ plan.duration_days || 'month' }} Days</span>
+            </div>
+          </div>
+          <ul class="features-list">
+            <li *ngIf="plan.description">
+              <i class="bi bi-check-circle-fill"></i> {{ plan.description }}
+            </li>
+            <li *ngFor="let feature of plan.features">
+              <i class="bi bi-check-circle-fill"></i> {{ feature }}
+            </li>
+          </ul>
+          <div class="card-footer">
+            <a href="/login" class="btn" [ngClass]="plan.btnClass || 'btn-outline'">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
