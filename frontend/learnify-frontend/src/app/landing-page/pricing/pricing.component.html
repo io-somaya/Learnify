@@ -28,7 +28,7 @@
             <div class="price">
               <span class="currency">$</span>
               <span class="amount">{{ plan.price }}</span>
-              <span class="period">/ {{ plan.duration_days || 'month' }}</span>
+              <span class="period">{{ plan.duration_days || 'month' }} Days</span>
             </div>
           </div>
           <ul class="features-list">
@@ -40,7 +40,7 @@
             </li>
           </ul>
           <div class="card-footer">
-            <a href="#" class="btn" [ngClass]="plan.btnClass || 'btn-outline'">Get Started</a>
+            <a href="/login" class="btn" [ngClass]="plan.btnClass || 'btn-outline'">Get Started</a>
           </div>
         </div>
       </div>

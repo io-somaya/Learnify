@@ -153,7 +153,9 @@
 
 .feature-card .feature-icon i {
   font-size: 24px;
-  color: var(--medium-purple);
+  font-weight: bold;
+  color:white;
+  font: 1em sans-serif;
 }
 
 .feature-card .feature-content h3 {

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LeaderboardService, LeaderboardStudent } from '../../services/leaderboard.service';
+ import { environment } from '../../../.environments/environment';
 
 @Component({
   selector: 'app-leaderboard',
@@ -14,6 +15,8 @@ export class LeaderboardComponent implements OnInit, AfterViewInit {
   topStudents: LeaderboardStudent[] = [];
   loading = true;
   error = false;
+
+  baseUrl = environment.backendUrl || environment.apiUrl.replace('/api', '');
 
   constructor(private leaderboardService: LeaderboardService) { }
 
@@ -33,6 +36,11 @@ export class LeaderboardComponent implements OnInit, AfterViewInit {
       next: (data) => {
         this.topStudents = data;
         this.loading = false;
+        this.topStudents.forEach(student => {
+          if (student.profile_picture && !student.profile_picture.startsWith('http')) {
+            student.profile_picture = `${this.baseUrl}/storage/${student.profile_picture}`;
+          }
+        });
       },
       error: (err) => {
         console.error('Error loading leaderboard data:', err);
