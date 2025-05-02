@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +14,8 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
-            TestDataSeeder::class,
+            // TestDataSeeder::class, // Commented out to use DiscussionTestSeeder instead
+            DiscussionTestSeeder::class,
             AIResponsesSeeder::class,
         ]);
     }
