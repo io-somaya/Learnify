@@ -20,6 +20,37 @@ class DashboardController extends Controller
 {
     use ApiTrait;
 
+    private function getStudentPerformanceHistory($userId)
+    {
+        return AssignmentUser::where('user_id', $userId)
+            ->whereNotNull('score')
+            ->orderBy('submit_time')
+            ->with('assignment:id,title')
+            ->get()
+            ->map(function ($submission) {
+                return [
+                    'date' => $submission->submit_time,
+                    'score' => $submission->score,
+                    'assignment_title' => $submission->assignment->title
+                ];
+            });
+    }
+
+    private function getStudentProgress($userId)
+    {
+        $totalAssignments = AssignmentUser::where('user_id', $userId)->count();
+        $completedAssignments = AssignmentUser::where('user_id', $userId)
+            ->whereNotNull('submit_time')
+            ->count();
+        
+        return [
+            'total' => $totalAssignments,
+            'completed' => $completedAssignments,
+            'percentage' => $totalAssignments > 0 ? 
+                round(($completedAssignments / $totalAssignments) * 100) : 0
+        ];
+    }
+
     /**************************
      * STUDENT DASHBOARD METHODS
      **************************/
@@ -41,6 +72,12 @@ class DashboardController extends Controller
                 ->whereDate('end_date', '>=', now())
                 ->with('package:id,name,price,duration_days')
                 ->first();
+
+            // Get performance history for graphs
+            $performanceHistory = $this->getStudentPerformanceHistory($user->id);
+            
+            // Get overall progress
+            $progress = $this->getStudentProgress($user->id);
 
             // Get recent grades/scores
             $recentGrades = AssignmentUser::where('user_id', $user->id)
@@ -85,7 +122,9 @@ class DashboardController extends Controller
                 ],
                 'academic' => [
                     'recent_grades' => $recentGrades,
-                    'graded_assignments' => $recentlyGradedAssignments
+                    'graded_assignments' => $recentlyGradedAssignments,
+                    'performance_history' => $performanceHistory,
+                    'progress' => $progress
                 ],
                 'notifications' => $this->getStudentNotifications(),
                 'quick_stats' => [
