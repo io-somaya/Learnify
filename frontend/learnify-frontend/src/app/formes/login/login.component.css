@@ -49,6 +49,10 @@
     display: flex;
     align-items: center;
     margin-bottom: 0;
+    text-decoration: none;
+    cursor: pointer;
+
+
 }
 
 .logo-icon {
@@ -61,12 +65,20 @@
     justify-content: center;
     margin-right: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-decoration: none;
+    cursor: pointer;
+
+
 }
 
 .logo-text {
     color: var(--dark-purple);
     font-weight: bold;
     font-size: 26px;
+    text-decoration: none;
+    cursor: pointer;
+
+
 }
 
 h2 {
@@ -428,10 +440,16 @@ h2 {
         display: flex;
         align-items: center;
         transition: transform 0.3s ease;
+        text-decoration: none;
+        cursor: pointer;
+
     }
 
     .logo-link:hover {
         transform: translateY(-2px);
+        text-decoration: none;
+        cursor: pointer;
+
     }
 
     .signup-link {
@@ -480,11 +498,19 @@ h2 {
 
     .logo-text {
         font-size: 22px;
+        text-decoration: none!important;
+        cursor: pointer;
+
+
     }
 
     .logo-icon {
         width: 38px;
         height: 38px;
+        text-decoration: none; 
+               cursor: pointer;
+
+
     }
 
     .signup-link .btn {
