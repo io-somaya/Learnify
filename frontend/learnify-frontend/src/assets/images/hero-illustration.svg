@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="600px" viewBox="0 0 800 600" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Learnify Hero Illustration</title>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFF2F2" offset="0%"></stop>
+            <stop stop-color="#A9B5DF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#7886C7" offset="0%"></stop>
+            <stop stop-color="#2D336B" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#F5F5F5" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <!-- Background Elements -->
+        <circle id="Circle1" fill="url(#linearGradient-1)" cx="400" cy="300" r="250"></circle>
+        <circle id="Circle2" fill="#FFF2F2" opacity="0.6" cx="200" cy="150" r="80"></circle>
+        <circle id="Circle3" fill="#A9B5DF" opacity="0.4" cx="600" cy="450" r="100"></circle>
+        
+        <!-- Laptop Base -->
+        <rect id="LaptopBase" fill="url(#linearGradient-2)" x="250" y="350" width="300" height="20" rx="5"></rect>
+        <path d="M230,350 L570,350 C575.522847,350 580,354.477153 580,360 L580,360 L220,360 L220,360 C220,354.477153 224.477153,350 230,350 Z" id="LaptopBottom" fill="#2D336B"></path>
+        
+        <!-- Laptop Screen -->
+        <rect id="LaptopScreen" fill="url(#linearGradient-3)" x="250" y="180" width="300" height="170" rx="10"></rect>
+        <rect id="LaptopFrame" stroke="#2D336B" stroke-width="10" x="245" y="175" width="310" height="180" rx="15"></rect>
+        
+        <!-- Screen Content -->
+        <rect id="Header" fill="#7886C7" x="270" y="200" width="260" height="30" rx="5"></rect>
+        <circle id="ProfilePic" fill="#FFF2F2" cx="290" cy="215" r="10"></circle>
+        <rect id="Menu1" fill="#FFFFFF" x="320" y="210" width="40" height="10" rx="5"></rect>
+        <rect id="Menu2" fill="#FFFFFF" x="370" y="210" width="40" height="10" rx="5"></rect>
+        <rect id="Menu3" fill="#FFFFFF" x="420" y="210" width="40" height="10" rx="5"></rect>
+        <rect id="SearchBar" fill="#F5F5F5" stroke="#E0E0E0" x="480" y="210" width="30" height="10" rx="5"></rect>
+        
+        <!-- Content Blocks -->
+        <rect id="ContentBlock1" fill="#F5F5F5" x="270" y="240" width="120" height="80" rx="5"></rect>
+        <rect id="ContentBlock2" fill="#F5F5F5" x="400" y="240" width="120" height="80" rx="5"></rect>
+        <rect id="ContentBlock3" fill="#F5F5F5" x="270" y="330" width="250" height="15" rx="5"></rect>
+        
+        <!-- Decorative Elements -->
+        <circle id="Decoration1" fill="#7886C7" opacity="0.7" cx="150" cy="400" r="40"></circle>
+        <circle id="Decoration2" fill="#2D336B" opacity="0.5" cx="650" cy="200" r="30"></circle>
+        <circle id="Decoration3" fill="#FFF2F2" opacity="0.8" cx="700" cy="350" r="25"></circle>
+        
+        <!-- Books Stack -->
+        <rect id="Book1" fill="#7886C7" x="150" y="300" width="70" height="20" rx="2"></rect>
+        <rect id="Book2" fill="#A9B5DF" x="140" y="320" width="90" height="20" rx="2"></rect>
+        <rect id="Book3" fill="#2D336B" x="160" y="340" width="50" height="20" rx="2"></rect>
+        
+        <!-- Graduation Cap -->
+        <path d="M650,300 L700,280 L750,300 L700,320 L650,300 Z" id="GradCapBase" fill="#2D336B"></path>
+        <rect id="GradCapTop" fill="#2D336B" x="695" y="260" width="10" height="20" rx="2"></rect>
+        <circle id="GradCapButton" fill="#A9B5DF" cx="700" cy="260" r="5"></circle>
+        
+        <!-- Abstract Learning Path -->
+        <path d="M100,500 C200,450 300,550 400,500 C500,450 600,550 700,500" id="LearningPath" stroke="#7886C7" stroke-width="5" stroke-dasharray="10,10" stroke-linecap="round"></path>
+        
+        <!-- Small Icons -->
+        <circle id="Icon1" fill="#FFF2F2" cx="100" cy="500" r="10"></circle>
+        <circle id="Icon2" fill="#A9B5DF" cx="400" cy="500" r="10"></circle>
+        <circle id="Icon3" fill="#2D336B" cx="700" cy="500" r="10"></circle>
+    </g>
+</svg>

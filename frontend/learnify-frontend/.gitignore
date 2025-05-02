@@ -52,3 +52,6 @@ environment.*
 # Ignore files
 *.ignore
 .ignore
+
+# Specific files
+src/assets/js/particles.min.js

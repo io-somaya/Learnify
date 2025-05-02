@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg fixed-top" [ngClass]="{'scrolled': hasScrolled}">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <span class="logo-text">Learn<span class="logo-accent">ify</span></span>
+    </a>
+    <button class="navbar-toggler" type="button" (click)="toggleMenu()" aria-controls="navbarNav" 
+      [attr.aria-expanded]="!isMenuCollapsed" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" [class.show]="!isMenuCollapsed" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" (click)="scrollToSection('features')">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#how-it-works" (click)="scrollToSection('how-it-works')">How It Works</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#leaderboard-section" (click)="scrollToSection('leaderboard-section'); $event.preventDefault();">Leaderboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="scrollToSection('testimonials')">Testimonials</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="scrollToSection('pricing')">Pricing</a>
+        </li>
+        <li class="nav-item">
+          <a href="/login" class="nav-link login-btn">Log In</a>
+        </li>
+        <li class="nav-item">
+          <a href="/register" class="nav-link signup-btn">Sign Up</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

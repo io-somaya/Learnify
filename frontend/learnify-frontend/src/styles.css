@@ -48,3 +48,41 @@ html, body {
   margin-bottom: 20px;
 }
 
+/* Fix for hero section visibility */
+.hero-section {
+  margin-top: 70px !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 1 !important;
+}
+
+.hero-section .hero-content {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 2 !important;
+}
+
+.hero-title, .hero-subtitle, .hero-buttons, .feature-item {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Ensure text is visible */
+.hero-title {
+  color: white !important;
+}
+
+.hero-subtitle {
+  color: #A9B5DF !important;
+}
+
+.feature-title {
+  color: white !important;
+}
+
+.feature-text {
+  color: #A9B5DF !important;
+}

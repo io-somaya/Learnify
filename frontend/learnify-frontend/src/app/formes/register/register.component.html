@@ -3,24 +3,26 @@
     <div class="row">
       <div class="col-md-6 left-side">
         <div class="header-row">
-          <div class="logo">
-            <div class="logo-icon">
-              <span style="color: var(--dark-purple); font-weight: bold; font-size: 22px;">L</span>
+          <a routerLink="/" class="logo-link">
+            <div class="logo">
+              <div class="logo-icon">
+                <span style="color: var(--dark-purple); font-weight: bold; font-size: 22px;">L</span>
+              </div>
+              <div class="logo-text">Learnify</div>
             </div>
-            <div class="logo-text">Learnify</div>
-          </div>
+          </a>
           <div class="signup-link">
-            <a routerLink="/" class="btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+            <a routerLink="/login" class="btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
           </div>
         </div>
-        
+
         <h2>Create Account</h2>
         <p class="subheading">Join the Learnify community and start your learning journey today</p>
-        
+
         <div *ngIf="errorMessage" class="alert alert-danger">
           {{ errorMessage }}
         </div>
-        
+
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="row">
             <div class="col-md-6">
@@ -42,7 +44,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="row">
             <div class="col-md-6">
               <div class="input-group">
@@ -63,7 +65,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="input-group">
             <input type="email" class="input-field" id="email" placeholder=" " formControlName="email">
             <label for="email" class="input-label">Email address</label>
@@ -71,7 +73,7 @@
               Please enter a valid email address
             </div>
           </div>
-          
+
           <div class="grade-group mb-4">
             <label class="grade-label">Select Grade:</label>
             <div class="grade-options">
@@ -92,7 +94,7 @@
               Please select a grade
             </div>
           </div>
-          
+
           <div class="input-group password-field">
             <input [type]="showPassword ? 'text' : 'password'" class="input-field" id="password" placeholder=" " formControlName="password">
             <label for="password" class="input-label">Password</label>
@@ -101,7 +103,7 @@
               Password must be at least 6 characters
             </div>
           </div>
-          
+
           <div class="input-group password-field">
             <input [type]="showPassword ? 'text' : 'password'" class="input-field" id="confirmPassword" placeholder=" " formControlName="confirmPassword">
             <label for="confirmPassword" class="input-label">Confirm Password</label>
@@ -109,20 +111,20 @@
               Passwords do not match
             </div>
           </div>
-          
+
           <button type="submit" class="btn signin-btn" [disabled]="registerForm.invalid || isLoading">
             <span *ngIf="!isLoading">Sign Up</span>
             <span *ngIf="isLoading">
               <i class="fas fa-spinner fa-spin"></i> Creating Account...
             </span>
           </button>
-          
+
           <div class="text-center mt-4">
-            <p>Already have an account? <a routerLink="/" class="forgot-link">Sign In</a></p>
+            <p>Already have an account? <a routerLink="/login" class="forgot-link">Sign In</a></p>
           </div>
         </form>
       </div>
-      
+
       <div class="col-md-6 right-side">
         <!-- Animated background with geometric shapes -->
         <div class="animated-background">

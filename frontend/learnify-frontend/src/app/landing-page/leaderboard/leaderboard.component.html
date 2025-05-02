@@ -1,0 +1,40 @@
+<section class="leaderboard-section-modern" id="leaderboard-section" tabindex="-1" #leaderboardSection>
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="section-title">Top Students Leaderboard</h2>
+      <p class="section-subtitle">Celebrating our highest achieving students across all grades</p>
+    </div>
+    <div class="row justify-content-center">
+      <div *ngIf="loading" class="col-12 text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <div *ngIf="error" class="col-12 text-center">
+        <div class="alert alert-danger">
+          Failed to load leaderboard data. Please try again later.
+        </div>
+      </div>
+      <div *ngIf="!loading && !error && topStudents.length === 0" class="col-12 text-center">
+        <p>No leaderboard data available at the moment.</p>
+      </div>
+      <div *ngFor="let student of topStudents | slice:0:4" class="col-lg-3 col-md-6 mb-4 d-flex align-items-stretch">
+        <div class="leaderboard-modern-card glass-card w-100">
+          <div class="student-avatar-modern mb-3 mx-auto">
+            <img 
+              [src]="student.profile_picture || ('https://robohash.org/' + (student.first_name + student.last_name) + '.png?set=set4')"
+              [alt]="student.first_name + ' ' + student.last_name"
+              class="rounded-circle"
+            >
+          </div>
+          <h5 class="card-title-modern">{{ student.first_name }} {{ student.last_name }}</h5>
+          <p class="card-text-modern grade-badge-modern">Grade {{ student.grade }}</p>
+          <div class="score-display-modern">
+            <span class="score-value-modern">{{ student.average_score }}</span>
+            <span class="score-label-modern">Average Score</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
