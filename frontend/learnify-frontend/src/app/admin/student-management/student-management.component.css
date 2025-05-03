@@ -162,8 +162,8 @@
   }
   
   .management__button--delete:hover {
-    background-color: rgba(255, 0, 0, 0.7);
-    color: white !important;
+    background-color: rgba(255, 255, 255, 0.7);
+    color: rgb(255, 0, 0) !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
   }
@@ -171,12 +171,12 @@
   .management__button--danger-outline {
     background-color: rgba(239, 68, 68, 0.1);
     border: 1px solid rgba(239, 68, 68, 0.2);
-    color: var(--danger-color) !important;
+    color: red;
   }
   
   .management__button--danger-outline:hover {
     background-color: var(--danger-color);
-    color: white !important;
+    color: rgb(255, 0, 0) !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
   }
